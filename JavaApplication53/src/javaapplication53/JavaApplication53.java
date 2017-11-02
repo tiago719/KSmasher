@@ -16,6 +16,7 @@ public class JavaApplication53 {
      */
     public static void main(String[] args) {
         int qwe;
+        int eq;
         int ola, adeus;
         // TODO code application logic here
         
