@@ -15,8 +15,10 @@ public class JavaApplication53 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        int qwe;
         int ola, adeus;
         // TODO code application logic here
+        
     }
     
 }
