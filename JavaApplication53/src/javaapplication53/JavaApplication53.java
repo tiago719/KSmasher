@@ -15,6 +15,7 @@ public class JavaApplication53 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        int ola;
         // TODO code application logic here
     }
     
