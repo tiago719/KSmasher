@@ -3,26 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class For extends Statement
+public class For extends EstiloProgramacao
 {
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroFor;
     private int EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, 
             EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula,
             EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
-    
-    private Statement Inicializacao,Condicao,Incrementacao;
-    
-    public For()
-    {
-        
-    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {
@@ -133,16 +126,6 @@ public class For extends Statement
     {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
-        
-    @Override
-    public void analisaStatement()
-    {
-        
-    }
     
-    @Override
-    public void converteStatement()
-    {
-        
-    }
+    
 }

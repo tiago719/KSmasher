@@ -3,20 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class Inicializacao extends Statement
+public class Inicializacao extends EstiloProgramacao
 {
     private int EspacosBrancoVariavelIgual, EspacosBrancoIgualValor;
-    
-    public Inicializacao()
-    {
-        
-    }
 
     public int getEspacosBrancoVariavelIgual()
     {
@@ -39,15 +34,4 @@ public class Inicializacao extends Statement
     }
     
     
-    @Override
-    public void analisaStatement()
-    {
-        
-    }
-    
-    @Override
-    public void converteStatement()
-    {
-        
-    }
 }

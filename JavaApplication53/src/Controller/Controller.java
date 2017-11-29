@@ -20,5 +20,25 @@ public class Controller extends Observable
     public Controller()
     {
         Model=new Model();
-    }            
+    }
+            
+    public void Regista()
+    {
+        
+    }
+    
+    public void Login()
+    {
+        
+    }
+    
+    public void Analisa()
+    {
+        
+    }
+    
+    public void Converte()
+    {
+        
+    }
 }

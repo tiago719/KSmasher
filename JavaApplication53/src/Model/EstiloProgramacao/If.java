@@ -3,24 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class If extends Statement
+public class If extends EstiloProgramacao
 {
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroIf;
     private int EspacosIfParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
-    
-    private Statement Condicao;
-         
-    public If()
-    {
-        
-    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {
@@ -92,13 +85,5 @@ public class If extends Statement
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
     
-    public void analisaStatement()
-    {
-        
-    }
     
-    public void converteStatement()
-    {
-        
-    }
 }

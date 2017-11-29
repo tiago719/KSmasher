@@ -9,32 +9,30 @@ package Model.Statement;
  *
  * @author Tiago Coutinho
  */
-public class Cast extends Statement
+public class Funcoes extends Statement
 {
-    private int EspacosEntreCastVariavel;
+    private boolean AntesMain;
     
-    public Cast()
+    public Funcoes()
     {
         
     }
-
-    public int getEspacosEntreCastVariavel()
+    
+    public boolean isAntesMain()
     {
-        return EspacosEntreCastVariavel;
+        return AntesMain;
     }
 
-    public void setEspacosEntreCastVariavel(int EspacosEntreCastVariavel)
+    public void setAntesMain(boolean AntesMain)
     {
-        this.EspacosEntreCastVariavel = EspacosEntreCastVariavel;
+        this.AntesMain = AntesMain;
     }
     
-    @Override
     public void analisaStatement()
     {
         
     }
     
-    @Override
     public void converteStatement()
     {
         

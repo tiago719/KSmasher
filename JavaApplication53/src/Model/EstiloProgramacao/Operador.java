@@ -3,20 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class Operador extends Statement
+public class Operador extends EstiloProgramacao
 {
     private int EspacosOperadorVariavel, EspacosVariavelOperador;
-    
-    public Operador()
-    {
-        
-    }
 
     public int getEspacosOperadorVariavel()
     {
@@ -39,15 +34,4 @@ public class Operador extends Statement
     }
     
     
-    @Override
-    public void analisaStatement()
-    {
-        
-    }
-    
-    @Override
-    public void converteStatement()
-    {
-        
-    }
 }

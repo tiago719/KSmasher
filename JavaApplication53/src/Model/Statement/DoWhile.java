@@ -12,8 +12,86 @@ package Model.Statement;
 public class DoWhile extends Statement
 {
     private boolean PosicaoPrimeiraChaveta;
-    private int EspacosIfChavetaAberta, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, 
-            LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+    private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada, 
+            LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto, 
+            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado; 
+    
+    private Statement Condicao;
+    
+    public DoWhile()
+    {
+        
+    }
+
+    public boolean isPosicaoPrimeiraChaveta()
+    {
+        return PosicaoPrimeiraChaveta;
+    }
+
+    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta)
+    {
+        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+    }
+
+    public int getLinhasEmBrancoDepoisChavetaAberta()
+    {
+        return LinhasEmBrancoDepoisChavetaAberta;
+    }
+
+    public void setLinhasEmBrancoDepoisChavetaAberta(int LinhasEmBrancoDepoisChavetaAberta)
+    {
+        this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
+    }
+
+    public int getLinhasEmBrancoDepoisChavetaFechada()
+    {
+        return LinhasEmBrancoDepoisChavetaFechada;
+    }
+
+    public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada)
+    {
+        this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
+    }
+
+    public int getLinhasEmBrancoEntreChavetaFechadaWhile()
+    {
+        return LinhasEmBrancoEntreChavetaFechadaWhile;
+    }
+
+    public void setLinhasEmBrancoEntreChavetaFechadaWhile(int LinhasEmBrancoEntreChavetaFechadaWhile)
+    {
+        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
+    }
+
+    public int getEspacosWhileParentesesAberto()
+    {
+        return EspacosWhileParentesesAberto;
+    }
+
+    public void setEspacosWhileParentesesAberto(int EspacosWhileParentesesAberto)
+    {
+        this.EspacosWhileParentesesAberto = EspacosWhileParentesesAberto;
+    }
+
+    public int getEspacosParentesesAbertoCondicao()
+    {
+        return EspacosParentesesAbertoCondicao;
+    }
+
+    public void setEspacosParentesesAbertoCondicao(int EspacosParentesesAbertoCondicao)
+    {
+        this.EspacosParentesesAbertoCondicao = EspacosParentesesAbertoCondicao;
+    }
+
+    public int getEspacosCondicaoParentesFechado()
+    {
+        return EspacosCondicaoParentesFechado;
+    }
+
+    public void setEspacosCondicaoParentesFechado(int EspacosCondicaoParentesFechado)
+    {
+        this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
+    }
     
     @Override
     public void analisaStatement()

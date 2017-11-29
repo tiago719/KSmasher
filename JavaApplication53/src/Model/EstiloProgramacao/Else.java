@@ -3,22 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class Else extends Statement
+public class Else extends EstiloProgramacao
 {
     private boolean PosicaoPrimeiraChaveta;
-    private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+    private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta,
+        LinhasEmBrancoDepoisChavetaFechada;
 
-    public Else()
-    {
-
-    }
-            
     public boolean isPosicaoPrimeiraChaveta()
     {
         return PosicaoPrimeiraChaveta;
@@ -58,17 +54,6 @@ public class Else extends Statement
     {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
-            
     
-    @Override
-    public void analisaStatement()
-    {
-        
-    }
     
-    @Override
-    public void converteStatement()
-    {
-        
-    }
 }

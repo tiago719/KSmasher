@@ -3,24 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class While extends Statement
+public class While extends EstiloProgramacao
 {
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroWhile;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
         EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
-    
-    private Statement Condicao;
-    
-    public While()
-    {
-        
-    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {
@@ -91,16 +84,6 @@ public class While extends Statement
     {
         this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
     }
-
-    @Override
-    public void analisaStatement()
-    {
-        
-    }
     
-    @Override
-    public void converteStatement()
-    {
-        
-    }
+    
 }

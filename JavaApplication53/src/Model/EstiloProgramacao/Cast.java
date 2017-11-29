@@ -3,20 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class Cast extends Statement
+public class Cast extends EstiloProgramacao
 {
     private int EspacosEntreCastVariavel;
-    
-    public Cast()
-    {
-        
-    }
 
     public int getEspacosEntreCastVariavel()
     {
@@ -28,15 +23,5 @@ public class Cast extends Statement
         this.EspacosEntreCastVariavel = EspacosEntreCastVariavel;
     }
     
-    @Override
-    public void analisaStatement()
-    {
-        
-    }
     
-    @Override
-    public void converteStatement()
-    {
-        
-    }
 }

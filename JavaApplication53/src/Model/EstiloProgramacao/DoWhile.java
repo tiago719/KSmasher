@@ -3,24 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model.EstiloProgramacao;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class While extends Statement
+public class DoWhile extends EstiloProgramacao
 {
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroWhile;
-    private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
-        EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
-    
-    private Statement Condicao;
-    
-    public While()
-    {
-        
-    }
+    private boolean PosicaoPrimeiraChaveta;
+    private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada, 
+            LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto, 
+            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
 
     public boolean isPosicaoPrimeiraChaveta()
     {
@@ -30,16 +24,6 @@ public class While extends Statement
     public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta)
     {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
-    }
-
-    public boolean isChavetaUmStatementDentroWhile()
-    {
-        return ChavetaUmStatementDentroWhile;
-    }
-
-    public void setChavetaUmStatementDentroWhile(boolean ChavetaUmStatementDentroWhile)
-    {
-        this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
     }
 
     public int getLinhasEmBrancoDepoisChavetaAberta()
@@ -62,14 +46,24 @@ public class While extends Statement
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
 
-    public int getEspacosWhileParentesAberto()
+    public int getLinhasEmBrancoEntreChavetaFechadaWhile()
     {
-        return EspacosWhileParentesAberto;
+        return LinhasEmBrancoEntreChavetaFechadaWhile;
     }
 
-    public void setEspacosWhileParentesAberto(int EspacosWhileParentesAberto)
+    public void setLinhasEmBrancoEntreChavetaFechadaWhile(int LinhasEmBrancoEntreChavetaFechadaWhile)
     {
-        this.EspacosWhileParentesAberto = EspacosWhileParentesAberto;
+        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
+    }
+
+    public int getEspacosWhileParentesesAberto()
+    {
+        return EspacosWhileParentesesAberto;
+    }
+
+    public void setEspacosWhileParentesesAberto(int EspacosWhileParentesesAberto)
+    {
+        this.EspacosWhileParentesesAberto = EspacosWhileParentesesAberto;
     }
 
     public int getEspacosParentesesAbertoCondicao()
@@ -91,16 +85,6 @@ public class While extends Statement
     {
         this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
     }
-
-    @Override
-    public void analisaStatement()
-    {
-        
-    }
     
-    @Override
-    public void converteStatement()
-    {
-        
-    }
+    
 }
