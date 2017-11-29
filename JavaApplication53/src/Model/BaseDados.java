@@ -2,9 +2,8 @@ package Model;
 
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,15 +36,15 @@ public class BaseDados {
             Class.forName(driverName);
 
 // Configurando a nossa conexão com um banco de dados//
-            String serverName = "ksmasher.000webhostapp.com";    //caminho do servidor do BD
+            String serverName = "localhost";    //caminho do servidor do BD
 
-            String mydatabase = "id3632045_ksmasherdb";        //nome do seu banco de dados
+            String mydatabase = "ksmasherdb";        //nome do seu banco de dados
  
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
-            String username = "id3632045_ksmasherdb";        //nome de um usuário de seu BD      
+            String username = "root";        //nome de um usuário de seu BD      
 
-            String password = "adejtGPS";      //sua senha de acesso
+            String password = "";      //sua senha de acesso
 
             connection = DriverManager.getConnection(url, username, password);
 
@@ -76,9 +75,16 @@ public class BaseDados {
             return null;
 
         }
-
+        
     }
 
+    
+    public static void Query(String x) throws SQLException
+    {
+      java.sql.Connection c=  getConexaoMySQL();
+      java.sql.Statement stmt = (Statement) c.createStatement() ;
+      ResultSet rs = stmt.executeQuery(x);
+    }
     //Método que retorna o status da sua conexão//
     public static String statusConection() {
 
