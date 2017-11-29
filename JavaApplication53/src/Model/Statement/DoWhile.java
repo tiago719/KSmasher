@@ -9,22 +9,19 @@ package Model.Statement;
  *
  * @author Tiago Coutinho
  */
-public class If extends Statement
+public class DoWhile extends Statement
 {
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroIf;
-    private int EspacosIfParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, 
+    private boolean PosicaoPrimeiraChaveta;
+    private int EspacosIfChavetaAberta, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
     
-    public If()
-    {
-        
-    }
-    
+    @Override
     public void analisaStatement()
     {
         
     }
     
+    @Override
     public void converteStatement()
     {
         

@@ -5,19 +5,19 @@
  */
 package Model.Statement;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Tiago Coutinho
  */
-public class If extends Statement
+public class Statement
 {
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroIf;
-    private int EspacosIfParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, 
-            LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+    protected ArrayList<Statement> ListaStatements;
     
-    public If()
+    public Statement()
     {
-        
+        ListaStatements=new ArrayList<Statement>();
     }
     
     public void analisaStatement()
