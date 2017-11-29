@@ -5,13 +5,15 @@
  */
 package KSmasher;
 
+import View.InterfaceTexto;
+
 public class KSmasher {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
     }
     
 }

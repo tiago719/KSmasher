@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Statement
 {
     protected ArrayList<Statement> ListaStatements;
-    protected String statement;
+    protected String Statement;
     
     public Statement()
     {
