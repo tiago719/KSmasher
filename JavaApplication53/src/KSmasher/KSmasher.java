@@ -3,22 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplication53;
+package KSmasher;
 
-/**
- *
- * @author edu_f
- */
-public class JavaApplication53 {
+public class KSmasher {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int qwe;
-        int eq;
-        int ola, adeus;
-        // TODO code application logic here
         
     }
     
