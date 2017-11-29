@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class Statement
 {
     protected ArrayList<Statement> ListaStatements;
+    protected String statement;
     
     public Statement()
     {
@@ -29,4 +30,12 @@ public class Statement
     {
         
     }
+
+    @Override
+    public String toString()
+    {
+        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }
