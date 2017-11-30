@@ -16,106 +16,59 @@ import java.sql.*;
  */
 public class BaseDados {
 
-    public static String status = "Não conectou...";
-
-//Método Construtor da Classe//
-    public BaseDados() {
-
-    }
-
-//Método de Conexão//
-    public static java.sql.Connection getConexaoMySQL() {
-
-        Connection connection = null;          //atributo do tipo Connection
-
-        try {
-
-// Carregando o JDBC Driver padrão
-            String driverName = "com.mysql.jdbc.Driver";
-
-            Class.forName(driverName);
-
-// Configurando a nossa conexão com um banco de dados//
-            String serverName = "localhost";    //caminho do servidor do BD
-
-            String mydatabase = "ksmasherdb";        //nome do seu banco de dados
- 
-            String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
-
-            String username = "root";        //nome de um usuário de seu BD      
-
-            String password = "";      //sua senha de acesso
-
-            connection = DriverManager.getConnection(url, username, password);
-
-            //Testa sua conexão//  
-            if (connection != null) {
-
-                status = ("STATUS--->Conectado com sucesso!");
-
-            } else {
-
-                status = ("STATUS--->Não foi possivel realizar conexão");
-
-            }
-
-            return connection;
-
-        } catch (ClassNotFoundException e) {  //Driver não encontrado
-
-            System.out.println("O driver expecificado nao foi encontrado.");
-
-            return null;
-
-        } catch (SQLException e) {
-
-//Não conseguindo se conectar ao banco
-            System.out.println("Nao foi possivel conectar ao Banco de Dados.");
-
-            return null;
-
-        }
-        
-    }
-
+    private Connection Con;
+    private Statement St;
+    private ResultSet Rs;
+    private String BDName = "ksmasherdb";
+    private String User = "root";
+    private String Pass = "";
     
-    public static void Query(String x) throws SQLException
+    public BaseDados()
     {
-      java.sql.Connection c=  getConexaoMySQL();
-      java.sql.Statement stmt = (Statement) c.createStatement() ;
-      ResultSet rs = stmt.executeQuery(x);
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            Con = DriverManager.getConnection("jdbc:mysql://localhost/" + BDName,User,Pass);
+            St = Con.createStatement();
+        }catch(Exception ex)
+        {
+            System.out.println("Erro: " + ex);
+        }
     }
-    //Método que retorna o status da sua conexão//
-    public static String statusConection() {
-
-        return status;
-
+    
+    public int Modifica (String q)
+    {
+        int resposta = 0;
+        try{
+            resposta = St.executeUpdate(q);
+            
+            return resposta;
+        }catch(Exception ex)
+        {
+            System.out.println("Erro: " + ex);
+        }
+        return resposta;
     }
-
-    //Método que fecha sua conexão//
-    public static boolean FecharConexao() {
-
+    
+    public ResultSet Le(String q)
+    {
+        try{
+            Rs = St.executeQuery(q);
+            
+            return Rs;
+        }catch(Exception ex)
+        {
+            System.out.println("Erro: " + ex);
+        }
+        return null;
+    }
+    public void CloseConnection()
+    {
         try {
-
-            BaseDados.getConexaoMySQL().close();
-
-            return true;
+            Con.close();
 
         } catch (SQLException e) {
 
-            return false;
-
         }
-
     }
-
-    //Método que reinicia sua conexão//
-    public static java.sql.Connection ReiniciarConexao() {
-
-        FecharConexao();
-
-        return BaseDados.getConexaoMySQL();
-
-    }
-
 }
