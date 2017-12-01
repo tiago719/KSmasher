@@ -16,7 +16,7 @@ public class KSmasher {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException{
        Utilizador ut = new Utilizador();
        
        ut.AdicionaUtilizador("André", "andre@gmail.com", "12345");

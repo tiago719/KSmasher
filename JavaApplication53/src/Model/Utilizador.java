@@ -6,6 +6,8 @@
 package Model;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -28,11 +30,20 @@ public class Utilizador
         
     }
     
-    public void AdicionaUtilizador(String Nome, String Email, String PalavraChave)
+    public void AdicionaUtilizador(String Nome, String Email, String PalavraChave) throws SQLException
     {
         BaseDados bd = new BaseDados();
+        ResultSet Rt;
         
         bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome +"','" + Email + "','" +PalavraChave + "');");
+        
+        Rt = bd.Le("SELECT * FROM utilizadores;");
+        
+        while(Rt.next())
+        {
+            String nome = Rt.getString("NOME");
+            
+        }
         
         bd.CloseConnection();
     }
