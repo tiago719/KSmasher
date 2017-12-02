@@ -9,9 +9,13 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class Cast extends EstiloProgramacao
+public class Cast
 {
     private int EspacosEntreCastVariavel;
+
+    public Cast(int EspacosEntreCastVariavel) {
+        this.EspacosEntreCastVariavel = EspacosEntreCastVariavel;
+    }
 
     public int getEspacosEntreCastVariavel()
     {

@@ -9,9 +9,14 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class Inicializacao extends EstiloProgramacao
+public class Inicializacao 
 {
     private int EspacosBrancoVariavelIgual, EspacosBrancoIgualValor;
+
+    public Inicializacao(int EspacosBrancoVariavelIgual, int EspacosBrancoIgualValor) {
+        this.EspacosBrancoVariavelIgual = EspacosBrancoVariavelIgual;
+        this.EspacosBrancoIgualValor = EspacosBrancoIgualValor;
+    }
 
     public int getEspacosBrancoVariavelIgual()
     {

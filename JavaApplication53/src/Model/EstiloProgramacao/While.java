@@ -9,11 +9,21 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class While extends EstiloProgramacao
+public class While 
 {
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroWhile;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
         EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+
+    public While(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroWhile, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int EspacosWhileParentesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
+        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
+        this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
+        this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
+        this.EspacosWhileParentesAberto = EspacosWhileParentesAberto;
+        this.EspacosParentesesAbertoCondicao = EspacosParentesesAbertoCondicao;
+        this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
+    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {
