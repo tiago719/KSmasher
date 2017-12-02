@@ -5,6 +5,7 @@
  */
 package KSmasher;
 
+import View.InterfaceTexto;
 import Model.BaseDados;
 import java.sql.SQLException;
 import java.util.logging.Level;
