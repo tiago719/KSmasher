@@ -15,7 +15,7 @@ public class Cast extends Statement
     
     public Cast()
     {
-        
+
     }
 
     public int getEspacosEntreCastVariavel()
