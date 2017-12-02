@@ -21,4 +21,10 @@ public class Texto
     {
         ListaStatements=new ArrayList<Statement>();
     }
+
+    public ArrayList<Statement> getListaStatements() {
+        return ListaStatements;
+    }
+    
+    
 }
