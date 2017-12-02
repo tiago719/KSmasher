@@ -15,7 +15,7 @@ public class Statement
 {
     protected ArrayList<Statement> ListaStatements;
     protected String Statement;
-    protected int numComecar;
+    protected int numComecar;//numero de carateres desde inicio do if ate onde comeca o codigo do if
 
     public void setNumComecar(int numComecar) {
         this.numComecar = numComecar;

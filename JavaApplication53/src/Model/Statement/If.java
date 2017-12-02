@@ -23,6 +23,8 @@ public class If extends Statement {
         String aux = "", auxCondicao = "";
         int numParenteses = 1;
         EspacosIfParentesAberto = 0;
+
+        //-------EspacosParentesesAbertoCondicao----------
         EspacosParentesesAbertoCondicao = 0;
 
         for (int i = 2; i < codigo.length(); i++) {
@@ -34,7 +36,9 @@ public class If extends Statement {
             }
         }
         aux = codigo.substring(EspacosIfParentesAberto);
+        //----------------------
 
+        //--EspacosParentesesAbertoCondicao-------------
         for (int i = 0; i < aux.length(); i++) {
             if (aux.charAt(i) == ' ') {
                 EspacosParentesesAbertoCondicao++;
@@ -45,7 +49,9 @@ public class If extends Statement {
         }
 
         aux = aux.substring(EspacosParentesesAbertoCondicao);
+        //------------------------------
 
+        //--------------condicao e EspacosCondicaoParentesFechado----------------
         int ixUltimoCarater = 0, ixUltimoParenteses = 0;
         for (int i = 0; i < aux.length(); i++) {
             auxCondicao += aux.charAt(i);
@@ -64,8 +70,8 @@ public class If extends Statement {
         EspacosCondicaoParentesFechado = (ixUltimoParenteses - 1) - ixUltimoCarater;
         Condicao.setStatement(auxCondicao.substring(ixUltimoCarater));
         //---------------------------
-
         aux = aux.substring(ixUltimoParenteses);
+
         int ixInicioIf = 0;
         for (int i = 0; i < aux.length(); i++) {
             if (aux.charAt(i) != ' ') {
@@ -80,16 +86,24 @@ public class If extends Statement {
         }
 
         setNumComecar(ixInicioIf);
-        
-        //contar num de linhas ate 1º carater
-        
-        
-        
-        
-        
 
-        //encontra fim
+        //---------contar num de linhas ate 1º carater-------------
+        LinhasEmBrancoDepoisChavetaAberta = 0;
+        
         aux = aux.substring(ixInicioIf);
+        
+        for (int i = 0; i < aux.length(); i++) {
+            if (aux.charAt(i) != ' '){
+                aux = aux.substring(i);
+                break;
+            }
+            else if (String.valueOf(aux.charAt(i)).matches("\n")) {
+                LinhasEmBrancoDepoisChavetaAberta++;
+            }
+        }
+        //--------------------------------------------------------
+        
+        //---------encontra fim do if -------
         int ixFimIF = 0;
         if (temChaveta) {
             int numChavetas = 1;
@@ -104,18 +118,34 @@ public class If extends Statement {
                 }
 
             }
-        }
-        else{
+        } else {
             //procurar o 1º ';'
+            boolean AspasAberto, PlicasAberto;
+            AspasAberto = PlicasAberto = false;
+            for (int i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) == ';' && !AspasAberto && !PlicasAberto) {
+                    ixFimIF = i;
+                } else if (aux.charAt(i) == '"' && aux.charAt(i - 1) != '\\') {
+                    AspasAberto = !AspasAberto;
+                } else if (aux.charAt(i) == '\'' && aux.charAt(i - 1) != '\\') {
+                    PlicasAberto = !PlicasAberto;
+                }
+            }
         }
 
         aux = aux.substring(ixFimIF);
+        //---------LinhasEmBrancoDepoisChavetaFechada -----------------
+        LinhasEmBrancoDepoisChavetaFechada = 0;
+
         for (int i = 0; i < aux.length(); i++) {
-
-            if (!String.valueOf(aux.charAt(i)).matches("\n")) { // testar isto
-
+            if (aux.charAt(i) != ' '){
+                break;
+            }
+            else if (String.valueOf(aux.charAt(i)).matches("\n")) { // testar isto
+                LinhasEmBrancoDepoisChavetaFechada++;
             }
         }
+        //--------------------
     }
 
     public boolean isPosicaoPrimeiraChaveta() {
