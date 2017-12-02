@@ -7,6 +7,8 @@ package KSmasher;
 
 import Model.BaseDados;
 import Model.Texto;
+import View.InterfaceTexto;
+import Model.BaseDados;
 import Model.Utilizador;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,13 +16,13 @@ import java.sql.SQLException;
 
 public class KSmasher {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws SQLException{
-      Texto teste = new Texto();
+    public static void main(String[] args){
+      try {
+       Texto teste = new Texto();
       teste.Login();
-      
+        } catch (SQLException ex) {
+
+        }
     }
     
 }

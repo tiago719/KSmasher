@@ -77,4 +77,10 @@ public class Texto
    
  }
  
+
+    public ArrayList<Statement> getListaStatements() {
+        return ListaStatements;
+    }
+    
+    
 }
