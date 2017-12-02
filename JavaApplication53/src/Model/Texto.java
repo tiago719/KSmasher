@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Model.EstiloProgramacao.*;
 import Model.Statement.Statement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Texto
     }
     public void Regista() throws SQLException
     {
-        Utilizador utilizador = new Utilizador();
+        Utilizador = new Utilizador();
         Scanner input = new Scanner(System.in);
         System.out.println("REGISTO");
         System.out.printf("Username: ");
@@ -41,14 +42,15 @@ public class Texto
             if (pass.equals(conf)) {
                     boolean checkname, checkEmail;
           
-                    checkname = utilizador.ExisteUsername(user);
-                    checkEmail = utilizador.ExisteEmail(email);
+                    checkname = Utilizador.ExisteUsername(user);
+                    checkEmail = Utilizador.ExisteEmail(email);
                                                      
                 if (checkname || checkEmail){
                     if (checkname) System.out.println("Username já está em uso, tente outro");
                     if (checkEmail) System.out.println("Email já está em uso, tente outro");
                 }else {
-                    utilizador.AdicionaUtilizador(user, email, pass);
+                    Utilizador.AdicionaUtilizador(user, email, pass);
+                    Utilizador.EstilosProgramacao.add(new EstiloProgramacao("EstiloDefeito", new Cast(1), new DoWhile(true,1,0,0,1,1,1), new Else(true,1,1,1), new For(true,false,1,1,0,1,0,1,0,1,1), new Funcoes(false), new If(true,false,1,1,1,1,1), new Inicializacao(1,1), new Operador(1,1), new While(true,false,1,1,1,1,1)));
                     System.out.println("Registo feito com sucesso");                  
                 }
             } 
