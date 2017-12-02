@@ -7,23 +7,19 @@ package KSmasher;
 
 import View.InterfaceTexto;
 import Model.BaseDados;
+import Model.Utilizador;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class KSmasher {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        try {
-            BaseDados.getConexaoMySQL();
-            BaseDados.Query("insert into ");
-            BaseDados.FecharConexao();
-        } catch (SQLException ex) {
-            Logger.getLogger(KSmasher.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void main(String[] args){
+       Utilizador ut = new Utilizador();
+       
+       ut.AdicionaUtilizador("André", "andre@gmail.com", "12345");
     }
     
 }
