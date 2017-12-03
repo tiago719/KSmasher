@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Statement;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class If extends Statement {
 
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroIf;
@@ -16,10 +7,11 @@ public class If extends Statement {
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
     private Statement Condicao;
+    private boolean temChaveta;
 
     public If(String codigo) {
-        boolean temChaveta = true;
-        //-----------------condicao-----------------
+        int contadorCarateres = 2;
+        temChaveta = true;
         String aux = "", auxCondicao = "";
         int numParenteses = 1;
         EspacosIfParentesAberto = 0;
@@ -34,8 +26,9 @@ public class If extends Statement {
             } else {
                 break;
             }
+            contadorCarateres++;
         }
-        aux = codigo.substring(EspacosIfParentesAberto);
+        aux = codigo.substring(EspacosIfParentesAberto+1);
         //----------------------
 
         //--EspacosParentesesAbertoCondicao-------------
@@ -46,9 +39,10 @@ public class If extends Statement {
             } else {
                 break;
             }
+            contadorCarateres++;
         }
 
-        aux = aux.substring(EspacosParentesesAbertoCondicao);
+        aux = aux.substring(EspacosParentesesAbertoCondicao+1);
         //------------------------------
 
         //--------------condicao e EspacosCondicaoParentesFechado----------------
@@ -66,9 +60,10 @@ public class If extends Statement {
             } else if (aux.charAt(i) != ' ') {
                 ixUltimoCarater = i;
             }
+            contadorCarateres++;
         }
         EspacosCondicaoParentesFechado = (ixUltimoParenteses - 1) - ixUltimoCarater;
-        Condicao.setStatement(auxCondicao.substring(ixUltimoCarater));
+        Condicao.setStatement(auxCondicao.substring(0, ixUltimoCarater));
         //---------------------------
         aux = aux.substring(ixUltimoParenteses);
 
@@ -83,6 +78,7 @@ public class If extends Statement {
                 ixInicioIf = i;
                 break;
             }
+            contadorCarateres++;
         }
 
         setNumComecar(ixInicioIf);
@@ -100,6 +96,7 @@ public class If extends Statement {
             else if (String.valueOf(aux.charAt(i)).matches("\n")) {
                 LinhasEmBrancoDepoisChavetaAberta++;
             }
+            contadorCarateres++;
         }
         //--------------------------------------------------------
         
@@ -116,6 +113,7 @@ public class If extends Statement {
                 } else if (aux.charAt(i) == '}') {
                     numChavetas--;
                 }
+                contadorCarateres++;
 
             }
         } else {
@@ -130,6 +128,7 @@ public class If extends Statement {
                 } else if (aux.charAt(i) == '\'' && aux.charAt(i - 1) != '\\') {
                     PlicasAberto = !PlicasAberto;
                 }
+                contadorCarateres++;
             }
         }
 
@@ -144,8 +143,11 @@ public class If extends Statement {
             else if (String.valueOf(aux.charAt(i)).matches("\n")) { // testar isto
                 LinhasEmBrancoDepoisChavetaFechada++;
             }
+            contadorCarateres++;
         }
         //--------------------
+        
+        numCarateresCodigoStatment = contadorCarateres;
     }
 
     public boolean isPosicaoPrimeiraChaveta() {

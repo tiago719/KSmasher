@@ -5,22 +5,13 @@
  */
 package KSmasher;
 
-import View.InterfaceTexto;
-import Model.BaseDados;
 import Model.Utilizador;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class KSmasher {
 
     public static void main(String[] args){
-       //Utilizador ut = new Utilizador();
-       
-     
-      // ut.AdicionaUtilizador("André", "andre@gmail.com", "12345");
+      
     }
     
 }
