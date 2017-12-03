@@ -36,12 +36,12 @@ public class Texto
     }
     
     private boolean isIF(char a[]) {
-        boolean ret;
+        boolean ret = true;
         if (a[0] == 'i' && a[1] == 'f') {
             ret = true;
         }
 
-        return false;
+        return ret;
     }
     
     private boolean isOperador(char A[])
