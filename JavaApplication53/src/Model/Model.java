@@ -30,7 +30,7 @@ public class Model {
         return false;
     }
 
-    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add, int ix){
+    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add){
         fp.add(add.getListaStatements());
         tc.add(add.getNumCarateresCodigoStatment() + ix);
     }
@@ -50,10 +50,11 @@ public class Model {
                 if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
                     If add = new If(Codigo.substring(ix));
                     Pai.add(add);
-
-                    AdicionaNovoPai(filaPais, TotalCarateres, add, ix);
-
+                    
                     ix += add.getNumComecar();//para comecar a ler depois do if
+
+                    AdicionaNovoPai(filaPais, TotalCarateres, add);
+
                 }
             }
 
