@@ -7,11 +7,11 @@ package Model;
 
 import Model.Statement.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class Model {
 
     String Codigo;
@@ -33,17 +33,30 @@ public class Model {
     }
 
     public void Cataloga() {
+        PriorityQueue<ArrayList<Statement>> filaPais = new PriorityQueue<>(Collections.reverseOrder());
         ArrayList<Statement> Pai = ListaStatements;
         for (; ix < Codigo.length(); ix++) {
             if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
                 If add = new If(Codigo.substring(ix));
                 Pai.add(add);
-                ix += add.getNumComecar();
                 
-                Pai = add.getListaStatements();
-            }
+                Pai.get(ix)
+                filaPais.add(Pai);
+                ix += add.getNumComecar();
 
+            }
+            
+            
+            if (filaPais.peek().)
+            
+            
+            ArrayList<Statement> temp = filaPais.remove();
+            if (temp == null){
+                Pai  = temp;
+            }
+            else{
+                Pai = ListaStatements;
+            }
         }
-        char a[] = new char[]{'a', 'a'};
     }
 }

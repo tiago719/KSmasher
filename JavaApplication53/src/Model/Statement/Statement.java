@@ -16,10 +16,26 @@ public class Statement
     protected ArrayList<Statement> ListaStatements;
     protected String Statement;
     protected int numComecar;//numero de carateres desde inicio do if ate onde comeca o codigo do if
-
+    protected int numCarateresCodigoStatment; //numer de carateres do codigo deste if, while, ... para saber quando acabou
+    protected int ixOrigemNoCodigo;
+    
     public void setNumComecar(int numComecar) {
         this.numComecar = numComecar;
     }
+
+    public int getNumCarateresCodigoStatment() {
+        return numCarateresCodigoStatment;
+    }
+
+    public int getIxOrigemNoCodigo() {
+        return ixOrigemNoCodigo;
+    }
+
+    public void setIxOrigemNoCodigo(int ixOrigemNoCodigo) {
+        this.ixOrigemNoCodigo = ixOrigemNoCodigo;
+    }
+    
+    
 
     public int getNumComecar() {
         return numComecar;
