@@ -17,10 +17,95 @@ public class For extends Statement
             EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
     
-    private Statement Inicializacao,Condicao,Incrementacao;
+    private Statement PInicializacao,Condicao,Incrementacao;
     
-    public For()
+    public For(String codigo)
     {
+        String aux = "";
+        
+        //CONTA OS ESPAÇOS ATÉ AO PRIMEIRO (
+        for (int i = 3; i < codigo.length(); i++) {
+            if (codigo.charAt(i) != '(') {
+                EspacosForParentesAberto++;
+
+            } else {
+                break;
+            }
+        }
+        aux = codigo.substring(EspacosForParentesAberto);
+        ///--------------------------
+        
+        // CONTA ESPAÇOS DO ( do FOR até Á Inicializacao
+        for (int i = 0; i < aux.length(); i++) {
+            if (aux.charAt(i) == ' ') {
+                EspacosParentesesAbertoCondicaoInicializacao++;
+
+            } else {
+                break;
+            }
+        }
+
+        aux = aux.substring(EspacosParentesesAbertoCondicaoInicializacao);
+        //------------------------------
+        
+        //GUARDA INICIALIZAÇAO
+        int conta= 0 ;
+        int EspacosBrancoVariavelIgual=0;
+        int EspacosBrancoIgualValor=0;
+         
+        ////PREVER CASO O FOR SEJA for(;i<9;i++)
+        while(aux.charAt(conta) != '=')
+        {
+            if(aux.charAt(conta) == ';')
+            {
+                EspacosBrancoVariavelIgual = -1;
+                aux = aux.substring(conta);
+                break;
+            }
+            conta++;
+        }
+        
+        if(aux.charAt(conta) == '=')
+        {
+            for(int i=conta-1;i>=0;i--)
+            {
+                if(aux.charAt(conta) != ' ')
+                {
+                   EspacosBrancoVariavelIgual++;        
+                }
+            }
+                
+        }
+        
+        
+        
+        for (int i = 0; i < aux.length(); i++) {
+            if (aux.charAt(i) = ' ') {
+                  
+            } else {
+                break;
+            }
+        }
+        
+        PInicializacao.setNumComecar(numComecar);
+        ((Inicializacao) PInicializacao).setEspacosBrancoIgualValor(2);
+        aux = aux.substring(EspacosParentesesAbertoCondicaoInicializacao);
+        
+        //---------------------
+        
+         // CONTA ESPAÇOS DA Inicializacao ATÉ AO ;
+        for (int i = 0; i < aux.length(); i++) {
+            if (aux.charAt(i) == ' ') {
+                EspacosInicializacaoPontoVirgula++;
+
+            } else {
+                break;
+            }
+        }
+
+        aux = aux.substring(EspacosParentesesAbertoCondicaoInicializacao);
+        //------------------------------
+        
         
     }
 

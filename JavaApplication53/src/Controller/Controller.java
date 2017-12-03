@@ -9,7 +9,7 @@ public class Controller extends Observable
     
     public Controller()
     {
-        Model=new Model();
+        
     }
             
     public void Regista()
