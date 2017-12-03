@@ -13,7 +13,7 @@ import java.util.PriorityQueue;
 public class Model {
     private Texto Texto;
     private Utilizador Utilizador;
-    
+
     public Model() 
     {
         
