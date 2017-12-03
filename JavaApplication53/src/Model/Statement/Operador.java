@@ -15,7 +15,7 @@ public class Operador extends Statement
     
     public Operador()
     {
-        
+
     }
 
     public int getEspacosOperadorVariavel()

@@ -5,11 +5,18 @@
  */
 package View;
 
+import Controller.Controller;
+
 /**
  *
  * @author Tiago Coutinho
  */
 public class InterfaceTexto
 {
-
+    private Controller Controller;
+    
+    public InterfaceTexto(Controller C)
+    {
+        Controller=C;
+    }
 }
