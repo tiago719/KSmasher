@@ -146,6 +146,8 @@ public class If extends Statement {
             contadorCarateres++;
         }
         //--------------------
+        
+        numCarateresCodigoStatment = contadorCarateres;
     }
 
     public boolean isPosicaoPrimeiraChaveta() {
