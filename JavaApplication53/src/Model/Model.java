@@ -23,11 +23,20 @@ public class Model {
     }
 
     private boolean isIF(char a[]) {
-        boolean ret;
+        boolean ret = false;
         if (a[0] == 'i' && a[1] == 'f') {
             ret = true;
         }
-        return false;
+        return ret;
+    }
+    
+    private boolean IsFOR(char a[])
+    {
+        boolean ret = false;
+        if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
+            ret = true;
+        }
+        return ret;
     }
 
     public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add){
