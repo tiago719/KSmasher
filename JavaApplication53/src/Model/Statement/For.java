@@ -64,27 +64,18 @@ public class For extends Statement {
         }
 
         if (aux.charAt(Conta) == '=') {
-            for (int i = Conta - 1; i >= 0; i--) {
-                if (aux.charAt(Conta) == ' ') {
-                    EspacosBrancoVariavelIgual++;
-                }
-            }
-            Conta++;
-            aux = aux.substring(Conta);
-
-            /////CONTAR ESPAÇOS DO = ATÈ AO VALOR
-            for (int i = 0; i < aux.length(); i++) {
-                if (aux.charAt(i) == ' ') {
-                    EspacosBrancoIgualValor++;
-                } else {
-                    break;
-                }
-            }
-            aux = aux.substring(EspacosBrancoIgualValor);
-
+            PInicializacao = new Inicializacao(aux);          
         }
-        ((Inicializacao) PInicializacao).setEspacosBrancoVariavelIgual(EspacosBrancoVariavelIgual);
-        ((Inicializacao) PInicializacao).setEspacosBrancoIgualValor(EspacosBrancoIgualValor);
+        else
+        {
+            PInicializacao = new Inicializacao();
+            ((Inicializacao)PInicializacao).setEspacosBrancoIgualValor(EspacosBrancoIgualValor);
+            ((Inicializacao)PInicializacao).setEspacosBrancoVariavelIgual(EspacosBrancoVariavelIgual);
+            
+        }
+        
+        
+
         //---------------------
 
         // CONTA ESPAÇOS DA Inicializacao ATÉ AO ;
