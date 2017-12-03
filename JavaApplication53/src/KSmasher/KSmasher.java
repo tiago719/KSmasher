@@ -17,9 +17,10 @@ import java.util.logging.Logger;
 public class KSmasher {
 
     public static void main(String[] args){
-       Utilizador ut = new Utilizador();
+       //Utilizador ut = new Utilizador();
        
-       ut.AdicionaUtilizador("André", "andre@gmail.com", "12345");
+     
+      // ut.AdicionaUtilizador("André", "andre@gmail.com", "12345");
     }
     
 }
