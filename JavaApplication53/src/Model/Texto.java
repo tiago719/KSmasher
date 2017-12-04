@@ -67,6 +67,14 @@ public class Texto
         
         return false;
     }
+    
+      private boolean IsFOR(char a[]) {
+        boolean ret = false;
+        if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
+            ret = true;
+        }
+        return ret;
+    }
 
     public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add){
         fp.add(add.getListaStatements());
@@ -128,6 +136,14 @@ public class Texto
                         }
 
                         AdicionaNovoPai(filaPais, TotalCarateres, add);
+                    }
+                     if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
+                              For add = new For(Codigo.substring(ix));
+                             Pai.add(add);
+
+                              ix += add.getNumComecar();//para comecar a ler depois do if
+
+                              AdicionaNovoPai(filaPais, TotalCarateres, add);
                     }
                 }
                 catch(Exception e)
