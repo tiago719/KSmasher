@@ -30,10 +30,10 @@ public class Ficheiros
 
     public ObjectInputStream abreFObjectosLeitura(String nome) throws IOException {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(nome));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("main.c"));
             return in;
         } catch (IOException e) {
-            System.out.println("Erro ao abrir o ficheiro " + nome);
+            System.out.println(e);
             throw e;
         }
     }

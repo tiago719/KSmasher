@@ -6,44 +6,54 @@
 package Model;
 
 import Model.Statement.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.PriorityQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class Model {
+    private Texto Texto;
+    private Utilizador Utilizador;
 
-    String Codigo;
-    int ix;
-    ArrayList<Statement> ListaStatements;
-
-    public Model(String codigo, ArrayList<Statement> ListaStatements) {
-        this.Codigo = codigo;
-        this.ListaStatements = ListaStatements;
-        ix = 0;
+    public Model() 
+    {
+        
+    }   
+    
+    public void Regista()
+    {
+        
     }
-
-    private boolean isIF(char a[]) {
-        boolean ret;
-        if (a[0] == 'i' && a[1] == 'f') {
-            ret = true;
-        }
-        return false;
+    
+    public void Login()
+    {
+        
     }
-
-    public void Cataloga() {
-        ArrayList<Statement> Pai = ListaStatements;
-        for (; ix < Codigo.length(); ix++) {
-            if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                If add = new If(Codigo.substring(ix));
-                Pai.add(add);
-                ix += add.getNumComecar();
-                
-                Pai = add.getListaStatements();
-            }
-
+    
+    public void Analisa(String NomeFicheiro) 
+    {
+        Ficheiros F=new Ficheiros();
+        ObjectInputStream in=null;
+        String Codigo=null;
+        try
+        {
+            in = F.abreFObjectosLeitura(NomeFicheiro);
+            Codigo=(String)in.readObject();
+        } catch (Exception ex)
+        {
+            return;
         }
-        char a[] = new char[]{'a', 'a'};
+        Texto=new Texto(Codigo);
+        Texto.Cataloga();
+        System.out.println(Texto);
+    }
+    
+    public void Converte()
+    {
+        
     }
 }
