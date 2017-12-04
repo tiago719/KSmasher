@@ -13,9 +13,9 @@ public class Cast extends Statement
 {
     private int EspacosEntreCastVariavel;
     
-    public Cast()
+    public Cast(String Statement)
     {
-
+        this.Statement=Statement;
     }
 
     public int getEspacosEntreCastVariavel()
@@ -28,10 +28,25 @@ public class Cast extends Statement
         this.EspacosEntreCastVariavel = EspacosEntreCastVariavel;
     }
     
+    private int PosFimCast()
+    {
+        //TODO: Depois do dicionário estar feito
+        return 5;
+    }
+    
     @Override
     public void analisaStatement()
     {
+        EspacosEntreCastVariavel=0;
         
+        try
+        {
+
+        }
+        catch(Exception e)
+        {
+            
+        }
     }
     
     @Override

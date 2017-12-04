@@ -158,7 +158,7 @@ public class Texto {
 
                     }
                     if (isOperador(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                        Operador add = new Operador();
+                        //Operador add = new Operador();
                         char a = 'a';
 
                         while (a != ';') {
@@ -169,12 +169,12 @@ public class Texto {
                             }
                         }
 
-                        AdicionaNovoPai(filaPais, TotalCarateres, add);
+                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
                     }
                     if (isCast(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2),
                         Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5), Codigo.charAt(ix + 6),
                         Codigo.charAt(ix + 7)})) {
-                        Cast add = new Cast();
+                        //Cast add = new Cast();
 
                         char a = 'a';
 
@@ -186,7 +186,7 @@ public class Texto {
                             }
                         }
 
-                        AdicionaNovoPai(filaPais, TotalCarateres, add);
+                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
                     }
                     if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
                         For add = new For(Codigo.substring(ix));
