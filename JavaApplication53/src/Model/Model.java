@@ -29,9 +29,8 @@ public class Model {
         }
         return ret;
     }
-    
-    private boolean IsFOR(char a[])
-    {
+
+    private boolean IsFOR(char a[]) {
         boolean ret = false;
         if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
             ret = true;
@@ -39,11 +38,19 @@ public class Model {
         return ret;
     }
 
-    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add){
+    private boolean IsInicializacao(char a[]) {
+        boolean ret = false;
+        if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
+            ret = true;
+        }
+        return ret;
+    }
+
+    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add) {
         fp.add(add.getListaStatements());
         tc.add(add.getNumCarateresCodigoStatment() + ix);
     }
-    
+
     public void Cataloga() {
         PriorityQueue<ArrayList<Statement>> filaPais = new PriorityQueue<>(Collections.reverseOrder());
         PriorityQueue<Integer> TotalCarateres = new PriorityQueue<>(Collections.reverseOrder());
@@ -51,19 +58,27 @@ public class Model {
         boolean AspasAberto = false, PlicasAberto = false;
 
         for (; ix < Codigo.length(); ix++) {
-            if (Codigo.charAt(ix) == '"')
+            if (Codigo.charAt(ix) == '"') {
                 AspasAberto = !AspasAberto;
-            else if (Codigo.charAt(ix) == '\'')
+            } else if (Codigo.charAt(ix) == '\'') {
                 PlicasAberto = !PlicasAberto;
-            else if(!AspasAberto && !PlicasAberto){                
+            } else if (!AspasAberto && !PlicasAberto) {
                 if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
                     If add = new If(Codigo.substring(ix));
                     Pai.add(add);
-                    
+
                     ix += add.getNumComecar();//para comecar a ler depois do if
 
                     AdicionaNovoPai(filaPais, TotalCarateres, add);
 
+                }
+                if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
+                    For add = new For(Codigo.substring(ix));
+                    Pai.add(add);
+
+                    ix += add.getNumComecar();//para comecar a ler depois do if
+
+                    AdicionaNovoPai(filaPais, TotalCarateres, add);
                 }
             }
 

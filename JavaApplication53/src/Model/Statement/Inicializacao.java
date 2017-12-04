@@ -12,6 +12,7 @@ package Model.Statement;
 public class Inicializacao extends Statement {
 
     private int EspacosBrancoVariavelIgual, EspacosBrancoIgualValor;
+    
 
     public Inicializacao()
     {
@@ -19,7 +20,7 @@ public class Inicializacao extends Statement {
     }
     
     public Inicializacao(String Codigo) {
-        
+        numCarateresCodigoStatment =0;
         String aux = Codigo;
         int Conta=0;
         EspacosBrancoVariavelIgual = 0;
@@ -34,6 +35,7 @@ public class Inicializacao extends Statement {
             if (aux.charAt(Conta) == ' ') {
                 EspacosBrancoVariavelIgual++;
             }
+            numCarateresCodigoStatment++;
         }
         aux = aux.substring(Conta+1);
 
@@ -44,6 +46,7 @@ public class Inicializacao extends Statement {
             } else {
                 break;
             }
+            numCarateresCodigoStatment++;
         }
     }
 
