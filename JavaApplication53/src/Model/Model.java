@@ -6,6 +6,7 @@
 package Model;
 
 import Model.Statement.*;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -37,17 +38,15 @@ public class Model {
     public void Analisa(String NomeFicheiro) 
     {
         Ficheiros F=new Ficheiros();
-        ObjectInputStream in=null;
-        String Codigo=null;
+        BufferedReader in=null;
         try
         {
             in = F.abreFObjectosLeitura(NomeFicheiro);
-            Codigo=(String)in.readObject();
         } catch (Exception ex)
         {
             return;
         }
-        Texto=new Texto(Codigo);
+        Texto=new Texto(in);
         Texto.Cataloga();
         System.out.println(Texto);
     }

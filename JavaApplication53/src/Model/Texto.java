@@ -8,10 +8,13 @@ package Model;
 import Model.Statement.Cast;
 import Model.Statement.If;
 import Model.Statement.Operador;
-import Model.Statement.Statement;
+import Model.Statement.*;
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.PriorityQueue;
+
+
 
 /**
  *
@@ -24,11 +27,11 @@ public class Texto
     int ix;
     String Codigo;
     
-    public Texto(String Codigo)
+    public Texto(BufferedReader In)
     {
         ListaStatements=new ArrayList<Statement>();
         ix=0;
-        this.Codigo=Codigo;
+        //In=Codigo;
     }
 
     public ArrayList<Statement> getListaStatements() {
