@@ -13,9 +13,9 @@ public class Operador extends Statement
 {
     private int EspacosOperadorVariavel, EspacosVariavelOperador;
     
-    public Operador()
+    public Operador(String Statement)
     {
-
+        this.Statement=Statement;
     }
 
     public int getEspacosOperadorVariavel()
@@ -42,7 +42,35 @@ public class Operador extends Statement
     @Override
     public void analisaStatement()
     {
+        EspacosOperadorVariavel=0;
+        EspacosVariavelOperador=0;
+        int i=0;
+        char c;
         
+        for(i=0;i<Statement.length();i++)
+        {
+            try
+            {
+                if((c='+')==Statement.charAt(i) || (c='-')==Statement.charAt(i) || ((c='/')==Statement.charAt(i) && '*'!=Statement.charAt(i+1)))
+                {
+                    if(Statement.charAt(i+1)=='+' || Statement.charAt(i+1)=='-')
+                        i++;
+                    
+                    int posicaoOperador=i;
+                    while(Statement.charAt(++i)==' ')
+                        EspacosOperadorVariavel++;
+
+                    while(Statement.charAt(--posicaoOperador)==' ')
+                        EspacosOperadorVariavel++;
+
+                    break;
+                }
+            }
+            catch(Exception e)
+            {
+                
+            }
+        }
     }
     
     @Override
