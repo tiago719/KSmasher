@@ -9,11 +9,11 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class Operador
+public class Operador_EP
 {
     private int EspacosOperadorVariavel, EspacosVariavelOperador;
 
-    public Operador(int EspacosOperadorVariavel, int EspacosVariavelOperador) {
+    public Operador_EP(int EspacosOperadorVariavel, int EspacosVariavelOperador) {
         this.EspacosOperadorVariavel = EspacosOperadorVariavel;
         this.EspacosVariavelOperador = EspacosVariavelOperador;
     }
