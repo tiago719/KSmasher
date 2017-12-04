@@ -1,10 +1,7 @@
 package Model;
 
 import Model.EstiloProgramacao.*;
-import Model.Statement.Cast;
-import Model.Statement.If;
-import Model.Statement.Operador;
-import Model.Statement.Statement;
+import java.io.BufferedReader;
 import java.sql.SQLException;
 import Model.Statement.*;
 import java.util.ArrayList;
@@ -13,16 +10,16 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 
 public class Texto {
-
     private ArrayList<Statement> ListaStatements;
     Utilizador Utilizador;//TODO:Falta meter aqui o otuilzador
     int ix;
     String Codigo;
-
-    public Texto(String Codigo) {
-        ListaStatements = new ArrayList<Statement>();
-        ix = 0;
-        this.Codigo = Codigo;
+    
+    public Texto(BufferedReader In)
+    {
+        ListaStatements=new ArrayList<Statement>();
+        ix=0;
+        //In=Codigo;
     }
 
     public void Regista() throws SQLException {
@@ -86,7 +83,6 @@ public class Texto {
         } else {
             System.out.println("Dados incorretos, tente de novo!");
         }
-
     }
 
     public ArrayList<Statement> getListaStatements() {
