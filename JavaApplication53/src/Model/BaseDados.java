@@ -4,6 +4,7 @@ package Model;
 
 import java.sql.*;
 
+
 public class BaseDados {
 
     private Connection Con;

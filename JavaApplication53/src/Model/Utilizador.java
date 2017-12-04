@@ -30,21 +30,62 @@ public class Utilizador
         
     }
     
-    public void AdicionaUtilizador(String Nome, String Email, String PalavraChave) throws SQLException
+    public void AdicionaUtilizador(String Nome, String Email, String PalavraChave)
+    {
+        BaseDados bd = new BaseDados();
+
+        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome +"','" + Email + "','" +PalavraChave + "');");
+
+        
+        bd.CloseConnection();
+    }
+     public boolean ExisteUsername(String Username) throws SQLException
     {
         BaseDados bd = new BaseDados();
         ResultSet Rt;
+        boolean existe;
         
-        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome +"','" + Email + "','" +PalavraChave + "');");
+        Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "'");
         
-        Rt = bd.Le("SELECT * FROM utilizadores;");
-        
-        while(Rt.next())
-        {
-            String nome = Rt.getString("NOME");
-            
-        }
+        if(Rt.next())
+            existe= true;
+        else
+            existe=false;
         
         bd.CloseConnection();
+        return existe;  
+    }
+      public boolean ExisteEmail(String Email) throws SQLException
+    {
+        BaseDados bd = new BaseDados();
+        ResultSet Rt;
+        boolean existe;
+        
+        Rt = bd.Le("SELECT * FROM utilizador WHERE EMAIL = '" + Email + "'");
+        
+        if(Rt.next())
+            existe= true;
+        else
+            existe=false;
+        
+        bd.CloseConnection();
+        return existe;  
+    }
+      
+      public boolean VerificaLogin(String Username, String Password) throws SQLException
+    {
+        BaseDados bd = new BaseDados();
+        ResultSet Rt;
+        boolean existe;
+        
+        Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "' and PASSWORD = '" + Password + "'");
+        
+        if(Rt.next())
+            existe= true;
+        else
+            existe=false;
+        
+        bd.CloseConnection();
+        return existe;  
     }
 }

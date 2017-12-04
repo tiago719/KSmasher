@@ -13,6 +13,10 @@ public class Funcoes
 {
     private boolean AntesMain;
 
+    public Funcoes(boolean AntesMain) {
+        this.AntesMain = AntesMain;
+    }
+
     public boolean isAntesMain()
     {
         return AntesMain;

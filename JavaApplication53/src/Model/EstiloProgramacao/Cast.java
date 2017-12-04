@@ -5,6 +5,10 @@ public class Cast extends EstiloProgramacao
 {
     private int EspacosEntreCastVariavel;
 
+    public Cast(int EspacosEntreCastVariavel) {
+        this.EspacosEntreCastVariavel = EspacosEntreCastVariavel;
+    }
+
     public int getEspacosEntreCastVariavel()
     {
         return EspacosEntreCastVariavel;
