@@ -7,20 +7,19 @@ package KSmasher;
 
 import Model.BaseDados;
 import Model.Texto;
+import View.InterfaceTexto;
+import Model.BaseDados;
+import Controller.Controller;
+import Model.Model;
+import Model.Texto;
 import Model.Utilizador;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class KSmasher {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws SQLException{
-      Texto teste = new Texto();
-      teste.Login();
+    public static void main(String[] args){
       
+      InterfaceTexto Ui= new InterfaceTexto(new Controller());
     }
     
 }

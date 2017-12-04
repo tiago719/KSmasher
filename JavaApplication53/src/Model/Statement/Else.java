@@ -14,9 +14,9 @@ public class Else extends Statement
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
-    public Else()
+    public Else(String codigo)
     {
-
+        
     }
             
     public boolean isPosicaoPrimeiraChaveta()

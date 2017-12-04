@@ -9,45 +9,70 @@ package Model.Statement;
  *
  * @author Tiago Coutinho
  */
-public class Inicializacao extends Statement
-{
+public class Inicializacao extends Statement {
+
     private int EspacosBrancoVariavelIgual, EspacosBrancoIgualValor;
     
+
     public Inicializacao()
     {
         
     }
+    
+    public Inicializacao(String Codigo) {
+        numCarateresCodigoStatment =0;
+        String aux = Codigo;
+        int Conta=0;
+        EspacosBrancoVariavelIgual = 0;
+        EspacosBrancoIgualValor = 0;
+        
+         while (aux.charAt(Conta) != '=') {
+            Conta++;
+        } 
+        
+         /////CONTAR ESPAÇOS DA Variavel até ao IGUAL
+        for (int i = Conta - 1; i >= 0; i--) {
+            if (aux.charAt(Conta) == ' ') {
+                EspacosBrancoVariavelIgual++;
+            }
+            numCarateresCodigoStatment++;
+        }
+        aux = aux.substring(Conta+1);
 
-    public int getEspacosBrancoVariavelIgual()
-    {
+        /////CONTAR ESPAÇOS DO = ATÈ AO VALOR
+        for (int i = 0; i < aux.length(); i++) {
+            if (aux.charAt(i) == ' ') {
+                EspacosBrancoIgualValor++;
+            } else {
+                break;
+            }
+            numCarateresCodigoStatment++;
+        }
+    }
+
+    public int getEspacosBrancoVariavelIgual() {
         return EspacosBrancoVariavelIgual;
     }
 
-    public void setEspacosBrancoVariavelIgual(int EspacosBrancoVariavelIgual)
-    {
+    public void setEspacosBrancoVariavelIgual(int EspacosBrancoVariavelIgual) {
         this.EspacosBrancoVariavelIgual = EspacosBrancoVariavelIgual;
     }
 
-    public int getEspacosBrancoIgualValor()
-    {
+    public int getEspacosBrancoIgualValor() {
         return EspacosBrancoIgualValor;
     }
 
-    public void setEspacosBrancoIgualValor(int EspacosBrancoIgualValor)
-    {
+    public void setEspacosBrancoIgualValor(int EspacosBrancoIgualValor) {
         this.EspacosBrancoIgualValor = EspacosBrancoIgualValor;
     }
-    
-    
+
     @Override
-    public void analisaStatement()
-    {
-        
+    public void analisaStatement() {
+
     }
-    
+
     @Override
-    public void converteStatement()
-    {
-        
+    public void converteStatement() {
+
     }
 }

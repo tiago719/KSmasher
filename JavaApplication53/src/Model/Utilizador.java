@@ -33,8 +33,9 @@ public class Utilizador
     public void AdicionaUtilizador(String Nome, String Email, String PalavraChave)
     {
         BaseDados bd = new BaseDados();
-        
-        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( '" + IdUtilizador +"','" + Nome +"','" + Email + "','" +PalavraChave + "');");
+
+        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome +"','" + Email + "','" +PalavraChave + "');");
+
         
         bd.CloseConnection();
     }

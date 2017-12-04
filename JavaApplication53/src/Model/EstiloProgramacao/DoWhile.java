@@ -9,12 +9,22 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class DoWhile extends EstiloProgramacao
+public class DoWhile
 {
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada, 
             LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto, 
             EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+
+    public DoWhile(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int LinhasEmBrancoEntreChavetaFechadaWhile, int EspacosWhileParentesesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
+        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
+        this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
+        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
+        this.EspacosWhileParentesesAberto = EspacosWhileParentesesAberto;
+        this.EspacosParentesesAbertoCondicao = EspacosParentesesAbertoCondicao;
+        this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
+    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {

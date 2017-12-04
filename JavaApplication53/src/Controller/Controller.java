@@ -1,11 +1,12 @@
 package Controller;
 
 import Model.Model;
+import java.io.FileInputStream;
 import java.util.Observable;
 
 public class Controller extends Observable
 {
-    Model Model;
+    private Model Model;
     
     public Controller()
     {
@@ -22,9 +23,9 @@ public class Controller extends Observable
         
     }
     
-    public void Analisa()
+    public void Analisa(String NomeFicheiro)
     {
-        
+        Model.Analisa(NomeFicheiro);
     }
     
     public void Converte()
