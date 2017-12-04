@@ -10,6 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 /**
  *
  * @author Tiago Coutinho
@@ -34,11 +41,27 @@ public class Utilizador
     {
         BaseDados bd = new BaseDados();
 
-        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome +"','" + Email + "','" +PalavraChave + "');");
+        try {
+            bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome +"','" + Email + "','" +SHA1(PalavraChave) + "');");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Utilizador.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         
         bd.CloseConnection();
     }
+    
+       static String SHA1(String input) throws NoSuchAlgorithmException {
+        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+        byte[] result = mDigest.digest(input.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+         
+        return sb.toString();
+    }
+    
      public boolean ExisteUsername(String Username) throws SQLException
     {
         BaseDados bd = new BaseDados();
