@@ -9,13 +9,27 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class For extends EstiloProgramacao
+public class For_EP
 {
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroFor;
     private int EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, 
             EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula,
             EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+
+    public For_EP(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroFor, int EspacosForParentesAberto, int EspacosParentesesAbertoCondicaoInicializacao, int EspacosInicializacaoPontoVirgula, int EspacosPontoVirgulaCondicao, int EspacosCondicaoPontoVirgula, int EspacosPontoVirgulaIncrementacao, int EspacosIncrementacaoParentesesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.ChavetaUmStatementDentroFor = ChavetaUmStatementDentroFor;
+        this.EspacosForParentesAberto = EspacosForParentesAberto;
+        this.EspacosParentesesAbertoCondicaoInicializacao = EspacosParentesesAbertoCondicaoInicializacao;
+        this.EspacosInicializacaoPontoVirgula = EspacosInicializacaoPontoVirgula;
+        this.EspacosPontoVirgulaCondicao = EspacosPontoVirgulaCondicao;
+        this.EspacosCondicaoPontoVirgula = EspacosCondicaoPontoVirgula;
+        this.EspacosPontoVirgulaIncrementacao = EspacosPontoVirgulaIncrementacao;
+        this.EspacosIncrementacaoParentesesFechado = EspacosIncrementacaoParentesesFechado;
+        this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
+        this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
+    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {

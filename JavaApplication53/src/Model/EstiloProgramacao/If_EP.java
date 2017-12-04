@@ -9,11 +9,21 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class If extends EstiloProgramacao
+public class If_EP 
 {
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroIf;
     private int EspacosIfParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+
+    public If_EP(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroIf, int EspacosIfParentesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.ChavetaUmStatementDentroIf = ChavetaUmStatementDentroIf;
+        this.EspacosIfParentesAberto = EspacosIfParentesAberto;
+        this.EspacosParentesesAbertoCondicao = EspacosParentesesAbertoCondicao;
+        this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
+        this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
+        this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
+    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {

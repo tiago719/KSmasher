@@ -9,11 +9,18 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class Else extends EstiloProgramacao
+public class Else_EP 
 {
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta,
         LinhasEmBrancoDepoisChavetaFechada;
+
+    public Else_EP(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoEntreIfElse, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.LinhasEmBrancoEntreIfElse = LinhasEmBrancoEntreIfElse;
+        this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
+        this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
+    }
 
     public boolean isPosicaoPrimeiraChaveta()
     {
