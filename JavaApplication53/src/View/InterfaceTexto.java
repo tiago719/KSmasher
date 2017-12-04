@@ -18,5 +18,6 @@ public class InterfaceTexto
     public InterfaceTexto(Controller C)
     {
         Controller=C;
+        //Controller.Analisa("main.c");
     }
 }

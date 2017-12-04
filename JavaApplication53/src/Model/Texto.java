@@ -46,7 +46,7 @@ public class Texto
     
     private boolean isOperador(char A[])
     {
-        if(A[0]=='+' || A[0]=='-' || A[0]=='*')
+        if(A[0]=='+' || A[0]=='-')
             return true;
         else if(A[0]=='/' && A[1]!='*')
             return true;
@@ -161,4 +161,18 @@ public class Texto
             }
         }
     }
+    
+    @Override
+    public String toString() 
+    { 
+        String S="";
+        for(int i=0;i<ListaStatements.size();i++)
+            S+=ListaStatements.get(i).toString();
+        return S;
+        
+        
+        
+        
+        
+    } 
 }
