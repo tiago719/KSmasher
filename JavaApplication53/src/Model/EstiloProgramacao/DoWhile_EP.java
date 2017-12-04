@@ -9,18 +9,19 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class While 
+public class DoWhile_EP
 {
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroWhile;
-    private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
-        EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+    private boolean PosicaoPrimeiraChaveta;
+    private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada, 
+            LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto, 
+            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
 
-    public While(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroWhile, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int EspacosWhileParentesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
+    public DoWhile_EP(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int LinhasEmBrancoEntreChavetaFechadaWhile, int EspacosWhileParentesesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
-        this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
         this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-        this.EspacosWhileParentesAberto = EspacosWhileParentesAberto;
+        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
+        this.EspacosWhileParentesesAberto = EspacosWhileParentesesAberto;
         this.EspacosParentesesAbertoCondicao = EspacosParentesesAbertoCondicao;
         this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
     }
@@ -33,16 +34,6 @@ public class While
     public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta)
     {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
-    }
-
-    public boolean isChavetaUmStatementDentroWhile()
-    {
-        return ChavetaUmStatementDentroWhile;
-    }
-
-    public void setChavetaUmStatementDentroWhile(boolean ChavetaUmStatementDentroWhile)
-    {
-        this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
     }
 
     public int getLinhasEmBrancoDepoisChavetaAberta()
@@ -65,14 +56,24 @@ public class While
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
 
-    public int getEspacosWhileParentesAberto()
+    public int getLinhasEmBrancoEntreChavetaFechadaWhile()
     {
-        return EspacosWhileParentesAberto;
+        return LinhasEmBrancoEntreChavetaFechadaWhile;
     }
 
-    public void setEspacosWhileParentesAberto(int EspacosWhileParentesAberto)
+    public void setLinhasEmBrancoEntreChavetaFechadaWhile(int LinhasEmBrancoEntreChavetaFechadaWhile)
     {
-        this.EspacosWhileParentesAberto = EspacosWhileParentesAberto;
+        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
+    }
+
+    public int getEspacosWhileParentesesAberto()
+    {
+        return EspacosWhileParentesesAberto;
+    }
+
+    public void setEspacosWhileParentesesAberto(int EspacosWhileParentesesAberto)
+    {
+        this.EspacosWhileParentesesAberto = EspacosWhileParentesesAberto;
     }
 
     public int getEspacosParentesesAbertoCondicao()

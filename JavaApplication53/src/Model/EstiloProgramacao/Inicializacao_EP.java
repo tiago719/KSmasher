@@ -9,11 +9,11 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class Inicializacao 
+public class Inicializacao_EP 
 {
     private int EspacosBrancoVariavelIgual, EspacosBrancoIgualValor;
 
-    public Inicializacao(int EspacosBrancoVariavelIgual, int EspacosBrancoIgualValor) {
+    public Inicializacao_EP(int EspacosBrancoVariavelIgual, int EspacosBrancoIgualValor) {
         this.EspacosBrancoVariavelIgual = EspacosBrancoVariavelIgual;
         this.EspacosBrancoIgualValor = EspacosBrancoIgualValor;
     }
