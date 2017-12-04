@@ -169,5 +169,10 @@ public class Texto
         for(int i=0;i<ListaStatements.size();i++)
             S+=ListaStatements.get(i).toString();
         return S;
+        
+        
+        
+        
+        
     } 
 }
