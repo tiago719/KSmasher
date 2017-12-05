@@ -5,10 +5,6 @@
  */
 package Model.Statement;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class Operador extends Statement
 {
     private int EspacosOperadorVariavel, EspacosVariavelOperador;
@@ -38,6 +34,11 @@ public class Operador extends Statement
         this.EspacosVariavelOperador = EspacosVariavelOperador;
     }
     
+    private int isOperador(String s)
+    {
+        for(int i=0;i<)
+    }
+    
     
     @Override
     public void analisaStatement()
@@ -51,20 +52,18 @@ public class Operador extends Statement
         {
             try
             {
-                if((c='+')==Statement.charAt(i) || (c='-')==Statement.charAt(i) || ((c='/')==Statement.charAt(i) && '*'!=Statement.charAt(i+1)))
-                {
+                if()
+                    int posicaoOperador=i;
                     if(Statement.charAt(i+1)=='+' || Statement.charAt(i+1)=='-')
                         i++;
                     
-                    int posicaoOperador=i;
                     while(Statement.charAt(++i)==' ')
                         EspacosOperadorVariavel++;
 
                     while(Statement.charAt(--posicaoOperador)==' ')
-                        EspacosOperadorVariavel++;
+                        EspacosVariavelOperador++;
 
                     break;
-                }
             }
             catch(Exception e)
             {

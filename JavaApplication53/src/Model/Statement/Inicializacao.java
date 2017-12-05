@@ -13,15 +13,35 @@ public class Inicializacao extends Statement {
 
     private int EspacosBrancoVariavelIgual, EspacosBrancoIgualValor;
     
-
     public Inicializacao()
     {
         
     }
     
     public Inicializacao(String Codigo) {
+        Statement=Codigo;
+    }
+
+    public int getEspacosBrancoVariavelIgual() {
+        return EspacosBrancoVariavelIgual;
+    }
+
+    public void setEspacosBrancoVariavelIgual(int EspacosBrancoVariavelIgual) {
+        this.EspacosBrancoVariavelIgual = EspacosBrancoVariavelIgual;
+    }
+
+    public int getEspacosBrancoIgualValor() {
+        return EspacosBrancoIgualValor;
+    }
+
+    public void setEspacosBrancoIgualValor(int EspacosBrancoIgualValor) {
+        this.EspacosBrancoIgualValor = EspacosBrancoIgualValor;
+    }
+
+    @Override
+    public void analisaStatement() {
         numCarateresCodigoStatment =0;
-        String aux = Codigo;
+        String aux = Statement;
         int Conta=0;
         EspacosBrancoVariavelIgual = 0;
         EspacosBrancoIgualValor = 0;
@@ -48,27 +68,6 @@ public class Inicializacao extends Statement {
             }
             numCarateresCodigoStatment++;
         }
-    }
-
-    public int getEspacosBrancoVariavelIgual() {
-        return EspacosBrancoVariavelIgual;
-    }
-
-    public void setEspacosBrancoVariavelIgual(int EspacosBrancoVariavelIgual) {
-        this.EspacosBrancoVariavelIgual = EspacosBrancoVariavelIgual;
-    }
-
-    public int getEspacosBrancoIgualValor() {
-        return EspacosBrancoIgualValor;
-    }
-
-    public void setEspacosBrancoIgualValor(int EspacosBrancoIgualValor) {
-        this.EspacosBrancoIgualValor = EspacosBrancoIgualValor;
-    }
-
-    @Override
-    public void analisaStatement() {
-
     }
 
     @Override
