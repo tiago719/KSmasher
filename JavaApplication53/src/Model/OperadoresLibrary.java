@@ -52,6 +52,7 @@ public class OperadoresLibrary
         OperadoresLibrary.put(key++, ",");
         OperadoresLibrary.put(key++, "?");
         OperadoresLibrary.put(key++, ":");
+        OperadoresLibrary.put(key++, "*");
     }
 
     public HashMap<Integer, String> getOperadoresLibrary()

@@ -34,12 +34,6 @@ public class Operador extends Statement
         this.EspacosVariavelOperador = EspacosVariavelOperador;
     }
     
-    private int isOperador(String s)
-    {
-        for(int i=0;i<)
-    }
-    
-    
     @Override
     public void analisaStatement()
     {
@@ -52,7 +46,6 @@ public class Operador extends Statement
         {
             try
             {
-                if()
                     int posicaoOperador=i;
                     if(Statement.charAt(i+1)=='+' || Statement.charAt(i+1)=='-')
                         i++;
