@@ -14,12 +14,31 @@ public class Texto {
     Utilizador Utilizador;//TODO:Falta meter aqui o otuilzador
     int ix;
     String Codigo;
+    private OperadoresLibrary OperadoresLibrary; 
     
-    public Texto(BufferedReader In)
+    public void fazMedia()
+    {
+        /*
+        ArrayList<Integer> EspacosOperadorVariavel=new ArrayList<Integer>();
+        ArrayList<Integer> EspacosVariavelOperador=new ArrayList<Integer>();
+        
+        for(int i=0;i<ListaStatements.size();i++)
+        {
+            if(ListaStatements.get(i) instanceof Operador)
+            {
+                Operador S=(Operador)ListaStatements.get(i);
+                EspacosOperadorVariavel.add(S.getEspacosOperadorVariavel());
+                EspacosVariavelOperador.add(S.getEspacosVariavelOperador());
+            }                
+        }*/
+    }
+    
+    public Texto(BufferedReader In,OperadoresLibrary o)
     {
         ListaStatements=new ArrayList<Statement>();
         ix=0;
         //In=Codigo;
+        OperadoresLibrary=o;
     }
 
     public void Regista() throws SQLException {
@@ -140,7 +159,7 @@ public class Texto {
         PriorityQueue<Integer> TotalCarateres = new PriorityQueue<>(Collections.reverseOrder());
         ArrayList<Statement> Pai = ListaStatements;
         boolean AspasAberto = false, PlicasAberto = false;
-
+/*
         for (; ix < Codigo.length(); ix++) {
             if (Codigo.charAt(ix) == '"') {
                 AspasAberto = !AspasAberto;
@@ -208,7 +227,7 @@ public class Texto {
                     Pai = ListaStatements;
                 }
             }
-        }
+        }*/
     }
 
     @Override

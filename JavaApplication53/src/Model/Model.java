@@ -5,24 +5,17 @@
  */
 package Model;
 
-import Model.Statement.*;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.PriorityQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class Model {
     private Texto Texto;
     private Utilizador Utilizador;
+    private OperadoresLibrary OperadoresLibrary; 
 
     public Model() 
     {
-        
+        OperadoresLibrary=new OperadoresLibrary();
     }   
     
     public void Regista()
@@ -46,9 +39,9 @@ public class Model {
         {
             return;
         }
-        Texto=new Texto(in);
+        Texto=new Texto(in, OperadoresLibrary);
         Texto.Cataloga();
-        System.out.println(Texto);
+        Texto.fazMedia();
     }
     
     public void Converte()
