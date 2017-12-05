@@ -28,7 +28,8 @@ public class InicializacaoTest
         lista.add(new Inicializacao("int a   =0;"));
         lista.add(new Inicializacao("int a   = 0;"));
 
-
+        for(int i=0;i<lista.size();i++)
+            lista.get(i).analisaStatement();
     }
     
     @BeforeClass
