@@ -19,10 +19,10 @@ public class Texto {
     BufferedReader TextoBR;
 
     public Texto() {
-        
+
     }
-    
-    public void ComecaCataloga(){
+
+    public void ComecaCataloga() {
         ListaStatements = Cataloga(Codigo);
     }
 
@@ -126,7 +126,25 @@ public class Texto {
         return ret;
     }
 
-    private boolean isOperador(char A[]) {
+    private boolean IsDoWhile(char a[]) {
+        boolean ret = false;
+        if (a[0] == 'd' && a[1] == 'o') {
+            ret = true;
+        }
+
+        return ret;
+    }
+
+    private boolean IsWhile(char a[]) {
+        boolean ret = false;
+        if (a[0] == 'w' && a[1] == 'h' && a[2] == 'i' && a[3] == 'l' && a[4] == 'e') {
+            ret = true;
+        }
+
+        return ret;
+    }
+
+    private boolean IsOperador(char A[]) {
         if (A[0] == '+' || A[0] == '-') {
             return true;
         } else if (A[0] == '/' && A[1] != '*') {
@@ -157,15 +175,44 @@ public class Texto {
         }
         return ret;
     }
-    
-    private boolean IsFUNCAO(String s) {
+
+    private boolean IsFuncao(String s) {
         boolean ret = false;
-        if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
+        boolean TemIgual = false, TemParenteses = false;
+
+        if (s.charAt(0) == ' ') {
+            return ret;
+        }
+
+        String q[] = s.substring(0, 18).split(" ");
+        for (String TipoDado : Constantes.TipoDados) {
+            if (TipoDado.contains(q[0])) {
+
+                OUTER:
+                for (int i = 0; i < s.length(); i++) {
+                    //TODO: se estiver dentro de plicas ou aspas faz continue
+                    switch (s.charAt(i)) {
+                        case ';':
+                        case '{':
+                            break OUTER;
+                        case '(':
+                            TemParenteses = true;
+                            break;
+                        case '=':
+                            TemIgual = true;
+                            break OUTER;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        if (!TemIgual && TemParenteses) {
             ret = true;
         }
+
         return ret;
     }
-
 //    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add) {
 //        fp.add(add.getStatmentsFilhos());
 //        tc.add(add.getNumCarateresCodigoStatment() + ix);
@@ -181,9 +228,14 @@ public class Texto {
                 add = new If(codigo.substring(ix), this);
             } else if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
                 add = new For(codigo.substring(ix), this);
-            }
-            else if (IsFUNCAO(codigo.substring(ix))){
-                
+            } else if (IsWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2), Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5)})) {
+                add = new While(codigo.substring(ix), this);
+            } else if (IsDoWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
+                add = new DoWhile(codigo.substring(ix), this);
+            } else if (IsFuncao(codigo.substring(ix))) {
+                add = new Funcao(codigo.substring(ix), this);
+            } else if (IsOperador(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
+                add = new Funcao(codigo.substring(ix), this);
             }
 
         }

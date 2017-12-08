@@ -13,7 +13,7 @@ public class If extends Statement {
     
     public If(String codigo, Texto t)
     {
-        super(codigo, t);
+        super(codigo, t, false);
     }
 
     @Override
@@ -52,7 +52,6 @@ public class If extends Statement {
             }
         }
         j--;
-        char a = Codigo.charAt(j);
         
         //retira espacos do fim condicao ate )
         for (; j >= 0; j--) {
@@ -61,7 +60,7 @@ public class If extends Statement {
             
         }
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
+        Condicao = new Statement(Codigo.substring(i, j+1), t, true);
         
         this.ParaAnalise = Codigo.substring(0, j+1);
         return Codigo.substring(j+1);

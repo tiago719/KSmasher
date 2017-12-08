@@ -5,6 +5,8 @@
  */
 package Model.Statement;
 
+import Model.Texto;
+
 /**
  *
  * @author Tiago Coutinho
@@ -17,11 +19,62 @@ public class While extends Statement
     
     private Statement Condicao;
     
-    public While()
+    public While(String codigo, Texto t)
     {
-        
+        super(codigo, t, false);
     }
-
+    
+    @Override
+    public String RetiraDados(String Codigo, Texto t){
+        int i, j;
+        
+        //retira espacos entre while e (
+        for (i = 5; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ')
+                break;
+        }
+        
+        i++;//fica depois do (
+        
+        //retira espacos ate condicao
+        for (; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ')
+                break;
+        }
+        
+        //procura fim do while
+        int numParentesesAbertos = 1;
+        boolean AspasAberto = false, PlicasAberto = false;
+        for (j = i; j < Codigo.length(); j++) {
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j-1) != '\\')
+                AspasAberto = !AspasAberto;
+            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j-1) != '\\')
+                PlicasAberto = !PlicasAberto;
+            
+            if (!AspasAberto && !PlicasAberto){
+                if (Codigo.charAt(j) == ')'){
+                    if (--numParentesesAbertos == 0){
+                        break;
+                    }
+                }
+            }
+        }
+        j--;
+        char a = Codigo.charAt(j);
+        
+        //retira espacos do fim condicao ate )
+        for (; j >= 0; j--) {
+            if (Codigo.charAt(j) != ' ')
+                break;
+            
+        }
+        
+        Condicao = new Statement(Codigo.substring(i, j+1), t, true);
+        
+        this.ParaAnalise = Codigo.substring(0, j+1);
+        return Codigo.substring(j+1);
+    }
+    
     public boolean isPosicaoPrimeiraChaveta()
     {
         return PosicaoPrimeiraChaveta;

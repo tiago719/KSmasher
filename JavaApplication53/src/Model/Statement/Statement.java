@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Statement
 {
     protected ArrayList<Statement> StatmentsFilhos;
-    protected ArrayList<Statement> StatmentsLinha;
     String ParaAnalise;
     String Codigo;
     
@@ -80,8 +79,5 @@ public class Statement
         return "";
     }
 
-    
-    
-    
     
 }
