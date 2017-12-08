@@ -23,7 +23,8 @@ public class KSmasher {
 //      InterfaceTexto Ui= new InterfaceTexto(new Controller());
         Texto t=new Texto("int a+b");
         t.ComecaCataloga();
-        
+        t.Analisa();
+              
     }
     
 }

@@ -23,6 +23,12 @@ public class Texto {
     public void ComecaCataloga() {
         ListaStatements = Cataloga(Codigo);
     }
+    
+    public void Analisa()//TODO:tirar esta funcao
+    {
+        for(Statement s : ListaStatements)
+            s.analisaStatement();
+    }
 
     public void fazMedia() {
         /*
