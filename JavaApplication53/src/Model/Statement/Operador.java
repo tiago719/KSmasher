@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Statement;
 
 public class Operador extends Statement
@@ -11,7 +6,7 @@ public class Operador extends Statement
     
     public Operador(String Statement)
     {
-        this.Statement=Statement;
+//        this.Statement=Statement;
     }
 
     public int getEspacosOperadorVariavel()
@@ -37,32 +32,32 @@ public class Operador extends Statement
     @Override
     public void analisaStatement()
     {
-        EspacosOperadorVariavel=0;
-        EspacosVariavelOperador=0;
-        int i=0;
-        char c;
-        
-        for(i=0;i<Statement.length();i++)
-        {
-            try
-            {
-                    int posicaoOperador=i;
-                    if(Statement.charAt(i+1)=='+' || Statement.charAt(i+1)=='-')
-                        i++;
-                    
-                    while(Statement.charAt(++i)==' ')
-                        EspacosOperadorVariavel++;
-
-                    while(Statement.charAt(--posicaoOperador)==' ')
-                        EspacosVariavelOperador++;
-
-                    break;
-            }
-            catch(Exception e)
-            {
-                
-            }
-        }
+//        EspacosOperadorVariavel=0;
+//        EspacosVariavelOperador=0;
+//        int i=0;
+//        char c;
+//        
+//        for(i=0;i<Statement.length();i++)
+//        {
+//            try
+//            {
+//                    int posicaoOperador=i;
+//                    if(Statement.charAt(i+1)=='+' || Statement.charAt(i+1)=='-')
+//                        i++;
+//                    
+//                    while(Statement.charAt(++i)==' ')
+//                        EspacosOperadorVariavel++;
+//
+//                    while(Statement.charAt(--posicaoOperador)==' ')
+//                        EspacosVariavelOperador++;
+//
+//                    break;
+//            }
+//            catch(Exception e)
+//            {
+//                
+//            }
+//        }
     }
     
     @Override

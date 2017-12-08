@@ -6,12 +6,7 @@
 package Model.Statement;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class Funcoes extends Statement
 {
     private boolean AntesMain;

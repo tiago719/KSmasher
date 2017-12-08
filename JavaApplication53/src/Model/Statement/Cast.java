@@ -15,7 +15,7 @@ public class Cast extends Statement
     
     public Cast(String Statement)
     {
-        this.Statement=Statement;
+//        this.Statement=Statement;
     }
 
     public int getEspacosEntreCastVariavel()

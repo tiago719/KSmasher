@@ -40,7 +40,7 @@ public class Model {
             return;
         }
         Texto=new Texto(in, OperadoresLibrary);
-        Texto.Cataloga();
+        //Texto.Cataloga();
         Texto.fazMedia();
     }
     

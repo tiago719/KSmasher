@@ -1,29 +1,58 @@
 package Model.Statement;
 
+import Model.Texto;
 import java.util.ArrayList;
 
 public class Statement
 {
-    protected ArrayList<Statement> ListaStatements;
-    protected String Statement;
-    protected int numComecar;//numero de carateres desde inicio do if ate onde comeca o codigo do if
-    protected int numCarateresCodigoStatment; //numer de carateres do codigo deste if, while, ... para saber quando acabou
+    protected ArrayList<Statement> StatmentsFilhos;
+    protected ArrayList<Statement> StatmentsLinha;
+    String ParaAnalise;
+    String Codigo;
     
-    public void setNumComecar(int numComecar) {
-        this.numComecar = numComecar;
+    
+//    protected int numComecar;//numero de carateres desde inicio do if ate onde comeca o codigo do if
+//    protected int numCarateresCodigoStatment; //numer de carateres do codigo deste if, while, ... para saber quando acabou
+    
+    public Statement(String Codigo, Texto t){
+        this.Codigo = Codigo;
+        this.ParaAnalise = Codigo;
+        String aux = RetiraDados(Codigo, t);
+        StatmentsFilhos = t.Cataloga(aux);
     }
 
-    public int getNumCarateresCodigoStatment() {
-        return numCarateresCodigoStatment;
+    public String getParaAnalise() {
+        return ParaAnalise;
     }
 
-    public int getNumComecar() {
-        return numComecar;
+    public void setParaAnalise(String ParaAnalise) {
+        this.ParaAnalise = ParaAnalise;
     }
+
+    public String getCodigo() {
+        return Codigo;
+    }
+
+    public void setCodigo(String Codigo) {
+        this.Codigo = Codigo;
+    }
+    
+    
+//    public void setNumComecar(int numComecar) {
+//        this.numComecar = numComecar;
+//    }
+//
+//    public int getNumCarateresCodigoStatment() {
+//        return numCarateresCodigoStatment;
+//    }
+//
+//    public int getNumComecar() {
+//        return numComecar;
+//    }
     
     public Statement()
     {
-        ListaStatements=new ArrayList<Statement>();
+        StatmentsFilhos=new ArrayList<Statement>();
     }
     
     public void analisaStatement()
@@ -36,13 +65,10 @@ public class Statement
         
     }
 
-    public ArrayList<Statement> getListaStatements() {
-        return ListaStatements;
+    public ArrayList<Statement> getStatmentsFilhos() {
+        return StatmentsFilhos;
     }
 
-    public void setStatement(String Statement) {
-        this.Statement = Statement;
-    }
 
     @Override
     public String toString()
@@ -50,9 +76,10 @@ public class Statement
         return super.toString();
     }
 
-    public String getStatement() {
-        return Statement;
+    public String RetiraDados(String codigo, Texto t ){
+        return "";
     }
+
     
     
     

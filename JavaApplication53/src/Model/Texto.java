@@ -10,14 +10,23 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 
 public class Texto {
+
     private ArrayList<Statement> ListaStatements;
     Utilizador Utilizador;//TODO:Falta meter aqui o otuilzador
     int ix;
     String Codigo;
-    private OperadoresLibrary OperadoresLibrary; 
+    private OperadoresLibrary OperadoresLibrary;
+    BufferedReader TextoBR;
+
+    public Texto() {
+        
+    }
     
-    public void fazMedia()
-    {
+    public void ComecaCataloga(){
+        ListaStatements = Cataloga(Codigo);
+    }
+
+    public void fazMedia() {
         /*
         ArrayList<Integer> EspacosOperadorVariavel=new ArrayList<Integer>();
         ArrayList<Integer> EspacosVariavelOperador=new ArrayList<Integer>();
@@ -32,13 +41,13 @@ public class Texto {
             }                
         }*/
     }
-    
-    public Texto(BufferedReader In,OperadoresLibrary o)
-    {
-        ListaStatements=new ArrayList<Statement>();
-        ix=0;
+
+    public Texto(BufferedReader In, OperadoresLibrary o) {
+        ListaStatements = new ArrayList<Statement>();
+        ix = 0;
         //In=Codigo;
-        OperadoresLibrary=o;
+        OperadoresLibrary = o;
+
     }
 
     public void Regista() throws SQLException {
@@ -70,14 +79,14 @@ public class Texto {
             } else {
                 Utilizador.AdicionaUtilizador(user, email, pass);
                 Utilizador.EstilosProgramacao.add(
-                        new EstiloProgramacao("EstiloDefeito", 
-                                new Cast_EP(1), 
-                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1), 
-                                new Else_EP(true, 1, 1, 1), 
-                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1), 
+                        new EstiloProgramacao("EstiloDefeito",
+                                new Cast_EP(1),
+                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
+                                new Else_EP(true, 1, 1, 1),
+                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
-                                new If_EP(true, false, 1, 1, 1, 1, 1), 
-                                new Inicializacao_EP(1, 1), new Operador_EP(1, 1), 
+                                new If_EP(true, false, 1, 1, 1, 1, 1),
+                                new Inicializacao_EP(1, 1), new Operador_EP(1, 1),
                                 new While_EP(true, false, 1, 1, 1, 1, 1))
                 );
                 System.out.println("Registo feito com sucesso");
@@ -109,7 +118,7 @@ public class Texto {
     }
 
     private boolean isIF(char a[]) {
-        boolean ret = true;
+        boolean ret = false;
         if (a[0] == 'i' && a[1] == 'f') {
             ret = true;
         }
@@ -148,88 +157,115 @@ public class Texto {
         }
         return ret;
     }
-
-    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add) {
-        fp.add(add.getListaStatements());
-        tc.add(add.getNumCarateresCodigoStatment() + ix);
+    
+    private boolean IsFUNCAO(String s) {
+        boolean ret = false;
+        if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
+            ret = true;
+        }
+        return ret;
     }
 
-    public void Cataloga() {
-        PriorityQueue<ArrayList<Statement>> filaPais = new PriorityQueue<>(Collections.reverseOrder());
-        PriorityQueue<Integer> TotalCarateres = new PriorityQueue<>(Collections.reverseOrder());
-        ArrayList<Statement> Pai = ListaStatements;
-        boolean AspasAberto = false, PlicasAberto = false;
-/*
-        for (; ix < Codigo.length(); ix++) {
-            if (Codigo.charAt(ix) == '"') {
-                AspasAberto = !AspasAberto;
-            } else if (Codigo.charAt(ix) == '\'') {
-                PlicasAberto = !PlicasAberto;
-            } else if (!AspasAberto && !PlicasAberto) {
-                try {
-                    if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                        If add = new If(Codigo.substring(ix));
-                        Pai.add(add);
+//    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add) {
+//        fp.add(add.getStatmentsFilhos());
+//        tc.add(add.getNumCarateresCodigoStatment() + ix);
+//    }
 
-                        ix += add.getNumComecar();//para comecar a ler depois do if
+    public ArrayList<Statement> Cataloga(String codigo) {
+        ArrayList<Statement> novo = new ArrayList<>();
+        Statement add = null;
 
-                        AdicionaNovoPai(filaPais, TotalCarateres, add);
+        for (; ix < codigo.length(); ix++) {
 
-                    }
-                    if (isOperador(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                        //Operador add = new Operador();
-                        char a = 'a';
-
-                        while (a != ';') {
-                            if (ix + 1 < Codigo.length()) {
-                                a = Codigo.charAt(++ix);
-                            } else {
-                                break;
-                            }
-                        }
-
-                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
-                    }
-                    if (isCast(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2),
-                        Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5), Codigo.charAt(ix + 6),
-                        Codigo.charAt(ix + 7)})) {
-                        //Cast add = new Cast();
-
-                        char a = 'a';
-
-                        while (a != ';') {
-                            if (ix + 1 < Codigo.length()) {
-                                a = Codigo.charAt(++ix);
-                            } else {
-                                break;
-                            }
-                        }
-
-                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
-                    }
-                    if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
-                        For add = new For(Codigo.substring(ix));
-                        Pai.add(add);
-
-                        ix += add.getNumComecar();//para comecar a ler depois do if
-
-                        AdicionaNovoPai(filaPais, TotalCarateres, add);
-                    }
-                } catch (Exception e) {
-
-                }
+            if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
+                add = new If(codigo.substring(ix), this);
+            } else if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
+                add = new For(codigo.substring(ix), this);
             }
-            if (TotalCarateres.peek() != null && TotalCarateres.peek() == ix) {
-                TotalCarateres.remove();
-                if (filaPais.peek() != ListaStatements) {
-                    Pai = filaPais.remove();
-                } else {
-                    Pai = ListaStatements;
-                }
+            else if (IsFUNCAO(codigo.substring(ix))){
+                
             }
-        }*/
+
+        }
+        novo.add(add);
+        return novo;
     }
 
+//    public void Cataloga(String ) {
+//        PriorityQueue<ArrayList<Statement>> filaPais = new PriorityQueue<>(Collections.reverseOrder());
+//        PriorityQueue<Integer> TotalCarateres = new PriorityQueue<>(Collections.reverseOrder());
+//        ArrayList<Statement> Pai = this.ListaStatements;
+//        boolean AspasAberto = false, PlicasAberto = false;
+//
+//        for (; ix < Codigo.length(); ix++) {
+//            if (Codigo.charAt(ix) == '"') {
+//                AspasAberto = !AspasAberto;
+//            } else if (Codigo.charAt(ix) == '\'') {
+//                PlicasAberto = !PlicasAberto;
+//            } else if (!AspasAberto && !PlicasAberto) {
+//                try {
+//                    if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
+//                        If add = new If(Codigo.substring(ix));
+//                        Pai.add(add);
+//
+//                        ix += add.getNumComecar();//para comecar a ler depois do if
+//
+//                        AdicionaNovoPai(filaPais, TotalCarateres, add);
+//
+//                    }
+//                    if (isOperador(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
+//                        //Operador add = new Operador();
+//                        char a = 'a';
+//
+//                        while (a != ';') {
+//                            if (ix + 1 < Codigo.length()) {
+//                                a = Codigo.charAt(++ix);
+//                            } else {
+//                                break;
+//                            }
+//                        }
+//
+//                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
+//                    }
+//                    if (isCast(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2),
+//                        Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5), Codigo.charAt(ix + 6),
+//                        Codigo.charAt(ix + 7)})) {
+//                        //Cast add = new Cast();
+//
+//                        char a = 'a';
+//
+//                        while (a != ';') {
+//                            if (ix + 1 < Codigo.length()) {
+//                                a = Codigo.charAt(++ix);
+//                            } else {
+//                                break;
+//                            }
+//                        }
+//
+//                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
+//                    }
+//                    if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
+//                        For add = new For(Codigo.substring(ix));
+//                        Pai.add(add);
+//
+//                        ix += add.getNumComecar();//para comecar a ler depois do if
+//
+//                        AdicionaNovoPai(filaPais, TotalCarateres, add);
+//                    }
+//                } catch (Exception e) {
+//
+//                }
+//            }
+//            if (TotalCarateres.peek() != null && TotalCarateres.peek() == ix) {
+//                TotalCarateres.remove();
+//                if (filaPais.peek() != ListaStatements) {
+//                    Pai = filaPais.remove();
+//                } else {
+//                    Pai = ListaStatements;
+//                }
+//            }
+//        }
+//    }
     @Override
     public String toString() {
         String S = "";
