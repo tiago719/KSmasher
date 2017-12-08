@@ -1,5 +1,6 @@
 package Model.Statement;
 
+import Model.Constantes;
 import Model.Texto;
 
 public class Operador extends Statement {
@@ -49,35 +50,44 @@ public class Operador extends Statement {
     public void setEspacosVariavelOperador(int EspacosVariavelOperador) {
         this.EspacosVariavelOperador = EspacosVariavelOperador;
     }
+    
+    private boolean isOperador(String Linha)
+    {
+        for(String s : Constantes.Operadores)
+            if(Linha.contains(s))
+                return true;
+        return false;
+    }
 
     @Override
     public void analisaStatement() {
-//        EspacosOperadorVariavel=0;
-//        EspacosVariavelOperador=0;
-//        int i=0;
-//        char c;
-//        
-//        for(i=0;i<Statement.length();i++)
-//        {
-//            try
-//            {
-//                    int posicaoOperador=i;
-//                    if(Statement.charAt(i+1)=='+' || Statement.charAt(i+1)=='-')
-//                        i++;
-//                    
-//                    while(Statement.charAt(++i)==' ')
-//                        EspacosOperadorVariavel++;
-//
-//                    while(Statement.charAt(--posicaoOperador)==' ')
-//                        EspacosVariavelOperador++;
-//
-//                    break;
-//            }
-//            catch(Exception e)
-//            {
-//                
-//            }
-//        }
+        EspacosOperadorVariavel=0;
+        EspacosVariavelOperador=0;
+        int i;
+        
+        for(i=0;i<ParaAnalise.length();i++)
+        {
+            try
+            {
+                int posicaoOperador=i;
+                if(!isOperador(ParaAnalise))
+                    continue;
+
+                while(ParaAnalise.charAt(++i)!=' ')
+                    
+                while(ParaAnalise.charAt(++i)==' ')
+                    EspacosOperadorVariavel++;
+
+                while(ParaAnalise.charAt(--posicaoOperador)==' ')
+                    EspacosVariavelOperador++;
+
+                break;
+            }
+            catch(Exception e)
+            {
+                
+            }
+        }
     }
 
     @Override

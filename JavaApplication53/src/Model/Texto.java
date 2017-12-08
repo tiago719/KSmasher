@@ -16,8 +16,8 @@ public class Texto {
     private OperadoresLibrary OperadoresLibrary;
     BufferedReader TextoBR;
 
-    public Texto() {
-
+    public Texto(String Codigo) {
+        this.Codigo=Codigo;
     }
 
     public void ComecaCataloga() {
@@ -146,13 +146,10 @@ public class Texto {
         if (s.charAt(0) == ' ') {
             return false;
         }
-
-        String q[] = s.substring(0, 3).split(" ");
-        for (String TipoDado : Constantes.Operadores) {
-            if (TipoDado.contains(q[0])) {
+        
+        for(String operador : Constantes.Operadores)
+            if(s.contains(operador))
                 return true;
-            }
-        }
         return false;
     }
 
@@ -222,25 +219,70 @@ public class Texto {
         int ixUltimoCarater = 0;
 
         for (; ix < codigo.length(); ix++) {
-            if (Codigo.charAt(ix) != ' ') {
+            if (codigo.charAt(ix) != ' ') {
                 ixUltimoCarater = ix;
             }
-            if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                Add = new If(codigo.substring(ix), this);
-            } else if (IsFor(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
-                Add = new For(codigo.substring(ix), this);
-            } else if (IsWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2), Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5)})) {
-                Add = new While(codigo.substring(ix), this);
-            } else if (IsDoWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                Add = new DoWhile(codigo.substring(ix), this);
-            } else if (IsFuncao(codigo.substring(ix))) {
-                Add = new Funcao(codigo.substring(ix), this);
-            } else if (IsOperador(codigo.substring(ix))) {
-                Add = new Operador(codigo.substring(ixUltimoCarater), this);
-            } else if (IsCast(codigo.substring(ix))) {
-                Add = new Cast(codigo.substring(ixUltimoCarater), this);
+            try
+            {
+                if (isIF(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
+                    Add = new If(codigo.substring(ix), this);
+                    break;
+                } 
             }
-
+            catch(Exception e){}
+            try
+            {
+                if (IsFor(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2)})) {
+                    Add = new For(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+                
+            try
+            {
+                if (IsWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2), codigo.charAt(ix + 3), codigo.charAt(ix + 4), codigo.charAt(ix + 5)})) {
+                    Add = new While(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+            
+            try
+            {
+                if (IsDoWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
+                    Add = new DoWhile(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+                
+            try
+            {
+                if (IsFuncao(codigo.substring(ix))) {
+                    Add = new Funcao(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+            
+            try
+            {
+                if (IsOperador(codigo.substring(ix))) {
+                    Add = new Operador(codigo.substring(ixUltimoCarater), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+            
+            try
+            {
+                if (IsCast(codigo.substring(ix))) {
+                    Add = new Cast(codigo.substring(ixUltimoCarater), this);
+                    break;
+                }
+            }
+            catch(Exception e){}
         }
         Novo.add(Add);
         return Novo;

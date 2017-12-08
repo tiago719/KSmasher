@@ -8,10 +8,12 @@ public class Statement
     protected ArrayList<Statement> StatmentsFilhos;
     String ParaAnalise;
     String Codigo;
+    Texto Texto;
     
     public Statement(String Codigo, Texto t){
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
+        Texto=t;
         String aux = RetiraDados(Codigo, t);
         StatmentsFilhos = t.Cataloga(aux);
     }
