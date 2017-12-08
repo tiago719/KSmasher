@@ -83,7 +83,7 @@ public class Texto {
                                 new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
                                 new If_EP(true, false, 1, 1, 1, 1, 1),
-                                new Inicializacao_EP(1, 1), new Operador_EP(1, 1),
+                                new Operador_EP(1, 1),
                                 new While_EP(true, false, 1, 1, 1, 1, 1))
                 );
                 System.out.println("Registo feito com sucesso");

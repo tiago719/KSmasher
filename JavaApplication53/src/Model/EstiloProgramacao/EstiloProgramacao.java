@@ -18,11 +18,10 @@ public class EstiloProgramacao
     private For_EP fors;
     private Funcoes_EP funcoes;
     private If_EP ifs;
-    private Inicializacao_EP inicializacao;
     private Operador_EP operador;
     private While_EP whiles;
 
-    public EstiloProgramacao(String nome, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Inicializacao_EP inicializacao, Operador_EP operador, While_EP whiles) {
+    public EstiloProgramacao(String nome, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Operador_EP operador, While_EP whiles) {
         this.nome = nome;
         this.cast = cast;
         this.dowhile = dowhile;
@@ -30,13 +29,8 @@ public class EstiloProgramacao
         this.fors = fors;
         this.funcoes = funcoes;
         this.ifs = ifs;
-        this.inicializacao = inicializacao;
         this.operador = operador;
         this.whiles = whiles;
-    }
-    
-    public EstiloProgramacao(){
-        
     }
 
     public String getNome() {
@@ -95,14 +89,6 @@ public class EstiloProgramacao
         this.ifs = ifs;
     }
 
-    public Inicializacao_EP getInicializacao() {
-        return inicializacao;
-    }
-
-    public void setInicializacao(Inicializacao_EP inicializacao) {
-        this.inicializacao = inicializacao;
-    }
-
     public Operador_EP getOperador() {
         return operador;
     }
@@ -118,6 +104,4 @@ public class EstiloProgramacao
     public void setWhiles(While_EP whiles) {
         this.whiles = whiles;
     }
-    
-    
 }

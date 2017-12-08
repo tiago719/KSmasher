@@ -60,7 +60,5 @@ public class Else_EP
     public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada)
     {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-    }
-    
-    
+    }   
 }

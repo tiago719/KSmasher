@@ -139,7 +139,5 @@ public class For_EP
     public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada)
     {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-    }
-    
-    
+    }   
 }
