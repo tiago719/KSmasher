@@ -5,6 +5,8 @@
  */
 package Model.Statement;
 
+import Model.Texto;
+
 /**
  *
  * @author Tiago Coutinho
@@ -14,9 +16,15 @@ public class Else extends Statement
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
-    public Else(String codigo)
+    public Else(String codigo, Texto t)
     {
-        
+        super(codigo, t);
+    }
+    
+     @Override
+    public String RetiraDados(String Codigo, Texto t){
+        //TODO
+        return Codigo;
     }
             
     public boolean isPosicaoPrimeiraChaveta()

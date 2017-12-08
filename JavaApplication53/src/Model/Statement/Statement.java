@@ -9,10 +9,6 @@ public class Statement
     String ParaAnalise;
     String Codigo;
     
-    
-//    protected int numComecar;//numero de carateres desde inicio do if ate onde comeca o codigo do if
-//    protected int numCarateresCodigoStatment; //numer de carateres do codigo deste if, while, ... para saber quando acabou
-    
     public Statement(String Codigo, Texto t){
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
@@ -35,19 +31,6 @@ public class Statement
     public void setCodigo(String Codigo) {
         this.Codigo = Codigo;
     }
-    
-    
-//    public void setNumComecar(int numComecar) {
-//        this.numComecar = numComecar;
-//    }
-//
-//    public int getNumCarateresCodigoStatment() {
-//        return numCarateresCodigoStatment;
-//    }
-//
-//    public int getNumComecar() {
-//        return numComecar;
-//    }
     
     public Statement()
     {

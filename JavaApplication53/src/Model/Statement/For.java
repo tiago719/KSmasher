@@ -13,7 +13,7 @@ public class For extends Statement {
     private Statement PInicializacao, Condicao, Incrementacao;
 
     public For(String codigo, Texto t) {
-        super(codigo, t, false);
+        super(codigo, t);
 
     }
 
@@ -284,7 +284,7 @@ public class For extends Statement {
             }
         }
 
-        PInicializacao = new Statement(Codigo.substring(j + 1), t, true);
+        PInicializacao = new Statement(Codigo.substring(j + 1), t);
 
 
         //retirar espacos entre Inicializacao; ate condicao
@@ -310,7 +310,7 @@ public class For extends Statement {
             }
         }
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t, true);
+        Condicao = new Statement(Codigo.substring(i, j+1), t);
         
         
         //retirar espacos entre Condicao; ate incrementacao
@@ -337,7 +337,7 @@ public class For extends Statement {
             }
         }
         
-        Incrementacao = new Statement(Codigo.substring(i, j+1), t, true);
+        Incrementacao = new Statement(Codigo.substring(i, j+1), t);
         
 
         return Codigo.substring(j+1);
