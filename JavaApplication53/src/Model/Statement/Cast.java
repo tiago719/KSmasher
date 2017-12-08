@@ -5,6 +5,8 @@
  */
 package Model.Statement;
 
+import Model.Texto;
+
 /**
  *
  * @author Tiago Coutinho
@@ -13,9 +15,30 @@ public class Cast extends Statement
 {
     private int EspacosEntreCastVariavel;
     
-    public Cast(String Statement)
-    {
-        this.Statement=Statement;
+    public Cast(String codigo, Texto t) {
+        super(codigo, t);
+    }
+    
+    @Override
+    public String RetiraDados(String Codigo, Texto t) {
+        int i, j, k;
+
+        for (i = 0; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) == ')') {
+                break;
+            }
+        }
+        i++;
+        for (j = i; j < Codigo.length(); j++) {
+            if (Codigo.charAt(i) != ' ') {
+                break;
+            }
+        }
+        j++;
+        
+        this.Codigo = Codigo.substring(0, i);
+        this.ParaAnalise = Codigo.substring(0, j);
+        return Codigo.substring(i);
     }
 
     public int getEspacosEntreCastVariavel()

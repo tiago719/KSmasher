@@ -23,15 +23,15 @@ public class OperadorTest
     public OperadorTest()
     {
         lista=new ArrayList<>();
-        lista.add(new Operador("int a/  b  ;"));
-        lista.add(new Operador("int a +b;"));
-        lista.add(new Operador("int a  +b;"));
-        lista.add(new Operador("int a     + b;"));
-        lista.add(new Operador("int a   +     b;"));
-        lista.add(new Operador("int a/  ;"));
-        lista.add(new Operador("int   a   ++    ;"));
-        lista.add(new Operador("int a+ b   + c;"));
-        lista.add(new Operador("int a/ "));
+//        lista.add(new Operador("int a/  b  ;"));
+//        lista.add(new Operador("int a +b;"));
+//        lista.add(new Operador("int a  +b;"));
+//        lista.add(new Operador("int a     + b;"));
+//        lista.add(new Operador("int a   +     b;"));
+//        lista.add(new Operador("int a/  ;"));
+//        lista.add(new Operador("int   a   ++    ;"));
+//        lista.add(new Operador("int a+ b   + c;"));
+//        lista.add(new Operador("int a/ "));
         
 
         

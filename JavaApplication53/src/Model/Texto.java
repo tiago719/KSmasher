@@ -6,18 +6,25 @@ import java.sql.SQLException;
 import Model.Statement.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Collections;
-import java.util.PriorityQueue;
 
 public class Texto {
+
     private ArrayList<Statement> ListaStatements;
     Utilizador Utilizador;//TODO:Falta meter aqui o otuilzador
     int ix;
     String Codigo;
-    private OperadoresLibrary OperadoresLibrary; 
-    
-    public void fazMedia()
-    {
+    private OperadoresLibrary OperadoresLibrary;
+    BufferedReader TextoBR;
+
+    public Texto() {
+
+    }
+
+    public void ComecaCataloga() {
+        ListaStatements = Cataloga(Codigo);
+    }
+
+    public void fazMedia() {
         /*
         ArrayList<Integer> EspacosOperadorVariavel=new ArrayList<Integer>();
         ArrayList<Integer> EspacosVariavelOperador=new ArrayList<Integer>();
@@ -32,13 +39,12 @@ public class Texto {
             }                
         }*/
     }
-    
-    public Texto(BufferedReader In,OperadoresLibrary o)
-    {
-        ListaStatements=new ArrayList<Statement>();
-        ix=0;
-        //In=Codigo;
-        OperadoresLibrary=o;
+
+    public Texto(BufferedReader In, OperadoresLibrary o) {
+        ListaStatements = new ArrayList<Statement>();
+        ix = 0;
+        TextoBR = In;
+        OperadoresLibrary = o;
     }
 
     public void Regista() throws SQLException {
@@ -70,14 +76,14 @@ public class Texto {
             } else {
                 Utilizador.AdicionaUtilizador(user, email, pass);
                 Utilizador.EstilosProgramacao.add(
-                        new EstiloProgramacao("EstiloDefeito", 
-                                new Cast_EP(1), 
-                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1), 
-                                new Else_EP(true, 1, 1, 1), 
-                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1), 
+                        new EstiloProgramacao("EstiloDefeito",
+                                new Cast_EP(1),
+                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
+                                new Else_EP(true, 1, 1, 1),
+                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
-                                new If_EP(true, false, 1, 1, 1, 1, 1), 
-                                new Inicializacao_EP(1, 1), new Operador_EP(1, 1), 
+                                new If_EP(true, false, 1, 1, 1, 1, 1),
+                                new Inicializacao_EP(1, 1), new Operador_EP(1, 1),
                                 new While_EP(true, false, 1, 1, 1, 1, 1))
                 );
                 System.out.println("Registo feito com sucesso");
@@ -109,7 +115,7 @@ public class Texto {
     }
 
     private boolean isIF(char a[]) {
-        boolean ret = true;
+        boolean ret = false;
         if (a[0] == 'i' && a[1] == 'f') {
             ret = true;
         }
@@ -117,31 +123,55 @@ public class Texto {
         return ret;
     }
 
-    private boolean isOperador(char A[]) {
-        if (A[0] == '+' || A[0] == '-') {
-            return true;
-        } else if (A[0] == '/' && A[1] != '*') {
-            return true;
+    private boolean IsDoWhile(char a[]) {
+        boolean ret = false;
+        if (a[0] == 'd' && a[1] == 'o') {
+            ret = true;
         }
 
+        return ret;
+    }
+
+    private boolean IsWhile(char a[]) {
+        boolean ret = false;
+        if (a[0] == 'w' && a[1] == 'h' && a[2] == 'i' && a[3] == 'l' && a[4] == 'e') {
+            ret = true;
+        }
+
+        return ret;
+    }
+
+    private boolean IsOperador(String s) {
+
+        if (s.charAt(0) == ' ') {
+            return false;
+        }
+
+        String q[] = s.substring(0, 3).split(" ");
+        for (String TipoDado : Constantes.Operadores) {
+            if (TipoDado.contains(q[0])) {
+                return true;
+            }
+        }
         return false;
     }
 
-    private boolean isCast(char A[]) {
-        if (A[0] == '(' && A[1] == 'i' && A[2] == 'n' && A[3] == 't' && A[4] == ')') {
-            return true;
-        } else if (A[0] == '(' && A[1] == 'f' && A[2] == 'l' && A[3] == 'o' && A[4] == 'a' && A[5] == 't' && A[6] == ')') {
-            return true;
-        } else if (A[0] == '(' && A[1] == 'd' && A[2] == 'o' && A[3] == 'u' && A[4] == 'b' && A[5] == 'l' && A[6] == 'e' && A[7] == ')') {
-            return true;
-        } else if (A[0] == '(' && A[1] == 'c' && A[2] == 'h' && A[3] == 'a' && A[4] == 'r' && A[4] == ')') {
-            return true;
+    private boolean IsCast(String s) {
+
+        if (s.charAt(0) != '(') {
+            return false;
         }
 
+        String aux = s.substring(0, 18);
+        for (String TipoDado : Constantes.Operadores) {
+            if (TipoDado.contains(aux)) {
+                return true;
+            }
+        }
         return false;
     }
 
-    private boolean IsFOR(char a[]) {
+    private boolean IsFor(char a[]) {
         boolean ret = false;
         if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
             ret = true;
@@ -149,85 +179,71 @@ public class Texto {
         return ret;
     }
 
-    public void AdicionaNovoPai(PriorityQueue<ArrayList<Statement>> fp, PriorityQueue<Integer> tc, Statement add) {
-        fp.add(add.getListaStatements());
-        tc.add(add.getNumCarateresCodigoStatment() + ix);
+    private boolean IsFuncao(String s) {
+        boolean ret = false;
+        boolean TemIgual = false, TemParenteses = false;
+
+        if (s.charAt(0) == ' ') {
+            return ret;
+        }
+
+        String q[] = s.substring(0, 18).split(" ");
+        for (String TipoDado : Constantes.TipoDados) {
+            if (TipoDado.contains(q[0])) {
+
+                OUTER:
+                for (int i = 0; i < s.length(); i++) {
+                    switch (s.charAt(i)) {
+                        case ';':
+                        case '{':
+                            break OUTER;
+                        case '(':
+                            TemParenteses = true;
+                            break;
+                        case '=':
+                            TemIgual = true;
+                            break OUTER;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        if (!TemIgual && TemParenteses) {
+            ret = true;
+        }
+
+        return ret;
     }
 
-    public void Cataloga() {
-        PriorityQueue<ArrayList<Statement>> filaPais = new PriorityQueue<>(Collections.reverseOrder());
-        PriorityQueue<Integer> TotalCarateres = new PriorityQueue<>(Collections.reverseOrder());
-        ArrayList<Statement> Pai = ListaStatements;
-        boolean AspasAberto = false, PlicasAberto = false;
-/*
-        for (; ix < Codigo.length(); ix++) {
-            if (Codigo.charAt(ix) == '"') {
-                AspasAberto = !AspasAberto;
-            } else if (Codigo.charAt(ix) == '\'') {
-                PlicasAberto = !PlicasAberto;
-            } else if (!AspasAberto && !PlicasAberto) {
-                try {
-                    if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                        If add = new If(Codigo.substring(ix));
-                        Pai.add(add);
+    public ArrayList<Statement> Cataloga(String codigo) {
+        ArrayList<Statement> Novo = new ArrayList<>();
+        Statement Add = null;
+        int ixUltimoCarater = 0;
 
-                        ix += add.getNumComecar();//para comecar a ler depois do if
-
-                        AdicionaNovoPai(filaPais, TotalCarateres, add);
-
-                    }
-                    if (isOperador(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                        //Operador add = new Operador();
-                        char a = 'a';
-
-                        while (a != ';') {
-                            if (ix + 1 < Codigo.length()) {
-                                a = Codigo.charAt(++ix);
-                            } else {
-                                break;
-                            }
-                        }
-
-                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
-                    }
-                    if (isCast(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2),
-                        Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5), Codigo.charAt(ix + 6),
-                        Codigo.charAt(ix + 7)})) {
-                        //Cast add = new Cast();
-
-                        char a = 'a';
-
-                        while (a != ';') {
-                            if (ix + 1 < Codigo.length()) {
-                                a = Codigo.charAt(++ix);
-                            } else {
-                                break;
-                            }
-                        }
-
-                        //AdicionaNovoPai(filaPais, TotalCarateres, add);
-                    }
-                    if (IsFOR(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
-                        For add = new For(Codigo.substring(ix));
-                        Pai.add(add);
-
-                        ix += add.getNumComecar();//para comecar a ler depois do if
-
-                        AdicionaNovoPai(filaPais, TotalCarateres, add);
-                    }
-                } catch (Exception e) {
-
-                }
+        for (; ix < codigo.length(); ix++) {
+            if (Codigo.charAt(ix) != ' ') {
+                ixUltimoCarater = ix;
             }
-            if (TotalCarateres.peek() != null && TotalCarateres.peek() == ix) {
-                TotalCarateres.remove();
-                if (filaPais.peek() != ListaStatements) {
-                    Pai = filaPais.remove();
-                } else {
-                    Pai = ListaStatements;
-                }
+            if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
+                Add = new If(codigo.substring(ix), this);
+            } else if (IsFor(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
+                Add = new For(codigo.substring(ix), this);
+            } else if (IsWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2), Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5)})) {
+                Add = new While(codigo.substring(ix), this);
+            } else if (IsDoWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
+                Add = new DoWhile(codigo.substring(ix), this);
+            } else if (IsFuncao(codigo.substring(ix))) {
+                Add = new Funcao(codigo.substring(ix), this);
+            } else if (IsOperador(codigo.substring(ix))) {
+                Add = new Operador(codigo.substring(ixUltimoCarater), this);
+            } else if (IsCast(codigo.substring(ix))) {
+                Add = new Cast(codigo.substring(ixUltimoCarater), this);
             }
-        }*/
+
+        }
+        Novo.add(Add);
+        return Novo;
     }
 
     @Override
