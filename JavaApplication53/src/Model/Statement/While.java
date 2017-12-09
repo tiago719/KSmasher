@@ -148,7 +148,10 @@ public class While extends Statement
     @Override
     public void analisaStatement()
     {
-        
+        for(int i=0;i<ParaAnalise.length();i++)
+        {
+            if(isWhile())
+        }
     }
     
     @Override
