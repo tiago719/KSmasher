@@ -284,7 +284,7 @@ public class For extends Statement {
             }
         }
 
-        PInicializacao = new Statement(Codigo.substring(j + 1), t);
+        PInicializacao = new Statement(Codigo.substring(i, j + 1), t);
 
 
         //retirar espacos entre Inicializacao; ate condicao

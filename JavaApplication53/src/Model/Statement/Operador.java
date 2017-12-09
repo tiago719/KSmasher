@@ -53,7 +53,7 @@ public class Operador extends Statement {
     
     private boolean isOperador(String Linha)
     {
-        for(String s : Constantes.Operadores)
+        for(String s : Constantes.OPERADORES)
             if(Linha.contains(s))
                 return true;
         return false;

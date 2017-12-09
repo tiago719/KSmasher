@@ -10,12 +10,12 @@ public class Statement
     String Codigo;
     Texto Texto;
     
-    public Statement(String Codigo, Texto t){
+    public Statement(String Codigo, Texto T){
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
-        Texto=t;
-        String aux = RetiraDados(Codigo, t);
-        StatmentsFilhos = t.Cataloga(aux);
+        Texto=T;
+        String Aux = RetiraDados(Codigo, T);
+        StatmentsFilhos = T.Cataloga(Aux);
     }
     
     public boolean hasFilhos()
@@ -65,8 +65,9 @@ public class Statement
         return super.toString();
     }
 
-    public String RetiraDados(String codigo, Texto t ){
-        return "";
+    //Metedo a ser usado pelos filhos de statment (Override)
+    public String RetiraDados(String Codigo, Texto T ){
+        return ParaAnalise;
     }
 
     

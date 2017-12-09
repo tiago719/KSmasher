@@ -1,68 +1,69 @@
 package Model;
 
-import Model.EstiloProgramacao.*;
 import java.io.BufferedReader;
-import java.sql.SQLException;
 import Model.Statement.*;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Texto {
 
     private ArrayList<Statement> ListaStatements;
-    int ix;
+    int Ix;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
-    
+
+    /**
+     * Para Analizar
+     *
+     * @param In
+     */
     public Texto(BufferedReader In) {
         ListaStatements = new ArrayList<Statement>();
-        ix = 0;
+        Ix = 0;
         TextoBR = In;
     }
-    
+
+    /**
+     * Para Converter
+     *
+     * @param Out
+     */
     public Texto(BufferedWriter Out) {
         ListaStatements = new ArrayList<Statement>();
-        ix = 0;
+        Ix = 0;
         TextoBW = Out;
     }
 
-    public void ComecaCataloga() 
-    {
+    public void ComecaCataloga() {
         //TODO:Passar o IN ou OUT para string
         //ListaStatements = Cataloga(Codigo);
     }
-    
-    public void ComecaAnalisa()
-    {
+
+    public void ComecaAnalisa() {
         Analisa(ListaStatements);
     }
-    
-    private void Analisa(ArrayList<Statement> Lista)
-    {
-        for(Statement s : Lista)
-        {
-            if(s.hasFilhos())
+
+    private void Analisa(ArrayList<Statement> Lista) {
+        for (Statement s : Lista) {
+            if (s.hasFilhos()) {
                 Analisa(s.getStatmentsFilhos());
-            else
+            } else {
                 s.analisaStatement();
+            }
         }
     }
-    
-    public void ComecaConverte()
-    {
+
+    public void ComecaConverte() {
         Converte(ListaStatements);
     }
-    
-    private void Converte(ArrayList<Statement> Lista)
-    {
-        for(Statement s : Lista)
-        {
-            if(s.hasFilhos())
-                Converte(s.getStatmentsFilhos());
-            else
-                s.analisaStatement();
+
+    private void Converte(ArrayList<Statement> Lista) {
+        for (Statement S : Lista) {
+            if (S.hasFilhos()) {
+                Converte(S.getStatmentsFilhos());
+            } else {
+                S.analisaStatement();
+            }
         }
     }
 
@@ -82,57 +83,55 @@ public class Texto {
         }*/
     }
 
-    public ArrayList<Statement> getListaStatements() {
-        return ListaStatements;
-    }
-
-    private boolean isIF(char a[]) {
-        boolean ret = false;
-        if (a[0] == 'i' && a[1] == 'f') {
-            ret = true;
+    private boolean isIF(char A[]) {
+        boolean Ret = false;
+        if (A[0] == 'i' && A[1] == 'f') {
+            Ret = true;
         }
 
-        return ret;
+        return Ret;
     }
 
-    private boolean IsDoWhile(char a[]) {
-        boolean ret = false;
-        if (a[0] == 'd' && a[1] == 'o') {
-            ret = true;
+    private boolean IsDoWhile(char A[]) {
+        boolean Ret = false;
+        if (A[0] == 'd' && A[1] == 'o') {
+            Ret = true;
         }
 
-        return ret;
+        return Ret;
     }
 
-    private boolean IsWhile(char a[]) {
-        boolean ret = false;
-        if (a[0] == 'w' && a[1] == 'h' && a[2] == 'i' && a[3] == 'l' && a[4] == 'e') {
-            ret = true;
+    private boolean IsWhile(char A[]) {
+        boolean Ret = false;
+        if (A[0] == 'w' && A[1] == 'h' && A[2] == 'i' && A[3] == 'l' && A[4] == 'e') {
+            Ret = true;
         }
 
-        return ret;
+        return Ret;
     }
 
-    private boolean IsOperador(String s) {
+    private boolean IsOperador(String S) {
 
-        if (s.charAt(0) == ' ') {
+        if (S.charAt(0) == ' ') {
             return false;
         }
-        
-        for(String operador : Constantes.Operadores)
-            if(s.contains(operador))
+
+        for (String operador : Constantes.OPERADORES) {
+            if (S.contains(operador)) {
                 return true;
+            }
+        }
         return false;
     }
 
-    private boolean IsCast(String s) {
+    private boolean IsCast(String S) {
 
-        if (s.charAt(0) != '(') {
+        if (S.charAt(0) != '(') {
             return false;
         }
 
-        String aux = s.substring(0, 18);
-        for (String TipoDado : Constantes.Operadores) {
+        String aux = S.substring(0, 18);
+        for (String TipoDado : Constantes.OPERADORES) {
             if (TipoDado.contains(aux)) {
                 return true;
             }
@@ -140,29 +139,28 @@ public class Texto {
         return false;
     }
 
-    private boolean IsFor(char a[]) {
+    private boolean IsFor(char A[]) {
         boolean ret = false;
-        if (a[0] == 'f' && a[1] == 'o' && a[2] == 'r') {
+        if (A[0] == 'f' && A[1] == 'o' && A[2] == 'r') {
             ret = true;
         }
         return ret;
     }
 
-    private boolean IsFuncao(String s) {
-        boolean ret = false;
+    private boolean IsFuncao(String S) {
+        boolean Ret = false;
         boolean TemIgual = false, TemParenteses = false;
 
-        if (s.charAt(0) == ' ') {
-            return ret;
+        if (S.charAt(0) == ' ') {
+            return Ret;
         }
 
-        String q[] = s.substring(0, 18).split(" ");
-        for (String TipoDado : Constantes.TipoDados) {
-            if (TipoDado.contains(q[0])) {
-
+        String StringSplited[] = S.substring(0, 18).split(" ");
+        for (String TipoDado : Constantes.TIPO_DADOS) {
+            if (TipoDado.contains(StringSplited[0])) {
                 OUTER:
-                for (int i = 0; i < s.length(); i++) {
-                    switch (s.charAt(i)) {
+                for (int i = 0; i < S.length(); i++) {
+                    switch (S.charAt(i)) {
                         case ';':
                         case '{':
                             break OUTER;
@@ -179,84 +177,102 @@ public class Texto {
             }
         }
         if (!TemIgual && TemParenteses) {
-            ret = true;
+            Ret = true;
         }
 
-        return ret;
+        return Ret;
     }
 
-    public ArrayList<Statement> Cataloga(String codigo) {
+    public ArrayList<Statement> Cataloga(String Codigo) {
         ArrayList<Statement> Novo = new ArrayList<>();
         Statement Add = null;
-        int ixUltimoCarater = 0;
+        int IxUltimoCarater = 0;
+        boolean AspasAberto = false, PlicasAberto = false;
+        String Aux = "";
 
-        for (; ix < codigo.length(); ix++) {
-            if (codigo.charAt(ix) != ' ') {
-                ixUltimoCarater = ix;
+        for (; Ix < Codigo.length(); Ix++) {
+            Aux += Codigo.charAt(Ix);
+            if (Codigo.charAt(Ix) == '"' && Codigo.charAt(Ix - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(Ix) == '\'' && Codigo.charAt(Ix - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
             }
-            try
-            {
-                if (isIF(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
-                    Add = new If(codigo.substring(ix), this);
-                    break;
-                } 
+
+            if (AspasAberto || PlicasAberto) {
+                continue;
             }
-            catch(Exception e){}
-            try
-            {
-                if (IsFor(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2)})) {
-                    Add = new For(codigo.substring(ix), this);
-                    break;
-                } 
+
+            if (Codigo.charAt(Ix) != ' ') {
+                IxUltimoCarater = Ix;
             }
-            catch(Exception e){}
-                
-            try
-            {
-                if (IsWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2), codigo.charAt(ix + 3), codigo.charAt(ix + 4), codigo.charAt(ix + 5)})) {
-                    Add = new While(codigo.substring(ix), this);
-                    break;
-                } 
-            }
-            catch(Exception e){}
-            
-            try
-            {
-                if (IsDoWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
-                    Add = new DoWhile(codigo.substring(ix), this);
-                    break;
-                } 
-            }
-            catch(Exception e){}
-                
-            try
-            {
-                if (IsFuncao(codigo.substring(ix))) {
-                    Add = new Funcao(codigo.substring(ix), this);
-                    break;
-                } 
-            }
-            catch(Exception e){}
-            
-            try
-            {
-                if (IsOperador(codigo.substring(ix))) {
-                    Add = new Operador(codigo.substring(ixUltimoCarater), this);
-                    break;
-                } 
-            }
-            catch(Exception e){}
-            
-            try
-            {
-                if (IsCast(codigo.substring(ix))) {
-                    Add = new Cast(codigo.substring(ixUltimoCarater), this);
+            try {
+                if (isIF(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1)})) {
+                    NovoStatment(Aux, Novo);
+                    Add = new If(Codigo.substring(Ix), this);
                     break;
                 }
+            } catch (Exception e) {
             }
-            catch(Exception e){}
+            try {
+                if (IsFor(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1), Codigo.charAt(Ix + 2)})) {
+                    NovoStatment(Aux, Novo);
+                    Add = new For(Codigo.substring(Ix), this);
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (IsWhile(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1), Codigo.charAt(Ix + 2), Codigo.charAt(Ix + 3), Codigo.charAt(Ix + 4), Codigo.charAt(Ix + 5)})) {
+                    NovoStatment(Aux, Novo);
+                    Add = new While(Codigo.substring(Ix), this);
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (IsDoWhile(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1)})) {
+                    NovoStatment(Aux, Novo);
+                    Add = new DoWhile(Codigo.substring(Ix), this);
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (IsFuncao(Codigo.substring(Ix))) {
+                    NovoStatment(Aux, Novo);
+                    Add = new Funcao(Codigo.substring(Ix), this);
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (IsOperador(Codigo.substring(Ix))) {
+                    NovoStatment(Aux, Novo);
+                    Add = new Operador(Codigo.substring(IxUltimoCarater), this);
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
+            try {
+                if (IsCast(Codigo.substring(Ix))) {
+                    NovoStatment(Aux, Novo);
+                    Add = new Cast(Codigo.substring(IxUltimoCarater), this);
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
         }
-        Novo.add(Add);
+        if (Add != null) {
+            Novo.add(Add);
+        }
         return Novo;
     }
 
@@ -267,5 +283,11 @@ public class Texto {
             S += ListaStatements.get(i).toString();
         }
         return S;
+    }
+
+    private void NovoStatment(String Aux, ArrayList<Statement> Novo) {
+        if (!"".equals(Aux)) {
+            Novo.add(new Statement(Aux, this));
+        }
     }
 }

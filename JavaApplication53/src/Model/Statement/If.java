@@ -10,65 +10,68 @@ public class If extends Statement {
 
     private Statement Condicao;
     private boolean temChaveta;
-    
-    public If(String codigo, Texto t)
-    {
+
+    public If(String codigo, Texto t) {
         super(codigo, t);
     }
 
     @Override
-    public String RetiraDados(String Codigo, Texto t){
+    public String RetiraDados(String Codigo, Texto T) {
         int i, j;
-        
+
         //retira espacos entre if e (
         for (i = 2; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ')
+            if (Codigo.charAt(i) != ' ') {
                 break;
+            }
         }
-        
+
         i++;//fica depois do (
-        
+
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ')
+            if (Codigo.charAt(i) != ' ') {
                 break;
+            }
         }
-        
+
         //procura fim do if
         int numParentesesAbertos = 1;
         boolean AspasAberto = false, PlicasAberto = false;
         for (j = i; j < Codigo.length(); j++) {
-            if (Codigo.charAt(j) == '"' && Codigo.charAt(j-1) != '\\')
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
                 AspasAberto = !AspasAberto;
-            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j-1) != '\\')
+                continue;
+            } else if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
-            
-            if (!AspasAberto && !PlicasAberto){
-                if (Codigo.charAt(j) == ')'){
-                    if (--numParentesesAbertos == 0){
+                continue;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == ')') {
+                    if (--numParentesesAbertos == 0) {
                         break;
                     }
                 }
             }
         }
         j--;
-        
+
         //retira espacos do fim condicao ate )
         for (; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ')
+            if (Codigo.charAt(j) != ' ') {
                 break;
-            
+            }
+
         }
-        
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
-        
-        this.ParaAnalise = Codigo.substring(0, j+1);
-        return Codigo.substring(j+1);
-        
-        
+
+        Condicao = new Statement(Codigo.substring(i, j + 1), T);
+
+        this.ParaAnalise = Codigo.substring(0, j + 1);
+        return Codigo.substring(j + 1);
+
     }
-    
-    
+
 //    public If(String codigo) {
 //        int contadorCarateres = 2;
 //        temChaveta = true;
@@ -209,7 +212,6 @@ public class If extends Statement {
 //        
 //        numCarateresCodigoStatment = contadorCarateres;
 //    }
-
     public boolean isPosicaoPrimeiraChaveta() {
         return PosicaoPrimeiraChaveta;
     }
