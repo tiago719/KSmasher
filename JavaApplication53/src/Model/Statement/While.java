@@ -13,9 +13,9 @@ import Model.Texto;
  */
 public class While extends Statement
 {
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroWhile;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
-        EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+        EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado,
+            ChavetaUmStatementDentroWhile, PrimeiraChavetaNovaLinha;
     
     private Statement Condicao;
     
@@ -75,22 +75,22 @@ public class While extends Statement
         return Codigo.substring(j+1);
     }
     
-    public boolean isPosicaoPrimeiraChaveta()
+    public int isPosicaoPrimeiraChaveta()
     {
-        return PosicaoPrimeiraChaveta;
+        return PrimeiraChavetaNovaLinha;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta)
+    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta)
     {
-        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.PrimeiraChavetaNovaLinha = PosicaoPrimeiraChaveta;
     }
 
-    public boolean isChavetaUmStatementDentroWhile()
+    public int isChavetaUmStatementDentroWhile()
     {
         return ChavetaUmStatementDentroWhile;
     }
 
-    public void setChavetaUmStatementDentroWhile(boolean ChavetaUmStatementDentroWhile)
+    public void setChavetaUmStatementDentroWhile(int ChavetaUmStatementDentroWhile)
     {
         this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
     }
@@ -148,9 +148,82 @@ public class While extends Statement
     @Override
     public void analisaStatement()
     {
-        for(int i=0;i<ParaAnalise.length();i++)
+        EspacosParentesesAbertoCondicao=0;
+        EspacosWhileParentesAberto=0;
+        EspacosCondicaoParentesFechado=0;
+        ChavetaUmStatementDentroWhile=-1;
+        PrimeiraChavetaNovaLinha=0;
+        int contParenteses=0, indexParenteses=-1,i, aux;
+        
+        for(i=0;i<ParaAnalise.length();i++)
         {
-            if(isWhile())
+            if(Texto.IsWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3),ParaAnalise.charAt(i+4)}))
+            {
+                i+=4;
+            }
+            while(ParaAnalise.charAt(i)!='(')
+            {
+                EspacosWhileParentesAberto++;
+                i++;
+            }
+            while(ParaAnalise.charAt(i)==' ')
+            {
+                EspacosParentesesAbertoCondicao++;
+                i++;
+            }
+            while(true)
+            {
+                if(ParaAnalise.charAt(i)==')')
+                {
+                    if(contParenteses==0)
+                    {
+                        indexParenteses=i;
+                        break;
+                    }
+                    else
+                        contParenteses--;
+                }                      
+                if(ParaAnalise.charAt(i)=='(')
+                    contParenteses++;
+                i++;
+            }
+            while(ParaAnalise.charAt(indexParenteses--)==' ')
+                EspacosCondicaoParentesFechado++;  
+            break;
+        }
+        
+        aux=i;
+        
+        if(StatmentsFilhos.size()<2)
+        {
+            while(ParaAnalise.charAt(i)=='\n')
+                i++;
+            if(ParaAnalise.charAt(i)=='{')
+                ChavetaUmStatementDentroWhile=1;
+            else
+            {
+                ChavetaUmStatementDentroWhile=0;
+                PrimeiraChavetaNovaLinha=-1;
+            }
+        }
+        else
+        {
+            if(PrimeiraChavetaNovaLinha==-1)
+                return;
+            
+            for(i=aux;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                {
+                    PrimeiraChavetaNovaLinha=0;
+                    break;
+                }
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    PrimeiraChavetaNovaLinha=1;
+                    break;
+                }
+            }
         }
     }
     
