@@ -184,6 +184,9 @@ public class Texto {
     }
 
     public ArrayList<Statement> Cataloga(String Codigo) {
+        if (Codigo.length() <= 0)
+            return null;
+        
         ArrayList<Statement> Novo = new ArrayList<>();
         Statement Add = null;
         int IxUltimoCarater = 0;
