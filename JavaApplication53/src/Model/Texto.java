@@ -13,7 +13,6 @@ public class Texto {
 
     private ArrayList<Statement> ListaStatements;
     int ix;
-    String Codigo;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
     
@@ -29,8 +28,42 @@ public class Texto {
         TextoBW = Out;
     }
 
-    public void ComecaCataloga() {
-        ListaStatements = Cataloga(Codigo);
+    public void ComecaCataloga() 
+    {
+        //TODO:Passar o IN ou OUT para string
+        //ListaStatements = Cataloga(Codigo);
+    }
+    
+    public void ComecaAnalisa()
+    {
+        Analisa(ListaStatements);
+    }
+    
+    private void Analisa(ArrayList<Statement> Lista)
+    {
+        for(Statement s : Lista)
+        {
+            if(s.hasFilhos())
+                Analisa(s.getStatmentsFilhos());
+            else
+                s.analisaStatement();
+        }
+    }
+    
+    public void ComecaConverte()
+    {
+        Converte(ListaStatements);
+    }
+    
+    private void Converte(ArrayList<Statement> Lista)
+    {
+        for(Statement s : Lista)
+        {
+            if(s.hasFilhos())
+                Converte(s.getStatmentsFilhos());
+            else
+                s.analisaStatement();
+        }
     }
 
     public void fazMedia() {
@@ -150,11 +183,6 @@ public class Texto {
         }
 
         return ret;
-    }
-    
-    public void Converte(File Ficheiro)
-    {
-        
     }
 
     public ArrayList<Statement> Cataloga(String codigo) {

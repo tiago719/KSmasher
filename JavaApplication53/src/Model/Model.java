@@ -15,6 +15,7 @@ import org.apache.commons.io.FileUtils;
 
 public class Model {
     private Utilizador Utilizador;
+    private Pesquisas Pesquisas;
 
     public Model() 
     {
@@ -23,23 +24,32 @@ public class Model {
     
     public boolean ExisteUsername(String nome)
     {
-        return Utilizador.ExisteUsername(nome);
+        return Pesquisas.ExisteUsername(nome);
     }
     
     public boolean ExisteEmail(String email)
     {
-        return Utilizador.ExisteEmail(email);
+        return Pesquisas.ExisteEmail(email);
     }
     
     public void Regista(String username, String email, String password)
     {
-        Utilizador.AdicionaUtilizador(email, email, username);
+        Pesquisas.AdicionaUtilizador(email, email, username);
         Utilizador.AdicionaEstiloPorDefeito();
     }
     
     public boolean Login(String username, String password)
     {
-        return Utilizador.VerificaLogin(username, password);
+        boolean resultado= Pesquisas.VerificaLogin(username, password);
+        
+        if(!resultado)
+            return false;
+        else
+        {
+            Utilizador=Pesquisas.getUser(username);
+            Utilizador.AdicionaEstiloPorDefeito();
+            return true;
+        }
     }
     
     public void Analisa(String NomeFicheiro) 
@@ -49,6 +59,8 @@ public class Model {
         in = F.abreFObjectosLeitura(NomeFicheiro);
         
         Texto Texto=new Texto(in);
+        Texto.ComecaCataloga();
+        Texto.ComecaAnalisa();
     }
     
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
@@ -69,7 +81,7 @@ public class Model {
             }
             else if(file.isDirectory())
             {  
-                listaDiretoria(file.getName(), file.getAbsolutePath());
+                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName());
             }
         }      
     }
@@ -82,16 +94,18 @@ public class Model {
         BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+Nome);
         
         Texto Texto=new Texto(out);
+        Texto.ComecaCataloga();
+        Texto.ComecaConverte();
     }
     
     public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
     {
-        File source = new File(DiretoriaAtual + Nome);
+        File source = new File(DiretoriaAtual + "//" + Nome);
         File dest = new File(DiretoriaDestino + "//" + Nome);
         
         try
         {
-            FileUtils.copyDirectory(source, dest);
+            FileUtils.copyFile(source, dest);
         }
         catch(Exception e)
         {

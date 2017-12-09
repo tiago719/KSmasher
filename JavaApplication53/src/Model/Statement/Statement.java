@@ -17,6 +17,11 @@ public class Statement
         String aux = RetiraDados(Codigo, t);
         StatmentsFilhos = t.Cataloga(aux);
     }
+    
+    public boolean hasFilhos()
+    {
+        return StatmentsFilhos.size()>0;
+    }
 
     public String getParaAnalise() {
         return ParaAnalise;

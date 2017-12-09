@@ -23,7 +23,7 @@ public class KSmasher {
 //      InterfaceTexto Ui= new InterfaceTexto(new Controller());
 
         Controller c=new Controller();
-        c.Converte("C:\\Users\\Tiago Coutinho\\Desktop\\Servidor\\build\\classes");
+        c.Converte("C:\\Users\\Tiago Coutinho\\Desktop\\Servidor");
               
     }
     

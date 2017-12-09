@@ -6,5 +6,5 @@ public interface Constantes {
     public static final String[] Operadores = {"+", "++", "-", "+=", "--", "-=", "*=", "/", "/=", "%", "%=", "<", "<=", ">*", ">=", "!=", "==", "!", "&&", "||", "<<", "<<=",
         ">>", ">>=", ">>", ">>=", "&", "&=", "|", "|=", "^", ",", "?", ":"};
     
-    public static final String DIRETORIA_DESTINO="..//..//DiretoriasConvertidas";
+    public static final String DIRETORIA_DESTINO="DiretoriasConvertidas";
 }
