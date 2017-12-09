@@ -12,15 +12,25 @@ public class Controller extends Observable
     {
         Model=new Model();
     }
-            
-    public void Regista()
+       
+    public boolean ExisteUsername(String nome)
     {
-        
+        return Model.ExisteUsername(nome);
     }
     
-    public void Login()
+    public boolean ExisteEmail(String email)
     {
-        
+        return Model.ExisteEmail(email);
+    }
+    
+    public void Regista(String username, String email, String password)
+    {
+        Model.Regista(username, email, password);
+    }
+    
+    public boolean Login(String username, String password)
+    {
+        return Model.Login(username, password);
     }
     
     public void Analisa(String NomeFicheiro)
@@ -28,8 +38,8 @@ public class Controller extends Observable
         Model.Analisa(NomeFicheiro);
     }
     
-    public void Converte()
+    public void Converte(String Diretoria)
     {
-        
+        Model.Converte(Diretoria);
     }
 }

@@ -4,24 +4,66 @@ import Model.EstiloProgramacao.*;
 import java.io.BufferedReader;
 import java.sql.SQLException;
 import Model.Statement.*;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Texto {
 
     private ArrayList<Statement> ListaStatements;
-    Utilizador Utilizador;//TODO:Falta meter aqui o otuilzador
     int ix;
-    String Codigo;
-    private OperadoresLibrary OperadoresLibrary;
     BufferedReader TextoBR;
-
-    public Texto() {
-
+    BufferedWriter TextoBW;
+    
+    public Texto(BufferedReader In) {
+        ListaStatements = new ArrayList<Statement>();
+        ix = 0;
+        TextoBR = In;
+    }
+    
+    public Texto(BufferedWriter Out) {
+        ListaStatements = new ArrayList<Statement>();
+        ix = 0;
+        TextoBW = Out;
     }
 
-    public void ComecaCataloga() {
-        ListaStatements = Cataloga(Codigo);
+    public void ComecaCataloga() 
+    {
+        //TODO:Passar o IN ou OUT para string
+        //ListaStatements = Cataloga(Codigo);
+    }
+    
+    public void ComecaAnalisa()
+    {
+        Analisa(ListaStatements);
+    }
+    
+    private void Analisa(ArrayList<Statement> Lista)
+    {
+        for(Statement s : Lista)
+        {
+            if(s.hasFilhos())
+                Analisa(s.getStatmentsFilhos());
+            else
+                s.analisaStatement();
+        }
+    }
+    
+    public void ComecaConverte()
+    {
+        Converte(ListaStatements);
+    }
+    
+    private void Converte(ArrayList<Statement> Lista)
+    {
+        for(Statement s : Lista)
+        {
+            if(s.hasFilhos())
+                Converte(s.getStatmentsFilhos());
+            else
+                s.analisaStatement();
+        }
     }
 
     public void fazMedia() {
@@ -38,76 +80,6 @@ public class Texto {
                 EspacosVariavelOperador.add(S.getEspacosVariavelOperador());
             }                
         }*/
-    }
-
-    public Texto(BufferedReader In, OperadoresLibrary o) {
-        ListaStatements = new ArrayList<Statement>();
-        ix = 0;
-        TextoBR = In;
-        OperadoresLibrary = o;
-    }
-
-    public void Regista() throws SQLException {
-        Utilizador = new Utilizador();
-        Scanner input = new Scanner(System.in);
-        System.out.println("REGISTO");
-        System.out.printf("Username: ");
-        String user = input.next();
-        System.out.printf("Email: ");
-        String email = input.next();
-        System.out.printf("Password: ");
-        String pass = input.next();
-        System.out.printf("Confirmar Password: ");
-        String conf = input.next();
-
-        if (pass.equals(conf)) {
-            boolean checkname, checkEmail;
-
-            checkname = Utilizador.ExisteUsername(user);
-            checkEmail = Utilizador.ExisteEmail(email);
-
-            if (checkname || checkEmail) {
-                if (checkname) {
-                    System.out.println("Username já está em uso, tente outro");
-                }
-                if (checkEmail) {
-                    System.out.println("Email já está em uso, tente outro");
-                }
-            } else {
-                Utilizador.AdicionaUtilizador(user, email, pass);
-                Utilizador.EstilosProgramacao.add(
-                        new EstiloProgramacao("EstiloDefeito",
-                                new Cast_EP(1),
-                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
-                                new Else_EP(true, 1, 1, 1),
-                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
-                                new Funcoes_EP(false),
-                                new If_EP(true, false, 1, 1, 1, 1, 1),
-                                new Operador_EP(1, 1),
-                                new While_EP(true, false, 1, 1, 1, 1, 1))
-                );
-                System.out.println("Registo feito com sucesso");
-            }
-        } else {
-            System.out.println("Password e Confirmacao nao correspondem!");
-        }
-    }
-
-    public void Login() throws SQLException {
-        Utilizador utilizador = new Utilizador();
-        Scanner input = new Scanner(System.in);
-        System.out.println("LOGIN");
-        System.out.printf("Username: ");
-        String user = input.next();
-        System.out.printf("Password: ");
-        String pass = input.next();
-
-        boolean existelogin = utilizador.VerificaLogin(user, pass);
-        if (existelogin) {
-            System.out.println("Login feito com sucesso!");
-        } else {
-            System.out.println("Dados incorretos, tente de novo!");
-        }
     }
 
     public ArrayList<Statement> getListaStatements() {
@@ -146,13 +118,10 @@ public class Texto {
         if (s.charAt(0) == ' ') {
             return false;
         }
-
-        String q[] = s.substring(0, 3).split(" ");
-        for (String TipoDado : Constantes.Operadores) {
-            if (TipoDado.contains(q[0])) {
+        
+        for(String operador : Constantes.Operadores)
+            if(s.contains(operador))
                 return true;
-            }
-        }
         return false;
     }
 
@@ -222,25 +191,70 @@ public class Texto {
         int ixUltimoCarater = 0;
 
         for (; ix < codigo.length(); ix++) {
-            if (Codigo.charAt(ix) != ' ') {
+            if (codigo.charAt(ix) != ' ') {
                 ixUltimoCarater = ix;
             }
-            if (isIF(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                Add = new If(codigo.substring(ix), this);
-            } else if (IsFor(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2)})) {
-                Add = new For(codigo.substring(ix), this);
-            } else if (IsWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1), Codigo.charAt(ix + 2), Codigo.charAt(ix + 3), Codigo.charAt(ix + 4), Codigo.charAt(ix + 5)})) {
-                Add = new While(codigo.substring(ix), this);
-            } else if (IsDoWhile(new char[]{Codigo.charAt(ix), Codigo.charAt(ix + 1)})) {
-                Add = new DoWhile(codigo.substring(ix), this);
-            } else if (IsFuncao(codigo.substring(ix))) {
-                Add = new Funcao(codigo.substring(ix), this);
-            } else if (IsOperador(codigo.substring(ix))) {
-                Add = new Operador(codigo.substring(ixUltimoCarater), this);
-            } else if (IsCast(codigo.substring(ix))) {
-                Add = new Cast(codigo.substring(ixUltimoCarater), this);
+            try
+            {
+                if (isIF(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
+                    Add = new If(codigo.substring(ix), this);
+                    break;
+                } 
             }
-
+            catch(Exception e){}
+            try
+            {
+                if (IsFor(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2)})) {
+                    Add = new For(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+                
+            try
+            {
+                if (IsWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2), codigo.charAt(ix + 3), codigo.charAt(ix + 4), codigo.charAt(ix + 5)})) {
+                    Add = new While(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+            
+            try
+            {
+                if (IsDoWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
+                    Add = new DoWhile(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+                
+            try
+            {
+                if (IsFuncao(codigo.substring(ix))) {
+                    Add = new Funcao(codigo.substring(ix), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+            
+            try
+            {
+                if (IsOperador(codigo.substring(ix))) {
+                    Add = new Operador(codigo.substring(ixUltimoCarater), this);
+                    break;
+                } 
+            }
+            catch(Exception e){}
+            
+            try
+            {
+                if (IsCast(codigo.substring(ix))) {
+                    Add = new Cast(codigo.substring(ixUltimoCarater), this);
+                    break;
+                }
+            }
+            catch(Exception e){}
         }
         Novo.add(Add);
         return Novo;
@@ -253,6 +267,5 @@ public class Texto {
             S += ListaStatements.get(i).toString();
         }
         return S;
-
     }
 }

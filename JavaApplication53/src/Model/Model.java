@@ -5,47 +5,116 @@
  */
 package Model;
 
+import static Model.Constantes.DIRETORIA_DESTINO;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.util.ArrayList;
+import org.apache.commons.io.FileUtils;
 
 
 public class Model {
-    private Texto Texto;
     private Utilizador Utilizador;
-    private OperadoresLibrary OperadoresLibrary; 
+    private Pesquisas Pesquisas;
 
     public Model() 
     {
-        OperadoresLibrary=new OperadoresLibrary();
+
     }   
     
-    public void Regista()
+    public boolean ExisteUsername(String nome)
     {
-        
+        return Pesquisas.ExisteUsername(nome);
     }
     
-    public void Login()
+    public boolean ExisteEmail(String email)
     {
+        return Pesquisas.ExisteEmail(email);
+    }
+    
+    public void Regista(String username, String email, String password)
+    {
+        Pesquisas.AdicionaUtilizador(email, email, username);
+        Utilizador.AdicionaEstiloPorDefeito();
+    }
+    
+    public boolean Login(String username, String password)
+    {
+        boolean resultado= Pesquisas.VerificaLogin(username, password);
         
+        if(!resultado)
+            return false;
+        else
+        {
+            Utilizador=Pesquisas.getUser(username);
+            Utilizador.AdicionaEstiloPorDefeito();
+            return true;
+        }
     }
     
     public void Analisa(String NomeFicheiro) 
     {
         Ficheiros F=new Ficheiros();
         BufferedReader in=null;
-        try
-        {
-            in = F.abreFObjectosLeitura(NomeFicheiro);
-        } catch (Exception ex)
-        {
-            return;
-        }
-        Texto=new Texto(in, OperadoresLibrary);
-        //Texto.Cataloga();
-        Texto.fazMedia();
+        in = F.abreFObjectosLeitura(NomeFicheiro);
+        
+        Texto Texto=new Texto(in);
+        Texto.ComecaCataloga();
+        Texto.ComecaAnalisa();
     }
     
-    public void Converte()
+    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
     {
+        String proxDiretoria=DiretoriaDestino;
+        File Diretoria=new File(NomeDiretoria);
         
+        File[] fList=Diretoria.listFiles();
+        
+        for(File file : fList)
+        {
+            if(file.isFile())
+            {
+                if(file.getName().contains(".c"))
+                    ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                else
+                    CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+            }
+            else if(file.isDirectory())
+            {  
+                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName());
+            }
+        }      
+    }
+    
+    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
+    {
+        Ficheiros F=new Ficheiros();
+        File source = new File(DiretoriaAtual + Nome);
+        
+        BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+Nome);
+        
+        Texto Texto=new Texto(out);
+        Texto.ComecaCataloga();
+        Texto.ComecaConverte();
+    }
+    
+    public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
+    {
+        File source = new File(DiretoriaAtual + "//" + Nome);
+        File dest = new File(DiretoriaDestino + "//" + Nome);
+        
+        try
+        {
+            FileUtils.copyFile(source, dest);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+    
+    public void Converte(String Diretoria)
+    {
+        listaDiretoria(Diretoria,DIRETORIA_DESTINO);
     }
 }
