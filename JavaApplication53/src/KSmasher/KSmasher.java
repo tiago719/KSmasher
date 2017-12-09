@@ -21,9 +21,9 @@ public class KSmasher {
 
     public static void main(String[] args){
 //      InterfaceTexto Ui= new InterfaceTexto(new Controller());
-        Texto t=new Texto("int a+b");
-        t.ComecaCataloga();
-        t.Analisa();
+
+        Controller c=new Controller();
+        c.Converte("C:\\Users\\Tiago Coutinho\\Desktop\\Servidor\\build\\classes");
               
     }
     

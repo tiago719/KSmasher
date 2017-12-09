@@ -23,9 +23,9 @@ public class OperadorTest
     public ArrayList<Operador> lista;
     public OperadorTest()
     {
-        Texto t=new Texto();
+        
         lista=new ArrayList<>();
-        lista.add(new Operador("int a/  b  ;",t));
+        //lista.add(new Operador("int a/  b  ;",t));
 //        lista.add(new Operador("int a +b;",t));
 //        lista.add(new Operador("int a  +b;",t));
 //        lista.add(new Operador("int a     + b;",t));

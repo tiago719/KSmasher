@@ -4,30 +4,33 @@ import Model.EstiloProgramacao.*;
 import java.io.BufferedReader;
 import java.sql.SQLException;
 import Model.Statement.*;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Texto {
 
     private ArrayList<Statement> ListaStatements;
-    Utilizador Utilizador;//TODO:Falta meter aqui o otuilzador
     int ix;
     String Codigo;
-    private OperadoresLibrary OperadoresLibrary;
     BufferedReader TextoBR;
-
-    public Texto(String Codigo) {
-        this.Codigo=Codigo;
+    BufferedWriter TextoBW;
+    
+    public Texto(BufferedReader In) {
+        ListaStatements = new ArrayList<Statement>();
+        ix = 0;
+        TextoBR = In;
+    }
+    
+    public Texto(BufferedWriter Out) {
+        ListaStatements = new ArrayList<Statement>();
+        ix = 0;
+        TextoBW = Out;
     }
 
     public void ComecaCataloga() {
         ListaStatements = Cataloga(Codigo);
-    }
-    
-    public void Analisa()//TODO:tirar esta funcao
-    {
-        for(Statement s : ListaStatements)
-            s.analisaStatement();
     }
 
     public void fazMedia() {
@@ -44,76 +47,6 @@ public class Texto {
                 EspacosVariavelOperador.add(S.getEspacosVariavelOperador());
             }                
         }*/
-    }
-
-    public Texto(BufferedReader In, OperadoresLibrary o) {
-        ListaStatements = new ArrayList<Statement>();
-        ix = 0;
-        TextoBR = In;
-        OperadoresLibrary = o;
-    }
-
-    public void Regista() throws SQLException {
-        Utilizador = new Utilizador();
-        Scanner input = new Scanner(System.in);
-        System.out.println("REGISTO");
-        System.out.printf("Username: ");
-        String user = input.next();
-        System.out.printf("Email: ");
-        String email = input.next();
-        System.out.printf("Password: ");
-        String pass = input.next();
-        System.out.printf("Confirmar Password: ");
-        String conf = input.next();
-
-        if (pass.equals(conf)) {
-            boolean checkname, checkEmail;
-
-            checkname = Utilizador.ExisteUsername(user);
-            checkEmail = Utilizador.ExisteEmail(email);
-
-            if (checkname || checkEmail) {
-                if (checkname) {
-                    System.out.println("Username já está em uso, tente outro");
-                }
-                if (checkEmail) {
-                    System.out.println("Email já está em uso, tente outro");
-                }
-            } else {
-                Utilizador.AdicionaUtilizador(user, email, pass);
-                Utilizador.EstilosProgramacao.add(
-                        new EstiloProgramacao("EstiloDefeito",
-                                new Cast_EP(1),
-                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
-                                new Else_EP(true, 1, 1, 1),
-                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
-                                new Funcoes_EP(false),
-                                new If_EP(true, false, 1, 1, 1, 1, 1),
-                                new Operador_EP(1, 1),
-                                new While_EP(true, false, 1, 1, 1, 1, 1))
-                );
-                System.out.println("Registo feito com sucesso");
-            }
-        } else {
-            System.out.println("Password e Confirmacao nao correspondem!");
-        }
-    }
-
-    public void Login() throws SQLException {
-        Utilizador utilizador = new Utilizador();
-        Scanner input = new Scanner(System.in);
-        System.out.println("LOGIN");
-        System.out.printf("Username: ");
-        String user = input.next();
-        System.out.printf("Password: ");
-        String pass = input.next();
-
-        boolean existelogin = utilizador.VerificaLogin(user, pass);
-        if (existelogin) {
-            System.out.println("Login feito com sucesso!");
-        } else {
-            System.out.println("Dados incorretos, tente de novo!");
-        }
     }
 
     public ArrayList<Statement> getListaStatements() {
@@ -218,6 +151,11 @@ public class Texto {
 
         return ret;
     }
+    
+    public void Converte(File Ficheiro)
+    {
+        
+    }
 
     public ArrayList<Statement> Cataloga(String codigo) {
         ArrayList<Statement> Novo = new ArrayList<>();
@@ -301,6 +239,5 @@ public class Texto {
             S += ListaStatements.get(i).toString();
         }
         return S;
-
     }
 }
