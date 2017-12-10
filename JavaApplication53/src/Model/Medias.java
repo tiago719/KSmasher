@@ -40,6 +40,9 @@ public class Medias
         int aux, total=0;
         for(int i=0;i<Codigo.size();i++)
         {
+            if(Codigo.get(i).hasFilhos())
+                fazMedias(Codigo.get(i).getStatmentsFilhos());
+            
             if(Codigo.get(i) instanceof While)
             {
                 WhilesEspacosParentesesAbertoCondicao.add(((While)Codigo.get(i)).getEspacosParentesesAbertoCondicao());
