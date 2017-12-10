@@ -7,6 +7,8 @@ package Model;
 
 import Model.Statement.Statement;
 import Model.Statement.While;
+import Model.Statement.Else;
+import Model.Statement.DoWhile;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +35,41 @@ public class Medias
     int ChavetaUmStatementDentroWhile;
     int PosicaoPrimeiraChaveta;
     
+    //else
+    
+    ArrayList<Integer> ElsesLinhasEmBrancoEntreIfElse=new ArrayList<>();
+    ArrayList<Integer> ElsesLinhasEmBrancoDepoisChavetaAberta=new ArrayList<>();
+    ArrayList<Integer> ElsesLinhasEmBrancoDepoisChavetaFechada=new ArrayList<>();
+    ArrayList<Integer> ElsesPosicaoPrimeiraChaveta=new ArrayList<>();
+    
+    //else
+    
+    int ElseLinhasEmBrancoEntreIfElse;
+    int ElseLinhasEmBrancoDepoisChavetaAberta;
+    int ElseLinhasEmBrancoDepoisChavetaFechada;
+    int ElsePosicaoPrimeiraChaveta;
+    
+    //do-while
+    
+    ArrayList<Integer> DoWhilesLinhasEmBrancoDepoisChavetaAberta=new ArrayList<>();
+    ArrayList<Integer> DoWhilesLinhasEmBrancoDepoisChavetaFechada=new ArrayList<>();
+    ArrayList<Integer> DoWhilesLinhasEmBrancoEntreChavetaFechadaWhile=new ArrayList<>();
+    ArrayList<Integer> DoWhilesEspacosWhileParentesesAberto=new ArrayList<>();
+    ArrayList<Integer> DoWhilesEspacosParentesesAbertoCondicao=new ArrayList<>();
+    ArrayList<Integer> DoWhilesEspacosCondicaoParentesFechado=new ArrayList<>();
+    ArrayList<Integer> DoWhilesPosicaoPrimeiraChaveta=new ArrayList<>();
+    
+    
+    //do-while
+    
+    int DoWhileLinhasEmBrancoDepoisChavetaAberta;
+    int DoWhileLinhasEmBrancoDepoisChavetaFechada;
+    int DoWhileLinhasEmBrancoEntreChavetaFechadaWhile;
+    int DoWhileEspacosWhileParentesesAberto;
+    int DoWhileEspacosParentesesAbertoCondicao;
+    int DoWhileEspacosCondicaoParentesFechado;
+    int DoWhilePosicaoPrimeiraChaveta;
+    
     public Medias(){}
     
     public void fazMedias(ArrayList<Statement> Codigo)
@@ -54,6 +91,25 @@ public class Medias
                     WhilesChavetaUmStatementDentroWhile.add(aux);
                 if((aux=((While)Codigo.get(i)).isPosicaoPrimeiraChaveta())!=-1)
                     WhilesPosicaoPrimeiraChaveta.add(aux);
+            }
+            if(Codigo.get(i) instanceof Else)
+            {
+                ElsesLinhasEmBrancoEntreIfElse.add(((Else)Codigo.get(i)).getLinhasEmBrancoEntreIfElse());
+                ElsesLinhasEmBrancoDepoisChavetaAberta.add(((Else)Codigo.get(i)).getLinhasEmBrancoDepoisChavetaAberta());
+                ElsesLinhasEmBrancoDepoisChavetaFechada.add(((Else)Codigo.get(i)).getLinhasEmBrancoDepoisChavetaFechada());
+                if((aux=((Else)Codigo.get(i)).isPosicaoPrimeiraChaveta())!=-1)
+                    ElsesPosicaoPrimeiraChaveta.add(aux);              
+            }
+            if(Codigo.get(i) instanceof DoWhile)
+            {
+                DoWhilesLinhasEmBrancoDepoisChavetaAberta.add(((DoWhile)Codigo.get(i)).getLinhasEmBrancoDepoisChavetaAberta());
+                DoWhilesLinhasEmBrancoDepoisChavetaFechada.add(((DoWhile)Codigo.get(i)).getLinhasEmBrancoDepoisChavetaFechada());
+                DoWhilesLinhasEmBrancoEntreChavetaFechadaWhile.add(((DoWhile)Codigo.get(i)).getLinhasEmBrancoEntreChavetaFechadaWhile());
+                DoWhilesEspacosWhileParentesesAberto.add(((DoWhile)Codigo.get(i)).getEspacosWhileParentesesAberto());
+                DoWhilesEspacosParentesesAbertoCondicao.add(((DoWhile)Codigo.get(i)).getEspacosParentesesAbertoCondicao());
+                DoWhilesEspacosCondicaoParentesFechado.add(((DoWhile)Codigo.get(i)).getEspacosCondicaoParentesFechado());
+                if((aux=((DoWhile)Codigo.get(i)).isPosicaoPrimeiraChaveta())!=-1)
+                    DoWhilesPosicaoPrimeiraChaveta.add(aux);                
             }
         }
         
@@ -110,6 +166,96 @@ public class Medias
             total+=WhilesPosicaoPrimeiraChaveta.get(i);
         }
         PosicaoPrimeiraChaveta=total/WhilesPosicaoPrimeiraChaveta.size();
+        
+        total=0;
+        
+        for(int i=0; i<ElsesLinhasEmBrancoEntreIfElse.size();i++)
+        {
+            total+=ElsesLinhasEmBrancoEntreIfElse.get(i);
+        }
+        ElseLinhasEmBrancoEntreIfElse=total/ElsesLinhasEmBrancoEntreIfElse.size();
+        
+        total=0;
+        
+        for(int i=0; i<ElsesLinhasEmBrancoDepoisChavetaAberta.size();i++)
+        {
+            total+=ElsesLinhasEmBrancoDepoisChavetaAberta.get(i);
+        }
+        ElseLinhasEmBrancoDepoisChavetaAberta=total/ElsesLinhasEmBrancoDepoisChavetaAberta.size();
+        
+        total=0;
+        
+        for(int i=0; i<ElsesLinhasEmBrancoDepoisChavetaFechada.size();i++)
+        {
+            total+=ElsesLinhasEmBrancoDepoisChavetaFechada.get(i);
+        }
+        ElseLinhasEmBrancoDepoisChavetaFechada=total/ElsesLinhasEmBrancoDepoisChavetaFechada.size();
+        
+        total=0;
+        
+        for(int i=0; i<ElsesPosicaoPrimeiraChaveta.size();i++)
+        {
+            total+=ElsesPosicaoPrimeiraChaveta.get(i);
+        }
+        ElsePosicaoPrimeiraChaveta=total/ElsesPosicaoPrimeiraChaveta.size();
+        
+        total=0;
+        
+        for(int i=0; i<DoWhilesLinhasEmBrancoDepoisChavetaAberta.size();i++)
+        {
+            total+=DoWhilesLinhasEmBrancoDepoisChavetaAberta.get(i);
+        }
+        DoWhileLinhasEmBrancoDepoisChavetaAberta=total/DoWhilesLinhasEmBrancoDepoisChavetaAberta.size();
+        
+        total=0;
+        
+        for(int i=0; i<DoWhilesLinhasEmBrancoDepoisChavetaFechada.size();i++)
+        {
+            total+=DoWhilesLinhasEmBrancoDepoisChavetaFechada.get(i);
+        }
+        DoWhileLinhasEmBrancoDepoisChavetaFechada=total/DoWhilesLinhasEmBrancoDepoisChavetaFechada.size();
+        
+        total=0;
+        
+        for(int i=0; i<DoWhilesLinhasEmBrancoEntreChavetaFechadaWhile.size();i++)
+        {
+            total+=DoWhilesLinhasEmBrancoEntreChavetaFechadaWhile.get(i);
+        }
+        DoWhileLinhasEmBrancoEntreChavetaFechadaWhile=total/DoWhilesLinhasEmBrancoEntreChavetaFechadaWhile.size();
+        
+        total=0;
+        
+        for(int i=0; i<DoWhilesEspacosWhileParentesesAberto.size();i++)
+        {
+            total+=DoWhilesEspacosWhileParentesesAberto.get(i);
+        }
+        DoWhileEspacosWhileParentesesAberto=total/DoWhilesEspacosWhileParentesesAberto.size();
+        
+        total=0;
+        
+        for(int i=0; i<DoWhilesEspacosParentesesAbertoCondicao.size();i++)
+        {
+            total+=DoWhilesEspacosParentesesAbertoCondicao.get(i);
+        }
+        DoWhileEspacosParentesesAbertoCondicao=total/DoWhilesEspacosParentesesAbertoCondicao.size();
+        
+        total=0;
+        
+        for(int i=0; i<DoWhilesEspacosCondicaoParentesFechado.size();i++)
+        {
+            total+=DoWhilesEspacosCondicaoParentesFechado.get(i);
+        }
+        DoWhileEspacosCondicaoParentesFechado=total/DoWhilesEspacosCondicaoParentesFechado.size();
+        
+        total=0;
+        
+        for(int i=0; i<DoWhilesPosicaoPrimeiraChaveta.size();i++)
+        {
+            total+=DoWhilesPosicaoPrimeiraChaveta.get(i);
+        }
+        DoWhilePosicaoPrimeiraChaveta=total/DoWhilesPosicaoPrimeiraChaveta.size();
+        
+        total=0;
      
     }
         

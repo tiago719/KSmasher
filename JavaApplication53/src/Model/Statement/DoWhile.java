@@ -13,10 +13,10 @@ import Model.Texto;
  */
 public class DoWhile extends Statement {
 
-    private boolean PosicaoPrimeiraChaveta;
+    
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
             LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto,
-            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, PosicaoPrimeiraChaveta;
 
     private Statement Condicao;
 
@@ -141,11 +141,11 @@ public class DoWhile extends Statement {
 
     }
 
-    public boolean isPosicaoPrimeiraChaveta() {
+    public int isPosicaoPrimeiraChaveta() {
         return PosicaoPrimeiraChaveta;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta) {
+    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
     }
 
@@ -205,8 +205,9 @@ public class DoWhile extends Statement {
         EspacosWhileParentesesAberto = 0;
         EspacosParentesesAbertoCondicao = 0;
         EspacosCondicaoParentesFechado = 0;
+        PosicaoPrimeiraChaveta = 0;
         
-        int i , naoTemChavetas = 0;
+        int i;
         
         for(i = 0; i < ParaAnalise.length(); i++){
             if(Texto.IsDoWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1)}))
@@ -219,14 +220,17 @@ public class DoWhile extends Statement {
                 {
                     LinhasEmBrancoDepoisChavetaAberta++;
                 }
-                if(ParaAnalise.charAt(i)==';'){
-                    naoTemChavetas = 1;
+                else if(ParaAnalise.charAt(i)==';'){
+                    PosicaoPrimeiraChaveta = 1;
+                    LinhasEmBrancoDepoisChavetaAberta = 0;
                     return;
                 }
                 i++;
             }
-            if(naoTemChavetas == 1)
+            if(PosicaoPrimeiraChaveta == 1)
+            {
                 return;
+            }
             while(ParaAnalise.charAt(i)!='}')
             {
                 if(ParaAnalise.charAt(i)=='\n')

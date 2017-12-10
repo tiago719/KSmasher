@@ -13,8 +13,9 @@ import Model.Texto;
  */
 public class Else extends Statement
 {
-    private boolean PosicaoPrimeiraChaveta;
-    private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+    
+    private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
+            PosicaoPrimeiraChaveta;
 
     public Else(String codigo, Texto t)
     {
@@ -75,12 +76,12 @@ public class Else extends Statement
         return Codigo;
     }
             
-    public boolean isPosicaoPrimeiraChaveta()
+    public int isPosicaoPrimeiraChaveta()
     {
         return PosicaoPrimeiraChaveta;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta)
+    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta)
     {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
     }
@@ -122,6 +123,7 @@ public class Else extends Statement
         LinhasEmBrancoEntreIfElse = 0;
         LinhasEmBrancoDepoisChavetaAberta = 0;
         LinhasEmBrancoDepoisChavetaFechada = 0;
+        PosicaoPrimeiraChaveta = 0;
         
         int i;
         for(i = 0; i < ParaAnalise.length(); i++){
@@ -132,8 +134,20 @@ public class Else extends Statement
             while(ParaAnalise.charAt(i)!='{')
             {
                 if(ParaAnalise.charAt(i)=='\n')
+                {
                     LinhasEmBrancoDepoisChavetaAberta++;
+                }
+                else if(ParaAnalise.charAt(i)==';')
+                {
+                    PosicaoPrimeiraChaveta = 1;
+                    LinhasEmBrancoDepoisChavetaAberta = 0;
+                    return;
+                }
                 i++;
+            }
+            if(PosicaoPrimeiraChaveta == 1)
+            {
+                return;
             }
             while(ParaAnalise.charAt(i)!='}'){
                 if(ParaAnalise.charAt(i)=='\n')
