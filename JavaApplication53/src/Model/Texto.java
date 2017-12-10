@@ -16,6 +16,11 @@ public class Texto {
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
     
+    public Texto()
+    {
+        //TODO: So para os testes, apagar depois
+    }
+    
     public Texto(BufferedReader In) {
         ListaStatements = new ArrayList<Statement>();
         ix = 0;
