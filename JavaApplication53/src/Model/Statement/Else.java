@@ -23,7 +23,55 @@ public class Else extends Statement
     
      @Override
     public String RetiraDados(String Codigo, Texto t){
-        //TODO
+        int i, j;
+        boolean temChaveta = false;
+        
+        for(i = 4; i < Codigo.length(); i++){
+            if(Codigo.charAt(i)=='{'){
+                temChaveta = true;
+                break;
+            }            
+        }
+        if (temChaveta) {
+            int numChavetasAbertos = 1;
+            boolean AspasAberto = false, PlicasAberto = false;
+            for (; i < Codigo.length(); i++) {
+                if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
+                    AspasAberto = !AspasAberto;
+                }
+                if (Codigo.charAt(i) == '\'' && Codigo.charAt(i - 1) != '\\') {
+                    PlicasAberto = !PlicasAberto;
+                }
+
+                if (!AspasAberto && !PlicasAberto) {
+                    if (Codigo.charAt(i) == '}') {
+                        if (--numChavetasAbertos == 0) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        else {
+            boolean AspasAberto = false, PlicasAberto = false;
+            for (; i < Codigo.length(); i++) {
+                if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
+                    AspasAberto = !AspasAberto;
+                }
+                if (Codigo.charAt(i) == '\'' && Codigo.charAt(i - 1) != '\\') {
+                    PlicasAberto = !PlicasAberto;
+                }
+
+                if (!AspasAberto && !PlicasAberto) {
+                    if (Codigo.charAt(i) == ';') {
+                        break;
+                    }
+                }
+            }
+        }
+       
+                
         return Codigo;
     }
             
@@ -71,7 +119,28 @@ public class Else extends Statement
     @Override
     public void analisaStatement()
     {
+        LinhasEmBrancoEntreIfElse = 0;
+        LinhasEmBrancoDepoisChavetaAberta = 0;
+        LinhasEmBrancoDepoisChavetaFechada = 0;
         
+        int i;
+        for(i = 0; i < ParaAnalise.length(); i++){
+            if(Texto.IsElse(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3)}))
+                {
+                    i+=4;
+                }
+            while(ParaAnalise.charAt(i)!='{')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                    LinhasEmBrancoDepoisChavetaAberta++;
+                i++;
+            }
+            while(ParaAnalise.charAt(i)!='}'){
+                if(ParaAnalise.charAt(i)=='\n')
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                i++;
+            }        
+        }
     }
     
     @Override

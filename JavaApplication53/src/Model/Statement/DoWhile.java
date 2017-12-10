@@ -199,11 +199,67 @@ public class DoWhile extends Statement {
 
     @Override
     public void analisaStatement() {
-
+        LinhasEmBrancoDepoisChavetaAberta = 0;
+        LinhasEmBrancoDepoisChavetaFechada = 0;
+        LinhasEmBrancoEntreChavetaFechadaWhile = 0;
+        EspacosWhileParentesesAberto = 0;
+        EspacosParentesesAbertoCondicao = 0;
+        EspacosCondicaoParentesFechado = 0;
+        
+        int i , naoTemChavetas = 0;
+        
+        for(i = 0; i < ParaAnalise.length(); i++){
+            if(Texto.IsDoWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1)}))
+            {
+                i+=2;
+            }
+            while(ParaAnalise.charAt(i)!='{')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    LinhasEmBrancoDepoisChavetaAberta++;
+                }
+                if(ParaAnalise.charAt(i)==';'){
+                    naoTemChavetas = 1;
+                    return;
+                }
+                i++;
+            }
+            if(naoTemChavetas == 1)
+                return;
+            while(ParaAnalise.charAt(i)!='}')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                }
+                i++;
+            }
+            while(ParaAnalise.charAt(i)!='(')
+            {
+                EspacosWhileParentesesAberto++;                
+                i++;
+            }
+            i++; // Para passar do '(' para o proximo espaço
+            while(ParaAnalise.charAt(i)==' ')
+            {
+                EspacosParentesesAbertoCondicao++;
+                i++;
+            }
+            // encontra o ')' e no ciclo a seguir decrementa ate encontrar o fim da condicao;
+            while(ParaAnalise.charAt(i)!=')'){
+                i++;
+            }
+            i--;
+            while(ParaAnalise.charAt(i)==' '){
+                EspacosCondicaoParentesFechado++;
+                i--;                
+            }            
+        }
     }
 
     @Override
     public void converteStatement() {
-
+        
     }
 }

@@ -253,7 +253,7 @@ public class For extends Statement {
         int i, j;
         boolean AspasAberto = true, PlicasAberto = true;
 
-        //retira espacos entre if e (
+        //retira espacos entre for e (
         for (i = 3; i < Codigo.length(); i++) {
             if (Codigo.charAt(i) != ' ') {
                 break;

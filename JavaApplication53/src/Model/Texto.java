@@ -94,8 +94,16 @@ public class Texto {
 
         return ret;
     }
+    
+    public boolean IsElse(char a[]){
+        boolean ret = false;
+        if(a[0] == 'e' && a[1] == 'l' && a[2] == 's' && a[3] == 'e'){
+            ret = true;
+        }
+        return ret;
+    }
 
-    private boolean IsDoWhile(char a[]) {
+    public boolean IsDoWhile(char a[]) {
         boolean ret = false;
         if (a[0] == 'd' && a[1] == 'o') {
             ret = true;
@@ -202,6 +210,16 @@ public class Texto {
                 } 
             }
             catch(Exception e){}
+            
+            try
+            {
+                if(IsElse(new char[]{codigo.charAt(ix), codigo.charAt(ix+1), codigo.charAt(ix+2), codigo.charAt(ix+3)})) {
+                    Add = new Else(codigo.substring(ix), this);
+                    break;
+                }
+            }
+            catch(Exception e){}
+            
             try
             {
                 if (IsFor(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2)})) {
