@@ -6,6 +6,8 @@
 package Model;
 
 import static Model.Constantes.DIRETORIA_DESTINO;
+import Model.Statement.Statement;
+import Model.Statement.While;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -61,6 +63,10 @@ public class Model {
         Texto Texto=new Texto(in);
         Texto.ComecaCataloga();
         Texto.ComecaAnalisa();
+        
+        ArrayList<Statement> codigo=Texto.getListaStatements();
+        Medias Medias=new Medias();
+        Medias.fazMedias(codigo);
     }
     
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
