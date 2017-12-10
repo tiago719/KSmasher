@@ -6,6 +6,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,9 +20,9 @@ public class While extends Statement
     
     private Statement Condicao;
     
-    public While(String codigo, Texto t)
+    public While(String codigo, Texto t, ArrayList<Statement> MesmoNivel)
     {
-        super(codigo, t);
+        super(codigo, t, MesmoNivel);
     }
     
     @Override
@@ -69,7 +70,7 @@ public class While extends Statement
             
         }
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
+        Condicao = new Statement(Codigo.substring(i, j+1), t, StatementsMesmoNivel);
         
         this.ParaAnalise = Codigo.substring(0, j+1);
         return Codigo.substring(j+1);
@@ -152,7 +153,7 @@ public class While extends Statement
         EspacosWhileParentesAberto=0;
         EspacosCondicaoParentesFechado=0;
         ChavetaUmStatementDentroWhile=-1;
-        PrimeiraChavetaNovaLinha=0;
+        PrimeiraChavetaNovaLinha=-1;
         LinhasEmBrancoDepoisChavetaAberta=-1;
         LinhasEmBrancoDepoisChavetaFechada=-1;
         int contParenteses=0, indexParenteses=-1,i, aux;   
@@ -240,9 +241,22 @@ public class While extends Statement
                 if(ParaAnalise.charAt(i)=='{')
                     while(ParaAnalise.charAt(++i)=='\n')
                         LinhasEmBrancoDepoisChavetaAberta++;                       
+            } 
+            
+            for(i=0;i<StatementsMesmoNivel.size();i++)
+            {
+                if(StatementsMesmoNivel.get(i)==this)
+                {
+                    for(i+=1;i<StatementsMesmoNivel.size();i++)
+                    {
+                        if(StatementsMesmoNivel.get(i).getCodigo().equals("\n"))
+                            LinhasEmBrancoDepoisChavetaFechada++;
+                        else
+                            break;
+                    }
+                    break;
+                }
             }
-            
-            
         }
     }
     

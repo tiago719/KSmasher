@@ -6,6 +6,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,9 +17,9 @@ public class Else extends Statement
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
-    public Else(String codigo, Texto t)
+    public Else(String codigo, Texto t, ArrayList<Statement> MesmoNivel)
     {
-        super(codigo, t);
+        super(codigo, t, MesmoNivel);
     }
     
      @Override

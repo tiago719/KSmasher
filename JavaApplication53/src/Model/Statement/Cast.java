@@ -6,6 +6,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,8 +16,8 @@ public class Cast extends Statement
 {
     private int EspacosEntreCastVariavel;
     
-    public Cast(String codigo, Texto t) {
-        super(codigo, t);
+    public Cast(String codigo, Texto t, ArrayList<Statement> MesmoNivel) {
+        super(codigo, t, MesmoNivel);
     }
     
     @Override

@@ -1,6 +1,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 public class For extends Statement {
 
@@ -12,8 +13,8 @@ public class For extends Statement {
 
     private Statement PInicializacao, Condicao, Incrementacao;
 
-    public For(String codigo, Texto t) {
-        super(codigo, t);
+    public For(String codigo, Texto t, ArrayList<Statement> MesmoNivel) {
+        super(codigo, t, MesmoNivel);
 
     }
 
@@ -284,7 +285,7 @@ public class For extends Statement {
             }
         }
 
-        PInicializacao = new Statement(Codigo.substring(j + 1), t);
+        PInicializacao = new Statement(Codigo.substring(j + 1), t, StatementsMesmoNivel);
 
 
         //retirar espacos entre Inicializacao; ate condicao
@@ -310,7 +311,7 @@ public class For extends Statement {
             }
         }
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
+        Condicao = new Statement(Codigo.substring(i, j+1), t,StatementsMesmoNivel);
         
         
         //retirar espacos entre Condicao; ate incrementacao
@@ -337,7 +338,7 @@ public class For extends Statement {
             }
         }
         
-        Incrementacao = new Statement(Codigo.substring(i, j+1), t);
+        Incrementacao = new Statement(Codigo.substring(i, j+1), t, StatementsMesmoNivel);
         
 
         return Codigo.substring(j+1);

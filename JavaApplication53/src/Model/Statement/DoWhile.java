@@ -6,6 +6,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,8 +21,8 @@ public class DoWhile extends Statement {
 
     private Statement Condicao;
 
-    public DoWhile(String codigo, Texto t) {
-        super(codigo, t);
+    public DoWhile(String codigo, Texto t, ArrayList<Statement> MesmoNivel) {
+        super(codigo, t, MesmoNivel);
     }
 
     @Override
@@ -134,7 +135,7 @@ public class DoWhile extends Statement {
 
         }
 
-        Condicao = new Statement(Codigo.substring(i, j + 1), t);
+        Condicao = new Statement(Codigo.substring(i, j + 1), t, StatementsMesmoNivel);
 
         this.ParaAnalise = Codigo.substring(0, j + 1);
         return Codigo.substring(j + 1);

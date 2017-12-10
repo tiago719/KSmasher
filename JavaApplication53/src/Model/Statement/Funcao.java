@@ -6,15 +6,16 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 public class Funcao extends Statement
 {
     private boolean AntesMain;
     private String nomeFuncao;
     
-    public Funcao(String codigo, Texto t)
+    public Funcao(String codigo, Texto t, ArrayList<Statement> MesmoNivel)
     {
-        super(codigo, t);
+        super(codigo, t, MesmoNivel);
     }
 
     @Override

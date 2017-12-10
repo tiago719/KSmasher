@@ -67,8 +67,10 @@ public class Medias
                 WhileEspacosParentesesAbertoCondicaoList.add(((While)S).getEspacosParentesesAbertoCondicao());
                 WhileEspacosWhileParentesAbertoList.add(((While)S).getEspacosWhileParentesAberto());
                 WhileEspacosCondicaoParentesFechadoList.add(((While)S).getEspacosCondicaoParentesFechado());
-                WhileLinhasEmBrancoDepoisChavetaAbertaList.add(((While)S).getLinhasEmBrancoDepoisChavetaAberta());
-                WhileLinhasEmBrancoDepoisChavetaFechadaList.add(((While)S).getLinhasEmBrancoDepoisChavetaFechada());
+                if((aux=((While)S).getLinhasEmBrancoDepoisChavetaAberta())!=-1)
+                    WhileLinhasEmBrancoDepoisChavetaAbertaList.add(aux);
+                if((aux=((While)S).getLinhasEmBrancoDepoisChavetaFechada())!=-1)
+                    WhileLinhasEmBrancoDepoisChavetaFechadaList.add(aux);
                 if((aux=((While)S).isChavetaUmStatementDentroWhile())!=-1)
                     WhileChavetaUmStatementDentroWhileList.add(aux);
                 if((aux=((While)S).isPosicaoPrimeiraChaveta())!=-1)
@@ -169,6 +171,13 @@ public class Medias
             aux2=true;
         else
             aux2=false;
+        
+        if(WhileLinhasEmBrancoDepoisChavetaAberta<0)
+            WhileLinhasEmBrancoDepoisChavetaAberta=0;
+        
+        if(WhileLinhasEmBrancoDepoisChavetaFechada<0)
+            WhileLinhasEmBrancoDepoisChavetaFechada=0;
+        
         While_EP WhileEp = new While_EP(aux1,aux2, WhileLinhasEmBrancoDepoisChavetaAberta, WhileLinhasEmBrancoDepoisChavetaFechada,WhileEspacosWhileParentesAberto, WhileEspacosParentesesAbertoCondicao, WhileEspacosCondicaoParentesFechado);
         
         //operador

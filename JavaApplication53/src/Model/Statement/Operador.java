@@ -2,13 +2,14 @@ package Model.Statement;
 
 import Model.Constantes;
 import Model.Texto;
+import java.util.ArrayList;
 
 public class Operador extends Statement {
 
     private int EspacosOperadorVariavel, EspacosVariavelOperador;
 
-    public Operador(String codigo, Texto t) {
-        super(codigo, t);
+    public Operador(String codigo, Texto t, ArrayList<Statement> MesmoNivel) {
+        super(codigo, t, MesmoNivel);
     }
 
     @Override

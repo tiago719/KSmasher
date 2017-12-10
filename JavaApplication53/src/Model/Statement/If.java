@@ -1,6 +1,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 public class If extends Statement {
 
@@ -11,9 +12,9 @@ public class If extends Statement {
     private Statement Condicao;
     private boolean temChaveta;
     
-    public If(String codigo, Texto t)
+    public If(String codigo, Texto t, ArrayList<Statement> MesmoNivel)
     {
-        super(codigo, t);
+        super(codigo, t, MesmoNivel);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class If extends Statement {
             
         }
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
+        Condicao = new Statement(Codigo.substring(i, j+1), t, StatementsMesmoNivel);
         
         this.ParaAnalise = Codigo.substring(0, j+1);
         return Codigo.substring(j+1);
