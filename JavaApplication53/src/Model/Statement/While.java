@@ -153,14 +153,20 @@ public class While extends Statement
         EspacosCondicaoParentesFechado=0;
         ChavetaUmStatementDentroWhile=-1;
         PrimeiraChavetaNovaLinha=0;
-        int contParenteses=0, indexParenteses=-1,i, aux;
+        LinhasEmBrancoDepoisChavetaAberta=-1;
+        LinhasEmBrancoDepoisChavetaFechada=-1;
+        int contParenteses=0, indexParenteses=-1,i, aux;   
         
         for(i=0;i<ParaAnalise.length();i++)
-        {
-            if(Texto.IsWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3),ParaAnalise.charAt(i+4)}))
+        { 
+            try
             {
-                i+=4;
+                if(Texto.IsWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3),ParaAnalise.charAt(i+4)}))
+                {
+                    i+=5;
+                }
             }
+            catch(Exception e){}
             while(ParaAnalise.charAt(i)!='(')
             {
                 EspacosWhileParentesAberto++;
@@ -171,7 +177,7 @@ public class While extends Statement
                 EspacosParentesesAbertoCondicao++;
                 i++;
             }
-            while(true)
+            while(++i<ParaAnalise.length())
             {
                 if(ParaAnalise.charAt(i)==')')
                 {
@@ -224,6 +230,19 @@ public class While extends Statement
                     break;
                 }
             }
+        }
+        if(ChavetaUmStatementDentroWhile!=0)
+        {
+            LinhasEmBrancoDepoisChavetaAberta=0;
+            LinhasEmBrancoDepoisChavetaFechada=0;
+            for(i=0;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                    while(ParaAnalise.charAt(++i)=='\n')
+                        LinhasEmBrancoDepoisChavetaAberta++;                       
+            }
+            
+            
         }
     }
     
