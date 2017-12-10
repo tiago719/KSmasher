@@ -5,6 +5,16 @@
  */
 package Model;
 
+import Model.EstiloProgramacao.Cast_EP;
+import Model.EstiloProgramacao.DoWhile_EP;
+import Model.EstiloProgramacao.Else_EP;
+import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.Funcoes_EP;
+import Model.EstiloProgramacao.If_EP;
+import Model.EstiloProgramacao.Operador_EP;
+import Model.EstiloProgramacao.While_EP;
+import Model.Statement.Operador;
 import Model.Statement.Statement;
 import Model.Statement.While;
 import java.util.ArrayList;
@@ -16,101 +26,180 @@ import java.util.ArrayList;
 public class Medias
 {
     //while
-    ArrayList<Integer> WhilesEspacosParentesesAbertoCondicao=new ArrayList<>();
-    ArrayList<Integer> WhilesEspacosWhileParentesAberto=new ArrayList<>();
-    ArrayList<Integer> WhilesEspacosCondicaoParentesFechado=new ArrayList<>();
-    ArrayList<Integer> WhilesLinhasEmBrancoDepoisChavetaAberta=new ArrayList<>();
-    ArrayList<Integer> WhilesLinhasEmBrancoDepoisChavetaFechada=new ArrayList<>();
-    ArrayList<Integer> WhilesChavetaUmStatementDentroWhile=new ArrayList<>();
-    ArrayList<Integer> WhilesPosicaoPrimeiraChaveta=new ArrayList<>();
+    ArrayList<Integer> WhileEspacosParentesesAbertoCondicaoList=new ArrayList<>();
+    ArrayList<Integer> WhileEspacosWhileParentesAbertoList=new ArrayList<>();
+    ArrayList<Integer> WhileEspacosCondicaoParentesFechadoList=new ArrayList<>();
+    ArrayList<Integer> WhileLinhasEmBrancoDepoisChavetaAbertaList=new ArrayList<>();
+    ArrayList<Integer> WhileLinhasEmBrancoDepoisChavetaFechadaList=new ArrayList<>();
+    ArrayList<Integer> WhileChavetaUmStatementDentroWhileList=new ArrayList<>();
+    ArrayList<Integer> WhilePrimeiraChavetaNovaLinhaList=new ArrayList<>();
+    
+    //operador
+    ArrayList<Integer> OperadorEspacosOperadorVariavelList=new ArrayList<>();
+    ArrayList<Integer> OperadorEspacosVariavelOperadorList=new ArrayList<>();
     
     //while
-    int EspacosParentesesAbertoCondicao;
-    int EspacosWhileParentesAberto;
-    int EspacosCondicaoParentesFechado;
-    int LinhasEmBrancoDepoisChavetaAberta;
-    int LinhasEmBrancoDepoisChavetaFechada;
-    int ChavetaUmStatementDentroWhile;
-    int PosicaoPrimeiraChaveta;
+    int WhileEspacosParentesesAbertoCondicao;
+    int WhileEspacosWhileParentesAberto;
+    int WhileEspacosCondicaoParentesFechado;
+    int WhileLinhasEmBrancoDepoisChavetaAberta;
+    int WhileLinhasEmBrancoDepoisChavetaFechada;
+    int WhileChavetaUmStatementDentroWhile;
+    int WhilePrimeiraChavetaNovaLinha;
+    
+    //operador
+    int OperadorEspacosOperadorVariavel;
+    int OperadorEspacosVariavelOperador;
     
     public Medias(){}
     
     public void fazMedias(ArrayList<Statement> Codigo)
     {
+        Statement S;
         int aux, total=0;
         for(int i=0;i<Codigo.size();i++)
         {
-            if(Codigo.get(i).hasFilhos())
+            if((S=Codigo.get(i)).hasFilhos())
                 fazMedias(Codigo.get(i).getStatmentsFilhos());
             
-            if(Codigo.get(i) instanceof While)
+            if(S instanceof While)
             {
-                WhilesEspacosParentesesAbertoCondicao.add(((While)Codigo.get(i)).getEspacosParentesesAbertoCondicao());
-                WhilesEspacosWhileParentesAberto.add(((While)Codigo.get(i)).getEspacosWhileParentesAberto());
-                WhilesEspacosCondicaoParentesFechado.add(((While)Codigo.get(i)).getEspacosCondicaoParentesFechado());
-                WhilesLinhasEmBrancoDepoisChavetaAberta.add(((While)Codigo.get(i)).getLinhasEmBrancoDepoisChavetaAberta());
-                WhilesLinhasEmBrancoDepoisChavetaFechada.add(((While)Codigo.get(i)).getLinhasEmBrancoDepoisChavetaFechada());
-                if((aux=((While)Codigo.get(i)).isChavetaUmStatementDentroWhile())!=-1)
-                    WhilesChavetaUmStatementDentroWhile.add(aux);
-                if((aux=((While)Codigo.get(i)).isPosicaoPrimeiraChaveta())!=-1)
-                    WhilesPosicaoPrimeiraChaveta.add(aux);
+                WhileEspacosParentesesAbertoCondicaoList.add(((While)S).getEspacosParentesesAbertoCondicao());
+                WhileEspacosWhileParentesAbertoList.add(((While)S).getEspacosWhileParentesAberto());
+                WhileEspacosCondicaoParentesFechadoList.add(((While)S).getEspacosCondicaoParentesFechado());
+                WhileLinhasEmBrancoDepoisChavetaAbertaList.add(((While)S).getLinhasEmBrancoDepoisChavetaAberta());
+                WhileLinhasEmBrancoDepoisChavetaFechadaList.add(((While)S).getLinhasEmBrancoDepoisChavetaFechada());
+                if((aux=((While)S).isChavetaUmStatementDentroWhile())!=-1)
+                    WhileChavetaUmStatementDentroWhileList.add(aux);
+                if((aux=((While)S).isPosicaoPrimeiraChaveta())!=-1)
+                    WhilePrimeiraChavetaNovaLinhaList.add(aux);
+            }
+            else if(S instanceof Operador)
+            {
+                OperadorEspacosOperadorVariavelList.add(((Operador) S).getEspacosOperadorVariavel());
+                OperadorEspacosVariavelOperadorList.add(((Operador) S).getEspacosVariavelOperador());
             }
         }
         
-        for(int i=0;i<WhilesEspacosParentesesAbertoCondicao.size();i++)
+        for(int i=0;i<WhileEspacosParentesesAbertoCondicaoList.size();i++)
         {
-            total+=WhilesEspacosParentesesAbertoCondicao.get(i);
+            total+=WhileEspacosParentesesAbertoCondicaoList.get(i);
         }
-        EspacosParentesesAbertoCondicao=total/WhilesEspacosParentesesAbertoCondicao.size();
+        WhileEspacosParentesesAbertoCondicao=total/WhileEspacosParentesesAbertoCondicaoList.size();
         
         total=0;
         
-        for(int i=0;i<WhilesEspacosWhileParentesAberto.size();i++)
+        for(int i=0;i<WhileEspacosWhileParentesAbertoList.size();i++)
         {
-            total+=WhilesEspacosWhileParentesAberto.get(i);
+            total+=WhileEspacosWhileParentesAbertoList.get(i);
         }
-        EspacosWhileParentesAberto=total/WhilesEspacosWhileParentesAberto.size();
+        WhileEspacosWhileParentesAberto=total/WhileEspacosWhileParentesAbertoList.size();
         
         total=0;
         
-        for(int i=0;i<WhilesEspacosCondicaoParentesFechado.size();i++)
+        for(int i=0;i<WhileEspacosCondicaoParentesFechadoList.size();i++)
         {
-            total+=WhilesEspacosCondicaoParentesFechado.get(i);
+            total+=WhileEspacosCondicaoParentesFechadoList.get(i);
         }
-        EspacosCondicaoParentesFechado=total/WhilesEspacosCondicaoParentesFechado.size();
+        WhileEspacosCondicaoParentesFechado=total/WhileEspacosCondicaoParentesFechadoList.size();
         
         total=0;
         
-        for(int i=0;i<WhilesLinhasEmBrancoDepoisChavetaAberta.size();i++)
+        for(int i=0;i<WhileLinhasEmBrancoDepoisChavetaAbertaList.size();i++)
         {
-            total+=WhilesLinhasEmBrancoDepoisChavetaAberta.get(i);
+            total+=WhileLinhasEmBrancoDepoisChavetaAbertaList.get(i);
         }
-        LinhasEmBrancoDepoisChavetaAberta=total/WhilesLinhasEmBrancoDepoisChavetaAberta.size();
+        WhileLinhasEmBrancoDepoisChavetaAberta=total/WhileLinhasEmBrancoDepoisChavetaAbertaList.size();
         
         total=0;
         
-        for(int i=0;i<WhilesLinhasEmBrancoDepoisChavetaFechada.size();i++)
+        for(int i=0;i<WhileLinhasEmBrancoDepoisChavetaFechadaList.size();i++)
         {
-            total+=WhilesLinhasEmBrancoDepoisChavetaFechada.get(i);
+            total+=WhileLinhasEmBrancoDepoisChavetaFechadaList.get(i);
         }
-        LinhasEmBrancoDepoisChavetaFechada=total/WhilesLinhasEmBrancoDepoisChavetaFechada.size();
+        WhileLinhasEmBrancoDepoisChavetaFechada=total/WhileLinhasEmBrancoDepoisChavetaFechadaList.size();
         
         total=0;
         
-        for(int i=0;i<WhilesChavetaUmStatementDentroWhile.size();i++)
+        for(int i=0;i<WhileChavetaUmStatementDentroWhileList.size();i++)
         {
-            total+=WhilesChavetaUmStatementDentroWhile.get(i);
+            total+=WhileChavetaUmStatementDentroWhileList.get(i);
         }
-        ChavetaUmStatementDentroWhile=total/WhilesChavetaUmStatementDentroWhile.size();
+        WhileChavetaUmStatementDentroWhile=total/WhileChavetaUmStatementDentroWhileList.size();
         
         total=0;
         
-        for(int i=0;i<WhilesPosicaoPrimeiraChaveta.size();i++)
+        for(int i=0;i<WhilePrimeiraChavetaNovaLinhaList.size();i++)
         {
-            total+=WhilesPosicaoPrimeiraChaveta.get(i);
+            total+=WhilePrimeiraChavetaNovaLinhaList.get(i);
         }
-        PosicaoPrimeiraChaveta=total/WhilesPosicaoPrimeiraChaveta.size();
-     
+        WhilePrimeiraChavetaNovaLinha=total/WhilePrimeiraChavetaNovaLinhaList.size();
+                
+        total=0;
+        
+        for(int i=0;i<OperadorEspacosOperadorVariavelList.size();i++)
+        {
+            total+=OperadorEspacosOperadorVariavelList.get(i);
+        }
+        OperadorEspacosOperadorVariavel=total/OperadorEspacosOperadorVariavelList.size();
+        
+        total=0;
+        
+        for(int i=0;i<OperadorEspacosVariavelOperadorList.size();i++)
+        {
+            total+=OperadorEspacosVariavelOperadorList.get(i);
+        }
+        OperadorEspacosVariavelOperador=total/OperadorEspacosVariavelOperadorList.size();
+  
+    }
+    
+    public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo)
+    {
+        fazMedias(Codigo);
+        
+        //while
+        
+        boolean aux1, aux2;
+        if(WhilePrimeiraChavetaNovaLinha==1)
+            aux1=true;
+        else
+            aux1=false;
+        
+        if(WhileChavetaUmStatementDentroWhile==1)
+            aux2=true;
+        else
+            aux2=false;
+        While_EP WhileEp = new While_EP(aux1,aux2, WhileLinhasEmBrancoDepoisChavetaAberta, WhileLinhasEmBrancoDepoisChavetaFechada,WhileEspacosWhileParentesAberto, WhileEspacosParentesesAbertoCondicao, WhileEspacosCondicaoParentesFechado);
+        
+        //operador
+        
+        Operador_EP OperadorEp=new Operador_EP(OperadorEspacosOperadorVariavel,OperadorEspacosVariavelOperador);
+        
+        //if
+        
+        If_EP IfEp = null;
+        
+        //else
+        
+        Else_EP ElseEp = null;
+        
+        //cats
+        
+        Cast_EP CastEp = null;
+        
+        //doWhile
+        
+        DoWhile_EP DoWhileEp = null;
+        
+        //for
+        
+        For_EP ForEp = null;
+        
+        //funcoes
+        
+        Funcoes_EP FuncoesEp = null;
+        
+        return new EstiloProgramacao(NomeEstilo, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
     }
         
 }

@@ -66,7 +66,7 @@ public class Model {
         
         ArrayList<Statement> codigo=Texto.getListaStatements();
         Medias Medias=new Medias();
-        Medias.fazMedias(codigo);
+        Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeFicheiro));
     }
     
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)

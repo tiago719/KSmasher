@@ -83,10 +83,7 @@ public class Operador extends Statement {
 
                 break;
             }
-            catch(Exception e)
-            {
-                
-            }
+            catch(Exception e){}
         }
     }
 
