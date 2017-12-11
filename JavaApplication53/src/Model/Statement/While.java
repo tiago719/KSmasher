@@ -6,6 +6,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 /**
  *
@@ -152,7 +153,7 @@ public class While extends Statement
         EspacosWhileParentesAberto=0;
         EspacosCondicaoParentesFechado=0;
         ChavetaUmStatementDentroWhile=-1;
-        PrimeiraChavetaNovaLinha=0;
+        PrimeiraChavetaNovaLinha=-1;
         LinhasEmBrancoDepoisChavetaAberta=-1;
         LinhasEmBrancoDepoisChavetaFechada=-1;
         int contParenteses=0, indexParenteses=-1,i, aux;   
@@ -238,11 +239,29 @@ public class While extends Statement
             for(i=0;i<ParaAnalise.length();i++)
             {
                 if(ParaAnalise.charAt(i)=='{')
-                    while(ParaAnalise.charAt(++i)=='\n')
+                    for(i+=1;i<ParaAnalise.length() && ParaAnalise.charAt(i)=='\n' ;i++)
                         LinhasEmBrancoDepoisChavetaAberta++;                       
             }
-            
-            
+            aux=0;
+            for(i+=1;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                    aux++;
+                if(ParaAnalise.charAt(i)=='}')
+                {
+                    if(aux<=0)
+                        break;
+                    else
+                        aux--;
+                }          
+            }
+            for(;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                else 
+                    break;
+            }
         }
     }
     

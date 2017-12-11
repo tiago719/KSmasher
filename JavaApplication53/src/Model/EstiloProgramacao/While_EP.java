@@ -11,12 +11,12 @@ package Model.EstiloProgramacao;
  */
 public class While_EP 
 {
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroWhile;
+    private boolean PrimeiraChavetaNovaLinha, ChavetaUmStatementDentroWhile;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
         EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
 
     public While_EP(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroWhile, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int EspacosWhileParentesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
-        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.PrimeiraChavetaNovaLinha = PosicaoPrimeiraChaveta;
         this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
         this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
@@ -27,12 +27,12 @@ public class While_EP
 
     public boolean isPosicaoPrimeiraChaveta()
     {
-        return PosicaoPrimeiraChaveta;
+        return PrimeiraChavetaNovaLinha;
     }
 
     public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta)
     {
-        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.PrimeiraChavetaNovaLinha = PosicaoPrimeiraChaveta;
     }
 
     public boolean isChavetaUmStatementDentroWhile()

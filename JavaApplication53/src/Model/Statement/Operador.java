@@ -2,6 +2,7 @@ package Model.Statement;
 
 import Model.Constantes;
 import Model.Texto;
+import java.util.ArrayList;
 
 public class Operador extends Statement {
 
@@ -83,10 +84,7 @@ public class Operador extends Statement {
 
                 break;
             }
-            catch(Exception e)
-            {
-                
-            }
+            catch(Exception e){}
         }
     }
 
