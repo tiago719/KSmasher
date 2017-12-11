@@ -142,7 +142,7 @@ public class For extends Statement {
         }
 
         EspacosInicializacaoPontoVirgula = 0;
-        for (int i = Conta; i >= 0; i--) {
+        for (int i = Conta-1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
@@ -168,7 +168,7 @@ public class For extends Statement {
         }
         EspacosCondicaoPontoVirgula = 0;
         
-        for (int i = Conta; i >= 0; i--) {
+        for (int i = Conta-1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
@@ -210,7 +210,7 @@ public class For extends Statement {
         }
         EspacosIncrementacaoParentesesFechado = 0;
         
-        for (int i = Conta; i >= 0; i--) {
+        for (int i = Conta-1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
@@ -219,8 +219,46 @@ public class For extends Statement {
          aux = aux.substring(Conta);
          
          //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA ABERTA;
-         
+         Conta = 0;
+
+        while (aux.charAt(Conta) != '{') {
+            Conta++;
+        }
+        LinhasEmBrancoDepoisChavetaAberta = 0;
+        for (int i = Conta-1; i >= 0; i--) {
+            if (aux.charAt(i) != ' ') {
+                break;
+            }
+            LinhasEmBrancoDepoisChavetaAberta++;
+        }
+         aux = aux.substring(Conta);
         
+         //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA FECHADA
+         while (true) {
+            if(aux.charAt(Conta) == '{')
+                nabertos++;
+            
+            if(aux.charAt(Conta) == '}')
+            {
+                if(nabertos != 0)
+                {
+                   nabertos --;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            Conta++;
+        }
+        
+         for (int i = Conta-1; i >= 0; i--) {
+            if (aux.charAt(i) != ' ') {
+                break;
+            }
+            LinhasEmBrancoDepoisChavetaFechada++;
+        }
     }
 
     @Override
