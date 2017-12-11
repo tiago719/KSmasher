@@ -16,8 +16,8 @@ public class Cast extends Statement
 {
     private int EspacosEntreCastVariavel;
     
-    public Cast(String codigo, Texto t, ArrayList<Statement> MesmoNivel) {
-        super(codigo, t, MesmoNivel);
+    public Cast(String codigo, Texto t) {
+        super(codigo, t);
     }
     
     @Override

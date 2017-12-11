@@ -20,9 +20,9 @@ public class While extends Statement
     
     private Statement Condicao;
     
-    public While(String codigo, Texto t, ArrayList<Statement> MesmoNivel)
+    public While(String codigo, Texto t)
     {
-        super(codigo, t, MesmoNivel);
+        super(codigo, t);
     }
     
     @Override
@@ -70,7 +70,7 @@ public class While extends Statement
             
         }
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t, StatementsMesmoNivel);
+        Condicao = new Statement(Codigo.substring(i, j+1), t);
         
         this.ParaAnalise = Codigo.substring(0, j+1);
         return Codigo.substring(j+1);
@@ -239,23 +239,28 @@ public class While extends Statement
             for(i=0;i<ParaAnalise.length();i++)
             {
                 if(ParaAnalise.charAt(i)=='{')
-                    while(ParaAnalise.charAt(++i)=='\n')
+                    for(i+=1;i<ParaAnalise.length() && ParaAnalise.charAt(i)=='\n' ;i++)
                         LinhasEmBrancoDepoisChavetaAberta++;                       
-            } 
-            
-            for(i=0;i<StatementsMesmoNivel.size();i++)
+            }
+            aux=0;
+            for(i+=1;i<ParaAnalise.length();i++)
             {
-                if(StatementsMesmoNivel.get(i)==this)
+                if(ParaAnalise.charAt(i)=='{')
+                    aux++;
+                if(ParaAnalise.charAt(i)=='}')
                 {
-                    for(i+=1;i<StatementsMesmoNivel.size();i++)
-                    {
-                        if(StatementsMesmoNivel.get(i).getCodigo().equals("\n"))
-                            LinhasEmBrancoDepoisChavetaFechada++;
-                        else
-                            break;
-                    }
+                    if(aux<=0)
+                        break;
+                    else
+                        aux--;
+                }          
+            }
+            for(;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                else 
                     break;
-                }
             }
         }
     }

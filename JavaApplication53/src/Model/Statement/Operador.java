@@ -8,8 +8,8 @@ public class Operador extends Statement {
 
     private int EspacosOperadorVariavel, EspacosVariavelOperador;
 
-    public Operador(String codigo, Texto t, ArrayList<Statement> MesmoNivel) {
-        super(codigo, t, MesmoNivel);
+    public Operador(String codigo, Texto t) {
+        super(codigo, t);
     }
 
     @Override

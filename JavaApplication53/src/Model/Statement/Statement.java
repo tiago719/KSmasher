@@ -6,17 +6,15 @@ import java.util.ArrayList;
 public class Statement
 {
     protected ArrayList<Statement> StatmentsFilhos;
-    protected ArrayList<Statement> StatementsMesmoNivel;
     String ParaAnalise;
     String Codigo;
     Texto Texto;
     
-    public Statement(String Codigo, Texto t, ArrayList<Statement> MesmoNivel){
+    public Statement(String Codigo, Texto t){
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
         Texto=t;
         String aux = RetiraDados(Codigo, t);
-        StatementsMesmoNivel=MesmoNivel;
         StatmentsFilhos = t.Cataloga(aux);
     }
     

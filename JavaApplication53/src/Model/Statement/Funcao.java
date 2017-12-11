@@ -13,9 +13,9 @@ public class Funcao extends Statement
     private boolean AntesMain;
     private String nomeFuncao;
     
-    public Funcao(String codigo, Texto t, ArrayList<Statement> MesmoNivel)
+    public Funcao(String codigo, Texto t)
     {
-        super(codigo, t, MesmoNivel);
+        super(codigo, t);
     }
 
     @Override

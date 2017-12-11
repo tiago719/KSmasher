@@ -17,9 +17,9 @@ public class Else extends Statement
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
-    public Else(String codigo, Texto t, ArrayList<Statement> MesmoNivel)
+    public Else(String codigo, Texto t)
     {
-        super(codigo, t, MesmoNivel);
+        super(codigo, t);
     }
     
      @Override

@@ -24,9 +24,7 @@ public class WhileTest
     
     public WhileTest()
     {
-        Texto t=new Texto();
-        While teste=new While("while(true)\ni++;",t);
-        teste.analisaStatement();
+
     }
     
     @BeforeClass

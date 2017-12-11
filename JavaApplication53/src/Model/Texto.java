@@ -202,7 +202,7 @@ public class Texto {
             try
             {
                 if (isIF(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
-                    Add = new If(codigo.substring(ix), this, Novo);
+                    Add = new If(codigo.substring(ix), this);
                     break;
                 } 
             }
@@ -210,7 +210,7 @@ public class Texto {
             try
             {
                 if (IsFor(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2)})) {
-                    Add = new For(codigo.substring(ix), this, Novo);
+                    Add = new For(codigo.substring(ix), this);
                     break;
                 } 
             }
@@ -219,7 +219,7 @@ public class Texto {
             try
             {
                 if (IsWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1), codigo.charAt(ix + 2), codigo.charAt(ix + 3), codigo.charAt(ix + 4), codigo.charAt(ix + 5)})) {
-                    Add = new While(codigo.substring(ix), this, Novo);
+                    Add = new While(codigo.substring(ix), this);
                     break;
                 } 
             }
@@ -228,7 +228,7 @@ public class Texto {
             try
             {
                 if (IsDoWhile(new char[]{codigo.charAt(ix), codigo.charAt(ix + 1)})) {
-                    Add = new DoWhile(codigo.substring(ix), this, Novo);
+                    Add = new DoWhile(codigo.substring(ix), this);
                     break;
                 } 
             }
@@ -237,7 +237,7 @@ public class Texto {
             try
             {
                 if (IsFuncao(codigo.substring(ix))) {
-                    Add = new Funcao(codigo.substring(ix), this, Novo);
+                    Add = new Funcao(codigo.substring(ix), this);
                     break;
                 } 
             }
@@ -246,7 +246,7 @@ public class Texto {
             try
             {
                 if (IsOperador(codigo.substring(ix))) {
-                    Add = new Operador(codigo.substring(ixUltimoCarater), this, Novo);
+                    Add = new Operador(codigo.substring(ixUltimoCarater), this);
                     break;
                 } 
             }
@@ -255,7 +255,7 @@ public class Texto {
             try
             {
                 if (IsCast(codigo.substring(ix))) {
-                    Add = new Cast(codigo.substring(ixUltimoCarater), this, Novo);
+                    Add = new Cast(codigo.substring(ixUltimoCarater), this);
                     break;
                 }
             }
