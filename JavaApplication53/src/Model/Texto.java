@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import Model.Statement.*;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Texto {
 
     private ArrayList<Statement> ListaStatements;
-    int Ix;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
 
@@ -19,8 +19,14 @@ public class Texto {
      */
     public Texto(BufferedReader In) {
         ListaStatements = new ArrayList<Statement>();
-        Ix = 0;
         TextoBR = In;
+    }
+
+    //TODO: PARA TESTES
+    public Texto(String Codigo) {
+        ListaStatements = new ArrayList<Statement>();
+        ListaStatements = Cataloga(Codigo, null);
+
     }
 
     /**
@@ -30,7 +36,6 @@ public class Texto {
      */
     public Texto(BufferedWriter Out) {
         ListaStatements = new ArrayList<Statement>();
-        Ix = 0;
         TextoBW = Out;
     }
 
@@ -67,22 +72,6 @@ public class Texto {
         }
     }
 
-    public void fazMedia() {
-        /*
-        ArrayList<Integer> EspacosOperadorVariavel=new ArrayList<Integer>();
-        ArrayList<Integer> EspacosVariavelOperador=new ArrayList<Integer>();
-        
-        for(int i=0;i<ListaStatements.size();i++)
-        {
-            if(ListaStatements.get(i) instanceof Operador)
-            {
-                Operador S=(Operador)ListaStatements.get(i);
-                EspacosOperadorVariavel.add(S.getEspacosOperadorVariavel());
-                EspacosVariavelOperador.add(S.getEspacosVariavelOperador());
-            }                
-        }*/
-    }
-
     private boolean isIF(char A[]) {
         boolean Ret = false;
         if (A[0] == 'i' && A[1] == 'f') {
@@ -110,33 +99,49 @@ public class Texto {
         return Ret;
     }
 
-    private boolean IsOperador(String S) {
+    private int IsOperador(String S, AtomicInteger NumCaraOperador) {
 
         if (S.charAt(0) == ' ') {
-            return false;
+            return -1;
         }
 
-        for (String operador : Constantes.OPERADORES) {
-            if (S.contains(operador)) {
-                return true;
+        for (String Operador : Constantes.OPERADORES) {
+            if (S.contains(Operador)) {
+                NumCaraOperador.set(Operador.length());
+                return S.indexOf(Operador);
             }
         }
-        return false;
+        return -1;
     }
 
-    private boolean IsCast(String S) {
+    private int IsCast(String S) {
 
         if (S.charAt(0) != '(') {
-            return false;
+            return -1;
         }
 
-        String aux = S.substring(0, 18);
-        for (String TipoDado : Constantes.OPERADORES) {
-            if (TipoDado.contains(aux)) {
-                return true;
+        int i;
+        for (i = 0; i < S.length(); i++) {
+            if (S.charAt(i) != ' ') {
+                break;
             }
         }
-        return false;
+        String Aux = S.substring(i);
+
+        for (String TipoDado : Constantes.TIPO_DADOS) {
+            if (TipoDado.contains(Aux)) {
+                for (i = 0; i < S.length(); i++) {
+                    if (S.charAt(i) != ' ') {
+                        if (S.charAt(i) == ')') {
+                            return TipoDado.length();
+                        } else {
+                            return -1;
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
     }
 
     private boolean IsFor(char A[]) {
@@ -183,22 +188,23 @@ public class Texto {
         return Ret;
     }
 
-    public ArrayList<Statement> Cataloga(String Codigo) {
-        if (Codigo.length() <= 0)
+    public ArrayList<Statement> Cataloga(String Codigo, Statement Pai) {
+        if (Codigo.length() <= 0) {
             return null;
-        
+        }
+
         ArrayList<Statement> Novo = new ArrayList<>();
         Statement Add = null;
-        int IxUltimoCarater = 0;
+        int iUltimoCarater = 0;
         boolean AspasAberto = false, PlicasAberto = false;
         String Aux = "";
 
-        for (; Ix < Codigo.length(); Ix++) {
-            Aux += Codigo.charAt(Ix);
-            if (Codigo.charAt(Ix) == '"' && Codigo.charAt(Ix - 1) != '\\') {
+        for (int i = 0; i < Codigo.length(); i++) {
+
+            if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
-            } else if (Codigo.charAt(Ix) == '\'' && Codigo.charAt(Ix - 1) != '\\') {
+            } else if (Codigo.charAt(i) == '\'' && Codigo.charAt(i - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
                 continue;
             }
@@ -207,73 +213,113 @@ public class Texto {
                 continue;
             }
 
-            if (Codigo.charAt(Ix) != ' ') {
-                IxUltimoCarater = Ix;
-            }
             try {
-                if (isIF(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1)})) {
-                    NovoStatment(Aux, Novo);
-                    Add = new If(Codigo.substring(Ix), this);
+                if (isIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new If(Codigo.substring(i), this);
                     break;
                 }
             } catch (Exception e) {
             }
             try {
-                if (IsFor(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1), Codigo.charAt(Ix + 2)})) {
-                    NovoStatment(Aux, Novo);
-                    Add = new For(Codigo.substring(Ix), this);
-                    break;
-                }
-            } catch (Exception e) {
-            }
-
-            try {
-                if (IsWhile(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1), Codigo.charAt(Ix + 2), Codigo.charAt(Ix + 3), Codigo.charAt(Ix + 4), Codigo.charAt(Ix + 5)})) {
-                    NovoStatment(Aux, Novo);
-                    Add = new While(Codigo.substring(Ix), this);
+                if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2)})) {
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new For(Codigo.substring(i), this);
                     break;
                 }
             } catch (Exception e) {
             }
 
             try {
-                if (IsDoWhile(new char[]{Codigo.charAt(Ix), Codigo.charAt(Ix + 1)})) {
-                    NovoStatment(Aux, Novo);
-                    Add = new DoWhile(Codigo.substring(Ix), this);
+                if (IsWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5)})) {
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new While(Codigo.substring(i), this);
                     break;
                 }
             } catch (Exception e) {
             }
 
             try {
-                if (IsFuncao(Codigo.substring(Ix))) {
-                    NovoStatment(Aux, Novo);
-                    Add = new Funcao(Codigo.substring(Ix), this);
+                if (IsDoWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new DoWhile(Codigo.substring(i), this);
                     break;
                 }
             } catch (Exception e) {
             }
 
             try {
-                if (IsOperador(Codigo.substring(Ix))) {
-                    NovoStatment(Aux, Novo);
-                    Add = new Operador(Codigo.substring(IxUltimoCarater), this);
+                if (IsFuncao(Codigo.substring(i))) {
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new Funcao(Codigo.substring(i), this);
                     break;
                 }
             } catch (Exception e) {
             }
 
             try {
-                if (IsCast(Codigo.substring(Ix))) {
-                    NovoStatment(Aux, Novo);
-                    Add = new Cast(Codigo.substring(IxUltimoCarater), this);
+                AtomicInteger NumCarOperador = new AtomicInteger(-1);
+                int Pos;
+                Pos = IsOperador(Codigo.substring(i, i + 3), NumCarOperador);
+
+                if (Pos != -1) {
+
+                    Aux = NovoStatment(Aux, Novo, Pai);//TODO: ERRO AQUI NAO ADICIONA OS 2 CARATERES
+
+                    int PrevCarater = 0, NextCarater = 0;
+
+                    for (int j = Pos - 1 + i; j >= 0; j--) {
+                        if (Codigo.charAt(j) != ' ') {
+                            PrevCarater = j;
+                            break;
+                        }
+                    }
+
+                    for (int j = Pos + NumCarOperador.intValue() + 2 + i; j < Codigo.length(); j++) {
+                        if (Codigo.charAt(j) != ' ') {
+                            NextCarater = j;
+                            break;
+                        }
+                    }
+
+                    Add = new Operador(Codigo.substring(PrevCarater), this);
                     break;
                 }
             } catch (Exception e) {
             }
 
+            try {
+                int NumCarCast = IsCast(Codigo.substring(i));
+                int PrevCarater = 0, NextCarater = 0;
+                if (NumCarCast != -1) {
+                    Aux = NovoStatment(Aux, Novo, Pai);
+
+                    for (int j = i - 1; j >= 0; j--) {
+                        if (Codigo.charAt(j) != ' ') {
+                            PrevCarater = j;
+                        }
+                    }
+
+                    for (int j = i + NumCarCast; j < Codigo.length(); j++) {
+                        if (Codigo.charAt(j) != ' ') {
+                            NextCarater = j;
+                        }
+                    }
+
+                    Add = new Cast(Codigo.substring(PrevCarater, NextCarater), this);
+                    break;
+                }
+            } catch (Exception e) {
+            }
+
+            if (Codigo.charAt(i) != ' ') {
+                iUltimoCarater = i;
+            }
+            Aux += Codigo.charAt(i);
         }
+        NovoStatment(Aux, Novo, Pai);
         if (Add != null) {
+
             Novo.add(Add);
         }
         return Novo;
@@ -281,16 +327,35 @@ public class Texto {
 
     @Override
     public String toString() {
-        String S = "";
-        for (int i = 0; i < ListaStatements.size(); i++) {
-            S += ListaStatements.get(i).toString();
-        }
+        String S = new String();
+        S += ImprimeCodigo(ListaStatements);
         return S;
     }
 
-    private void NovoStatment(String Aux, ArrayList<Statement> Novo) {
-        if (!"".equals(Aux)) {
-            Novo.add(new Statement(Aux, this));
+    public String ImprimeCodigo(ArrayList<Statement> AL) {
+        String Ret = "";
+        for (Statement S : AL) {
+
+            Ret += S.getCodigo();
+
+            if (S.hasFilhos()) {
+                Ret += ImprimeCodigo(S.getStatmentsFilhos());
+            }
         }
+        return Ret;
+    }
+
+    private String NovoStatment(String Aux, ArrayList<Statement> Novo, Statement Pai) {
+
+        if (!"".equals(Aux)) {
+            if (Pai != null && !Aux.equals(Pai.getCodigo())) {
+
+                Novo.add(new Statement(Aux, this));
+            } else if (Pai == null) {
+                Novo.add(new Statement(Aux, this));
+            }
+
+        }
+        return "";
     }
 }

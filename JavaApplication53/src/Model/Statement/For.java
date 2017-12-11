@@ -329,7 +329,10 @@ public class For extends Statement {
                 PlicasAberto = !PlicasAberto;
             
             if (!AspasAberto && !PlicasAberto){
-                if (Codigo.charAt(j) == ')'){
+                if (Codigo.charAt(j) == '(') {
+                    numParentesesAbertos++;
+                }
+                else if (Codigo.charAt(j) == ')'){
                     if (--numParentesesAbertos == 0){
                         break;
                     }

@@ -13,26 +13,18 @@ public class Operador extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
-        int i, j, k;
+        int i = 0, j = 0;
 
-        for (i = 0; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
-                break;
+        for (String Operador : Constantes.OPERADORES) {
+            if (Codigo.contains(Operador)) {
+                i = Codigo.indexOf(Operador);
+                j = Operador.length();
             }
         }
-        for (j = i; j < Codigo.length(); j++) {
-            if (Codigo.charAt(j) == ' ') {
-                break;
-            }
-        }
-        for (k = j; k < Codigo.length(); k++) {
-            if (Codigo.charAt(k) != ' ') {
-                break;
-            }
-        }
-        this.ParaAnalise = Codigo.substring(0, k);
-        this.Codigo = Codigo.substring(i, j);
-        return Codigo.substring(k+1);
+        
+        this.ParaAnalise = Codigo;
+        this.Codigo = Codigo.substring(i, i+j);
+        return Codigo.substring(i+j+1);
     }
 
     public int getEspacosOperadorVariavel() {

@@ -9,8 +9,12 @@ import static Model.Constantes.DIRETORIA_DESTINO;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 
 public class Model {
@@ -74,10 +78,14 @@ public class Model {
         {
             if(file.isFile())
             {
-                if(file.getName().contains(".c"))
-                    ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
-                else
-                    CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                try {
+                    if(FilenameUtils.getExtension(file.getCanonicalPath()).equals("c"))
+                        ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                    else
+                        CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                } catch (IOException ex) {
+                    
+                }
             }
             else if(file.isDirectory())
             {  

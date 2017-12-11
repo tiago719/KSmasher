@@ -55,6 +55,9 @@ public class While extends Statement {
             }
 
             if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == '(') {
+                    numParentesesAbertos++;
+                }
                 if (Codigo.charAt(j) == ')') {
                     if (--numParentesesAbertos == 0) {
                         break;
@@ -138,9 +141,9 @@ public class While extends Statement {
     @Override
     public void analisaStatement() {
         for (int i = 0; i < ParaAnalise.length(); i++) {
-            if (isWhile()) {
-                
-            }
+//            if (isWhile()) {
+//                
+//            }
         }
     }
 

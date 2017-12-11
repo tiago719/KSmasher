@@ -15,9 +15,13 @@ public class If extends Statement {
         super(codigo, t);
     }
 
+    public Statement getCondicao() {
+        return Condicao;
+    }
+
     @Override
     public String RetiraDados(String Codigo, Texto T) {
-        int i, j;
+        int i, j, k;
 
         //retira espacos entre if e (
         for (i = 2; i < Codigo.length(); i++) {
@@ -48,26 +52,34 @@ public class If extends Statement {
             }
 
             if (!AspasAberto && !PlicasAberto) {
-                if (Codigo.charAt(j) == ')') {
+                if (Codigo.charAt(j) == '(') {
+                    numParentesesAbertos++;
+                }
+                else if (Codigo.charAt(j) == ')') {
                     if (--numParentesesAbertos == 0) {
                         break;
                     }
                 }
             }
         }
-        j--;
+        
 
         //retira espacos do fim condicao ate )
-        for (; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ') {
+        for (k = j-1; k >= 0; k--) {
+            char qqq = Codigo.charAt(k) ;
+            if (Codigo.charAt(k) != ' ') {
                 break;
             }
 
         }
 
-        Condicao = new Statement(Codigo.substring(i, j + 1), T);
-
-        this.ParaAnalise = Codigo.substring(0, j + 1);
+        try{
+            Condicao = new Statement(Codigo.substring(i, k + 1), T);
+        }catch (Exception e){
+            
+        }
+        this.Codigo = Codigo.substring(0, j+1);
+        this.ParaAnalise= Codigo;
         return Codigo.substring(j + 1);
 
     }
