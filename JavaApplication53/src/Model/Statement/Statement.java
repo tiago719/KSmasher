@@ -9,6 +9,7 @@ public class Statement {
     String ParaAnalise;
     String Codigo;
     Texto Texto;
+    int NumCarateresAvancar;
 
     public Statement(String Codigo, Texto T) {
         this.Codigo = Codigo;
@@ -73,8 +74,8 @@ public class Statement {
         return ParaAnalise;
     }
 
-    public int getNumCarateresCodigo() {
-        return Codigo.length();
+    public int getNumCarateresAvancar() {
+        return NumCarateresAvancar;
     }
 
 }

@@ -245,8 +245,9 @@ public class Texto {
             try {
                 if (isIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
+                    
                     Add = new If(Codigo.substring(i), this);
-                    i += Add.getNumCarateresCodigo() - 1;
+                    i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
                 }
@@ -256,7 +257,7 @@ public class Texto {
                 if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new For(Codigo.substring(i), this);
-                    i += Add.getNumCarateresCodigo() - 1;
+                    i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
                 }
@@ -267,7 +268,7 @@ public class Texto {
                 if (IsWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new While(Codigo.substring(i), this);
-                    i += Add.getNumCarateresCodigo() - 1;
+                    i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
                 }
@@ -278,7 +279,7 @@ public class Texto {
                 if (IsDoWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new DoWhile(Codigo.substring(i), this);
-                    i += Add.getNumCarateresCodigo() - 1;
+                    i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
                 }
@@ -289,7 +290,7 @@ public class Texto {
                 if (IsFuncao(Codigo.substring(i))) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new Funcao(Codigo.substring(i), this);
-                    i += Add.getNumCarateresCodigo() - 1;
+                    i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
                 }
