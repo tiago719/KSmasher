@@ -1,22 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
-/**
- *
- * @author Tiago Coutinho
- */
-public class While extends Statement {
 
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroWhile;
+public class While extends Statement
+{
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
-            EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
-
+        EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado,
+            ChavetaUmStatementDentroWhile, PrimeiraChavetaNovaLinha;
+    
     private Statement Condicao;
 
     public While(String codigo, Texto t) {
@@ -75,26 +69,30 @@ public class While extends Statement {
             }
 
         }
-
-        Condicao = new Statement(Codigo.substring(i, j + 1), t);
-
-        this.ParaAnalise = Codigo.substring(0, j + 1);
-        return Codigo.substring(j + 1);
+        
+        Condicao = new Statement(Codigo.substring(i, j+1), t);
+        
+        this.ParaAnalise = Codigo.substring(0, j+1);
+        return Codigo.substring(j+1);
+    }
+    
+    public int isPosicaoPrimeiraChaveta()
+    {
+        return PrimeiraChavetaNovaLinha;
     }
 
-    public boolean isPosicaoPrimeiraChaveta() {
-        return PosicaoPrimeiraChaveta;
+    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta)
+    {
+        this.PrimeiraChavetaNovaLinha = PosicaoPrimeiraChaveta;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta) {
-        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
-    }
-
-    public boolean isChavetaUmStatementDentroWhile() {
+    public int isChavetaUmStatementDentroWhile()
+    {
         return ChavetaUmStatementDentroWhile;
     }
 
-    public void setChavetaUmStatementDentroWhile(boolean ChavetaUmStatementDentroWhile) {
+    public void setChavetaUmStatementDentroWhile(int ChavetaUmStatementDentroWhile)
+    {
         this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
     }
 
@@ -139,11 +137,121 @@ public class While extends Statement {
     }
 
     @Override
-    public void analisaStatement() {
-        for (int i = 0; i < ParaAnalise.length(); i++) {
-//            if (isWhile()) {
-//                
-//            }
+    public void analisaStatement()
+    {
+        EspacosParentesesAbertoCondicao=0;
+        EspacosWhileParentesAberto=0;
+        EspacosCondicaoParentesFechado=0;
+        ChavetaUmStatementDentroWhile=-1;
+        PrimeiraChavetaNovaLinha=-1;
+        LinhasEmBrancoDepoisChavetaAberta=-1;
+        LinhasEmBrancoDepoisChavetaFechada=-1;
+        int contParenteses=0, indexParenteses=-1,i, aux;   
+        
+        for(i=0;i<ParaAnalise.length();i++)
+        { 
+            try
+            {
+                if(Texto.IsWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3),ParaAnalise.charAt(i+4)}))
+                {
+                    i+=5;
+                }
+            }
+            catch(Exception e){}
+            while(ParaAnalise.charAt(i)!='(')
+            {
+                EspacosWhileParentesAberto++;
+                i++;
+            }
+            while(ParaAnalise.charAt(i)==' ')
+            {
+                EspacosParentesesAbertoCondicao++;
+                i++;
+            }
+            while(++i<ParaAnalise.length())
+            {
+                if(ParaAnalise.charAt(i)==')')
+                {
+                    if(contParenteses==0)
+                    {
+                        indexParenteses=i;
+                        break;
+                    }
+                    else
+                        contParenteses--;
+                }                      
+                if(ParaAnalise.charAt(i)=='(')
+                    contParenteses++;
+                i++;
+            }
+            while(ParaAnalise.charAt(indexParenteses--)==' ')
+                EspacosCondicaoParentesFechado++;  
+            break;
+        }
+        
+        aux=i;
+        
+        if(StatmentsFilhos.size()<2)
+        {
+            while(ParaAnalise.charAt(i)=='\n')
+                i++;
+            if(ParaAnalise.charAt(i)=='{')
+                ChavetaUmStatementDentroWhile=1;
+            else
+            {
+                ChavetaUmStatementDentroWhile=0;
+                PrimeiraChavetaNovaLinha=-1;
+            }
+        }
+        else
+        {
+            if(PrimeiraChavetaNovaLinha==-1)
+                return;
+            
+            for(i=aux;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                {
+                    PrimeiraChavetaNovaLinha=0;
+                    break;
+                }
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    PrimeiraChavetaNovaLinha=1;
+                    break;
+                }
+            }
+        }
+        if(ChavetaUmStatementDentroWhile!=0)
+        {
+            LinhasEmBrancoDepoisChavetaAberta=0;
+            LinhasEmBrancoDepoisChavetaFechada=0;
+            for(i=0;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                    for(i+=1;i<ParaAnalise.length() && ParaAnalise.charAt(i)=='\n' ;i++)
+                        LinhasEmBrancoDepoisChavetaAberta++;                       
+            }
+            aux=0;
+            for(i+=1;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                    aux++;
+                if(ParaAnalise.charAt(i)=='}')
+                {
+                    if(aux<=0)
+                        break;
+                    else
+                        aux--;
+                }          
+            }
+            for(;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                else 
+                    break;
+            }
         }
     }
 

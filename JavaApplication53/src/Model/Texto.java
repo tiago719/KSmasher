@@ -11,12 +11,17 @@ public class Texto {
     private ArrayList<Statement> ListaStatements;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
-
     /**
      * Para Analizar
      *
      * @param In
      */
+    
+    public Texto()
+    {
+        //TODO: So para os testes, apagar depois
+    }
+    
     public Texto(BufferedReader In) {
         ListaStatements = new ArrayList<Statement>();
         TextoBR = In;
@@ -367,19 +372,7 @@ public class Texto {
                     Novo.add(Add);
                     continue;
                 }
-//                AtomicInteger NumCarOperador = new AtomicInteger(-1);
-//                int Pos;
-//                Pos = IsOperador(Codigo.substring(i, i + 3), NumCarOperador);
-//
-//                if (Pos != -1) {
-//
-//                    Aux = NovoStatment(Aux, Novo, Pai);//TODO: ERRO AQUI NAO ADICIONA OS 2 CARATERES
-//
-//                    Add = new Operador(Codigo.substring(PrevCarater), this);
-//                    break;
-//                }
-            } catch (Exception e) {
-            }
+            } catch (Exception e) { }
 
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
