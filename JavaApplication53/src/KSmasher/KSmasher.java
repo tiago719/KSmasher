@@ -13,7 +13,7 @@ public class KSmasher {
 
     public static void main(String[] args){
 
-        Texto t = new Texto("if (   ola = 5  (((())))    ){ int a = 5;  }   else {    }");
+        Texto t = new Texto("for(a = 0; a < 5; a++){ int a = 5;  }   else {    }");
         System.out.println(t);
     }
     
