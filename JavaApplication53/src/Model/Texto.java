@@ -71,22 +71,6 @@ public class Texto {
         }
     }
 
-    public void fazMedia() {
-        /*
-        ArrayList<Integer> EspacosOperadorVariavel=new ArrayList<Integer>();
-        ArrayList<Integer> EspacosVariavelOperador=new ArrayList<Integer>();
-        
-        for(int i=0;i<ListaStatements.size();i++)
-        {
-            if(ListaStatements.get(i) instanceof Operador)
-            {
-                Operador S=(Operador)ListaStatements.get(i);
-                EspacosOperadorVariavel.add(S.getEspacosOperadorVariavel());
-                EspacosVariavelOperador.add(S.getEspacosVariavelOperador());
-            }                
-        }*/
-    }
-
     public ArrayList<Statement> getListaStatements() {
         return ListaStatements;
     }

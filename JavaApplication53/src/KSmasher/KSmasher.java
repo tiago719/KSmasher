@@ -5,17 +5,7 @@
  */
 package KSmasher;
 
-import Model.BaseDados;
-import Model.Texto;
-import View.InterfaceTexto;
-import Model.BaseDados;
 import Controller.Controller;
-import Model.Model;
-import Model.Texto;
-import Model.Utilizador;
-import java.sql.SQLException;
-
-import Model.Statement.*;
 
 public class KSmasher {
 

@@ -24,7 +24,11 @@ public class WhileTest
     
     public WhileTest()
     {
-
+        lista=new ArrayList<>();
+        lista.add(new While("while ( true ) \na++;", new Texto(), 0));
+        
+        for(While S : lista)
+            S.analisaStatement();
     }
     
     @BeforeClass
