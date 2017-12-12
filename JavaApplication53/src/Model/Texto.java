@@ -98,7 +98,7 @@ public class Texto {
         return Ret;
     }
 
-    private boolean IsWhile(char A[]) {
+    public boolean IsWhile(char A[]) {
         boolean Ret = false;
         if (A[0] == 'w' && A[1] == 'h' && A[2] == 'i' && A[3] == 'l' && A[4] == 'e') {
             Ret = true;

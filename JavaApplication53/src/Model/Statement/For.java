@@ -143,14 +143,14 @@ public class For extends Statement {
         }
 
         EspacosInicializacaoPontoVirgula = 0;
-        for (int i = Conta-1; i >= 0; i--) {
+        for (int i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
             EspacosInicializacaoPontoVirgula++;
         }
         aux = aux.substring(Conta);
-        
+
         //ESPAÇOS ENTRE ; E CONDIÇAO
         EspacosPontoVirgulaCondicao = 0;
         for (int i = 0; i > aux.length(); i++) {
@@ -160,26 +160,25 @@ public class For extends Statement {
             EspacosPontoVirgulaCondicao++;
         }
         aux = aux.substring(EspacosPontoVirgulaCondicao);
-        
+
         //ESPAÇOS ENTRE CONDIÇAO ;
-          Conta = 0;
+        Conta = 0;
 
         while (aux.charAt(Conta) != ';') {
             Conta++;
         }
         EspacosCondicaoPontoVirgula = 0;
-        
-        for (int i = Conta-1; i >= 0; i--) {
+
+        for (int i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
             EspacosCondicaoPontoVirgula++;
         }
-         aux = aux.substring(Conta);
-         
-         
-         // ESPAÇOS ; INCREMENTACAO
-         EspacosPontoVirgulaIncrementacao = 0;
+        aux = aux.substring(Conta);
+
+        // ESPAÇOS ; INCREMENTACAO
+        EspacosPontoVirgulaIncrementacao = 0;
         for (int i = 0; i > aux.length(); i++) {
             if (aux.charAt(i) != ' ') {
                 break;
@@ -187,74 +186,68 @@ public class For extends Statement {
             EspacosPontoVirgulaIncrementacao++;
         }
         aux = aux.substring(EspacosPontoVirgulaIncrementacao);
-        
+
         // ESPAÇOS INCREMENTACAO )      
-         Conta = 0;
-         int nabertos= 0;
+        Conta = 0;
+        int nabertos = 0;
         while (true) {
-            if(aux.charAt(Conta) == '(')
+            if (aux.charAt(Conta) == '(') {
                 nabertos++;
-            
-            if(aux.charAt(Conta) == ')')
-            {
-                if(nabertos != 0)
-                {
-                   nabertos --;
-                }
-                else
-                {
+            }
+
+            if (aux.charAt(Conta) == ')') {
+                if (nabertos != 0) {
+                    nabertos--;
+                } else {
                     break;
                 }
             }
-            
+
             Conta++;
         }
         EspacosIncrementacaoParentesesFechado = 0;
-        
-        for (int i = Conta-1; i >= 0; i--) {
+
+        for (int i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
             EspacosIncrementacaoParentesesFechado++;
         }
-         aux = aux.substring(Conta);
-         
-         //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA ABERTA;
-         Conta = 0;
+        aux = aux.substring(Conta);
+
+        //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA ABERTA;
+        Conta = 0;
 
         while (aux.charAt(Conta) != '{') {
             Conta++;
         }
         LinhasEmBrancoDepoisChavetaAberta = 0;
-        for (int i = Conta-1; i >= 0; i--) {
+        for (int i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
             LinhasEmBrancoDepoisChavetaAberta++;
         }
-         aux = aux.substring(Conta);
-        
-         //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA FECHADA
-         while (true) {
-            if(aux.charAt(Conta) == '{')
+        aux = aux.substring(Conta);
+
+        //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA FECHADA
+        while (true) {
+            if (aux.charAt(Conta) == '{') {
                 nabertos++;
-            
-            if(aux.charAt(Conta) == '}')
-            {
-                if(nabertos != 0)
-                {
-                   nabertos --;
-                }
-                else
-                {
+            }
+
+            if (aux.charAt(Conta) == '}') {
+                if (nabertos != 0) {
+                    nabertos--;
+                } else {
                     break;
                 }
             }
-            
+
             Conta++;
         }
-        
-         for (int i = Conta-1; i >= 0; i--) {
+
+        for (int i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ') {
                 break;
             }
@@ -345,19 +338,18 @@ public class For extends Statement {
             }
             if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
-            
-            if (!AspasAberto && !PlicasAberto){
-                if (Codigo.charAt(j) == '(') {
-                    numParentesesAbertos++;
-                }
-                else if (Codigo.charAt(j) == ')'){
-                    if (--numParentesesAbertos == 0){
-                        break;
+
+                if (!AspasAberto && !PlicasAberto) {
+                    if (Codigo.charAt(j) == '(') {
+                        numParentesesAbertos++;
+                    } else if (Codigo.charAt(j) == ')') {
+                        if (--numParentesesAbertos == 0) {
+                            break;
+                        }
                     }
                 }
             }
         }
-
         Incrementacao = new Statement(Codigo.substring(i, j + 1), t);
 
         return Codigo.substring(j + 1);
