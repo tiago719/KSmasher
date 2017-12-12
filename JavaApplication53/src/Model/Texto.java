@@ -77,6 +77,9 @@ public class Texto {
         }
     }
 
+    public ArrayList<Statement> getListaStatements() {
+        return ListaStatements;
+    }
     private boolean isIF(char A[]) {
         boolean Ret = false;
         if (A[0] == 'i' && A[1] == 'f') {

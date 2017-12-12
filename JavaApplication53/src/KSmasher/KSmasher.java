@@ -5,6 +5,7 @@
  */
 package KSmasher;
 
+import Controller.Controller;
 import Model.Texto;
 import java.io.BufferedReader;
 

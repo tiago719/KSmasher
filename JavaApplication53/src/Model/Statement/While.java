@@ -12,8 +12,15 @@ public class While extends Statement
             ChavetaUmStatementDentroWhile, PrimeiraChavetaNovaLinha;
     
     private Statement Condicao;
+    
+    public While(String codigo, Texto texto, int a)
+    {
+        ParaAnalise=codigo;
+        Texto = texto;
+    }
 
-    public While(String codigo, Texto t) {
+    public While(String codigo, Texto t) 
+    {
         super(codigo, t);
     }
 
@@ -156,17 +163,24 @@ public class While extends Statement
                 {
                     i+=5;
                 }
+                else
+                    continue;
             }
             catch(Exception e){}
-            while(ParaAnalise.charAt(i)!='(')
+            for(;i<ParaAnalise.length();i++)
             {
-                EspacosWhileParentesAberto++;
-                i++;
+                if(ParaAnalise.charAt(i)!='(')
+                    EspacosWhileParentesAberto++;
+                else
+                    break;
             }
-            while(ParaAnalise.charAt(i)==' ')
+            
+            for(++i;i<ParaAnalise.length();i++)
             {
-                EspacosParentesesAbertoCondicao++;
-                i++;
+                if(ParaAnalise.charAt(i)==' ')
+                    EspacosParentesesAbertoCondicao++;
+                else
+                    break;
             }
             while(++i<ParaAnalise.length())
             {
@@ -182,10 +196,14 @@ public class While extends Statement
                 }                      
                 if(ParaAnalise.charAt(i)=='(')
                     contParenteses++;
-                i++;
             }
-            while(ParaAnalise.charAt(indexParenteses--)==' ')
-                EspacosCondicaoParentesFechado++;  
+            for(indexParenteses--;indexParenteses>0;indexParenteses--)
+            {
+                if(ParaAnalise.charAt(indexParenteses)==' ')
+                    EspacosCondicaoParentesFechado++;
+                else
+                    break;
+            }
             break;
         }
         
@@ -193,8 +211,9 @@ public class While extends Statement
         
         if(StatmentsFilhos.size()<2)
         {
-            while(ParaAnalise.charAt(i)=='\n')
-                i++;
+            for(++i;i<ParaAnalise.length();i++)
+                if(ParaAnalise.charAt(i)=='\n')
+                    i++;
             if(ParaAnalise.charAt(i)=='{')
                 ChavetaUmStatementDentroWhile=1;
             else
