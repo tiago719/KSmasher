@@ -63,16 +63,11 @@ public class If extends Statement {
             }
         }
 
-        //retira espacos do fim condicao ate )
-        for (k = j - 1; k >= 0; k--) {
-            if (Codigo.charAt(k) != ' ') {
-                break;
-            }
-        }
+        
         int l;
         AspasAberto = PlicasAberto = false;
         //procurar {
-        for (l = k + 1; l < Codigo.length(); l++) {
+        for (l = j + 1; l < Codigo.length(); l++) {
             if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
@@ -85,7 +80,7 @@ public class If extends Statement {
             }
         }
 
-        for (l = k + 1; l < Codigo.length(); l++) {
+        for (l = j + 1; l < Codigo.length(); l++) {
             if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
@@ -133,7 +128,7 @@ public class If extends Statement {
         }
 
         try {
-            Condicao = new Statement(Codigo.substring(i, k + 1), T);
+            Condicao = new Statement(Codigo.substring(i, j + 1), T);
         } catch (Exception e) {
         }
         this.Codigo = Codigo.substring(0, j + 1);

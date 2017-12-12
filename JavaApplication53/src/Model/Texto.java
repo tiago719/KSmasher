@@ -264,6 +264,7 @@ public class Texto {
             try {
                 if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
+                    
                     Add = new For(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
