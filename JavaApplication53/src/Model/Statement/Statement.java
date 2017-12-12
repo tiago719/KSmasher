@@ -3,24 +3,33 @@ package Model.Statement;
 import Model.Texto;
 import java.util.ArrayList;
 
-public class Statement
-{
+public class Statement {
+
     protected ArrayList<Statement> StatmentsFilhos;
     String ParaAnalise;
     String Codigo;
     Texto Texto;
-    
-    public Statement(String Codigo, Texto t){
+    int NumCarateresAvancar;
+
+    public Statement(String Codigo, Texto T) {
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
-        Texto=t;
-        String aux = RetiraDados(Codigo, t);
-        StatmentsFilhos = t.Cataloga(aux);
+        Texto = T;
+        String Aux = RetiraDados(Codigo, T);
+        if (Aux != null) {
+            try {
+                StatmentsFilhos = T.Cataloga(Aux, this);
+
+            } catch (Exception e) {
+
+            }
+        }
     }
-    
-    public boolean hasFilhos()
-    {
-        return StatmentsFilhos.size()>0;
+
+    public boolean hasFilhos() {
+        if (StatmentsFilhos == null)
+            return false;
+        return StatmentsFilhos.size() > 0;
     }
 
     public String getParaAnalise() {
@@ -38,36 +47,35 @@ public class Statement
     public void setCodigo(String Codigo) {
         this.Codigo = Codigo;
     }
-    
-    public Statement()
-    {
-        StatmentsFilhos=new ArrayList<Statement>();
+
+    public Statement() {
+        StatmentsFilhos = new ArrayList<Statement>();
     }
-    
-    public void analisaStatement()
-    {
-        
+
+    public void analisaStatement() {
+
     }
-    
-    public void converteStatement()
-    {
-        
+
+    public void converteStatement() {
+
     }
 
     public ArrayList<Statement> getStatmentsFilhos() {
         return StatmentsFilhos;
     }
 
-
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString();
     }
 
-    public String RetiraDados(String codigo, Texto t ){
-        return "";
+    //Metedo a ser usado pelos filhos de statment (Override)
+    public String RetiraDados(String Codigo, Texto T) {
+        return ParaAnalise;
     }
 
-    
+    public int getNumCarateresAvancar() {
+        return NumCarateresAvancar;
+    }
+
 }

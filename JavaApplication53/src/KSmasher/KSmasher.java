@@ -6,15 +6,15 @@
 package KSmasher;
 
 import Controller.Controller;
+import Model.Texto;
+import java.io.BufferedReader;
 
 public class KSmasher {
 
     public static void main(String[] args){
-//      InterfaceTexto Ui= new InterfaceTexto(new Controller());
 
-        Controller c=new Controller();
-        c.Converte("C:\\Users\\Tiago Coutinho\\Desktop\\Servidor");
-              
+        Texto t = new Texto("if (   ola = 5  (((())))    ){ int a = 5;  }   else {    }");
+        System.out.println(t);
     }
     
 }

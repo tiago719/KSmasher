@@ -11,65 +11,138 @@ public class If extends Statement {
 
     private Statement Condicao;
     private boolean temChaveta;
-    
-    public If(String codigo, Texto t)
-    {
+
+    public If(String codigo, Texto t) {
         super(codigo, t);
     }
 
+    public Statement getCondicao() {
+        return Condicao;
+    }
+
     @Override
-    public String RetiraDados(String Codigo, Texto t){
-        int i, j;
-        
+    public String RetiraDados(String Codigo, Texto T) {
+        int i, j, k, m, n;
+
         //retira espacos entre if e (
         for (i = 2; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ')
+            if (Codigo.charAt(i) != ' ') {
                 break;
+            }
         }
-        
+
         i++;//fica depois do (
-        
+
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ')
+            if (Codigo.charAt(i) != ' ') {
                 break;
+            }
         }
-        
+
         //procura fim do if
-        int numParentesesAbertos = 1;
+        int NumParentesesAbertos = 1;
         boolean AspasAberto = false, PlicasAberto = false;
         for (j = i; j < Codigo.length(); j++) {
-            if (Codigo.charAt(j) == '"' && Codigo.charAt(j-1) != '\\')
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
                 AspasAberto = !AspasAberto;
-            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j-1) != '\\')
+                continue;
+            } else if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
-            
-            if (!AspasAberto && !PlicasAberto){
-                if (Codigo.charAt(j) == ')'){
-                    if (--numParentesesAbertos == 0){
+                continue;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == '(') {
+                    NumParentesesAbertos++;
+                } else if (Codigo.charAt(j) == ')') {
+                    if (--NumParentesesAbertos == 0) {
                         break;
                     }
                 }
             }
         }
-        j--;
-        
+
         //retira espacos do fim condicao ate )
-        for (; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ')
+        for (k = j - 1; k >= 0; k--) {
+            if (Codigo.charAt(k) != ' ') {
                 break;
-            
+            }
         }
-        
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
-        
-        this.ParaAnalise = Codigo.substring(0, j+1);
-        return Codigo.substring(j+1);
-        
-        
+        int l;
+        AspasAberto = PlicasAberto = false;
+        //procurar {
+        for (l = k + 1; l < Codigo.length(); l++) {
+            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (Codigo.charAt(l) == '{') {
+                break;
+            }
+        }
+
+        for (l = k + 1; l < Codigo.length(); l++) {
+            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (Codigo.charAt(l) == '{') {
+                temChaveta = true;
+                break;
+            } else if (Codigo.charAt(l) == ';') {
+                temChaveta = false;
+                break;
+            }
+        }
+        if (temChaveta) {
+            NumParentesesAbertos = 1;
+            AspasAberto = PlicasAberto = false;
+            
+            for (m = l + 1; m < Codigo.length(); m++) {
+                if (Codigo.charAt(m) == '"' && Codigo.charAt(m - 1) != '\\') {
+                    AspasAberto = !AspasAberto;
+                    continue;
+                } else if (Codigo.charAt(m) == '\'' && Codigo.charAt(m - 1) != '\\') {
+                    PlicasAberto = !PlicasAberto;
+                    continue;
+                }
+                if (Codigo.charAt(m) == '{') {
+                    NumParentesesAbertos++;
+                    break;
+                }
+                else if(Codigo.charAt(m) == '}') {
+                    if (--NumParentesesAbertos == 0){
+                        break;
+                    }
+                }
+            }
+        } else {
+            m = l;
+        }
+        for (n = m + 1; n < Codigo.length(); n++) {
+            char qqq = Codigo.charAt(n);
+            if (Codigo.charAt(n) != ' ')
+                break;
+        }
+
+        try {
+            Condicao = new Statement(Codigo.substring(i, k + 1), T);
+        } catch (Exception e) {
+        }
+        this.Codigo = Codigo.substring(0, j + 1);
+        this.ParaAnalise = Codigo.substring(0, n + 1);
+        this.NumCarateresAvancar = m + 1;
+        return Codigo.substring(l, m + 1);
+
     }
-    
-    
+
 //    public If(String codigo) {
 //        int contadorCarateres = 2;
 //        temChaveta = true;
@@ -210,7 +283,6 @@ public class If extends Statement {
 //        
 //        numCarateresCodigoStatment = contadorCarateres;
 //    }
-
     public boolean isPosicaoPrimeiraChaveta() {
         return PosicaoPrimeiraChaveta;
     }
