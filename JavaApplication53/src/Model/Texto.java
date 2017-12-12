@@ -99,19 +99,46 @@ public class Texto {
         return Ret;
     }
 
-    private int IsOperador(String S, AtomicInteger NumCaraOperador) {
+    private boolean IsOperador1(char S) {
 
-        if (S.charAt(0) == ' ') {
-            return -1;
+        if (S == ' ') {
+            return false;
         }
 
-        for (String Operador : Constantes.OPERADORES) {
-            if (S.contains(Operador)) {
-                NumCaraOperador.set(Operador.length());
-                return S.indexOf(Operador);
+        for (char Operador : Constantes.OPERADORES_1) {
+            if (S == Operador) {
+                return true;
             }
         }
-        return -1;
+        return false;
+    }
+
+    private boolean IsOperador2(String S) {
+
+        if (S.charAt(0) == ' ') {
+            return false;
+        }
+
+        for (String Operador : Constantes.OPERADORES_2) {
+            if (S.equals(Operador)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean IsOperador3(String S) {
+
+        if (S.charAt(0) == ' ') {
+            return false;
+        }
+
+        for (String Operador : Constantes.OPERADORES_3) {
+            if (S.equals(Operador)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int IsCast(String S) {
@@ -201,6 +228,8 @@ public class Texto {
 
         for (int i = 0; i < Codigo.length(); i++) {
 
+            char Carater = Codigo.charAt(i);
+
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
@@ -217,7 +246,9 @@ public class Texto {
                 if (isIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new If(Codigo.substring(i), this);
-                    break;
+                    i += Add.getNumCarateresCodigo() - 1;
+                    Novo.add(Add);
+                    continue;
                 }
             } catch (Exception e) {
             }
@@ -225,7 +256,9 @@ public class Texto {
                 if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new For(Codigo.substring(i), this);
-                    break;
+                    i += Add.getNumCarateresCodigo() - 1;
+                    Novo.add(Add);
+                    continue;
                 }
             } catch (Exception e) {
             }
@@ -234,7 +267,9 @@ public class Texto {
                 if (IsWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new While(Codigo.substring(i), this);
-                    break;
+                    i += Add.getNumCarateresCodigo() - 1;
+                    Novo.add(Add);
+                    continue;
                 }
             } catch (Exception e) {
             }
@@ -243,7 +278,9 @@ public class Texto {
                 if (IsDoWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new DoWhile(Codigo.substring(i), this);
-                    break;
+                    i += Add.getNumCarateresCodigo() - 1;
+                    Novo.add(Add);
+                    continue;
                 }
             } catch (Exception e) {
             }
@@ -252,39 +289,94 @@ public class Texto {
                 if (IsFuncao(Codigo.substring(i))) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new Funcao(Codigo.substring(i), this);
-                    break;
+                    i += Add.getNumCarateresCodigo() - 1;
+                    Novo.add(Add);
+                    continue;
                 }
             } catch (Exception e) {
             }
 
             try {
-                AtomicInteger NumCarOperador = new AtomicInteger(-1);
-                int Pos;
-                Pos = IsOperador(Codigo.substring(i, i + 3), NumCarOperador);
 
-                if (Pos != -1) {
+                if (IsOperador3(Codigo.substring(i, i + 3))) {
+                    int PrevCarater = 0, NextCarater = 0;
+                    OUTER1:
+                    for (int j = i - 1; j >= 0; j--) {
+                        if (Codigo.charAt(j) != ' ') {
+                            PrevCarater = j;
+                            break OUTER1;
+                        }
+                    }
+                    OUTER2:
+                    for (int j = i + 3; j < Codigo.length(); j++) {
+                        if (Codigo.charAt(j) != ' ') {
+                            NextCarater = j;
+                            break OUTER2;
+                        }
+                    }
 
-                    Aux = NovoStatment(Aux, Novo, Pai);//TODO: ERRO AQUI NAO ADICIONA OS 2 CARATERES
-
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
+                    i += 2;
+                    Novo.add(Add);
+                    continue;
+                }
+                if (IsOperador2(Codigo.substring(i, i + 2))) {
                     int PrevCarater = 0, NextCarater = 0;
 
-                    for (int j = Pos - 1 + i; j >= 0; j--) {
+                    for (int j = i - 1; j >= 0; j--) {
                         if (Codigo.charAt(j) != ' ') {
                             PrevCarater = j;
                             break;
                         }
                     }
 
-                    for (int j = Pos + NumCarOperador.intValue() + 2 + i; j < Codigo.length(); j++) {
+                    for (int j = i + 2; j < Codigo.length(); j++) {
                         if (Codigo.charAt(j) != ' ') {
-                            NextCarater = j;
+                            NextCarater = j + 1;
                             break;
                         }
                     }
 
-                    Add = new Operador(Codigo.substring(PrevCarater), this);
-                    break;
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
+                    i += 1;
+                    Novo.add(Add);
+                    continue;
                 }
+                if (IsOperador1(Codigo.charAt(i))) {
+                    int PrevCarater = 0, NextCarater = 0;
+
+                    for (int j = i - 1; j >= 0; j--) {
+                        if (Codigo.charAt(j) != ' ') {
+                            PrevCarater = j;
+                            break;
+                        }
+                    }
+
+                    for (int j = i + 1; j < Codigo.length(); j++) {
+                        if (Codigo.charAt(j) != ' ') {
+                            NextCarater = j + 1;
+                            break;
+                        }
+                    }
+
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
+                    Novo.add(Add);
+                    continue;
+                }
+//                AtomicInteger NumCarOperador = new AtomicInteger(-1);
+//                int Pos;
+//                Pos = IsOperador(Codigo.substring(i, i + 3), NumCarOperador);
+//
+//                if (Pos != -1) {
+//
+//                    Aux = NovoStatment(Aux, Novo, Pai);//TODO: ERRO AQUI NAO ADICIONA OS 2 CARATERES
+//
+//                    Add = new Operador(Codigo.substring(PrevCarater), this);
+//                    break;
+//                }
             } catch (Exception e) {
             }
 
@@ -302,11 +394,12 @@ public class Texto {
 
                     for (int j = i + NumCarCast; j < Codigo.length(); j++) {
                         if (Codigo.charAt(j) != ' ') {
-                            NextCarater = j;
+                            NextCarater = j + 1;
                         }
                     }
 
                     Add = new Cast(Codigo.substring(PrevCarater, NextCarater), this);
+                    Novo.add(Add);
                     break;
                 }
             } catch (Exception e) {
@@ -318,10 +411,10 @@ public class Texto {
             Aux += Codigo.charAt(i);
         }
         NovoStatment(Aux, Novo, Pai);
-        if (Add != null) {
-
-            Novo.add(Add);
-        }
+//        if (Add != null) {
+//
+//            Novo.add(Add);
+//        }
         return Novo;
     }
 
@@ -336,7 +429,15 @@ public class Texto {
         String Ret = "";
         for (Statement S : AL) {
 
-            Ret += S.getCodigo();
+            if (S instanceof If) {
+                Ret += "if(";
+                for (Statement statmentsFilho : ((If) S).getCondicao().getStatmentsFilhos()) {
+                    Ret += statmentsFilho.getCodigo();
+
+                }
+            }
+            else
+                Ret += S.getCodigo();
 
             if (S.hasFilhos()) {
                 Ret += ImprimeCodigo(S.getStatmentsFilhos());

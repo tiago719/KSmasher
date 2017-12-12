@@ -26,6 +26,8 @@ public class Statement {
     }
 
     public boolean hasFilhos() {
+        if (StatmentsFilhos == null)
+            return false;
         return StatmentsFilhos.size() > 0;
     }
 
@@ -69,6 +71,10 @@ public class Statement {
     //Metedo a ser usado pelos filhos de statment (Override)
     public String RetiraDados(String Codigo, Texto T) {
         return ParaAnalise;
+    }
+
+    public int getNumCarateresCodigo() {
+        return Codigo.length();
     }
 
 }

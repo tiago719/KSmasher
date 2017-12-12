@@ -66,18 +66,14 @@ public class If extends Statement {
 
         //retira espacos do fim condicao ate )
         for (k = j-1; k >= 0; k--) {
-            char qqq = Codigo.charAt(k) ;
             if (Codigo.charAt(k) != ' ') {
                 break;
             }
-
         }
 
         try{
             Condicao = new Statement(Codigo.substring(i, k + 1), T);
-        }catch (Exception e){
-            
-        }
+        }catch (Exception e){        }
         this.Codigo = Codigo.substring(0, j+1);
         this.ParaAnalise= Codigo;
         return Codigo.substring(j + 1);

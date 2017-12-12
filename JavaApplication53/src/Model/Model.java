@@ -64,7 +64,7 @@ public class Model {
         
         Texto Texto=new Texto(in);
         Texto.ComecaCataloga();
-        Texto.ComecaAnalisa();
+//        Texto.ComecaAnalisa();
     }
     
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
@@ -103,7 +103,7 @@ public class Model {
         
         Texto Texto=new Texto(out);
         Texto.ComecaCataloga();
-        Texto.ComecaConverte();
+//        Texto.ComecaConverte();
     }
     
     public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
