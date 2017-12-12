@@ -303,7 +303,7 @@ public class For extends Statement {
             }
         }
 
-        PInicializacao = new Statement(Codigo.substring(j + 1), t);
+        PInicializacao = new Statement(Codigo.substring(i, j + 1), t);
 
         //retirar espacos entre Inicializacao; ate condicao
         for (i = j; i < Codigo.length(); i++) {
@@ -345,11 +345,13 @@ public class For extends Statement {
             }
             if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
-            }
-
-            if (!AspasAberto && !PlicasAberto) {
-                if (Codigo.charAt(j) == ')') {
-                    if (--numParentesesAbertos == 0) {
+            
+            if (!AspasAberto && !PlicasAberto){
+                if (Codigo.charAt(j) == '(') {
+                    numParentesesAbertos++;
+                }
+                else if (Codigo.charAt(j) == ')'){
+                    if (--numParentesesAbertos == 0){
                         break;
                     }
                 }

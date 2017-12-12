@@ -5,26 +5,15 @@
  */
 package KSmasher;
 
-import Model.BaseDados;
 import Model.Texto;
-import View.InterfaceTexto;
-import Model.BaseDados;
-import Controller.Controller;
-import Model.Model;
-import Model.Texto;
-import Model.Utilizador;
-import java.sql.SQLException;
-
-import Model.Statement.*;
+import java.io.BufferedReader;
 
 public class KSmasher {
 
     public static void main(String[] args){
-//      InterfaceTexto Ui= new InterfaceTexto(new Controller());
 
-        Controller c=new Controller();
-        c.Converte("C:\\Users\\Tiago Coutinho\\Desktop\\Servidor");
-              
+        Texto t = new Texto("if (   ola = 5  (((())))    ){ int a = 5;  }   else {    }");
+        System.out.println(t);
     }
     
 }

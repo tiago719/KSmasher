@@ -14,26 +14,23 @@ public class Operador extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
-        int i, j, k;
+        int i = 0, j = 0;
 
-        for (i = 0; i < Codigo.length(); i++) {
+        for (i = 1; i < Codigo.length(); i++) {
             if (Codigo.charAt(i) != ' ') {
                 break;
             }
         }
-        for (j = i; j < Codigo.length(); j++) {
-            if (Codigo.charAt(j) == ' ') {
+
+        for (j = Codigo.length() - 1; j >= 0; j--) {
+            if (Codigo.charAt(j) != ' ') {
                 break;
             }
         }
-        for (k = j; k < Codigo.length(); k++) {
-            if (Codigo.charAt(k) != ' ') {
-                break;
-            }
-        }
-        this.ParaAnalise = Codigo.substring(0, k);
-        this.Codigo = Codigo.substring(i, j);
-        return Codigo.substring(k+1);
+
+        this.ParaAnalise = Codigo;
+        this.Codigo = Codigo.substring(i, j - 1);
+        return null;
     }
 
     public int getEspacosOperadorVariavel() {
@@ -51,36 +48,38 @@ public class Operador extends Statement {
     public void setEspacosVariavelOperador(int EspacosVariavelOperador) {
         this.EspacosVariavelOperador = EspacosVariavelOperador;
     }
-    
-    private boolean isOperador(String Linha)
-    {
-        for(String s : Constantes.Operadores)
-            if(Linha.contains(s))
+
+    private boolean isOperador(String Linha) {
+        for (char s : Constantes.OPERADORES_1) {
+            if (Linha.contains("" + s)) {
                 return true;
+            }
+        }
         return false;
     }
 
     @Override
     public void analisaStatement() {
-        EspacosOperadorVariavel=0;
-        EspacosVariavelOperador=0;
+        EspacosOperadorVariavel = 0;
+        EspacosVariavelOperador = 0;
         int i;
-        
-        for(i=0;i<ParaAnalise.length();i++)
-        {
-            try
-            {
-                int posicaoOperador=i;
-                if(!isOperador(ParaAnalise))
+
+        for (i = 0; i < ParaAnalise.length(); i++) {
+            try {
+                int posicaoOperador = i;
+                if (!isOperador(ParaAnalise)) {
                     continue;
+                }
 
-                while(ParaAnalise.charAt(++i)!=' ')
-                    
-                while(ParaAnalise.charAt(++i)==' ')
-                    EspacosOperadorVariavel++;
+                while (ParaAnalise.charAt(++i) != ' ') {
+                    while (ParaAnalise.charAt(++i) == ' ') {
+                        EspacosOperadorVariavel++;
+                    }
+                }
 
-                while(ParaAnalise.charAt(--posicaoOperador)==' ')
+                while (ParaAnalise.charAt(--posicaoOperador) == ' ') {
                     EspacosVariavelOperador++;
+                }
 
                 break;
             }

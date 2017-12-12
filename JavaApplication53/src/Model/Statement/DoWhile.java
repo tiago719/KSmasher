@@ -56,6 +56,9 @@ public class DoWhile extends Statement {
                 }
 
                 if (!AspasAberto && !PlicasAberto) {
+                    if (Codigo.charAt(i) == '{') {
+                        numChavetasAbertos++;
+                    }
                     if (Codigo.charAt(i) == '}') {
                         if (--numChavetasAbertos == 0) {
                             break;
@@ -119,7 +122,9 @@ public class DoWhile extends Statement {
 
             if (!AspasAberto && !PlicasAberto) {
                 if (Codigo.charAt(j) == ')') {
-                    if (--numParentesesAbertos == 0) {
+                    if (Codigo.charAt(j) == '(') {
+                        numParentesesAbertos++;
+                    } else if (--numParentesesAbertos == 0) {
                         break;
                     }
                 }
