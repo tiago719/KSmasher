@@ -12,7 +12,7 @@ public class While extends Statement
             ChavetaUmStatementDentroWhile, PrimeiraChavetaNovaLinha;
     
     private Statement Condicao;
-    private boolean temChaveta;
+    private boolean TemChaveta;
 
     public While(String codigo, Texto t)
     {
@@ -83,14 +83,14 @@ public class While extends Statement
                 continue;
             }
             if (Codigo.charAt(l) == '{') {
-                temChaveta = true;
+                TemChaveta = true;
                 break;
             } else if (Codigo.charAt(l) == ';') {
-                temChaveta = false;
+                TemChaveta = false;
                 break;
             }
         }
-        if (temChaveta) {
+        if (TemChaveta) {
             int NumParentesesAbertos = 1;
             AspasAberto = PlicasAberto = false;
             

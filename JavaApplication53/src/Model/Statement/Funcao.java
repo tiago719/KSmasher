@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Statement;
 
 import Model.Texto;
-import java.util.ArrayList;
 
 public class Funcao extends Statement {
 
@@ -19,31 +13,58 @@ public class Funcao extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
-        int i, j;
+        int i, j, PosInicioCodigoFuncao = 0, PosFimCodigoFuncao = 0;
+        boolean AspasAberto = false, PlicasAberto = false;
 
-        //procura (
+        //procura {
         for (j = 0; j < Codigo.length(); j++) {
-            if (Codigo.charAt(j) == '(') {
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (PlicasAberto || AspasAberto) {
+                continue;
+            }
+
+            if (Codigo.charAt(j) == '{') {
+                PosInicioCodigoFuncao = j;
                 break;
             }
         }
 
-        for (; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ') {
-                break;
+        int NumAspasAbertos = 1;
+        for (++j; j < Codigo.length(); j++) {
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (PlicasAberto || AspasAberto) {
+                continue;
+            }
+
+            if (Codigo.charAt(j) == '{') {
+                NumAspasAbertos++;
+            } else if (Codigo.charAt(j) == '}') {
+                if (--NumAspasAbertos == 0) {
+                    PosFimCodigoFuncao = j;
+                    break;
+                }
             }
         }
 
-        for (i = j; i >= 0; i--) {
-            if (Codigo.charAt(j) == ' ') {
-                break;
-            }
-        }
-
-        nomeFuncao = Codigo.substring(i + 1, j + 1);
-
-        this.ParaAnalise = Codigo.substring(0, j + 1);
-        return Codigo.substring(j + 1);
+        this.Codigo = Codigo.substring(0, PosInicioCodigoFuncao);
+        if (PosFimCodigoFuncao + 1 > Codigo.length())
+            this.ParaAnalise = Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao);
+        else 
+            this.ParaAnalise = Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
+        this.NumCarateresAvancar = PosFimCodigoFuncao + 1;
+        return Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
 
     }
 

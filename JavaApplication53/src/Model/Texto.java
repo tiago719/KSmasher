@@ -205,20 +205,20 @@ public class Texto {
         }
 
         String StringSplited[] = S.substring(0, 18).split(" ");
+        OUTER_FOR1:
         for (String TipoDado : Constantes.TIPO_DADOS) {
             if (TipoDado.contains(StringSplited[0])) {
-                OUTER:
                 for (int i = 0; i < S.length(); i++) {
                     switch (S.charAt(i)) {
                         case ';':
                         case '{':
-                            break OUTER;
+                            break OUTER_FOR1;
                         case '(':
                             TemParenteses = true;
-                            break;
+                            break OUTER_FOR1;
                         case '=':
                             TemIgual = true;
-                            break OUTER;
+                            break OUTER_FOR1;
                         default:
                             break;
                     }
