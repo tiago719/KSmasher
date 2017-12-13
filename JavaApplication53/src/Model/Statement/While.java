@@ -12,6 +12,7 @@ public class While extends Statement
             ChavetaUmStatementDentroWhile, PrimeiraChavetaNovaLinha;
     
     private Statement Condicao;
+    private boolean temChaveta;
 
     public While(String codigo, Texto t)
     {
@@ -20,7 +21,7 @@ public class While extends Statement
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
-        int i, j;
+        int i, j, z, l, m, n;
 
         //retira espacos entre while e (
         for (i = 5; i < Codigo.length(); i++) {
@@ -60,21 +61,69 @@ public class While extends Statement
                 }
             }
         }
-        j--;
-        char a = Codigo.charAt(j);
 
         //retira espacos do fim condicao ate )
-        for (; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ') {
+        for (z = j - 1; z >= 0; z--) {
+            if (Codigo.charAt(z) != ' ') {
                 break;
             }
 
         }
+                
+        Condicao = new Statement(Codigo.substring(i, z+1), t);
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
-        
-        this.ParaAnalise = Codigo.substring(0, j+1);
-        return Codigo.substring(j+1);
+        AspasAberto = PlicasAberto = false;
+        //procurar {
+        for (l = j + 1; l < Codigo.length(); l++) {
+            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (Codigo.charAt(l) == '{') {
+                temChaveta = true;
+                break;
+            } else if (Codigo.charAt(l) == ';') {
+                temChaveta = false;
+                break;
+            }
+        }
+        if (temChaveta) {
+            int NumParentesesAbertos = 1;
+            AspasAberto = PlicasAberto = false;
+            
+            for (m = l + 1; m < Codigo.length(); m++) {
+                if (Codigo.charAt(m) == '"' && Codigo.charAt(m - 1) != '\\') {
+                    AspasAberto = !AspasAberto;
+                    continue;
+                } else if (Codigo.charAt(m) == '\'' && Codigo.charAt(m - 1) != '\\') {
+                    PlicasAberto = !PlicasAberto;
+                    continue;
+                }
+                if (Codigo.charAt(m) == '{') {
+                    NumParentesesAbertos++;
+                    break;
+                }
+                else if(Codigo.charAt(m) == '}') {
+                    if (--NumParentesesAbertos == 0){
+                        break;
+                    }
+                }
+            }
+        } else {
+            m = l;
+        }
+        for (n = m + 1; n < Codigo.length(); n++) {
+            if (Codigo.charAt(n) != ' ')
+                break;
+        }
+
+        this.Codigo = Codigo.substring(0, j + 1);
+        this.ParaAnalise = Codigo.substring(0, n + 1);
+        this.NumCarateresAvancar = m + 1;
+        return Codigo.substring(l, m + 1);
     }
     
     public int isPosicaoPrimeiraChaveta()

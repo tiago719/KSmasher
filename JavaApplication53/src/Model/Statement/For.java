@@ -355,7 +355,7 @@ public class For extends Statement {
                 }
             }
         }
-        Incrementacao = new Statement(Codigo.substring(i, j + 1), t);
+        Incrementacao = new Statement(Codigo.substring(i, j), t);
 
         int l, k, m, n;
 
@@ -415,18 +415,14 @@ public class For extends Statement {
             m = l;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            char qqq = Codigo.charAt(n);
             if (Codigo.charAt(n) != ' ') {
                 break;
             }
         }
 
         this.Codigo = Codigo.substring(0, j + 1);
-
         this.ParaAnalise = Codigo.substring(0, n + 1);
-
         this.NumCarateresAvancar = m + 1;
-
         return Codigo.substring(l, m + 1);
 
     }

@@ -62,24 +62,19 @@ public class If extends Statement {
                 }
             }
         }
+        
+        //retira espacos do fim condicao ate )
+        for (k = j; k >= 0; k--) {
+            if (Codigo.charAt(k) != ' ') {
+                break;
+            }
+
+        }
 
         
         int l;
         AspasAberto = PlicasAberto = false;
         //procurar {
-        for (l = j + 1; l < Codigo.length(); l++) {
-            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
-                AspasAberto = !AspasAberto;
-                continue;
-            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
-                PlicasAberto = !PlicasAberto;
-                continue;
-            }
-            if (Codigo.charAt(l) == '{') {
-                break;
-            }
-        }
-
         for (l = j + 1; l < Codigo.length(); l++) {
             if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
                 AspasAberto = !AspasAberto;
