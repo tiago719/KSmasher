@@ -23,7 +23,7 @@ public class DoWhile extends Statement {
 
         //procura se tem { ou nao
         for (i = 2; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 y = i;
                 if (Codigo.charAt(i) == '{') {
                     TemChaveta = true;
@@ -74,7 +74,7 @@ public class DoWhile extends Statement {
         PosWhile = i;
         //retira espacos entre }/; e while
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -83,7 +83,7 @@ public class DoWhile extends Statement {
 
         //retira espacos entre while e (
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -92,7 +92,7 @@ public class DoWhile extends Statement {
 
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -123,14 +123,14 @@ public class DoWhile extends Statement {
 
         //procura ;
         for (z = j; z < Codigo.length(); z++) {
-            if (Codigo.charAt(j) != ' ') {
+            if (Codigo.charAt(z) != ' ' && Codigo.charAt(z) != '\n') {
                 break;
             }
         }
 
         //retira espacos do fim condicao ate )
         for (--j; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ') {
+            if (Codigo.charAt(j) != ' ' && Codigo.charAt(j) != '\n') {
                 break;
             }
         }

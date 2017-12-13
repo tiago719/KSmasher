@@ -17,14 +17,14 @@ public class Operador extends Statement {
         int i = 0, j = 0;
 
         for (i = 1; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
 
         for (j = Codigo.length() - 2; j >= 0; j--) {
             char qqq = Codigo.charAt(j);
-            if (Codigo.charAt(j) != ' ') {
+            if (Codigo.charAt(j) != ' ' && Codigo.charAt(j) != '\n') {
                 break;
             }
         }

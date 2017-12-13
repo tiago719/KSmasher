@@ -126,7 +126,7 @@ public class For extends Statement {
 
         // CONTA ESPAÇOS DO ( do FOR até Á Inicializacao
         for (int i = 0; i < aux.length(); i++) {
-            if (aux.charAt(i) == ' ') {
+            if (aux.charAt(i) == ' ' && Codigo.charAt(i) != '\n') {
                 EspacosParentesesAbertoCondicaoInicializacao++;
 
             } else {
@@ -145,7 +145,7 @@ public class For extends Statement {
 
         EspacosInicializacaoPontoVirgula = 0;
         for (int i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ') {
+            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             EspacosInicializacaoPontoVirgula++;
@@ -155,7 +155,7 @@ public class For extends Statement {
         //ESPAÇOS ENTRE ; E CONDIÇAO
         EspacosPontoVirgulaCondicao = 0;
         for (int i = 0; i > aux.length(); i++) {
-            if (aux.charAt(i) != ' ') {
+            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             EspacosPontoVirgulaCondicao++;
@@ -171,7 +171,7 @@ public class For extends Statement {
         EspacosCondicaoPontoVirgula = 0;
 
         for (int i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ') {
+            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             EspacosCondicaoPontoVirgula++;
@@ -181,7 +181,7 @@ public class For extends Statement {
         // ESPAÇOS ; INCREMENTACAO
         EspacosPontoVirgulaIncrementacao = 0;
         for (int i = 0; i > aux.length(); i++) {
-            if (aux.charAt(i) != ' ') {
+            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             EspacosPontoVirgulaIncrementacao++;
@@ -209,7 +209,7 @@ public class For extends Statement {
         EspacosIncrementacaoParentesesFechado = 0;
 
         for (int i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ') {
+            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             EspacosIncrementacaoParentesesFechado++;
@@ -224,7 +224,7 @@ public class For extends Statement {
         }
         LinhasEmBrancoDepoisChavetaAberta = 0;
         for (int i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ') {
+            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             LinhasEmBrancoDepoisChavetaAberta++;
@@ -249,7 +249,7 @@ public class For extends Statement {
         }
 
         for (int i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ') {
+            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             LinhasEmBrancoDepoisChavetaFechada++;
@@ -269,7 +269,7 @@ public class For extends Statement {
         //retira espacos entre if e (
         for (i = 3; i < Codigo.length(); i++) {
             char qqqq = Codigo.charAt(i);
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -278,7 +278,7 @@ public class For extends Statement {
 
         //retira espacos ate inicializacao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -302,7 +302,7 @@ public class For extends Statement {
 
         //retirar espacos entre Inicializacao; ate condicao
         for (i = j; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -327,7 +327,7 @@ public class For extends Statement {
 
         //retirar espacos entre Condicao; ate incrementacao
         for (i = j; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -415,7 +415,7 @@ public class For extends Statement {
             m = l;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            if (Codigo.charAt(n) != ' ') {
+            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n') {
                 break;
             }
         }

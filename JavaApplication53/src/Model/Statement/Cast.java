@@ -39,7 +39,7 @@ public class Cast extends Statement
         
         for(j=k+1;j<Codigo.length();j++)
         {
-            if((c=Codigo.charAt(j))!=' ')
+            if((c=Codigo.charAt(j))!=' ' && Codigo.charAt(j) != '\n')
                 break;
         }
         NumCarateresAvancar=k;
