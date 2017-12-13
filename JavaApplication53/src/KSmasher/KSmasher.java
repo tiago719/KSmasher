@@ -12,8 +12,7 @@ import java.io.BufferedReader;
 public class KSmasher {
 
     public static void main(String[] args){
-
-        Texto t = new Texto("int   a=   (int)   4.  0");
+        Texto t = new Texto("for(a = 0; a < 5; a++){ int a = 5;  }   else {    }");
         System.out.println(t);
     }
     
