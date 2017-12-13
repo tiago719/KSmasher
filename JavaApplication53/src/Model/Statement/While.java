@@ -25,7 +25,8 @@ public class While extends Statement
 
         //retira espacos entre while e (
         for (i = 5; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            char qq = Codigo.charAt(i);
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -34,7 +35,7 @@ public class While extends Statement
 
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -64,7 +65,7 @@ public class While extends Statement
 
         //retira espacos do fim condicao ate )
         for (z = j - 1; z >= 0; z--) {
-            if (Codigo.charAt(z) != ' ') {
+            if (Codigo.charAt(z) != ' ' && Codigo.charAt(j) != '\n') {
                 break;
             }
 
@@ -116,7 +117,7 @@ public class While extends Statement
             m = l;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            if (Codigo.charAt(n) != ' ')
+            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n')
                 break;
         }
 

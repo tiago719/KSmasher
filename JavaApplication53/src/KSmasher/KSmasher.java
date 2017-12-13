@@ -5,7 +5,7 @@ import Model.Texto;
 public class KSmasher {
 
     public static void main(String[] args){
-        Texto t = new Texto("int main()\n" +
+        Texto t = new Texto("while \n (main)\n" +
 "{\n" +
 "    float b_a=500, b_b=1500, t_a=5.2, t_b=1.8;\n" +
 "    int anos=0;\n" +

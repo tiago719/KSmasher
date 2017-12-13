@@ -26,7 +26,7 @@ public class If extends Statement {
 
         //retira espacos entre if e (
         for (i = 2; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -35,7 +35,7 @@ public class If extends Statement {
 
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -65,7 +65,7 @@ public class If extends Statement {
         
         //retira espacos do fim condicao ate )
         for (k = j; k >= 0; k--) {
-            if (Codigo.charAt(k) != ' ') {
+            if (Codigo.charAt(k) != ' ' && Codigo.charAt(k) != '\n') {
                 break;
             }
 
@@ -120,7 +120,7 @@ public class If extends Statement {
             m = l;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            if (Codigo.charAt(n) != ' ')
+            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n')
                 break;
         }
 

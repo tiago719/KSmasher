@@ -31,7 +31,7 @@ public class Else extends Statement {
         this.NumCarateresAvancar = 5;
 
         for (i = 5; i < Codigo.charAt(i); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
