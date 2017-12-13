@@ -12,14 +12,8 @@ public class While extends Statement
             ChavetaUmStatementDentroWhile, PrimeiraChavetaNovaLinha;
     
     private Statement Condicao;
-    
-    public While(String codigo, Texto texto, int a)
-    {
-        ParaAnalise=codigo;
-        Texto = texto;
-    }
 
-    public While(String codigo, Texto t) 
+    public While(String codigo, Texto t)
     {
         super(codigo, t);
     }
