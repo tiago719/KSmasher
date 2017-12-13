@@ -431,10 +431,7 @@ public class Texto {
             Aux += Codigo.charAt(i);
         }
         NovoStatment(Aux, Novo, Pai);
-//        if (Add != null) {
-//
-//            Novo.add(Add);
-//        }
+
         return Novo;
     }
 
