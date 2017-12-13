@@ -10,7 +10,7 @@ public class If extends Statement {
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
     private Statement Condicao;
-    private boolean temChaveta;
+    private boolean TemChaveta;
 
     public If(String codigo, Texto t) {
         super(codigo, t);
@@ -83,15 +83,18 @@ public class If extends Statement {
                 PlicasAberto = !PlicasAberto;
                 continue;
             }
+            if (PlicasAberto || AspasAberto)
+                continue;
+            
             if (Codigo.charAt(l) == '{') {
-                temChaveta = true;
+                TemChaveta = true;
                 break;
             } else if (Codigo.charAt(l) == ';') {
-                temChaveta = false;
+                TemChaveta = false;
                 break;
             }
         }
-        if (temChaveta) {
+        if (TemChaveta) {
             NumParentesesAbertos = 1;
             AspasAberto = PlicasAberto = false;
             
@@ -117,17 +120,19 @@ public class If extends Statement {
             m = l;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            char qqq = Codigo.charAt(n);
             if (Codigo.charAt(n) != ' ')
                 break;
         }
 
         try {
-            Condicao = new Statement(Codigo.substring(i, j + 1), T);
+            Condicao = new Statement(Codigo.substring(i, j), T);
         } catch (Exception e) {
         }
         this.Codigo = Codigo.substring(0, j + 1);
-        this.ParaAnalise = Codigo.substring(0, n + 1);
+        if (n+1 > Codigo.length())
+            this.ParaAnalise = Codigo.substring(0, n);
+        else
+            this.ParaAnalise = Codigo.substring(0, n + 1);
         this.NumCarateresAvancar = m + 1;
         return Codigo.substring(l, m + 1);
 

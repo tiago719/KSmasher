@@ -35,7 +35,8 @@ public class Else extends Statement {
                 break;
             }
         }
-        if (Codigo.substring(i, i + 3).equals("if")) {
+        String IsIF = Codigo.substring(i, i + 3);
+        if (IsIF.charAt(0) == 'i' && IsIF.charAt(1) == 'f' && !(IsIF.charAt(2) >= 'A' && IsIF.charAt(2) <= 'z')) {
             this.ParaAnalise = "else";
             return null;
         }

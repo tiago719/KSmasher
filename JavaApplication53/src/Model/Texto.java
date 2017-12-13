@@ -80,7 +80,7 @@ public class Texto {
     public ArrayList<Statement> getListaStatements() {
         return ListaStatements;
     }
-    private boolean isIF(char A[]) {
+    private boolean IsIF(char A[]) {
         boolean Ret = false;
         if (A[0] == 'i' && A[1] == 'f') {
             Ret = true;
@@ -89,9 +89,9 @@ public class Texto {
         return Ret;
     }
     
-    private boolean isElse(char A[]) 
+    private boolean IsElse(char A[]) 
     {
-        if (A[0] == 'e' && A[1] == 'l' && A[1] == 's' && A[1] == 'e') {
+        if (A[0] == 'e' && A[1] == 'l' && A[2] == 's' && A[3] == 'e') {
             return true;
         }
         return false;
@@ -205,20 +205,20 @@ public class Texto {
         }
 
         String StringSplited[] = S.substring(0, 18).split(" ");
+        OUTER_FOR1:
         for (String TipoDado : Constantes.TIPO_DADOS) {
             if (TipoDado.contains(StringSplited[0])) {
-                OUTER:
                 for (int i = 0; i < S.length(); i++) {
                     switch (S.charAt(i)) {
                         case ';':
                         case '{':
-                            break OUTER;
+                            break OUTER_FOR1;
                         case '(':
                             TemParenteses = true;
-                            break;
+                            break OUTER_FOR1;
                         case '=':
                             TemIgual = true;
-                            break OUTER;
+                            break OUTER_FOR1;
                         default:
                             break;
                     }
@@ -260,7 +260,7 @@ public class Texto {
             }
 
             try {
-                if (isIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
+                if (IsIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     
                     Add = new If(Codigo.substring(i), this);
@@ -271,10 +271,10 @@ public class Texto {
             } catch (Exception e) {}
             
             try {
-                if (isElse(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3)})) {
+                if (IsElse(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
                     
-                    Add = new If(Codigo.substring(i), this);
+                    Add = new Else(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
