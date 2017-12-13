@@ -22,14 +22,15 @@ public class Operador extends Statement {
             }
         }
 
-        for (j = Codigo.length() - 1; j >= 0; j--) {
+        for (j = Codigo.length() - 2; j >= 0; j--) {
+            char qqq = Codigo.charAt(j);
             if (Codigo.charAt(j) != ' ') {
                 break;
             }
         }
 
         this.ParaAnalise = Codigo;
-        this.Codigo = Codigo.substring(i, j - 1);
+        this.Codigo = Codigo.substring(i, j + 1);
         return null;
     }
 
