@@ -13,14 +13,8 @@ public class While extends Statement
     
     private Statement Condicao;
     private boolean temChaveta;
-    
-    public While(String codigo, Texto texto, int a)
-    {
-        ParaAnalise=codigo;
-        Texto = texto;
-    }
 
-    public While(String codigo, Texto t) 
+    public While(String codigo, Texto t)
     {
         super(codigo, t);
     }
