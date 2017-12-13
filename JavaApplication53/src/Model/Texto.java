@@ -56,7 +56,7 @@ public class Texto {
     private void Analisa(ArrayList<Statement> Lista) {
         for (Statement s : Lista) {
             if (s.hasFilhos()) {
-                Analisa(s.getStatmentsFilhos());
+                Analisa(s.getStatementsFilhos());
             } else {
                 s.analisaStatement();
             }
@@ -70,7 +70,7 @@ public class Texto {
     private void Converte(ArrayList<Statement> Lista) {
         for (Statement S : Lista) {
             if (S.hasFilhos()) {
-                Converte(S.getStatmentsFilhos());
+                Converte(S.getStatementsFilhos());
             } else {
                 S.analisaStatement();
             }
@@ -261,7 +261,7 @@ public class Texto {
 
             try {
                 if (IsIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     
                     Add = new If(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
@@ -272,7 +272,7 @@ public class Texto {
             
             try {
                 if (IsElse(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3)})) {
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     
                     Add = new Else(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
@@ -282,7 +282,7 @@ public class Texto {
             } catch (Exception e) {}
             try {
                 if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2)})) {
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     
                     Add = new For(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
@@ -294,7 +294,7 @@ public class Texto {
 
             try {
                 if (IsWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5)})) {
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new While(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
@@ -305,7 +305,7 @@ public class Texto {
 
             try {
                 if (IsDoWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new DoWhile(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
@@ -316,7 +316,7 @@ public class Texto {
 
             try {
                 if (IsFuncao(Codigo.substring(i))) {
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new Funcao(Codigo.substring(i), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
@@ -344,7 +344,7 @@ public class Texto {
                         }
                     }
 
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
                     i += 2;
                     Novo.add(Add);
@@ -367,7 +367,7 @@ public class Texto {
                         }
                     }
 
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
                     i += 1;
                     Novo.add(Add);
@@ -390,7 +390,7 @@ public class Texto {
                         }
                     }
 
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
                     Novo.add(Add);
                     continue;
@@ -416,7 +416,7 @@ public class Texto {
                             break;
                         }
                     }
-                    Aux = NovoStatment(Aux, Novo, Pai);
+                    Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new Cast(Codigo.substring(PrevCarater, NextCarater), this);
                     Novo.add(Add);
                     i += Add.getNumCarateresAvancar()-1;
@@ -430,7 +430,7 @@ public class Texto {
             }
             Aux += Codigo.charAt(i);
         }
-        NovoStatment(Aux, Novo, Pai);
+        NovoStatement(Aux, Novo, Pai);
 
         return Novo;
     }
@@ -448,8 +448,8 @@ public class Texto {
 
             if (S instanceof If) {
                 Ret += "if(";
-                for (Statement statmentsFilho : ((If) S).getCondicao().getStatmentsFilhos()) {
-                    Ret += statmentsFilho.getCodigo();
+                for (Statement statementsFilho : ((If) S).getCondicao().getStatementsFilhos()) {
+                    Ret += statementsFilho.getCodigo();
 
                 }
             }
@@ -457,13 +457,13 @@ public class Texto {
                 Ret += S.getCodigo();
 
             if (S.hasFilhos()) {
-                Ret += ImprimeCodigo(S.getStatmentsFilhos());
+                Ret += ImprimeCodigo(S.getStatementsFilhos());
             }
         }
         return Ret;
     }
 
-    private String NovoStatment(String Aux, ArrayList<Statement> Novo, Statement Pai) {
+    private String NovoStatement(String Aux, ArrayList<Statement> Novo, Statement Pai) {
 
         if (!"".equals(Aux)) {
             if (Pai != null && !Aux.equals(Pai.getCodigo())) {

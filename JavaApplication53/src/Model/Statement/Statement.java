@@ -60,7 +60,7 @@ public class Statement {
 
     }
 
-    public ArrayList<Statement> getStatmentsFilhos() {
+    public ArrayList<Statement> getStatementsFilhos() {
         return StatmentsFilhos;
     }
 

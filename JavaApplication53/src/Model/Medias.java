@@ -60,7 +60,7 @@ public class Medias
         for(int i=0;i<Codigo.size();i++)
         {
             if((S=Codigo.get(i)).hasFilhos())
-                fazMedias(Codigo.get(i).getStatmentsFilhos());
+                fazMedias(Codigo.get(i).getStatementsFilhos());
             
             if(S instanceof While)
             {
