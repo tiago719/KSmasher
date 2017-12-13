@@ -127,7 +127,10 @@ public class If extends Statement {
         } catch (Exception e) {
         }
         this.Codigo = Codigo.substring(0, j + 1);
-        this.ParaAnalise = Codigo.substring(0, n + 1);
+        if (n+1 > Codigo.length())
+            this.ParaAnalise = Codigo.substring(0, n);
+        else
+            this.ParaAnalise = Codigo.substring(0, n + 1);
         this.NumCarateresAvancar = m + 1;
         return Codigo.substring(l, m + 1);
 

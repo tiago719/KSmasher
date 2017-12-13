@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 public class KSmasher {
 
     public static void main(String[] args){
-        Texto t = new Texto("if( ola > 9 ) { olaola; }  else if ( ga == 5) {  int a=(int)4.0  }");
+        Texto t = new Texto("else int a=(int)4.0; ");
         System.out.println(t);
     }
     
