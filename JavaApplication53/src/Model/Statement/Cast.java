@@ -23,23 +23,29 @@ public class Cast extends Statement
     @Override
     public String RetiraDados(String Codigo, Texto t) {
         int i, j, k;
-
-        for (i = 0; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) == ')') {
-                break;
-            }
-        }
-        i++;
-        for (j = i; j < Codigo.length(); j++) {
-            if (Codigo.charAt(i) != ' ') {
-                break;
-            }
-        }
-        j++;
+        char c;
         
-        this.Codigo = Codigo.substring(0, i);
-        this.ParaAnalise = Codigo.substring(0, j);
-        return Codigo.substring(i);
+        for(i=0;i<Codigo.length();i++)
+        {
+            if(Codigo.charAt(i)=='(')
+                break;
+        }
+
+        for (k = i+1; k < Codigo.length(); k++) {
+            if ((c=Codigo.charAt(k)) == ')') {
+                break;
+            }
+        }
+        
+        for(j=k+1;j<Codigo.length();j++)
+        {
+            if((c=Codigo.charAt(j))!=' ')
+                break;
+        }
+        NumCarateresAvancar=k;
+        this.Codigo = Codigo.substring(i, k+1);
+        this.ParaAnalise = Codigo.substring(0, j+1);
+        return null;
     }
 
     public int getEspacosEntreCastVariavel()

@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import Model.Statement.*;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Texto {
 
     private ArrayList<Statement> ListaStatements;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
+    
     /**
      * Para Analizar
      *
@@ -88,6 +88,14 @@ public class Texto {
 
         return Ret;
     }
+    
+    private boolean isElse(char A[]) 
+    {
+        if (A[0] == 'e' && A[1] == 'l' && A[1] == 's' && A[1] == 'e') {
+            return true;
+        }
+        return false;
+    }
 
     private boolean IsDoWhile(char A[]) {
         boolean Ret = false;
@@ -162,15 +170,16 @@ public class Texto {
             }
         }
         String Aux = S.substring(i);
-
+        char c;
         for (String TipoDado : Constantes.TIPO_DADOS) {
-            if (TipoDado.contains(Aux)) {
-                for (i = 0; i < S.length(); i++) {
-                    if (S.charAt(i) != ' ') {
-                        if (S.charAt(i) == ')') {
-                            return TipoDado.length();
-                        } else {
-                            return -1;
+            if (Aux.contains(TipoDado)) {
+                for (i = 0; i < S.length(); i++) 
+                {
+                    if ((c=S.charAt(i)) != ' ') 
+                    {
+                        if (S.charAt(i) == ')') 
+                        {
+                            return TipoDado.length()+2;
                         }
                     }
                 }
@@ -259,8 +268,18 @@ public class Texto {
                     Novo.add(Add);
                     continue;
                 }
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
+            
+            try {
+                if (isElse(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3)})) {
+                    Aux = NovoStatment(Aux, Novo, Pai);
+                    
+                    Add = new If(Codigo.substring(i), this);
+                    i += Add.getNumCarateresAvancar() - 1;
+                    Novo.add(Add);
+                    continue;
+                }
+            } catch (Exception e) {}
             try {
                 if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2)})) {
                     Aux = NovoStatment(Aux, Novo, Pai);
@@ -375,29 +394,32 @@ public class Texto {
                     Novo.add(Add);
                     continue;
                 }
-            } catch (Exception e) { }
+            } catch (Exception e) {System.out.println("Aqui"); }
 
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
                 int PrevCarater = 0, NextCarater = 0;
+                char c;
                 if (NumCarCast != -1) {
-                    Aux = NovoStatment(Aux, Novo, Pai);
 
-                    for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ') {
+                    for (int j = i-1; j >= 0; j--) {
+                        if ((c=Codigo.charAt(j)) != ' ') {
                             PrevCarater = j;
+                            break;
                         }
                     }
 
                     for (int j = i + NumCarCast; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ') {
+                        if ((c=Codigo.charAt(j)) != ' ') {
                             NextCarater = j + 1;
+                            break;
                         }
                     }
-
+                    Aux = NovoStatment(Aux, Novo, Pai);
                     Add = new Cast(Codigo.substring(PrevCarater, NextCarater), this);
                     Novo.add(Add);
-                    break;
+                    i += Add.getNumCarateresAvancar()-1;
+                    continue;
                 }
             } catch (Exception e) {
             }
