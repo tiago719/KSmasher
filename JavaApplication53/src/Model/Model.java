@@ -64,13 +64,13 @@ public class Model {
         BufferedReader in=null;
         in = F.abreFObjectosLeitura(NomeFicheiro);
         
-        Texto Texto=new Texto(in);
+        Texto Texto=new Texto(in, null);
         Texto.ComecaCataloga();
         Texto.ComecaAnalisa();
         
         ArrayList<Statement> codigo=Texto.getListaStatements();
         Medias Medias=new Medias();
-        Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeFicheiro));
+        //Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeFicheiro));
     }
     
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
@@ -105,9 +105,10 @@ public class Model {
         Ficheiros F=new Ficheiros();
         File source = new File(DiretoriaAtual + Nome);
         
+        BufferedReader in=F.abreFObjectosLeitura(source.getName());
         BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+Nome);
         
-        Texto Texto=new Texto(out);
+        Texto Texto=new Texto(in,out);
         Texto.ComecaCataloga();
         Texto.ComecaConverte();
     }

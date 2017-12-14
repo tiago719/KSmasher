@@ -120,14 +120,21 @@ public class While extends Statement
             if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n')
                 break;
         }
-
+        try
+        {
+            this.ParaAnalise = Codigo.substring(0, n + 1);
+        }
+        catch(Exception e)
+        {
+            this.ParaAnalise=Codigo;
+        }
+            
         this.Codigo = Codigo.substring(0, j + 1);
-        this.ParaAnalise = Codigo.substring(0, n + 1);
         this.NumCarateresAvancar = m + 1;
         return Codigo.substring(l, m + 1);
     }
     
-    public int isPosicaoPrimeiraChaveta()
+    public int isPrimeiraChavetaNovaLinha()
     {
         return PrimeiraChavetaNovaLinha;
     }
@@ -186,7 +193,15 @@ public class While extends Statement
     public void setEspacosCondicaoParentesFechado(int EspacosCondicaoParentesFechado) {
         this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
     }
-
+    
+    private boolean isWhile(char A[])
+    {
+        if (A[0] == 'w' && A[1] == 'h' && A[2] == 'i' && A[3] == 'l' && A[4] == 'e' && (A[5]=='(' || Character.isWhitespace(A[5]))) {
+            return true;
+        }
+        return false;
+    }
+    
     @Override
     public void analisaStatement()
     {
@@ -197,13 +212,14 @@ public class While extends Statement
         PrimeiraChavetaNovaLinha=-1;
         LinhasEmBrancoDepoisChavetaAberta=-1;
         LinhasEmBrancoDepoisChavetaFechada=-1;
-        int contParenteses=0, indexParenteses=-1,i, aux;   
+        int contParenteses=0, indexParenteses=-1,i, aux,a, contPontoVirgula=0;
+        char c;
         
         for(i=0;i<ParaAnalise.length();i++)
         { 
             try
             {
-                if(Texto.IsWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3),ParaAnalise.charAt(i+4)}))
+                if(isWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3),ParaAnalise.charAt(i+4), ParaAnalise.charAt(i+5)}))
                 {
                     i+=5;
                 }
@@ -253,11 +269,26 @@ public class While extends Statement
         
         aux=i;
         
-        if(StatmentsFilhos.size()<2)
+        for(a=indexParenteses+1;a<ParaAnalise.length();a++)
         {
+            if(ParaAnalise.charAt(a)==';')
+            {
+                if(contPontoVirgula==2)
+                    break;
+                else
+                    contPontoVirgula++;        
+            }
+        }
+        
+        if(contPontoVirgula<2)
+        {     
             for(++i;i<ParaAnalise.length();i++)
-                if(ParaAnalise.charAt(i)=='\n')
-                    i++;
+            {
+                if(Character.isWhitespace(ParaAnalise.charAt(i)))
+                    continue;
+                else 
+                    break;
+            }
             if(ParaAnalise.charAt(i)=='{')
                 ChavetaUmStatementDentroWhile=1;
             else
@@ -265,35 +296,36 @@ public class While extends Statement
                 ChavetaUmStatementDentroWhile=0;
                 PrimeiraChavetaNovaLinha=-1;
             }
-        }
-        else
-        {
-            if(PrimeiraChavetaNovaLinha==-1)
-                return;
-            
-            for(i=aux;i<ParaAnalise.length();i++)
-            {
-                if(ParaAnalise.charAt(i)=='{')
-                {
-                    PrimeiraChavetaNovaLinha=0;
-                    break;
-                }
-                if(ParaAnalise.charAt(i)=='\n')
-                {
-                    PrimeiraChavetaNovaLinha=1;
-                    break;
-                }
-            }
-        }
+        }        
+        boolean primeiro=true;
+
         if(ChavetaUmStatementDentroWhile!=0)
         {
+            PrimeiraChavetaNovaLinha=0;
             LinhasEmBrancoDepoisChavetaAberta=0;
             LinhasEmBrancoDepoisChavetaFechada=0;
-            for(i=0;i<ParaAnalise.length();i++)
+            for(i=indexParenteses+1;i<ParaAnalise.length();i++)
             {
+                if(ParaAnalise.charAt(i)=='\n')
+                    PrimeiraChavetaNovaLinha=1;
                 if(ParaAnalise.charAt(i)=='{')
-                    for(i+=1;i<ParaAnalise.length() && ParaAnalise.charAt(i)=='\n' ;i++)
-                        LinhasEmBrancoDepoisChavetaAberta++;                       
+                {
+                    for(i+=1;i<ParaAnalise.length();i++)
+                    {
+                        if(ParaAnalise.charAt(i)=='\n')
+                        {
+                            if(primeiro)
+                                primeiro=false;
+                            else
+                                LinhasEmBrancoDepoisChavetaAberta++;  
+                        }     
+                        else if(Character.isWhitespace( ParaAnalise.charAt(i)))
+                            continue;
+                        else
+                            break;
+                    }
+                    break;
+                }
             }
             aux=0;
             for(i+=1;i<ParaAnalise.length();i++)
@@ -308,11 +340,19 @@ public class While extends Statement
                         aux--;
                 }          
             }
-            for(;i<ParaAnalise.length();i++)
+            primeiro=true;
+            for(i++;i<ParaAnalise.length();i++)
             {
-                if(ParaAnalise.charAt(i)=='\n')
-                    LinhasEmBrancoDepoisChavetaFechada++;
-                else 
+               if(ParaAnalise.charAt(i)=='\n')
+                {
+                    if(primeiro)
+                        primeiro=false;
+                    else
+                        LinhasEmBrancoDepoisChavetaFechada++;  
+                }     
+                else if(Character.isWhitespace( ParaAnalise.charAt(i)))
+                    continue;
+                else
                     break;
             }
         }

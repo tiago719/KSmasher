@@ -249,7 +249,7 @@ public class Security {
         for (int i = 0; i < passwordLength; i++) {
             char c = password.charAt(i);
 
-            if ((c == ' ') || (c == '\t')) {
+            if (Character.isWhitespace(c)) {
                 continue; /* skip space in password */
             }
 

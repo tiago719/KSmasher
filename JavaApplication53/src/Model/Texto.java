@@ -3,13 +3,17 @@ package Model;
 import java.io.BufferedReader;
 import Model.Statement.*;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Texto {
 
     private ArrayList<Statement> ListaStatements;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
+    int cont=0;
     
     /**
      * Para Analizar
@@ -22,11 +26,11 @@ public class Texto {
         //TODO: So para os testes, apagar depois
     }
     
-    public Texto(BufferedReader In) {
+    public Texto(BufferedReader In, BufferedWriter Out) {
         ListaStatements = new ArrayList<Statement>();
         TextoBR = In;
+        TextoBW=Out;
     }
-
     //TODO: PARA TESTES
     public Texto(String Codigo) {
         ListaStatements = new ArrayList<Statement>();
@@ -34,19 +38,18 @@ public class Texto {
 
     }
 
-    /**
-     * Para Converter
-     *
-     * @param Out
-     */
-    public Texto(BufferedWriter Out) {
-        ListaStatements = new ArrayList<Statement>();
-        TextoBW = Out;
-    }
-
     public void ComecaCataloga() {
-        //TODO:Passar o IN ou OUT para string
-        //ListaStatements = Cataloga(Codigo);
+        String Codigo=null;
+        
+        try
+        {
+            Codigo=org.apache.commons.io.IOUtils.toString(TextoBR);
+        } catch (IOException ex)
+        {
+            System.out.println("Deu erro a passar o bufferedReader para string");
+        }
+        ListaStatements = Cataloga(Codigo,null);
+        int a;
     }
 
     public void ComecaAnalisa() {
@@ -63,7 +66,8 @@ public class Texto {
         }
     }
 
-    public void ComecaConverte() {
+    public void ComecaConverte() 
+    {
         Converte(ListaStatements);
     }
 
@@ -80,9 +84,20 @@ public class Texto {
     public ArrayList<Statement> getListaStatements() {
         return ListaStatements;
     }
+    
+    private boolean isCaracter(char A)
+    {
+        char c;  
+        
+        if(Character.isDigit(A))
+            return true;
+        
+        return Character.toUpperCase(A) >= 'A' && Character.toUpperCase(A) <= 'Z';
+    }
+    
     private boolean IsIF(char A[]) {
         boolean Ret = false;
-        if (A[0] == 'i' && A[1] == 'f') {
+        if (!isCaracter(A[0]) && A[1] == 'i' && A[2] == 'f' && (A[3]=='(' || Character.isWhitespace(A[3]))) {
             Ret = true;
         }
 
@@ -91,7 +106,9 @@ public class Texto {
     
     private boolean IsElse(char A[]) 
     {
-        if (A[0] == 'e' && A[1] == 'l' && A[2] == 's' && A[3] == 'e') {
+        boolean b;
+        char c=A[5];
+        if (!(b=isCaracter(A[0])) && A[1] == 'e' && A[2] == 'l' && A[3] == 's' && A[4] == 'e' && (A[5]=='{' || Character.isWhitespace(A[5]))) {
             return true;
         }
         return false;
@@ -99,7 +116,7 @@ public class Texto {
 
     private boolean IsDoWhile(char A[]) {
         boolean Ret = false;
-        if (A[0] == 'd' && A[1] == 'o') {
+        if (!isCaracter(A[0]) && A[1] == 'd' && A[2] == 'o' && (A[3]=='{' || Character.isWhitespace(A[3]))) {
             Ret = true;
         }
 
@@ -108,16 +125,16 @@ public class Texto {
 
     public boolean IsWhile(char A[]) {
         boolean Ret = false;
-        if (A[0] == 'w' && A[1] == 'h' && A[2] == 'i' && A[3] == 'l' && A[4] == 'e') {
+        if (!isCaracter(A[0]) && A[1] == 'w' && A[2] == 'h' && A[3] == 'i' && A[4] == 'l' && A[5] == 'e' && (A[6]=='(' || Character.isWhitespace(A[6]))) {
             Ret = true;
         }
 
         return Ret;
     }
 
-    private boolean IsOperador1(char S) {
+    public boolean IsOperador1(char S) {
 
-        if (S == ' ' || S == '\n') {
+        if (Character.isWhitespace(S)) {
             return false;
         }
 
@@ -129,9 +146,9 @@ public class Texto {
         return false;
     }
 
-    private boolean IsOperador2(String S) {
+    public boolean IsOperador2(String S) {
 
-        if (S.charAt(0) == ' ' || S.charAt(0) == '\n') {
+        if (Character.isWhitespace(S.charAt(0))) {
             return false;
         }
 
@@ -143,9 +160,9 @@ public class Texto {
         return false;
     }
 
-    private boolean IsOperador3(String S) {
+    public boolean IsOperador3(String S) {
 
-        if (S.charAt(0) == ' ' || S.charAt(0) == '\n') {
+        if (Character.isWhitespace(S.charAt(0))) {
             return false;
         }
 
@@ -190,7 +207,7 @@ public class Texto {
 
     private boolean IsFor(char A[]) {
         boolean ret = false;
-        if (A[0] == 'f' && A[1] == 'o' && A[2] == 'r') {
+        if (!isCaracter(A[0]) && A[1] == 'f' && A[2] == 'o' && A[3] == 'r' && (A[4]=='(' || Character.isWhitespace(A[4]))) {
             ret = true;
         }
         return ret;
@@ -200,7 +217,7 @@ public class Texto {
         boolean Ret = false;
         boolean TemIgual = false, TemParenteses = false;
 
-        if (S.charAt(0) == ' ' || S.charAt(0) == '\n') {
+        if (Character.isWhitespace(S.charAt(0))) {
             return Ret;
         }
 
@@ -260,10 +277,10 @@ public class Texto {
             }
 
             try {
-                if (IsIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
+                if (IsIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i+2), Codigo.charAt(i+3)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
                     
-                    Add = new If(Codigo.substring(i), this);
+                    Add = new If(Codigo.substring(i+1), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -271,20 +288,20 @@ public class Texto {
             } catch (Exception e) {}
             
             try {
-                if (IsElse(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3)})) {
+                if (IsElse(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i+4), Codigo.charAt(i+5)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
                     
-                    Add = new Else(Codigo.substring(i), this);
+                    Add = new Else(Codigo.substring(i+1), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
                 }
             } catch (Exception e) {}
             try {
-                if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2)})) {
+                if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i+3), Codigo.charAt(i+4)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
                     
-                    Add = new For(Codigo.substring(i), this);
+                    Add = new For(Codigo.substring(i+1), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -293,9 +310,9 @@ public class Texto {
             }
 
             try {
-                if (IsWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5)})) {
+                if (IsWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5), Codigo.charAt(i+6), Codigo.charAt(i+7)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new While(Codigo.substring(i), this);
+                    Add = new While(Codigo.substring(i+1), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -304,9 +321,9 @@ public class Texto {
             }
 
             try {
-                if (IsDoWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
+                if (IsDoWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i+2), Codigo.charAt(i+3)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new DoWhile(Codigo.substring(i), this);
+                    Add = new DoWhile(Codigo.substring(i+1), this);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -395,7 +412,7 @@ public class Texto {
                     Novo.add(Add);
                     continue;
                 }
-            } catch (Exception e) {System.out.println("Aqui"); }
+            } catch (Exception e) {System.out.println("Aqui" + ++cont); }
 
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
