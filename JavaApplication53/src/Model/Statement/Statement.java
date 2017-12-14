@@ -18,8 +18,9 @@ public class Statement {
         String Aux = RetiraDados(Codigo, T);
         if (Aux != null) {
             try {
+                T.setNivel((T.getNivel()+1));
                 StatmentsFilhos = T.Cataloga(Aux, this);
-
+                T.setNivel((T.getNivel()-1));
             } catch (Exception e) {
 
             }

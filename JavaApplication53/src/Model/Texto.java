@@ -13,7 +13,7 @@ public class Texto {
     private ArrayList<Statement> ListaStatements;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
-    int cont=0;
+    int cont=0, Nivel;
     
     /**
      * Para Analizar
@@ -49,11 +49,21 @@ public class Texto {
             System.out.println("Deu erro a passar o bufferedReader para string");
         }
         ListaStatements = Cataloga(Codigo,null);
-        int a;
+        int nivel=0;
     }
 
     public void ComecaAnalisa() {
         Analisa(ListaStatements);
+    }
+    
+    public int getNivel()
+    {
+        return Nivel;
+    }
+    
+    public void setNivel(int nivel)
+    {
+        this.Nivel=nivel;
     }
 
     private void Analisa(ArrayList<Statement> Lista) {
@@ -212,7 +222,7 @@ public class Texto {
         }
         return ret;
     }
-
+/*
     private boolean IsFuncao(String S) {
         boolean Ret = false;
         boolean TemIgual = false, TemParenteses = false;
@@ -247,6 +257,49 @@ public class Texto {
         }
 
         return Ret;
+    }
+*/
+    
+    private boolean IsFuncao(String S)
+    {
+        int i;
+        
+        if(Nivel>0)
+            return false;
+        
+        if(Character.isWhitespace(S.charAt(0)))
+            return false;
+        
+        for(i=1;i<S.length();i++)
+        {
+            if(!Character.isWhitespace(S.charAt(i)))
+                break;
+        }
+        if(S.charAt(i)=='(')
+            return true;
+        return false;
+    }
+    
+    private int EncontraInicioFuncao(int i, String Codigo)
+    {
+        for(;i>0;i--)
+        {
+            if(Character.isWhitespace(Codigo.charAt(i)))
+            {
+                for(--i;i>0;i--)
+                    if(!Character.isWhitespace(Codigo.charAt(i)))
+                    {
+                        for(--i;i>0;i--)
+                        {
+                            if(Character.isWhitespace(Codigo.charAt(i)))
+                                break;
+                        }
+                        break;
+                    }
+                break;
+            }
+        }
+        return i+1;
     }
 
     public ArrayList<Statement> Cataloga(String Codigo, Statement Pai) {
@@ -332,10 +385,13 @@ public class Texto {
             }
 
             try {
-                if (IsFuncao(Codigo.substring(i))) {
-                    Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new Funcao(Codigo.substring(i), this);
-                    i += Add.getNumCarateresAvancar() - 1;
+                if (IsFuncao(Codigo.substring(i))) 
+                {
+                    int InicioFuncao=EncontraInicioFuncao(i,Codigo);
+                    int conta=Aux.length()-(i-InicioFuncao);
+                    Aux = NovoStatement(Aux.substring(0,conta), Novo, Pai);
+                    Add = new Funcao(Codigo.substring(InicioFuncao), this);
+                    i += Add.getNumCarateresAvancar() - 1-(i-InicioFuncao);
                     Novo.add(Add);
                     continue;
                 }
@@ -343,7 +399,6 @@ public class Texto {
             }
 
             try {
-
                 if (IsOperador3(Codigo.substring(i, i + 3))) {
                     int PrevCarater = 0, NextCarater = 0;
                     OUTER1:
@@ -367,6 +422,10 @@ public class Texto {
                     Novo.add(Add);
                     continue;
                 }
+            }
+            catch(Exception e){}
+            try
+            {
                 if (IsOperador2(Codigo.substring(i, i + 2))) {
                     int PrevCarater = 0, NextCarater = 0;
 
@@ -390,6 +449,10 @@ public class Texto {
                     Novo.add(Add);
                     continue;
                 }
+            }
+            catch(Exception e){}
+            try
+            {
                 if (IsOperador1(Codigo.charAt(i))) {
                     int PrevCarater = 0, NextCarater = 0;
 
@@ -412,7 +475,7 @@ public class Texto {
                     Novo.add(Add);
                     continue;
                 }
-            } catch (Exception e) {System.out.println("Aqui" + ++cont); }
+            } catch (Exception e){}
 
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
