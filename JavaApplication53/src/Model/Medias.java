@@ -14,6 +14,7 @@ import Model.EstiloProgramacao.Funcoes_EP;
 import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
+import Model.Statement.If;
 import Model.Statement.Operador;
 import Model.Statement.Statement;
 import Model.Statement.While;
@@ -25,6 +26,15 @@ import java.util.ArrayList;
  */
 public class Medias
 {
+    //if
+    ArrayList<Integer> IfEspacosParentesesAbertoCondicaoList=new ArrayList<>();
+    ArrayList<Integer> IfEspacosIfParentesAbertoList=new ArrayList<>();
+    ArrayList<Integer> IfEspacosCondicaoParentesFechadoList=new ArrayList<>();
+    ArrayList<Integer> IfLinhasEmBrancoDepoisChavetaAbertaList=new ArrayList<>();
+    ArrayList<Integer> IfLinhasEmBrancoDepoisChavetaFechadaList=new ArrayList<>();
+    ArrayList<Integer> IfChavetaUmStatementDentroIfList=new ArrayList<>();
+    ArrayList<Integer> IfPrimeiraChavetaNovaLinhaList=new ArrayList<>();
+    
     //while
     ArrayList<Integer> WhileEspacosParentesesAbertoCondicaoList=new ArrayList<>();
     ArrayList<Integer> WhileEspacosWhileParentesAbertoList=new ArrayList<>();
@@ -37,6 +47,15 @@ public class Medias
     //operador
     ArrayList<Integer> OperadorEspacosOperadorVariavelList=new ArrayList<>();
     ArrayList<Integer> OperadorEspacosVariavelOperadorList=new ArrayList<>();
+    
+    //if
+    int IfEspacosParentesesAbertoCondicao;
+    int IfEspacosIfParentesAberto;
+    int IfEspacosCondicaoParentesFechado;
+    int IfLinhasEmBrancoDepoisChavetaAberta;
+    int IfLinhasEmBrancoDepoisChavetaFechada;
+    int IfChavetaUmStatementDentroIf;
+    int IfPrimeiraChavetaNovaLinha;
     
     //while
     int WhileEspacosParentesesAbertoCondicao;
@@ -73,6 +92,81 @@ public class Medias
     {
         OperadorEspacosOperadorVariavelList.add(S.getEspacosOperadorVariavel());
         OperadorEspacosVariavelOperadorList.add(S.getEspacosVariavelOperador());
+    }
+    
+    public void RetiraDadosIf(If S)
+    {
+        int aux;
+        IfEspacosParentesesAbertoCondicaoList.add(S.getEspacosParentesesAbertoCondicao());
+        IfEspacosIfParentesAbertoList.add(S.getEspacosIfParentesAberto());
+        IfEspacosCondicaoParentesFechadoList.add(((If)S).getEspacosCondicaoParentesFechado());
+        if((aux=S.getLinhasEmBrancoDepoisChavetaAberta())!=-1)
+            IfLinhasEmBrancoDepoisChavetaAbertaList.add(aux);
+        if((aux=S.getLinhasEmBrancoDepoisChavetaFechada())!=-1)
+            IfLinhasEmBrancoDepoisChavetaFechadaList.add(aux);
+        if((aux=S.isChavetaUmStatementDentroIf())!=-1)
+            IfChavetaUmStatementDentroIfList.add(aux);
+        if((aux=S.getPrimeiraChavetaNovaLinha())!=-1)
+            IfPrimeiraChavetaNovaLinhaList.add(aux);
+    }
+    
+    public void FazMediaIf()
+    {
+        int total=0;
+        for(int i=0;i<IfEspacosParentesesAbertoCondicaoList.size();i++)
+        {
+            total+=IfEspacosParentesesAbertoCondicaoList.get(i);
+        }
+        IfEspacosParentesesAbertoCondicao=total/IfEspacosParentesesAbertoCondicaoList.size();
+        
+        total=0;
+        
+        for(int i=0;i<IfEspacosIfParentesAbertoList.size();i++)
+        {
+            total+=IfEspacosIfParentesAbertoList.get(i);
+        }
+        IfEspacosIfParentesAberto=total/IfEspacosIfParentesAbertoList.size();
+        
+        total=0;
+        
+        for(int i=0;i<IfEspacosCondicaoParentesFechadoList.size();i++)
+        {
+            total+=IfEspacosCondicaoParentesFechadoList.get(i);
+        }
+        IfEspacosCondicaoParentesFechado=total/IfEspacosCondicaoParentesFechadoList.size();
+        
+        total=0;
+        
+        for(int i=0;i<IfLinhasEmBrancoDepoisChavetaAbertaList.size();i++)
+        {
+            total+=IfLinhasEmBrancoDepoisChavetaAbertaList.get(i);
+        }
+        IfLinhasEmBrancoDepoisChavetaAberta=total/IfLinhasEmBrancoDepoisChavetaAbertaList.size();
+        
+        total=0;
+        
+        for(int i=0;i<IfLinhasEmBrancoDepoisChavetaFechadaList.size();i++)
+        {
+            total+=IfLinhasEmBrancoDepoisChavetaFechadaList.get(i);
+        }
+        IfLinhasEmBrancoDepoisChavetaFechada=total/IfLinhasEmBrancoDepoisChavetaFechadaList.size();
+        
+        total=0;
+        
+        for(int i=0;i<IfChavetaUmStatementDentroIfList.size();i++)
+        {
+            total+=IfChavetaUmStatementDentroIfList.get(i);
+        }
+        IfChavetaUmStatementDentroIf=total/IfChavetaUmStatementDentroIfList.size();
+        
+        total=0;
+        
+        for(int i=0;i<IfPrimeiraChavetaNovaLinhaList.size();i++)
+        {
+            total+=IfPrimeiraChavetaNovaLinhaList.get(i);
+        }
+        IfPrimeiraChavetaNovaLinha=total/IfPrimeiraChavetaNovaLinhaList.size();
+                
     }
     
     public void FazMediaWhile()
@@ -165,11 +259,14 @@ public class Medias
             if(S instanceof While)
                 RetiraDadosWhile((While)S);
             else if(S instanceof Operador)
-                RetiraDadosOperador((Operador)S);                
+                RetiraDadosOperador((Operador)S);  
+            else if(S instanceof If)
+                RetiraDadosIf((If) S);
         }
         
         FazMediaWhile();
         FazMediasOperador();
+        FazMediaIf();
     }
     
     public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo)
@@ -179,15 +276,9 @@ public class Medias
         //while
         
         boolean aux1, aux2;
-        if(WhilePrimeiraChavetaNovaLinha==1)
-            aux1=true;
-        else
-            aux1=false;
+        aux1 = WhilePrimeiraChavetaNovaLinha==1;
         
-        if(WhileChavetaUmStatementDentroWhile==1)
-            aux2=true;
-        else
-            aux2=false;
+        aux2 = WhileChavetaUmStatementDentroWhile==1;
         
         if(WhileLinhasEmBrancoDepoisChavetaAberta<0)
             WhileLinhasEmBrancoDepoisChavetaAberta=0;
@@ -202,8 +293,17 @@ public class Medias
         Operador_EP OperadorEp=new Operador_EP(OperadorEspacosOperadorVariavel,OperadorEspacosVariavelOperador);
         
         //if
+        aux1 = IfPrimeiraChavetaNovaLinha==1;
         
-        If_EP IfEp = null;
+        aux2 = IfChavetaUmStatementDentroIf==1;
+        
+        if(IfLinhasEmBrancoDepoisChavetaAberta<0)
+            IfLinhasEmBrancoDepoisChavetaAberta=0;
+        
+        if(IfLinhasEmBrancoDepoisChavetaFechada<0)
+            IfLinhasEmBrancoDepoisChavetaFechada=0;
+        
+        If_EP IfEp = new If_EP(aux1,aux2, IfLinhasEmBrancoDepoisChavetaAberta, IfLinhasEmBrancoDepoisChavetaFechada,IfEspacosIfParentesAberto, IfEspacosParentesesAbertoCondicao, IfEspacosCondicaoParentesFechado);
         
         //else
         

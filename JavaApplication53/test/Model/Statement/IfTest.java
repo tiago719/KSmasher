@@ -6,6 +6,7 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,14 +19,16 @@ import static org.junit.Assert.*;
  * @author edu_f
  */
 public class IfTest {
-
-    If instance;
-    Texto T;
+    
+    public ArrayList<If> lista;
 
     public IfTest() {
-        String Codigo = "if (   ola = 5  (((())))    ){ int a = 5; /*testar*/ }   else {    }";
-        T = null;
-        instance = new If(Codigo, T);
+        
+        lista=new ArrayList<>();
+        lista.add(new If("if (   ola = 5  ){ int a = 5; } else {    }", new Texto()));
+        
+        for(If S : lista)
+            S.analisaStatement();
     }
 
     @BeforeClass
@@ -50,24 +53,14 @@ public class IfTest {
     @Test
     public void testRetiraDados() {
         System.out.println("RetiraDados");
-
-
-        assertEquals("if (   ola = 5  (((())))    ){ int a = 5; /*testar*/ }   else {    }", instance.ParaAnalise);
-        assertEquals("if (   ola = 5  (((())))    )", instance.Codigo);
         
-        assertEquals("if (   ola = 5  (((())))    )", instance.Codigo);
-    }
+        assertEquals(2, lista.get(0).getEspacosCondicaoParentesFechado());
+        assertEquals(1, lista.get(0).getEspacosIfParentesAberto());
+        assertEquals(3, lista.get(0).getEspacosParentesesAbertoCondicao());
+        assertEquals(0, lista.get(0).getLinhasEmBrancoDepoisChavetaAberta());
+        assertEquals(0, lista.get(0).getLinhasEmBrancoDepoisChavetaFechada());
+        assertEquals(1, lista.get(0).isChavetaUmStatementDentroIf());
+        assertEquals(0, lista.get(0).getPrimeiraChavetaNovaLinha());
 
-    /**
-     * Test of getCondicao method, of class If.
-     */
-    @Test
-    public void testGetCondicao() {
-        System.out.println("getCondicao");
-        Statement expResult = new Statement("ola = 5", T);
-        Statement result = instance.getCondicao();
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 }
