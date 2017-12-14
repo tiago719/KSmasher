@@ -53,36 +53,31 @@ public class Medias
     
     public Medias(){}
     
-    public void fazMedias(ArrayList<Statement> Codigo)
+    public void RetiraDadosWhile(While S)
     {
-        Statement S;
-        int aux, total=0;
-        for(int i=0;i<Codigo.size();i++)
-        {
-            if((S=Codigo.get(i)).hasFilhos())
-                fazMedias(Codigo.get(i).getStatementsFilhos());
-            
-            if(S instanceof While)
-            {
-                WhileEspacosParentesesAbertoCondicaoList.add(((While)S).getEspacosParentesesAbertoCondicao());
-                WhileEspacosWhileParentesAbertoList.add(((While)S).getEspacosWhileParentesAberto());
-                WhileEspacosCondicaoParentesFechadoList.add(((While)S).getEspacosCondicaoParentesFechado());
-                if((aux=((While)S).getLinhasEmBrancoDepoisChavetaAberta())!=-1)
-                    WhileLinhasEmBrancoDepoisChavetaAbertaList.add(aux);
-                if((aux=((While)S).getLinhasEmBrancoDepoisChavetaFechada())!=-1)
-                    WhileLinhasEmBrancoDepoisChavetaFechadaList.add(aux);
-                if((aux=((While)S).isChavetaUmStatementDentroWhile())!=-1)
-                    WhileChavetaUmStatementDentroWhileList.add(aux);
-                if((aux=((While)S).isPosicaoPrimeiraChaveta())!=-1)
-                    WhilePrimeiraChavetaNovaLinhaList.add(aux);
-            }
-            else if(S instanceof Operador)
-            {
-                OperadorEspacosOperadorVariavelList.add(((Operador) S).getEspacosOperadorVariavel());
-                OperadorEspacosVariavelOperadorList.add(((Operador) S).getEspacosVariavelOperador());
-            }
-        }
-        
+        int aux;
+        WhileEspacosParentesesAbertoCondicaoList.add(S.getEspacosParentesesAbertoCondicao());
+        WhileEspacosWhileParentesAbertoList.add(S.getEspacosWhileParentesAberto());
+        WhileEspacosCondicaoParentesFechadoList.add(((While)S).getEspacosCondicaoParentesFechado());
+        if((aux=S.getLinhasEmBrancoDepoisChavetaAberta())!=-1)
+            WhileLinhasEmBrancoDepoisChavetaAbertaList.add(aux);
+        if((aux=S.getLinhasEmBrancoDepoisChavetaFechada())!=-1)
+            WhileLinhasEmBrancoDepoisChavetaFechadaList.add(aux);
+        if((aux=S.isChavetaUmStatementDentroWhile())!=-1)
+            WhileChavetaUmStatementDentroWhileList.add(aux);
+        if((aux=S.isPrimeiraChavetaNovaLinha())!=-1)
+            WhilePrimeiraChavetaNovaLinhaList.add(aux);
+    }
+    
+    public void RetiraDadosOperador(Operador S)
+    {
+        OperadorEspacosOperadorVariavelList.add(S.getEspacosOperadorVariavel());
+        OperadorEspacosVariavelOperadorList.add(S.getEspacosVariavelOperador());
+    }
+    
+    public void FazMediaWhile()
+    {
+        int total=0;
         for(int i=0;i<WhileEspacosParentesesAbertoCondicaoList.size();i++)
         {
             total+=WhileEspacosParentesesAbertoCondicaoList.get(i);
@@ -137,7 +132,11 @@ public class Medias
         }
         WhilePrimeiraChavetaNovaLinha=total/WhilePrimeiraChavetaNovaLinhaList.size();
                 
-        total=0;
+    }
+    
+    public void FazMediasOperador()
+    {
+        int total=0;
         
         for(int i=0;i<OperadorEspacosOperadorVariavelList.size();i++)
         {
@@ -152,7 +151,25 @@ public class Medias
             total+=OperadorEspacosVariavelOperadorList.get(i);
         }
         OperadorEspacosVariavelOperador=total/OperadorEspacosVariavelOperadorList.size();
-  
+    }
+    
+    public void fazMedias(ArrayList<Statement> Codigo)
+    {
+        Statement S;
+        int aux, total=0;
+        for(int i=0;i<Codigo.size();i++)
+        {
+            if((S=Codigo.get(i)).hasFilhos())
+                fazMedias(Codigo.get(i).getStatementsFilhos());
+            
+            if(S instanceof While)
+                RetiraDadosWhile((While)S);
+            else if(S instanceof Operador)
+                RetiraDadosOperador((Operador)S);                
+        }
+        
+        FazMediaWhile();
+        FazMediasOperador();
     }
     
     public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo)

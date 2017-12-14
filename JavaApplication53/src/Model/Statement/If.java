@@ -72,24 +72,25 @@ public class If extends Statement {
         }
 
         
-        int l;
+        int a;
+        char c;
         AspasAberto = PlicasAberto = false;
         //procurar {
-        for (l = j + 1; l < Codigo.length(); l++) {
-            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
+        for (a = j + 1; a < Codigo.length(); a++) {
+            if ((c=Codigo.charAt(a)) == '"' && Codigo.charAt(a - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
-            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
+            } else if (Codigo.charAt(a) == '\'' && Codigo.charAt(a - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
                 continue;
             }
             if (PlicasAberto || AspasAberto)
                 continue;
             
-            if (Codigo.charAt(l) == '{') {
+            if (Codigo.charAt(a) == '{') {
                 TemChaveta = true;
                 break;
-            } else if (Codigo.charAt(l) == ';') {
+            } else if (Codigo.charAt(a) == ';') {
                 TemChaveta = false;
                 break;
             }
@@ -98,7 +99,7 @@ public class If extends Statement {
             NumParentesesAbertos = 1;
             AspasAberto = PlicasAberto = false;
             
-            for (m = l + 1; m < Codigo.length(); m++) {
+            for (m = a + 1; m < Codigo.length(); m++) {
                 if (Codigo.charAt(m) == '"' && Codigo.charAt(m - 1) != '\\') {
                     AspasAberto = !AspasAberto;
                     continue;
@@ -117,7 +118,7 @@ public class If extends Statement {
                 }
             }
         } else {
-            m = l;
+            m = a;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
             if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n')
@@ -134,7 +135,7 @@ public class If extends Statement {
         else
             this.ParaAnalise = Codigo.substring(0, n + 1);
         this.NumCarateresAvancar = m + 1;
-        return Codigo.substring(l, m + 1);
+        return Codigo.substring(j, m + 1);
 
     }
 

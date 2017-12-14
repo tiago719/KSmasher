@@ -51,41 +51,59 @@ public class Operador extends Statement {
         this.EspacosVariavelOperador = EspacosVariavelOperador;
     }
 
-    private boolean isOperador(String Linha) {
-        for (char s : Constantes.OPERADORES_1) {
-            if (Linha.contains("" + s)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public void analisaStatement() {
         EspacosOperadorVariavel = 0;
         EspacosVariavelOperador = 0;
-        int i;
+        int i, posicaoOperador=-1, tipo=0;
 
         for (i = 0; i < ParaAnalise.length(); i++) {
-            try {
-                int posicaoOperador = i;
-                if (!isOperador(ParaAnalise)) {
-                    continue;
+            posicaoOperador = i;
+            try
+            {
+                if (Texto.IsOperador3(ParaAnalise.substring(i,i+3)))
+                {
+                    tipo=3;
+                    break;
                 }
-
-                while (ParaAnalise.charAt(++i) != ' ') {
-                    while (ParaAnalise.charAt(++i) == ' ') {
-                        EspacosOperadorVariavel++;
-                    }
-                }
-
-                while (ParaAnalise.charAt(--posicaoOperador) == ' ') {
-                    EspacosVariavelOperador++;
-                }
-
-                break;
             }
             catch(Exception e){}
+            try
+            {
+                if (Texto.IsOperador2(ParaAnalise.substring(i,i+2)))
+                {
+                    tipo=2;
+                    break;
+                }
+            }
+            catch(Exception e){}
+            try
+            {
+                if (Texto.IsOperador1(ParaAnalise.charAt(i)))
+                {
+                    tipo=1;
+                    break;
+                }
+            }
+            catch(Exception e){}
+        }
+            
+        for(i+=tipo;i<ParaAnalise.length();i++)
+        {
+            if(ParaAnalise.charAt(i)==' ')
+            {
+                EspacosOperadorVariavel++;
+            }
+            else
+                break;
+        }
+        for(--posicaoOperador;posicaoOperador>0;posicaoOperador--)
+        {
+            if (ParaAnalise.charAt(posicaoOperador) == ' ')
+                EspacosVariavelOperador++;
+            else
+                break;
         }
     }
 

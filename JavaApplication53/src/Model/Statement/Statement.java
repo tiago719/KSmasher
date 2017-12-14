@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Statement {
 
-    protected ArrayList<Statement> StatmentsFilhos;
+    protected ArrayList<Statement> StatmentsFilhos=null;
     String ParaAnalise;
     String Codigo;
     Texto Texto;
