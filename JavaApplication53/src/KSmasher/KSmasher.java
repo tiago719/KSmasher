@@ -2,13 +2,13 @@ package KSmasher;
 
 import Controller.Controller;
 import Model.Texto;
+import View.RegistoLoginView;
 
 public class KSmasher {
 
     public static void main(String[] args)
     {
-        Controller c = new Controller();
-        c.Analisa("C:\\Users\\Tiago Coutinho\\Documents\\Teste\\teste.c");
+        RegistoLoginView view=new RegistoLoginView(new Controller());
     }
     
 }
