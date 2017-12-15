@@ -134,6 +134,7 @@ public class If extends Statement {
             this.ParaAnalise = Codigo.substring(0, n);
         else
             this.ParaAnalise = Codigo.substring(0, n + 1);
+        
         this.NumCarateresAvancar = m + 1;
         return Codigo.substring(j, m + 1);
 
