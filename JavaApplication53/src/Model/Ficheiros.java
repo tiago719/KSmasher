@@ -5,10 +5,15 @@
  */
 package Model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -18,41 +23,25 @@ import java.io.ObjectOutputStream;
  */
 public class Ficheiros
 {
-    public ObjectOutputStream abreFObjectosEscrita(String nome) throws IOException {
-        try {
-             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(nome));
-            return out;
-        } catch (IOException e) {
-            System.out.println("Erro ao abrir o ficheiro " + nome);
-            throw e;
-        }
-    }
 
-    public ObjectInputStream abreFObjectosLeitura(String nome) throws IOException {
+    public BufferedReader abreFObjectosLeitura(String nome){
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("main.c"));
+            BufferedReader in = new BufferedReader(new FileReader(nome));
             return in;
         } catch (IOException e) {
             System.out.println(e);
-            throw e;
         }
+        return null;
     }
-
-    ObjectInputStream abreFObjectosLeitura(File file) throws IOException {
+    
+    public BufferedWriter abreFObjectosEscrita(String nome)
+    {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file.getAbsolutePath()));
-            return in;
-        } catch (IOException e) {
-            throw e;
-        }
-    }
-
-    ObjectOutputStream abreFObjectosEscrita(File file) throws IOException {
-        try {
-             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file.getAbsolutePath()));
+            BufferedWriter out = new BufferedWriter(new FileWriter(nome));
             return out;
         } catch (IOException e) {
-            throw e;
+            System.out.println(e);
         }
+        return null;
     }
 }

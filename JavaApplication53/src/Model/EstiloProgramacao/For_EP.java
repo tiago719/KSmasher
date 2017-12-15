@@ -9,7 +9,7 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class For
+public class For_EP
 {
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroFor;
     private int EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, 
@@ -17,7 +17,7 @@ public class For
             EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
-    public For(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroFor, int EspacosForParentesAberto, int EspacosParentesesAbertoCondicaoInicializacao, int EspacosInicializacaoPontoVirgula, int EspacosPontoVirgulaCondicao, int EspacosCondicaoPontoVirgula, int EspacosPontoVirgulaIncrementacao, int EspacosIncrementacaoParentesesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+    public For_EP(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroFor, int EspacosForParentesAberto, int EspacosParentesesAbertoCondicaoInicializacao, int EspacosInicializacaoPontoVirgula, int EspacosPontoVirgulaCondicao, int EspacosCondicaoPontoVirgula, int EspacosPontoVirgulaIncrementacao, int EspacosIncrementacaoParentesesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
         this.ChavetaUmStatementDentroFor = ChavetaUmStatementDentroFor;
         this.EspacosForParentesAberto = EspacosForParentesAberto;
@@ -139,7 +139,5 @@ public class For
     public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada)
     {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-    }
-    
-    
+    }   
 }

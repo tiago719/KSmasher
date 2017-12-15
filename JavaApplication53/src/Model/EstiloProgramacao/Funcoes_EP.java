@@ -9,11 +9,11 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class Funcoes
+public class Funcoes_EP
 {
     private boolean AntesMain;
 
-    public Funcoes(boolean AntesMain) {
+    public Funcoes_EP(boolean AntesMain) {
         this.AntesMain = AntesMain;
     }
 
@@ -25,7 +25,5 @@ public class Funcoes
     public void setAntesMain(boolean AntesMain)
     {
         this.AntesMain = AntesMain;
-    }
-    
-    
+    }   
 }

@@ -5,55 +5,131 @@
  */
 package Model;
 
-import Model.Statement.*;
-import java.io.FileInputStream;
+import static Model.Constantes.DIRETORIA_DESTINO;
+import Model.Statement.Statement;
+import Model.Statement.While;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.PriorityQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 
 public class Model {
-    private Texto Texto;
     private Utilizador Utilizador;
+    private Pesquisas Pesquisas;
 
     public Model() 
     {
-        
+
     }   
     
-    public void Regista()
+    public boolean ExisteUsername(String nome)
     {
-        
+        return Pesquisas.ExisteUsername(nome);
     }
     
-    public void Login()
+    public boolean ExisteEmail(String email)
     {
+        return Pesquisas.ExisteEmail(email);
+    }
+    
+    public void Regista(String username, String email, String password)
+    {
+        Pesquisas.AdicionaUtilizador(email, email, username);
+        Utilizador.AdicionaEstiloPorDefeito();
+    }
+    
+    public boolean Login(String username, String password)
+    {
+        boolean resultado= Pesquisas.VerificaLogin(username, password);
         
+        if(!resultado)
+            return false;
+        else
+        {
+            Utilizador=Pesquisas.getUser(username);
+            Utilizador.AdicionaEstiloPorDefeito();
+            return true;
+        }
     }
     
     public void Analisa(String NomeFicheiro) 
     {
         Ficheiros F=new Ficheiros();
-        ObjectInputStream in=null;
-        String Codigo=null;
-        try
-        {
-            in = F.abreFObjectosLeitura(NomeFicheiro);
-            Codigo=(String)in.readObject();
-        } catch (Exception ex)
-        {
-            return;
-        }
-        Texto=new Texto(Codigo);
-        Texto.Cataloga();
-        System.out.println(Texto);
+        BufferedReader in=null;
+        in = F.abreFObjectosLeitura(NomeFicheiro);
+        
+        Texto Texto=new Texto(in, null);
+        Texto.ComecaCataloga();
+        Texto.ComecaAnalisa();
+        
+        ArrayList<Statement> codigo=Texto.getListaStatements();
+        Medias Medias=new Medias();
+        //Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeFicheiro));
     }
     
-    public void Converte()
+    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
     {
+        String proxDiretoria=DiretoriaDestino;
+        File Diretoria=new File(NomeDiretoria);
         
+        File[] fList=Diretoria.listFiles();
+        
+        for(File file : fList)
+        {
+            if(file.isFile())
+            {
+                try {
+                    if(FilenameUtils.getExtension(file.getCanonicalPath()).equals("c"))
+                        ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                    else
+                        CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                } catch (IOException ex) {
+                    
+                }
+            }
+            else if(file.isDirectory())
+            {  
+                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName());
+            }
+        }      
+    }
+    
+    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
+    {
+        Ficheiros F=new Ficheiros();
+        File source = new File(DiretoriaAtual + Nome);
+        
+        BufferedReader in=F.abreFObjectosLeitura(source.getName());
+        BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+Nome);
+        
+        Texto Texto=new Texto(in,out);
+        Texto.ComecaCataloga();
+        Texto.ComecaConverte();
+    }
+    
+    public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
+    {
+        File source = new File(DiretoriaAtual + "//" + Nome);
+        File dest = new File(DiretoriaDestino + "//" + Nome);
+        
+        try
+        {
+            FileUtils.copyFile(source, dest);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+    
+    public void Converte(String Diretoria)
+    {
+        listaDiretoria(Diretoria,DIRETORIA_DESTINO);
     }
 }

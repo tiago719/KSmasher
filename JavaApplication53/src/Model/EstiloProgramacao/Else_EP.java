@@ -9,13 +9,13 @@ package Model.EstiloProgramacao;
  *
  * @author Tiago Coutinho
  */
-public class Else 
+public class Else_EP 
 {
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta,
         LinhasEmBrancoDepoisChavetaFechada;
 
-    public Else(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoEntreIfElse, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+    public Else_EP(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoEntreIfElse, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
         this.LinhasEmBrancoEntreIfElse = LinhasEmBrancoEntreIfElse;
         this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
@@ -60,7 +60,5 @@ public class Else
     public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada)
     {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-    }
-    
-    
+    }   
 }
