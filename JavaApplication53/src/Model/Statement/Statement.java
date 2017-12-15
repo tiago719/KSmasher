@@ -18,6 +18,7 @@ public class Statement {
         String Aux = RetiraDados(Codigo, T);
         if (Aux != null) {
             try {
+
                 T.setNivel((T.getNivel()+1));
                 StatmentsFilhos = T.Cataloga(Aux, this);
                 T.setNivel((T.getNivel()-1));
@@ -61,6 +62,7 @@ public class Statement {
 
     }
 
+
     public ArrayList<Statement> getStatementsFilhos() {
         return StatmentsFilhos;
     }
@@ -73,10 +75,12 @@ public class Statement {
     //Metedo a ser usado pelos filhos de statment (Override)
     public String RetiraDados(String Codigo, Texto T) {
         return ParaAnalise;
+
     }
 
     public int getNumCarateresAvancar() {
         return NumCarateresAvancar;
     }
+
 
 }

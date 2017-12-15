@@ -1,5 +1,7 @@
 package Model.Statement;
 
+
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -165,6 +167,7 @@ public class For extends Statement {
         //ESPAÇOS ENTRE CONDIÇAO ;
         Conta = 0;
 
+
         while (aux.charAt(Conta) != ';') {
             Conta++;
         }
@@ -257,9 +260,227 @@ public class For extends Statement {
     }
 
     @Override
-    public void converteStatement() {
+    public String RetiraDados(String Codigo, Texto t) {
+        int i, j;
+        boolean AspasAberto = false, PlicasAberto = false;
+
+        //retira espacos entre if e (
+        for (i = 3; i < Codigo.length(); i++) {
+            char qqqq = Codigo.charAt(i);
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                break;
+            }
+        }
+
+        i++;//fica depois do (
+
+        //retira espacos ate inicializacao
+        for (; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                break;
+            }
+        }
+
+        for (j = i; j < Codigo.length(); j++) {
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+            }
+            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == ';') {
+                    break;
+                }
+            }
+        }
+
+        PInicializacao = new Statement(Codigo.substring(i, j + 1), t);
+
+        //retirar espacos entre Inicializacao; ate condicao
+        for (i = j; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                break;
+            }
+        }
+
+        //encontrar fim de condicao
+        for (j = ++i; j < Codigo.length(); j++) {
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+            }
+            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == ';') {
+                    break;
+                }
+            }
+        }
+
+        Condicao = new Statement(Codigo.substring(i, j + 1), t);
+
+        //retirar espacos entre Condicao; ate incrementacao
+        for (i = j; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                break;
+            }
+        }
+
+        //encontrar fim de incrementacao
+        int NumParentesesAbertos = 1;
+        for (j = ++i; j < Codigo.length(); j++) {
+            char qqq = Codigo.charAt(j);
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            }
+            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == '(') {
+                    NumParentesesAbertos++;
+                } else if (Codigo.charAt(j) == ')') {
+                    if (--NumParentesesAbertos == 0) {
+                        break;
+                    }
+                }
+            }
+        }
+        Incrementacao = new Statement(Codigo.substring(i, j), t);
+
+        int l, k, m, n;
+
+        //procurar {
+        for (l = j + 1; l < Codigo.length(); l++) {
+            char qqq = Codigo.charAt(l);
+            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (Codigo.charAt(l) == '{') {
+                break;
+            }
+        }
+
+        for (l = j + 1; l < Codigo.length(); l++) {
+            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (Codigo.charAt(l) == '{') {
+                temChaveta = true;
+                break;
+            } else if (Codigo.charAt(l) == ';') {
+                temChaveta = false;
+                break;
+            }
+        }
+        if (temChaveta) {
+            NumParentesesAbertos = 1;
+            AspasAberto = PlicasAberto = false;
+
+            for (m = l + 1; m < Codigo.length(); m++) {
+                if (Codigo.charAt(m) == '"' && Codigo.charAt(m - 1) != '\\') {
+                    AspasAberto = !AspasAberto;
+                    continue;
+                } else if (Codigo.charAt(m) == '\'' && Codigo.charAt(m - 1) != '\\') {
+                    PlicasAberto = !PlicasAberto;
+                    continue;
+                }
+                if (Codigo.charAt(m) == '{') {
+                    NumParentesesAbertos++;
+                    break;
+                } else if (Codigo.charAt(m) == '}') {
+                    if (--NumParentesesAbertos == 0) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            m = l;
+        }
+        for (n = m + 1; n < Codigo.length(); n++) {
+            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n') {
+                break;
+            }
+        }
+
+        this.Codigo = Codigo.substring(0, j + 1);
+        this.ParaAnalise = Codigo.substring(0, n + 1);
+        this.NumCarateresAvancar = m + 1;
+        return Codigo.substring(l, m + 1);
 
     }
+    
+    //@Override
+    public void converteStatement(EstiloProgramacao estilo) {
+        String aux= this.Codigo;
+        StringBuilder build = new StringBuilder(aux); 
+        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+        char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
+        int flag=0, conta=0;
+       
+            for (int i = 0; i < aux.length(); i++) {
+                if(aux.charAt(i)=='(')
+                 {            
+                   build.insert(i, espacos, 0, estilo.getFors().getEspacosForParentesAberto());
+                   build.insert(i+1+estilo.getFors().getEspacosForParentesAberto(), espacos, 0, estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao());
+                 }
+                if(aux.charAt(i)==';')
+                 {   
+                   flag++;
+                   
+                    if(flag==1)
+                    {
+                   conta+=estilo.getFors().getEspacosForParentesAberto()+estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao();
+                   
+                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosInicializacaoPontoVirgula());
+                   build.insert(i+conta+1+estilo.getFors().getEspacosInicializacaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaCondicao());
+                     }
+                   if(flag==2)
+                   {
+                    conta+=estilo.getFors().getEspacosInicializacaoPontoVirgula()+ estilo.getFors().getEspacosPontoVirgulaCondicao();
+                   
+                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosCondicaoPontoVirgula());
+                   build.insert(i+conta+1+estilo.getFors().getEspacosCondicaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaIncrementacao()); 
+                   }
+                 }
+                 if(aux.charAt(i)==')')
+                 {    
+                   conta+=estilo.getFors().getEspacosCondicaoPontoVirgula()+estilo.getFors().getEspacosPontoVirgulaIncrementacao();
+                     
+                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
+                 }
+                  if(aux.charAt(i)=='{')
+                 {    
+                   conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
+                     
+                   build.insert(i+1+conta, linhas, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
+                 }
+                  if(aux.charAt(i)=='}')
+                 {    
+                   conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
+                     
+                   build.insert(i+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada());
+                 }
+            
+         }
+            this.Codigo=build.toString();
+    }
+
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {

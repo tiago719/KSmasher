@@ -66,11 +66,22 @@ public class Cast extends Statement
     
     @Override
     public void analisaStatement()
-    {
+
+    { 
         EspacosEntreCastVariavel=0;
         
         try
-        {
+        { 
+         for (int i = 0; i < ParaAnalise.length(); i++) {
+            if (ParaAnalise.charAt(i) == ')') {
+                i++;
+                while(ParaAnalise.charAt(i)==' ')
+                {
+                    EspacosEntreCastVariavel++;
+                    i++;
+                }
+            }
+        }
 
         }
         catch(Exception e)

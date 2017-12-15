@@ -1,5 +1,7 @@
 package Model.Statement;
 
+
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 
 public class DoWhile extends Statement {
@@ -81,12 +83,61 @@ public class DoWhile extends Statement {
 
         i += 5 + 1; //depois do while
 
+
         //retira espacos entre while e (
         for (; i < Codigo.length(); i++) {
             if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
+
+        i++;//fica depois do (
+
+        //retira espacos ate condicao
+        for (; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                break;
+            }
+        }
+
+        //procura fim da condicao
+        int numParentesesAbertos = 1;
+        AspasAberto = false;
+        PlicasAberto = false;
+        for (j = ++i; j < Codigo.length(); j++) {
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+            }
+            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == ')') {
+                    if (Codigo.charAt(j) == '(') {
+                        numParentesesAbertos++;
+                    } else if (--numParentesesAbertos == 0) {
+                        break;
+                    }
+                }
+            }
+        }
+        int z;
+
+        //procura ;
+        for (z = j; z < Codigo.length(); z++) {
+            if (Codigo.charAt(z) != ' ' && Codigo.charAt(z) != '\n') {
+                break;
+            }
+        }
+
+        //retira espacos do fim condicao ate )
+        for (--j; j >= 0; j--) {
+            if (Codigo.charAt(j) != ' ' && Codigo.charAt(j) != '\n') {
+                break;
+            }
+        }
+
 
         i++;//fica depois do (
 
@@ -209,8 +260,44 @@ public class DoWhile extends Statement {
 
     }
 
-    @Override
-    public void converteStatement() {
+
+ 
+    public void converteStatement(EstiloProgramacao estilo) {
         //adicionar no inicio "do ..." e no final "while ( <condicao> );"
-    }
+        String aux= this.Codigo;
+        StringBuilder build = new StringBuilder(aux); 
+        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+        char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
+        int  conta=0;
+       
+            for (int i = 0; i < aux.length(); i++) {
+                if(aux.charAt(i)=='{')
+                 {            
+                   build.insert(i+1, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
+                 }
+                if(aux.charAt(i)=='}')
+                 {   
+                   conta+=estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta();
+                     
+                   build.insert(i+conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
+                   build.insert(i+conta+1+estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta(), linhas, 0, estilo.getDowhile().getLinhasEmBrancoEntreChavetaFechadaWhile());
+                 }
+                 if(aux.charAt(i)=='(')
+                 {   
+                   conta+=estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()+estilo.getDowhile().getLinhasEmBrancoEntreChavetaFechadaWhile();
+                     
+                   build.insert(i+conta, espacos, 0, estilo.getDowhile().getEspacosWhileParentesesAberto());
+                   build.insert(i+conta+1+estilo.getDowhile().getEspacosWhileParentesesAberto(), espacos, 0, estilo.getDowhile().getEspacosParentesesAbertoCondicao());
+                 }
+                 if(aux.charAt(i)==')')
+                 {   
+                   conta+=estilo.getDowhile().getEspacosWhileParentesesAberto()+estilo.getDowhile().getEspacosParentesesAbertoCondicao();
+                     
+                   build.insert(i+conta, espacos, 0, estilo.getDowhile().getEspacosCondicaoParentesFechado());
+                  
+                 }
+            }
+             this.Codigo=build.toString();
+   }
+
 }
