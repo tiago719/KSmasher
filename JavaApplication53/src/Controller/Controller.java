@@ -1,10 +1,13 @@
 package Controller;
 
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Model;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FilenameUtils;
 
 public class Controller extends Observable
 {
@@ -35,9 +38,18 @@ public class Controller extends Observable
             return -3;
     }
     
-    public boolean ExisteEmail(String email)
+    //1: Existe email
+    //-1: Não existe email
+    //-2:Email invalido
+    public int ExisteEmail(String email)
     {
-        return Model.ExisteEmail(email);
+        if(!email.contains(".") || !email.contains("."))
+            return -2;
+            
+        if(Model.ExisteEmail(email))
+            return 1;
+        else
+            return -1;
     }
     
     public void Regista(String username, String email, String password)
@@ -47,17 +59,47 @@ public class Controller extends Observable
     
     public boolean Login(String username, String password)
     {
+        return Model.Login(username, password);
+    }
+    
+    public boolean Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo)
+    {
+        if(".c".equals(FilenameUtils.getExtension(NomeFicheiro)))
+        {
+            Model.Analisa(NomeFicheiro, Permite,NomeEstilo);
+            return true;
+        }
         return false;
-        //return Model.Login(username, password);
     }
     
-    public void Analisa(String NomeFicheiro)
+    public void Converte(String Diretoria, String NomeEstilo, String NomeUtilizador)
     {
-        Model.Analisa(NomeFicheiro);
+        Model.Converte(Diretoria, NomeEstilo, NomeUtilizador);
     }
     
-    public void Converte(String Diretoria)
+    public boolean ExisteNomeEstilo(String NomeEstilo)
     {
-        Model.Converte(Diretoria);
+        //TODO:Fazer a pesquisa
+        throw new UnsupportedOperationException("Funcionalidade nao implementada");
+    }
+    
+    public boolean isValidFile(String NomeFicheiro)
+    {
+        return FilenameUtils.getExtension(NomeFicheiro).equals(".c");
+    }
+    
+    public ArrayList<EstiloProgramacao> getEstilosUtilizador()
+    {
+        return Model.getEstilosUtilizador();
+    }
+    
+    public ArrayList<EstiloProgramacao> UtilizadorEstilos(String NomeUser)
+    {
+        return Model.UtilizadorEstilos(NomeUser);
+    }
+    
+    public String getUtilizadorAtualNome()
+    {
+        return Model.getUtilizadorAtualNome();
     }
 }

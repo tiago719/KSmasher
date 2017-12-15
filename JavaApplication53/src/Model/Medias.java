@@ -117,7 +117,14 @@ public class Medias
         {
             total+=IfEspacosParentesesAbertoCondicaoList.get(i);
         }
-        IfEspacosParentesesAbertoCondicao=total/IfEspacosParentesesAbertoCondicaoList.size();
+        try
+        {
+            IfEspacosParentesesAbertoCondicao=total/IfEspacosParentesesAbertoCondicaoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            IfEspacosParentesesAbertoCondicao=0;
+        }
         
         total=0;
         
@@ -125,7 +132,14 @@ public class Medias
         {
             total+=IfEspacosIfParentesAbertoList.get(i);
         }
-        IfEspacosIfParentesAberto=total/IfEspacosIfParentesAbertoList.size();
+        try
+        {
+            IfEspacosIfParentesAberto=total/IfEspacosIfParentesAbertoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            IfEspacosIfParentesAberto=0;
+        }
         
         total=0;
         
@@ -133,40 +147,73 @@ public class Medias
         {
             total+=IfEspacosCondicaoParentesFechadoList.get(i);
         }
-        IfEspacosCondicaoParentesFechado=total/IfEspacosCondicaoParentesFechadoList.size();
-        
+        try
+        {
+            IfEspacosCondicaoParentesFechado=total/IfEspacosCondicaoParentesFechadoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            IfEspacosCondicaoParentesFechado=0;
+        }
         total=0;
         
         for(int i=0;i<IfLinhasEmBrancoDepoisChavetaAbertaList.size();i++)
         {
             total+=IfLinhasEmBrancoDepoisChavetaAbertaList.get(i);
         }
-        IfLinhasEmBrancoDepoisChavetaAberta=total/IfLinhasEmBrancoDepoisChavetaAbertaList.size();
         
+        try
+        {
+            IfLinhasEmBrancoDepoisChavetaAberta=total/IfLinhasEmBrancoDepoisChavetaAbertaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            IfLinhasEmBrancoDepoisChavetaAberta=0;
+        }
         total=0;
         
         for(int i=0;i<IfLinhasEmBrancoDepoisChavetaFechadaList.size();i++)
         {
             total+=IfLinhasEmBrancoDepoisChavetaFechadaList.get(i);
         }
-        IfLinhasEmBrancoDepoisChavetaFechada=total/IfLinhasEmBrancoDepoisChavetaFechadaList.size();
         
+        try
+        {
+            IfLinhasEmBrancoDepoisChavetaFechada=total/IfLinhasEmBrancoDepoisChavetaFechadaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            IfLinhasEmBrancoDepoisChavetaFechada=0;
+        }
         total=0;
         
         for(int i=0;i<IfChavetaUmStatementDentroIfList.size();i++)
         {
             total+=IfChavetaUmStatementDentroIfList.get(i);
         }
-        IfChavetaUmStatementDentroIf=total/IfChavetaUmStatementDentroIfList.size();
         
+        try
+        {
+            IfChavetaUmStatementDentroIf=total/IfChavetaUmStatementDentroIfList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            IfChavetaUmStatementDentroIf=0;
+        }
         total=0;
         
         for(int i=0;i<IfPrimeiraChavetaNovaLinhaList.size();i++)
         {
             total+=IfPrimeiraChavetaNovaLinhaList.get(i);
         }
-        IfPrimeiraChavetaNovaLinha=total/IfPrimeiraChavetaNovaLinhaList.size();
-                
+        try
+        {
+            IfPrimeiraChavetaNovaLinha=total/IfPrimeiraChavetaNovaLinhaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            IfPrimeiraChavetaNovaLinha=0;
+        }
     }
     
     public void FazMediaWhile()
@@ -176,7 +223,14 @@ public class Medias
         {
             total+=WhileEspacosParentesesAbertoCondicaoList.get(i);
         }
-        WhileEspacosParentesesAbertoCondicao=total/WhileEspacosParentesesAbertoCondicaoList.size();
+        try
+        {
+            WhileEspacosParentesesAbertoCondicao=total/WhileEspacosParentesesAbertoCondicaoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            WhileEspacosParentesesAbertoCondicao=0;
+        }
         
         total=0;
         
@@ -184,48 +238,86 @@ public class Medias
         {
             total+=WhileEspacosWhileParentesAbertoList.get(i);
         }
-        WhileEspacosWhileParentesAberto=total/WhileEspacosWhileParentesAbertoList.size();
         
+        try
+        {
+            WhileEspacosWhileParentesAberto=total/WhileEspacosWhileParentesAbertoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            WhileEspacosWhileParentesAberto=0;
+        }
         total=0;
         
         for(int i=0;i<WhileEspacosCondicaoParentesFechadoList.size();i++)
         {
             total+=WhileEspacosCondicaoParentesFechadoList.get(i);
         }
-        WhileEspacosCondicaoParentesFechado=total/WhileEspacosCondicaoParentesFechadoList.size();
-        
+        try
+        {
+            WhileEspacosCondicaoParentesFechado=total/WhileEspacosCondicaoParentesFechadoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            WhileEspacosCondicaoParentesFechado=0;
+        }
         total=0;
         
         for(int i=0;i<WhileLinhasEmBrancoDepoisChavetaAbertaList.size();i++)
         {
             total+=WhileLinhasEmBrancoDepoisChavetaAbertaList.get(i);
         }
-        WhileLinhasEmBrancoDepoisChavetaAberta=total/WhileLinhasEmBrancoDepoisChavetaAbertaList.size();
-        
+        try
+        {
+            WhileLinhasEmBrancoDepoisChavetaAberta=total/WhileLinhasEmBrancoDepoisChavetaAbertaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            WhileLinhasEmBrancoDepoisChavetaAberta=0;
+        }
         total=0;
         
         for(int i=0;i<WhileLinhasEmBrancoDepoisChavetaFechadaList.size();i++)
         {
             total+=WhileLinhasEmBrancoDepoisChavetaFechadaList.get(i);
         }
-        WhileLinhasEmBrancoDepoisChavetaFechada=total/WhileLinhasEmBrancoDepoisChavetaFechadaList.size();
-        
+        try
+        {
+            WhileLinhasEmBrancoDepoisChavetaFechada=total/WhileLinhasEmBrancoDepoisChavetaFechadaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            WhileLinhasEmBrancoDepoisChavetaFechada=0;
+        }
         total=0;
         
         for(int i=0;i<WhileChavetaUmStatementDentroWhileList.size();i++)
         {
             total+=WhileChavetaUmStatementDentroWhileList.get(i);
         }
-        WhileChavetaUmStatementDentroWhile=total/WhileChavetaUmStatementDentroWhileList.size();
         
+        try
+        {
+            WhileChavetaUmStatementDentroWhile=total/WhileChavetaUmStatementDentroWhileList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            WhileChavetaUmStatementDentroWhile=0;
+        }
         total=0;
         
         for(int i=0;i<WhilePrimeiraChavetaNovaLinhaList.size();i++)
         {
             total+=WhilePrimeiraChavetaNovaLinhaList.get(i);
         }
-        WhilePrimeiraChavetaNovaLinha=total/WhilePrimeiraChavetaNovaLinhaList.size();
-                
+        try
+        {
+            WhilePrimeiraChavetaNovaLinha=total/WhilePrimeiraChavetaNovaLinhaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            WhilePrimeiraChavetaNovaLinha=0;
+        }
     }
     
     public void FazMediasOperador()
@@ -236,15 +328,28 @@ public class Medias
         {
             total+=OperadorEspacosOperadorVariavelList.get(i);
         }
-        OperadorEspacosOperadorVariavel=total/OperadorEspacosOperadorVariavelList.size();
-        
+        try
+        {
+            OperadorEspacosOperadorVariavel=total/OperadorEspacosOperadorVariavelList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            OperadorEspacosOperadorVariavel=0;
+        }
         total=0;
         
         for(int i=0;i<OperadorEspacosVariavelOperadorList.size();i++)
         {
             total+=OperadorEspacosVariavelOperadorList.get(i);
         }
-        OperadorEspacosVariavelOperador=total/OperadorEspacosVariavelOperadorList.size();
+        try
+        {
+            OperadorEspacosVariavelOperador=total/OperadorEspacosVariavelOperadorList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            OperadorEspacosVariavelOperador=0;
+        }
     }
     
     public void fazMedias(ArrayList<Statement> Codigo)
@@ -269,7 +374,7 @@ public class Medias
         FazMediaIf();
     }
     
-    public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo)
+    public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo, boolean Permite)
     {
         fazMedias(Codigo);
         
@@ -325,7 +430,7 @@ public class Medias
         
         Funcoes_EP FuncoesEp = null;
         
-        return new EstiloProgramacao(NomeEstilo, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
+        return new EstiloProgramacao(NomeEstilo,Permite, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
     }
         
 }

@@ -6,6 +6,7 @@
 package Model;
 
 import static Model.Constantes.DIRETORIA_DESTINO;
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Statement.Statement;
 import Model.Statement.While;
 import java.io.BufferedReader;
@@ -58,7 +59,7 @@ public class Model {
         }
     }
     
-    public void Analisa(String NomeFicheiro) 
+    public void Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) 
     {
         Ficheiros F=new Ficheiros();
         BufferedReader in=null;
@@ -70,7 +71,7 @@ public class Model {
         
         ArrayList<Statement> codigo=Texto.getListaStatements();
         Medias Medias=new Medias();
-        //Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeFicheiro));
+        Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeEstilo, Permite));
     }
     
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
@@ -128,8 +129,29 @@ public class Model {
         }
     }
     
-    public void Converte(String Diretoria)
+    public void Converte(String Diretoria, String NomeEstilo, String NomeUtilizador)
     {
         listaDiretoria(Diretoria,DIRETORIA_DESTINO);
+        throw new UnsupportedOperationException("Funcionalidade nao implementada");
+        //TODO: Ir buscar o estilo e mandalo para o converter
+    }
+    
+    public ArrayList<EstiloProgramacao> getEstilosUtilizador()
+    {
+        return Utilizador.getEstilos();
+    }
+    
+    public ArrayList<EstiloProgramacao> UtilizadorEstilos(String NomeUser)
+    {
+        if(!ExisteUsername(NomeUser))
+            return null;
+        
+        throw new UnsupportedOperationException("Funcionalidade nao implementada");
+        //TODO: Verificar se o utilizador tem estilos disponiveis (nao esquecer verificar a flag dos estilos
+    }
+    
+    public String getUtilizadorAtualNome()
+    {
+        return Utilizador.getUsername();
     }
 }

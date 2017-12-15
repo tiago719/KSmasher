@@ -49,8 +49,8 @@ public class InterfaceTexto
         {
             boolean checkname, checkEmail;
 
-            checkname = Controller.ExisteUsername(user);
-            checkEmail = Controller.ExisteEmail(email);
+            checkname = false;//Controller.ExisteUsername(user);
+            checkEmail = false;//Controller.ExisteEmail(email);
 
             if (checkname || checkEmail) {
                 if (checkname) {

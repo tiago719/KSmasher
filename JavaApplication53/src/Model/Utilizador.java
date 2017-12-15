@@ -31,9 +31,29 @@ import java.util.logging.Logger;
  */
 public class Utilizador
 {
-    String Username, Email, Password;
-    int IdUtilizador;
-    ArrayList<EstiloProgramacao> EstilosProgramacao;
+    private String Username, Email, Password;
+    private int IdUtilizador;
+    private ArrayList<EstiloProgramacao> EstilosProgramacao;
+
+    public String getUsername()
+    {
+        return Username;
+    }
+
+    public void setUsername(String Username)
+    {
+        this.Username = Username;
+    }
+
+    public String getEmail()
+    {
+        return Email;
+    }
+
+    public void setEmail(String Email)
+    {
+        this.Email = Email;
+    }
     
     public Utilizador()
     {
@@ -42,7 +62,7 @@ public class Utilizador
     
     public void AdicionaEstiloPorDefeito()
     {
-        EstilosProgramacao.add(new EstiloProgramacao("EstiloDefeito",
+        EstilosProgramacao.add(new EstiloProgramacao("EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1, 1),
@@ -57,4 +77,9 @@ public class Utilizador
     {
         EstilosProgramacao.add(EP);
     }   
+    
+    public ArrayList<EstiloProgramacao> getEstilos()
+    {
+        return EstilosProgramacao;
+    }
 }
