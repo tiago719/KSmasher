@@ -47,7 +47,7 @@ public class Medias
     //operador
     ArrayList<Integer> OperadorEspacosOperadorVariavelList=new ArrayList<>();
     ArrayList<Integer> OperadorEspacosVariavelOperadorList=new ArrayList<>();
-    
+
     //if
     int IfEspacosParentesesAbertoCondicao;
     int IfEspacosIfParentesAberto;
