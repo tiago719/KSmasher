@@ -214,45 +214,77 @@ public class For extends Statement {
             }
             EspacosIncrementacaoParentesesFechado++;
         }
-        aux = aux.substring(Conta);
-
-        //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA ABERTA;
-        Conta = 0;
-
-        while (aux.charAt(Conta) != '{') {
-            Conta++;
-        }
-        LinhasEmBrancoDepoisChavetaAberta = 0;
-        for (int i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
-                break;
-            }
-            LinhasEmBrancoDepoisChavetaAberta++;
-        }
-        aux = aux.substring(Conta);
-
-        //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA FECHADA
-        while (true) {
-            if (aux.charAt(Conta) == '{') {
-                nabertos++;
-            }
-
-            if (aux.charAt(Conta) == '}') {
-                if (nabertos != 0) {
-                    nabertos--;
+        aux = aux.substring(Conta + 1);
+        int temchaveta = 0;
+        for (int i = 0; i < aux.length(); i++) {
+            if (aux.charAt(i) != ' ') {
+                if (aux.charAt(i) != '{') {
+                    temchaveta = 1;
                 } else {
+                    temchaveta = 0;
+                    LinhasEmBrancoDepoisChavetaAberta = -1;
+                    LinhasEmBrancoDepoisChavetaFechada = -1;
+                }
+
+            }
+        }
+
+        if (temchaveta == 1) {         //ESPAÇOS EM BRANCO DEPOIS DA {
+            Conta = 0;
+
+            aux = ParaAnalise;
+
+            Conta = 0;
+            while (aux.charAt(Conta) != '{') {
+                Conta++;
+            }
+            aux = aux.substring(Conta + 1);
+
+            LinhasEmBrancoDepoisChavetaAberta = 0;
+            for (int i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ') {
                     break;
+                } else {
+                    if (Codigo.charAt(i) == '\n') {
+                        LinhasEmBrancoDepoisChavetaAberta++;
+                        break;
+                    }
+                }
+
+            }
+            aux = aux.substring(Conta);
+
+            //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA FECHADA
+            Conta = 0;
+            int nChaveta = 0;
+            while (true) {
+                if (aux.charAt(Conta) == '{') {
+                    nChaveta++;
+                } else {
+                    if (aux.charAt(Conta) == '}') {
+                        if (nChaveta == 0) {
+                            break;
+                        } else {
+                            nChaveta--;
+                        }
+                    }
+
                 }
             }
+            aux = aux.substring(Conta + 1);
 
-            Conta++;
-        }
+            LinhasEmBrancoDepoisChavetaFechada = 0;
+            for (int i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ') {
+                    break;
+                } else {
+                    if (Codigo.charAt(i) == '\n') {
+                        LinhasEmBrancoDepoisChavetaFechada++;
+                        break;
+                    }
+                }
 
-        for (int i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
-                break;
             }
-            LinhasEmBrancoDepoisChavetaFechada++;
         }
     }
 
