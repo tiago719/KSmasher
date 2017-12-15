@@ -1,74 +1,144 @@
 package Model.Statement;
 
 import Model.Texto;
+import java.util.ArrayList;
 
 public class If extends Statement {
 
-    private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroIf;
     private int EspacosIfParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado,
-            LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+            LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
+            ChavetaUmStatementIf, PrimeiraChavetaNovaLinha;
 
     private Statement Condicao;
-    private boolean temChaveta;
-    
-    public If(String codigo, Texto t)
-    {
+    private boolean TemChaveta;
+
+    public If(String codigo, Texto t) {
         super(codigo, t);
     }
 
+    public Statement getCondicao() {
+        return Condicao;
+    }
+
     @Override
-    public String RetiraDados(String Codigo, Texto t){
-        int i, j;
-        
+    public String RetiraDados(String Codigo, Texto T) {
+        int i, j, k, m, n;
+
         //retira espacos entre if e (
         for (i = 2; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ')
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
+            }
         }
-        
+
         i++;//fica depois do (
-        
+
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ')
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
+            }
         }
-        
+
         //procura fim do if
-        int numParentesesAbertos = 1;
+        int NumParentesesAbertos = 1;
         boolean AspasAberto = false, PlicasAberto = false;
         for (j = i; j < Codigo.length(); j++) {
-            if (Codigo.charAt(j) == '"' && Codigo.charAt(j-1) != '\\')
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
                 AspasAberto = !AspasAberto;
-            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j-1) != '\\')
+                continue;
+            } else if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
-            
-            if (!AspasAberto && !PlicasAberto){
-                if (Codigo.charAt(j) == ')'){
-                    if (--numParentesesAbertos == 0){
+                continue;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == '(') {
+                    NumParentesesAbertos++;
+                } else if (Codigo.charAt(j) == ')') {
+                    if (--NumParentesesAbertos == 0) {
                         break;
                     }
                 }
             }
         }
-        j--;
         
         //retira espacos do fim condicao ate )
-        for (; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ')
+        for (k = j; k >= 0; k--) {
+            if (Codigo.charAt(k) != ' ' && Codigo.charAt(k) != '\n') {
                 break;
-            
+            }
+
         }
+
         
-        Condicao = new Statement(Codigo.substring(i, j+1), t);
-        
-        this.ParaAnalise = Codigo.substring(0, j+1);
-        return Codigo.substring(j+1);
-        
-        
+        int a;
+        char c;
+        AspasAberto = PlicasAberto = false;
+        //procurar {
+        for (a = j + 1; a < Codigo.length(); a++) {
+            if ((c=Codigo.charAt(a)) == '"' && Codigo.charAt(a - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+                continue;
+            } else if (Codigo.charAt(a) == '\'' && Codigo.charAt(a - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+                continue;
+            }
+            if (PlicasAberto || AspasAberto)
+                continue;
+            
+            if (Codigo.charAt(a) == '{') {
+                TemChaveta = true;
+                break;
+            } else if (Codigo.charAt(a) == ';') {
+                TemChaveta = false;
+                break;
+            }
+        }
+        if (TemChaveta) {
+            NumParentesesAbertos = 1;
+            AspasAberto = PlicasAberto = false;
+            
+            for (m = a + 1; m < Codigo.length(); m++) {
+                if (Codigo.charAt(m) == '"' && Codigo.charAt(m - 1) != '\\') {
+                    AspasAberto = !AspasAberto;
+                    continue;
+                } else if (Codigo.charAt(m) == '\'' && Codigo.charAt(m - 1) != '\\') {
+                    PlicasAberto = !PlicasAberto;
+                    continue;
+                }
+                if (Codigo.charAt(m) == '{') {
+                    NumParentesesAbertos++;
+                    break;
+                }
+                else if(Codigo.charAt(m) == '}') {
+                    if (--NumParentesesAbertos == 0){
+                        break;
+                    }
+                }
+            }
+        } else {
+            m = a;
+        }
+        for (n = m + 1; n < Codigo.length(); n++) {
+            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n')
+                break;
+        }
+
+        try {
+            Condicao = new Statement(Codigo.substring(i, j), T);
+        } catch (Exception e) {
+        }
+        this.Codigo = Codigo.substring(0, j + 1);
+        if (n+1 > Codigo.length())
+            this.ParaAnalise = Codigo.substring(0, n);
+        else
+            this.ParaAnalise = Codigo.substring(0, n + 1);
+        this.NumCarateresAvancar = m + 1;
+        return Codigo.substring(j, m + 1);
+
     }
-    
-    
+
 //    public If(String codigo) {
 //        int contadorCarateres = 2;
 //        temChaveta = true;
@@ -209,21 +279,20 @@ public class If extends Statement {
 //        
 //        numCarateresCodigoStatment = contadorCarateres;
 //    }
-
-    public boolean isPosicaoPrimeiraChaveta() {
-        return PosicaoPrimeiraChaveta;
+    public int getPrimeiraChavetaNovaLinha() {
+        return PrimeiraChavetaNovaLinha;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta) {
-        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+    public void setPrimeiraChavetaNovaLinha(int PosicaoPrimeiraChaveta) {
+        this.ChavetaUmStatementIf = PosicaoPrimeiraChaveta;
     }
 
-    public boolean isChavetaUmStatementDentroIf() {
-        return ChavetaUmStatementDentroIf;
+    public int isChavetaUmStatementDentroIf() {
+        return ChavetaUmStatementIf;
     }
 
-    public void setChavetaUmStatementDentroIf(boolean ChavetaUmStatementDentroIf) {
-        this.ChavetaUmStatementDentroIf = ChavetaUmStatementDentroIf;
+    public void setChavetaUmStatementDentroIf(int ChavetaUmStatementDentroIf) {
+        this.PrimeiraChavetaNovaLinha = ChavetaUmStatementDentroIf;
     }
 
     public int getEspacosIfParentesAberto() {
@@ -265,10 +334,167 @@ public class If extends Statement {
     public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada) {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
+    
+    private boolean isIf(char A[])
+    {
+        if (A[0] == 'i' && A[1] == 'f' && (A[2]=='(' || Character.isWhitespace(A[2]))) 
+            return true;
+        return false;
+    }
 
     @Override
     public void analisaStatement() {
+        EspacosParentesesAbertoCondicao=0;
+        EspacosIfParentesAberto=0;
+        EspacosCondicaoParentesFechado=0;
+        PrimeiraChavetaNovaLinha=-1;
+        ChavetaUmStatementIf=-1;
+        LinhasEmBrancoDepoisChavetaAberta=-1;
+        LinhasEmBrancoDepoisChavetaFechada=-1;
+        int contParenteses=0, indexParenteses=-1,i, aux,a, contPontoVirgula=0;
+        char c;
+        
+        for(i=0;i<ParaAnalise.length();i++)
+        { 
+            try
+            {
+                if(isIf(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2)}))
+                {
+                    i+=2;
+                }
+                else
+                    continue;
+            }
+            catch(Exception e){}
+            for(;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)!='(')
+                    EspacosIfParentesAberto++;
+                else
+                    break;
+            }
+            
+            for(++i;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)==' ')
+                    EspacosParentesesAbertoCondicao++;
+                else
+                    break;
+            }
+            while(++i<ParaAnalise.length())
+            {
+                if(ParaAnalise.charAt(i)==')')
+                {
+                    if(contParenteses==0)
+                    {
+                        indexParenteses=i;
+                        break;
+                    }
+                    else
+                        contParenteses--;
+                }                      
+                if(ParaAnalise.charAt(i)=='(')
+                    contParenteses++;
+            }
+            for(indexParenteses--;indexParenteses>0;indexParenteses--)
+            {
+                if(ParaAnalise.charAt(indexParenteses)==' ')
+                    EspacosCondicaoParentesFechado++;
+                else
+                    break;
+            }
+            break;
+        }
+        
+        aux=i;
+        
+        for(a=indexParenteses+1;a<ParaAnalise.length();a++)
+        {
+            if(ParaAnalise.charAt(a)==';')
+            {
+                if(contPontoVirgula==2)
+                    break;
+                else
+                    contPontoVirgula++;        
+            }
+        }
+        
+        if(contPontoVirgula<2)
+        {     
+            for(++i;i<ParaAnalise.length();i++)
+            {
+                if(Character.isWhitespace(ParaAnalise.charAt(i)))
+                    continue;
+                else 
+                    break;
+            }
+            if(ParaAnalise.charAt(i)=='{')
+                ChavetaUmStatementIf=1;
+            else
+            {
+                ChavetaUmStatementIf=0;
+                PrimeiraChavetaNovaLinha=-1;
+            }
+        }        
+        boolean primeiro=true;
 
+        if(ChavetaUmStatementIf!=0)
+        {
+            PrimeiraChavetaNovaLinha=0;
+            LinhasEmBrancoDepoisChavetaAberta=0;
+            LinhasEmBrancoDepoisChavetaFechada=0;
+            for(i=indexParenteses+1;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                    PrimeiraChavetaNovaLinha=1;
+                if(ParaAnalise.charAt(i)=='{')
+                {
+                    for(i+=1;i<ParaAnalise.length();i++)
+                    {
+                        if(ParaAnalise.charAt(i)=='\n')
+                        {
+                            if(primeiro)
+                                primeiro=false;
+                            else
+                                LinhasEmBrancoDepoisChavetaAberta++;  
+                        }     
+                        else if(Character.isWhitespace( ParaAnalise.charAt(i)))
+                            continue;
+                        else
+                            break;
+                    }
+                    break;
+                }
+            }
+            aux=0;
+            for(i+=1;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                    aux++;
+                if(ParaAnalise.charAt(i)=='}')
+                {
+                    if(aux<=0)
+                        break;
+                    else
+                        aux--;
+                }          
+            }
+            primeiro=true;
+            for(i++;i<ParaAnalise.length();i++)
+            {
+               if(ParaAnalise.charAt(i)=='\n')
+                {
+                    if(primeiro)
+                        primeiro=false;
+                    else
+                        LinhasEmBrancoDepoisChavetaFechada++;  
+                }     
+                else if(Character.isWhitespace( ParaAnalise.charAt(i)))
+                    continue;
+                else
+                    break;
+            }
+        }
     }
 
     @Override

@@ -274,7 +274,7 @@ public class Util {
         long tmp;
 
         for (int i = 0; i < password.length(); i++) {
-            if ((password.charAt(i) == ' ') || (password.charAt(i) == '\t')) {
+            if (Character.isWhitespace(password.charAt(i))) {
                 continue;
             }
 

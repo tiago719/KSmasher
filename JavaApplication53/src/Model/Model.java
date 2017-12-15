@@ -11,8 +11,12 @@ import Model.Statement.While;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 
 public class Model {
@@ -60,13 +64,13 @@ public class Model {
         BufferedReader in=null;
         in = F.abreFObjectosLeitura(NomeFicheiro);
         
-        Texto Texto=new Texto(in);
+        Texto Texto=new Texto(in, null);
         Texto.ComecaCataloga();
         Texto.ComecaAnalisa();
         
         ArrayList<Statement> codigo=Texto.getListaStatements();
         Medias Medias=new Medias();
-        Medias.fazMedias(codigo);
+        //Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeFicheiro));
     }
     
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
@@ -80,10 +84,14 @@ public class Model {
         {
             if(file.isFile())
             {
-                if(file.getName().contains(".c"))
-                    ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
-                else
-                    CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                try {
+                    if(FilenameUtils.getExtension(file.getCanonicalPath()).equals("c"))
+                        ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                    else
+                        CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                } catch (IOException ex) {
+                    
+                }
             }
             else if(file.isDirectory())
             {  
@@ -97,9 +105,10 @@ public class Model {
         Ficheiros F=new Ficheiros();
         File source = new File(DiretoriaAtual + Nome);
         
+        BufferedReader in=F.abreFObjectosLeitura(source.getName());
         BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+Nome);
         
-        Texto Texto=new Texto(out);
+        Texto Texto=new Texto(in,out);
         Texto.ComecaCataloga();
         Texto.ComecaConverte();
     }

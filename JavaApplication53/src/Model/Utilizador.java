@@ -53,5 +53,8 @@ public class Utilizador
                                 new While_EP(true, false, 1, 1, 1, 1, 1)));
     }
     
-    
+    public void NovoEstilo(EstiloProgramacao EP)
+    {
+        EstilosProgramacao.add(EP);
+    }   
 }

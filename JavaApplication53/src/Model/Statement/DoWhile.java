@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model.Statement;
 
 import Model.Texto;
+import Model.EstiloProgramacao.EstiloProgramacao;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class DoWhile extends Statement {
 
     
@@ -19,6 +11,7 @@ public class DoWhile extends Statement {
             EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, PosicaoPrimeiraChaveta;
 
     private Statement Condicao;
+    private boolean TemChaveta;
 
     public DoWhile(String codigo, Texto t) {
         super(codigo, t);
@@ -26,27 +19,26 @@ public class DoWhile extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
-        int i, j;
-
-        boolean temChaveta = true;
+        int i, j, y = 0, PosWhile = 0;
+        boolean AspasAberto = false, PlicasAberto = false;
 
         //procura se tem { ou nao
         for (i = 2; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                y = i;
                 if (Codigo.charAt(i) == '{') {
-                    temChaveta = true;
+                    TemChaveta = true;
                 } else {
-                    temChaveta = false;
+                    TemChaveta = false;
                 }
-
                 break;
             }
         }
 
-        if (temChaveta) {
+        if (TemChaveta) {
             int numChavetasAbertos = 1;
-            boolean AspasAberto = false, PlicasAberto = false;
-            for (; i < Codigo.length(); i++) {
+
+            for (++i; i < Codigo.length(); i++) {
                 if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                     AspasAberto = !AspasAberto;
                 }
@@ -55,7 +47,9 @@ public class DoWhile extends Statement {
                 }
 
                 if (!AspasAberto && !PlicasAberto) {
-                    if (Codigo.charAt(i) == '}') {
+                    if (Codigo.charAt(i) == '{') {
+                        numChavetasAbertos++;
+                    } else if (Codigo.charAt(i) == '}') {
                         if (--numChavetasAbertos == 0) {
                             break;
                         }
@@ -63,8 +57,7 @@ public class DoWhile extends Statement {
                 }
             }
         } else {
-            boolean AspasAberto = false, PlicasAberto = false;
-            for (; i < Codigo.length(); i++) {
+            for (++i; i < Codigo.length(); i++) {
                 if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                     AspasAberto = !AspasAberto;
                 }
@@ -79,19 +72,19 @@ public class DoWhile extends Statement {
                 }
             }
         }
-
+        PosWhile = i;
         //retira espacos entre }/; e while
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
 
         i += 5 + 1; //depois do while
 
-        //retira espacos entre if e (
+        //retira espacos entre while e (
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
@@ -100,15 +93,16 @@ public class DoWhile extends Statement {
 
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ') {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
 
-        //procura fim do if
+        //procura fim da condicao
         int numParentesesAbertos = 1;
-        boolean AspasAberto = false, PlicasAberto = false;
-        for (j = i; j < Codigo.length(); j++) {
+        AspasAberto = false;
+        PlicasAberto = false;
+        for (j = ++i; j < Codigo.length(); j++) {
             if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
                 AspasAberto = !AspasAberto;
             }
@@ -118,26 +112,40 @@ public class DoWhile extends Statement {
 
             if (!AspasAberto && !PlicasAberto) {
                 if (Codigo.charAt(j) == ')') {
-                    if (--numParentesesAbertos == 0) {
+                    if (Codigo.charAt(j) == '(') {
+                        numParentesesAbertos++;
+                    } else if (--numParentesesAbertos == 0) {
                         break;
                     }
                 }
             }
         }
-        j--;
+        int z;
 
-        //retira espacos do fim condicao ate )
-        for (; j >= 0; j--) {
-            if (Codigo.charAt(j) != ' ') {
+        //procura ;
+        for (z = j; z < Codigo.length(); z++) {
+            if (Codigo.charAt(z) != ' ' && Codigo.charAt(z) != '\n') {
                 break;
             }
+        }
 
+        //retira espacos do fim condicao ate )
+        for (--j; j >= 0; j--) {
+            if (Codigo.charAt(j) != ' ' && Codigo.charAt(j) != '\n') {
+                break;
+            }
         }
 
         Condicao = new Statement(Codigo.substring(i, j + 1), t);
 
-        this.ParaAnalise = Codigo.substring(0, j + 1);
-        return Codigo.substring(j + 1);
+        this.Codigo = null;
+        if (z + 2 > Codigo.length()) {
+            this.ParaAnalise = Codigo.substring(0, z);
+        } else {
+            this.ParaAnalise = Codigo.substring(0, z + 2);
+        }
+        this.NumCarateresAvancar = z + 1;
+        return Codigo.substring(y, PosWhile + 1);
 
     }
 
@@ -226,11 +234,7 @@ public class DoWhile extends Statement {
                     return;
                 }
                 i++;
-            }
-            if(PosicaoPrimeiraChaveta == 1)
-            {
-                return;
-            }
+            }            
             while(ParaAnalise.charAt(i)!='}')
             {
                 if(ParaAnalise.charAt(i)=='\n')
@@ -264,6 +268,7 @@ public class DoWhile extends Statement {
 
     @Override
     public void converteStatement() {
+        //adicionar no inicio "do ..." e no final "while ( <condicao> );"
         
     }
 }

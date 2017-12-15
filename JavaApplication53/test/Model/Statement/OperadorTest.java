@@ -25,18 +25,8 @@ public class OperadorTest
     {
         
         lista=new ArrayList<>();
-        //lista.add(new Operador("int a/  b  ;",t));
-//        lista.add(new Operador("int a +b;",t));
-//        lista.add(new Operador("int a  +b;",t));
-//        lista.add(new Operador("int a     + b;",t));
-//        lista.add(new Operador("int a   +     b;",t));
-//        lista.add(new Operador("int a/  ;",t));
-//        lista.add(new Operador("int   a   ++    ;",t));
-//        lista.add(new Operador("int a+ b   + c;",t));
-//        lista.add(new Operador("int a/ ",t));
-//        
-//
-//        
+        lista.add(new Operador("a    <=   b + c  ", new Texto()));
+      
        for(int i=0;i<lista.size();i++)
             lista.get(i).analisaStatement();
     }
@@ -67,32 +57,7 @@ public class OperadorTest
     @Test
     public void verificaContaEspacos()
     {
-        assertEquals(0,lista.get(0).getEspacosVariavelOperador());
-        assertEquals(2,lista.get(0).getEspacosOperadorVariavel());
-        
-        /*assertEquals(0,lista.get(1).getEspacosOperadorVariavel());
-        assertEquals(1,lista.get(1).getEspacosVariavelOperador());
-        
-        assertEquals(0,lista.get(2).getEspacosOperadorVariavel());
-        assertEquals(2,lista.get(2).getEspacosVariavelOperador());
-        
-        assertEquals(1,lista.get(3).getEspacosOperadorVariavel());
-        assertEquals(5,lista.get(3).getEspacosVariavelOperador());
-        
-        assertEquals(5,lista.get(4).getEspacosOperadorVariavel());
-        assertEquals(3,lista.get(4).getEspacosVariavelOperador());
-        
-        assertEquals(2,lista.get(5).getEspacosOperadorVariavel());
-        assertEquals(0,lista.get(5).getEspacosVariavelOperador());
-        
-        assertEquals(4,lista.get(6).getEspacosOperadorVariavel());
-        assertEquals(3,lista.get(6).getEspacosVariavelOperador());
-        
-        assertEquals(1,lista.get(7).getEspacosOperadorVariavel());
-        assertEquals(0,lista.get(7).getEspacosVariavelOperador());
-        
-        assertEquals(1,lista.get(8).getEspacosOperadorVariavel());
-        assertEquals(0,lista.get(8).getEspacosVariavelOperador());
-*/
+        assertEquals(4, lista.get(0).getEspacosVariavelOperador());
+        assertEquals(3, lista.get(0).getEspacosOperadorVariavel());
     }    
 }
