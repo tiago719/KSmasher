@@ -112,8 +112,9 @@ public class For extends Statement {
         String aux = ParaAnalise;
         EspacosForParentesAberto = 0;
         EspacosParentesesAbertoCondicaoInicializacao = 0;
+        int i=3;
         //CONTA OS ESPAÇOS ATÉ AO PRIMEIRO (
-        for (int i = 3; i < aux.length(); i++) {
+        for (; i < aux.length(); i++) {
             if (aux.charAt(i) != '(') {
                 EspacosForParentesAberto++;
 
@@ -121,11 +122,10 @@ public class For extends Statement {
                 break;
             }
         }
-        aux = aux.substring(EspacosForParentesAberto);
         ///--------------------------
 
         // CONTA ESPAÇOS DO ( do FOR até Á Inicializacao
-        for (int i = 0; i < aux.length(); i++) {
+        for (; i < aux.length(); i++) {
             if (aux.charAt(i) == ' ' && Codigo.charAt(i) != '\n') {
                 EspacosParentesesAbertoCondicaoInicializacao++;
 
@@ -133,28 +133,30 @@ public class For extends Statement {
                 break;
             }
         }
-
-        aux = aux.substring(EspacosParentesesAbertoCondicaoInicializacao);
-
+        aux = aux.substring(i+1);
+        i=0;
         /// ESPAÇOS ENTRE A INICIALIZAÇÃO E O ;
         int Conta = 0;
 
-        while (aux.charAt(Conta) != ';') {
-            Conta++;
+        for (i=0; i < aux.length(); i++) {
+            if (aux.charAt(Conta) != ';') {
+                Conta++;
+            } else {
+                break;
+            }
         }
-
         EspacosInicializacaoPontoVirgula = 0;
-        for (int i = Conta - 1; i >= 0; i--) {
+        for (i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             EspacosInicializacaoPontoVirgula++;
         }
-        aux = aux.substring(Conta);
+        aux = aux.substring(Conta+1);
 
         //ESPAÇOS ENTRE ; E CONDIÇAO
         EspacosPontoVirgulaCondicao = 0;
-        for (int i = 0; i > aux.length(); i++) {
+        for (i = 0; i < aux.length(); i++) {
             if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
@@ -165,22 +167,25 @@ public class For extends Statement {
         //ESPAÇOS ENTRE CONDIÇAO ;
         Conta = 0;
 
-        while (aux.charAt(Conta) != ';') {
+        for (i=0; i < aux.length(); i++) {
+            if (aux.charAt(i) == ';') {
+                break;
+            }
             Conta++;
         }
         EspacosCondicaoPontoVirgula = 0;
 
-        for (int i = Conta - 1; i >= 0; i--) {
+        for ( i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
             EspacosCondicaoPontoVirgula++;
         }
-        aux = aux.substring(Conta);
+        aux = aux.substring(Conta+1);
 
         // ESPAÇOS ; INCREMENTACAO
         EspacosPontoVirgulaIncrementacao = 0;
-        for (int i = 0; i > aux.length(); i++) {
+        for ( i = 0; i < aux.length(); i++) {
             if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
@@ -191,7 +196,7 @@ public class For extends Statement {
         // ESPAÇOS INCREMENTACAO )      
         Conta = 0;
         int nabertos = 0;
-        while (true) {
+        for (i=0; i < aux.length(); i++) {
             if (aux.charAt(Conta) == '(') {
                 nabertos++;
             }
@@ -208,7 +213,7 @@ public class For extends Statement {
         }
         EspacosIncrementacaoParentesesFechado = 0;
 
-        for (int i = Conta - 1; i >= 0; i--) {
+        for ( i = Conta - 1; i >= 0; i--) {
             if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
@@ -216,48 +221,53 @@ public class For extends Statement {
         }
         aux = aux.substring(Conta + 1);
         int temchaveta = 0;
-        for (int i = 0; i < aux.length(); i++) {
+        for ( i = 0; i < aux.length(); i++) {
             if (aux.charAt(i) != ' ') {
-                if (aux.charAt(i) != '{') {
+                if (aux.charAt(i) == '{') {
                     temchaveta = 1;
+                    break;
                 } else {
                     temchaveta = 0;
                     LinhasEmBrancoDepoisChavetaAberta = -1;
                     LinhasEmBrancoDepoisChavetaFechada = -1;
+                    break;
                 }
 
             }
         }
 
         if (temchaveta == 1) {         //ESPAÇOS EM BRANCO DEPOIS DA {
+            
             Conta = 0;
 
             aux = ParaAnalise;
 
             Conta = 0;
-            while (aux.charAt(Conta) != '{') {
-                Conta++;
+            for (i=0; i < aux.length(); i++) {
+                if (aux.charAt(Conta) != '{') {
+                    Conta++;
+                } else {
+                    break;
+                }
             }
             aux = aux.substring(Conta + 1);
 
             LinhasEmBrancoDepoisChavetaAberta = 0;
-            for (int i = 0; i < aux.length(); i++) {
-                if (aux.charAt(i) != ' ') {
+            for ( i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) != '\n' && aux.charAt(i) != ' ') {
                     break;
                 } else {
-                    if (Codigo.charAt(i) == '\n') {
+                    if (aux.charAt(i) == '\n') {
                         LinhasEmBrancoDepoisChavetaAberta++;
-                        break;
                     }
                 }
 
             }
-            aux = aux.substring(Conta);
 
             //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA FECHADA
             Conta = 0;
             int nChaveta = 0;
-            while (true) {
+            for(i=0;i < aux.length();i++) {
                 if (aux.charAt(Conta) == '{') {
                     nChaveta++;
                 } else {
@@ -274,13 +284,12 @@ public class For extends Statement {
             aux = aux.substring(Conta + 1);
 
             LinhasEmBrancoDepoisChavetaFechada = 0;
-            for (int i = 0; i < aux.length(); i++) {
-                if (aux.charAt(i) != ' ') {
+            for ( i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ' && aux.charAt(i) != '\n') {
                     break;
                 } else {
-                    if (Codigo.charAt(i) == '\n') {
+                    if (aux.charAt(i) == '\n') {
                         LinhasEmBrancoDepoisChavetaFechada++;
-                        break;
                     }
                 }
 
