@@ -1,5 +1,6 @@
 package Model.Statement;
 
+
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 
@@ -82,12 +83,61 @@ public class DoWhile extends Statement {
 
         i += 5 + 1; //depois do while
 
+
         //retira espacos entre while e (
         for (; i < Codigo.length(); i++) {
             if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
             }
         }
+
+        i++;//fica depois do (
+
+        //retira espacos ate condicao
+        for (; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                break;
+            }
+        }
+
+        //procura fim da condicao
+        int numParentesesAbertos = 1;
+        AspasAberto = false;
+        PlicasAberto = false;
+        for (j = ++i; j < Codigo.length(); j++) {
+            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
+                AspasAberto = !AspasAberto;
+            }
+            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
+                PlicasAberto = !PlicasAberto;
+            }
+
+            if (!AspasAberto && !PlicasAberto) {
+                if (Codigo.charAt(j) == ')') {
+                    if (Codigo.charAt(j) == '(') {
+                        numParentesesAbertos++;
+                    } else if (--numParentesesAbertos == 0) {
+                        break;
+                    }
+                }
+            }
+        }
+        int z;
+
+        //procura ;
+        for (z = j; z < Codigo.length(); z++) {
+            if (Codigo.charAt(z) != ' ' && Codigo.charAt(z) != '\n') {
+                break;
+            }
+        }
+
+        //retira espacos do fim condicao ate )
+        for (--j; j >= 0; j--) {
+            if (Codigo.charAt(j) != ' ' && Codigo.charAt(j) != '\n') {
+                break;
+            }
+        }
+
 
         i++;//fica depois do (
 
@@ -210,6 +260,7 @@ public class DoWhile extends Statement {
 
     }
 
+
  
     public void converteStatement(EstiloProgramacao estilo) {
         //adicionar no inicio "do ..." e no final "while ( <condicao> );"
@@ -248,4 +299,5 @@ public class DoWhile extends Statement {
             }
              this.Codigo=build.toString();
    }
+
 }

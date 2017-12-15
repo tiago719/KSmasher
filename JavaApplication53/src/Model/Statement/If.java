@@ -1,5 +1,6 @@
 package Model.Statement;
 
+
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.ArrayList;
@@ -534,6 +535,7 @@ public class If extends Statement {
                
         }
             this.Codigo=build.toString();
+
     }
 
 }

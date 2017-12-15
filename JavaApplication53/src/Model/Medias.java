@@ -47,13 +47,7 @@ public class Medias
     //operador
     ArrayList<Integer> OperadorEspacosOperadorVariavelList=new ArrayList<>();
     ArrayList<Integer> OperadorEspacosVariavelOperadorList=new ArrayList<>();
-    
-    //cast
-    ArrayList<Integer> CastsEspacosEntreCastVariavel=new ArrayList<>();
-    
-    //cast
-    int CastEspacosEntreCastVariavel;
-    
+
     //if
     int IfEspacosParentesesAbertoCondicao;
     int IfEspacosIfParentesAberto;
