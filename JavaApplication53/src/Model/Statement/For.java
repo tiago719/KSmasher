@@ -109,10 +109,13 @@ public class For extends Statement {
 
     @Override
     public void analisaStatement() {
+
         String aux = ParaAnalise;
         EspacosForParentesAberto = 0;
         EspacosParentesesAbertoCondicaoInicializacao = 0;
-        int i=3;
+
+        int i = 3;
+        int Conta = 0;
         //CONTA OS ESPAÇOS ATÉ AO PRIMEIRO (
         for (; i < aux.length(); i++) {
             if (aux.charAt(i) != '(') {
@@ -122,106 +125,152 @@ public class For extends Statement {
                 break;
             }
         }
+        i++;
         ///--------------------------
 
-        // CONTA ESPAÇOS DO ( do FOR até Á Inicializacao
-        for (; i < aux.length(); i++) {
-            if (aux.charAt(i) == ' ' && Codigo.charAt(i) != '\n') {
-                EspacosParentesesAbertoCondicaoInicializacao++;
+        if (!PInicializacao.getCodigo().trim().equals(";")) {
 
-            } else {
-                break;
-            }
-        }
-        aux = aux.substring(i+1);
-        i=0;
-        /// ESPAÇOS ENTRE A INICIALIZAÇÃO E O ;
-        int Conta = 0;
+            // CONTA ESPAÇOS DO ( do FOR até Á Inicializacao
+            for (; i < aux.length(); i++) {
+                if (aux.charAt(i) == ' ' && Codigo.charAt(i) != '\n') {
+                    EspacosParentesesAbertoCondicaoInicializacao++;
 
-        for (i=0; i < aux.length(); i++) {
-            if (aux.charAt(Conta) != ';') {
-                Conta++;
-            } else {
-                break;
-            }
-        }
-        EspacosInicializacaoPontoVirgula = 0;
-        for (i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
-                break;
-            }
-            EspacosInicializacaoPontoVirgula++;
-        }
-        aux = aux.substring(Conta+1);
-
-        //ESPAÇOS ENTRE ; E CONDIÇAO
-        EspacosPontoVirgulaCondicao = 0;
-        for (i = 0; i < aux.length(); i++) {
-            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
-                break;
-            }
-            EspacosPontoVirgulaCondicao++;
-        }
-        aux = aux.substring(EspacosPontoVirgulaCondicao);
-
-        //ESPAÇOS ENTRE CONDIÇAO ;
-        Conta = 0;
-
-        for (i=0; i < aux.length(); i++) {
-            if (aux.charAt(i) == ';') {
-                break;
-            }
-            Conta++;
-        }
-        EspacosCondicaoPontoVirgula = 0;
-
-        for ( i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
-                break;
-            }
-            EspacosCondicaoPontoVirgula++;
-        }
-        aux = aux.substring(Conta+1);
-
-        // ESPAÇOS ; INCREMENTACAO
-        EspacosPontoVirgulaIncrementacao = 0;
-        for ( i = 0; i < aux.length(); i++) {
-            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
-                break;
-            }
-            EspacosPontoVirgulaIncrementacao++;
-        }
-        aux = aux.substring(EspacosPontoVirgulaIncrementacao);
-
-        // ESPAÇOS INCREMENTACAO )      
-        Conta = 0;
-        int nabertos = 0;
-        for (i=0; i < aux.length(); i++) {
-            if (aux.charAt(Conta) == '(') {
-                nabertos++;
-            }
-
-            if (aux.charAt(Conta) == ')') {
-                if (nabertos != 0) {
-                    nabertos--;
                 } else {
                     break;
                 }
             }
+            aux = aux.substring(i + 1);
+            i = 0;
 
-            Conta++;
-        }
-        EspacosIncrementacaoParentesesFechado = 0;
+            /// ESPAÇOS ENTRE A INICIALIZAÇÃO E O ;
+            Conta = 0;
 
-        for ( i = Conta - 1; i >= 0; i--) {
-            if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
-                break;
+            for (i = 0; i < aux.length(); i++) {
+                if (aux.charAt(Conta) != ';') {
+                    Conta++;
+                } else {
+                    break;
+                }
             }
-            EspacosIncrementacaoParentesesFechado++;
+            EspacosInicializacaoPontoVirgula = 0;
+            for (i = Conta - 1; i >= 0; i--) {
+                if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                    break;
+                }
+                EspacosInicializacaoPontoVirgula++;
+            }
+            aux = aux.substring(Conta + 1);
+
+        } else {
+            EspacosParentesesAbertoCondicaoInicializacao = -1;
+            EspacosInicializacaoPontoVirgula = -1;
+            for (; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ' && aux.charAt(i) != '\n') {
+                    break;
+                }
+            }
+            i++;
         }
-        aux = aux.substring(Conta + 1);
+
+        if (!Condicao.getCodigo().trim().equals(";")) {
+            //ESPAÇOS ENTRE ; E CONDIÇAO
+            EspacosPontoVirgulaCondicao = 0;
+            for (i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                    break;
+                }
+                EspacosPontoVirgulaCondicao++;
+            }
+            aux = aux.substring(EspacosPontoVirgulaCondicao);
+
+            //ESPAÇOS ENTRE CONDIÇAO ;
+            Conta = 0;
+
+            for (i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) == ';') {
+                    break;
+                }
+                Conta++;
+            }
+            EspacosCondicaoPontoVirgula = 0;
+
+            for (i = Conta - 1; i >= 0; i--) {
+                if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                    break;
+                }
+                EspacosCondicaoPontoVirgula++;
+            }
+            aux = aux.substring(Conta + 1);
+        } else {
+            i++;
+            EspacosPontoVirgulaCondicao = -1;
+            EspacosCondicaoPontoVirgula = -1;
+            for (; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ' && aux.charAt(i) != '\n') {
+                    break;
+                }
+            }
+            i++;
+        }
+
+        if (!Incrementacao.getCodigo().trim().equals(";")) {
+            // ESPAÇOS ; INCREMENTACAO
+            EspacosPontoVirgulaIncrementacao = 0;
+            for (i = 0; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                    break;
+                }
+                EspacosPontoVirgulaIncrementacao++;
+            }
+            aux = aux.substring(EspacosPontoVirgulaIncrementacao);
+
+            // ESPAÇOS INCREMENTACAO )      
+            Conta = 0;
+            int nabertos = 0;
+            for (i = 0; i < aux.length(); i++) {
+                if (aux.charAt(Conta) == '(') {
+                    nabertos++;
+                }
+
+                if (aux.charAt(Conta) == ')') {
+                    if (nabertos != 0) {
+                        nabertos--;
+                    } else {
+                        break;
+                    }
+                }
+
+                Conta++;
+            }
+            EspacosIncrementacaoParentesesFechado = 0;
+
+            for (i = Conta - 1; i >= 0; i--) {
+                if (aux.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                    break;
+                }
+                EspacosIncrementacaoParentesesFechado++;
+            }
+
+            aux = aux.substring(Conta + 1);
+        } else {
+            EspacosIncrementacaoParentesesFechado = -1;
+            EspacosPontoVirgulaIncrementacao = -1;
+            for (; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ' && aux.charAt(i) != '\n') {
+                    break;
+                }
+            }
+            i++;
+            for (; i < aux.length(); i++) {
+                if (aux.charAt(i) != ' ' && aux.charAt(i) != '\n') {
+                    break;
+                }
+            }
+            aux = aux.substring(i + 1);
+        }
+
         int temchaveta = 0;
-        for ( i = 0; i < aux.length(); i++) {
+        for (i = 0; i < aux.length(); i++) {
             if (aux.charAt(i) != ' ') {
                 if (aux.charAt(i) == '{') {
                     temchaveta = 1;
@@ -237,13 +286,13 @@ public class For extends Statement {
         }
 
         if (temchaveta == 1) {         //ESPAÇOS EM BRANCO DEPOIS DA {
-            
+
             Conta = 0;
 
             aux = ParaAnalise;
 
             Conta = 0;
-            for (i=0; i < aux.length(); i++) {
+            for (i = 0; i < aux.length(); i++) {
                 if (aux.charAt(Conta) != '{') {
                     Conta++;
                 } else {
@@ -253,7 +302,7 @@ public class For extends Statement {
             aux = aux.substring(Conta + 1);
 
             LinhasEmBrancoDepoisChavetaAberta = 0;
-            for ( i = 0; i < aux.length(); i++) {
+            for (i = 0; i < aux.length(); i++) {
                 if (aux.charAt(i) != '\n' && aux.charAt(i) != ' ') {
                     break;
                 } else {
@@ -267,7 +316,7 @@ public class For extends Statement {
             //ESPAÇOS EM BRANCO DEPOIS DA CHAVETA FECHADA
             Conta = 0;
             int nChaveta = 0;
-            for(i=0;i < aux.length();i++) {
+            for (i = 0; i < aux.length(); i++) {
                 if (aux.charAt(Conta) == '{') {
                     nChaveta++;
                 } else {
@@ -284,7 +333,7 @@ public class For extends Statement {
             aux = aux.substring(Conta + 1);
 
             LinhasEmBrancoDepoisChavetaFechada = 0;
-            for ( i = 0; i < aux.length(); i++) {
+            for (i = 0; i < aux.length(); i++) {
                 if (aux.charAt(i) != ' ' && aux.charAt(i) != '\n') {
                     break;
                 } else {
