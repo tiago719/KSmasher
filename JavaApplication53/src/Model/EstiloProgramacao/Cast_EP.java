@@ -1,7 +1,7 @@
 
 package Model.EstiloProgramacao;
 
-public class Cast_EP extends EstiloProgramacao
+public class Cast_EP
 {
     private int EspacosEntreCastVariavel;
 
@@ -17,7 +17,5 @@ public class Cast_EP extends EstiloProgramacao
     public void setEspacosEntreCastVariavel(int EspacosEntreCastVariavel)
     {
         this.EspacosEntreCastVariavel = EspacosEntreCastVariavel;
-    }
-    
-    
+    }    
 }

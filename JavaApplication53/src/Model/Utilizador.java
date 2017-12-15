@@ -5,7 +5,15 @@
  */
 package Model;
 
+import Model.EstiloProgramacao.Cast_EP;
+import Model.EstiloProgramacao.DoWhile_EP;
+import Model.EstiloProgramacao.Else_EP;
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.Funcoes_EP;
+import Model.EstiloProgramacao.If_EP;
+import Model.EstiloProgramacao.Operador_EP;
+import Model.EstiloProgramacao.While_EP;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,92 +31,55 @@ import java.util.logging.Logger;
  */
 public class Utilizador
 {
-    String Username, Email, Password;
-    int IdUtilizador;
-    ArrayList<EstiloProgramacao> EstilosProgramacao;
+    private String Username, Email, Password;
+    private int IdUtilizador;
+    private ArrayList<EstiloProgramacao> EstilosProgramacao;
+
+    public String getUsername()
+    {
+        return Username;
+    }
+
+    public void setUsername(String Username)
+    {
+        this.Username = Username;
+    }
+
+    public String getEmail()
+    {
+        return Email;
+    }
+
+    public void setEmail(String Email)
+    {
+        this.Email = Email;
+    }
     
     public Utilizador()
     {
         EstilosProgramacao=new ArrayList<EstiloProgramacao>();
     }
     
-    public void novoEstilo()
+    public void AdicionaEstiloPorDefeito()
     {
-        
+        EstilosProgramacao.add(new EstiloProgramacao("EstiloDefeito",false,
+                                new Cast_EP(1),
+                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
+                                new Else_EP(true, 1, 1, 1),
+                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new Funcoes_EP(false),
+                                new If_EP(true, false, 1, 1, 1, 1, 1),
+                                new Operador_EP(1, 1),
+                                new While_EP(true, false, 1, 1, 1, 1, 1)));
     }
     
-    public void AdicionaUtilizador(String Nome, String Email, String PalavraChave)
+    public void NovoEstilo(EstiloProgramacao EP)
     {
-        BaseDados bd = new BaseDados();
-
-        try {
-            bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome +"','" + Email + "','" +SHA1(PalavraChave) + "');");
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Utilizador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        
-        bd.CloseConnection();
-    }
+        EstilosProgramacao.add(EP);
+    }   
     
-       static String SHA1(String input) throws NoSuchAlgorithmException {
-        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-        byte[] result = mDigest.digest(input.getBytes());
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < result.length; i++) {
-            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-        }
-         
-        return sb.toString();
-    }
-    
-     public boolean ExisteUsername(String Username) throws SQLException
+    public ArrayList<EstiloProgramacao> getEstilos()
     {
-        BaseDados bd = new BaseDados();
-        ResultSet Rt;
-        boolean existe;
-        
-        Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "'");
-        
-        if(Rt.next())
-            existe= true;
-        else
-            existe=false;
-        
-        bd.CloseConnection();
-        return existe;  
-    }
-      public boolean ExisteEmail(String Email) throws SQLException
-    {
-        BaseDados bd = new BaseDados();
-        ResultSet Rt;
-        boolean existe;
-        
-        Rt = bd.Le("SELECT * FROM utilizador WHERE EMAIL = '" + Email + "'");
-        
-        if(Rt.next())
-            existe= true;
-        else
-            existe=false;
-        
-        bd.CloseConnection();
-        return existe;  
-    }
-      
-      public boolean VerificaLogin(String Username, String Password) throws SQLException
-    {
-        BaseDados bd = new BaseDados();
-        ResultSet Rt;
-        boolean existe;
-        
-        Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "' and PASSWORD = '" + Password + "'");
-        
-        if(Rt.next())
-            existe= true;
-        else
-            existe=false;
-        
-        bd.CloseConnection();
-        return existe;  
+        return EstilosProgramacao;
     }
 }

@@ -1,60 +1,82 @@
 package Model.Statement;
 
+import Model.Texto;
 import java.util.ArrayList;
 
-public class Statement
-{
-    protected ArrayList<Statement> ListaStatements;
-    protected String Statement;
-    protected int numComecar;//numero de carateres desde inicio do if ate onde comeca o codigo do if
-    protected int numCarateresCodigoStatment; //numer de carateres do codigo deste if, while, ... para saber quando acabou
-    
-    public void setNumComecar(int numComecar) {
-        this.numComecar = numComecar;
+public class Statement {
+
+    protected ArrayList<Statement> StatmentsFilhos=null;
+    String ParaAnalise;
+    String Codigo;
+    Texto Texto;
+    int NumCarateresAvancar;
+
+    public Statement(String Codigo, Texto T) {
+        this.Codigo = Codigo;
+        this.ParaAnalise = Codigo;
+        Texto = T;
+        String Aux = RetiraDados(Codigo, T);
+        if (Aux != null) {
+            try {
+                T.setNivel((T.getNivel()+1));
+                StatmentsFilhos = T.Cataloga(Aux, this);
+                T.setNivel((T.getNivel()-1));
+            } catch (Exception e) {
+
+            }
+        }
     }
 
-    public int getNumCarateresCodigoStatment() {
-        return numCarateresCodigoStatment;
+    public boolean hasFilhos() {
+        if (StatmentsFilhos == null)
+            return false;
+        return StatmentsFilhos.size() > 0;
     }
 
-    public int getNumComecar() {
-        return numComecar;
-    }
-    
-    public Statement()
-    {
-        ListaStatements=new ArrayList<Statement>();
-    }
-    
-    public void analisaStatement()
-    {
-        
-    }
-    
-    public void converteStatement()
-    {
-        
+    public String getParaAnalise() {
+        return ParaAnalise;
     }
 
-    public ArrayList<Statement> getListaStatements() {
-        return ListaStatements;
+    public void setParaAnalise(String ParaAnalise) {
+        this.ParaAnalise = ParaAnalise;
     }
 
-    public void setStatement(String Statement) {
-        this.Statement = Statement;
+    public String getCodigo() {
+        return Codigo;
+    }
+
+    public void setCodigo(String Codigo) {
+        this.Codigo = Codigo;
+    }
+
+    public Statement() {
+        StatmentsFilhos = new ArrayList<Statement>();
+    }
+
+    public void analisaStatement() {
+
+    }
+
+    public void converteStatement() {
+
+    }
+
+    public ArrayList<Statement> getStatementsFilhos() {
+        return StatmentsFilhos;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString();
     }
 
-    public String getStatement() {
-        return Statement;
+    //Metedo a ser usado pelos filhos de statment (Override)
+    public String RetiraDados(String Codigo, Texto T) {
+        return ParaAnalise;
     }
-    
-    
-    
-    
+
+    public int getNumCarateresAvancar() {
+        return NumCarateresAvancar;
+    }
+
 }

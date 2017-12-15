@@ -25,7 +25,5 @@ public class Funcoes_EP
     public void setAntesMain(boolean AntesMain)
     {
         this.AntesMain = AntesMain;
-    }
-    
-    
+    }   
 }
