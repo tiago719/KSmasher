@@ -7,6 +7,7 @@ package Model.Statement;
 
 import Model.Texto;
 import java.util.ArrayList;
+import Model.EstiloProgramacao.EstiloProgramacao;
 
 /**
  *
@@ -90,9 +91,18 @@ public class Cast extends Statement
         }
     }
     
-    @Override
-    public void converteStatement()
+    //@Override
+    public void converteStatement(EstiloProgramacao estilo)
     {
-        
+        StringBuilder novastring = new StringBuilder();
+        for(int i=0; i<Codigo.length();i++){
+            if(Codigo.charAt(i-1)==')'){
+                for(int j=0; j<estilo.getCast().getEspacosEntreCastVariavel(); j++){
+                    novastring.append(' ');
+                }
+            }
+            novastring.append(Codigo.charAt(i));                   
+        }
+        this.Codigo=novastring.toString();
     }
 }

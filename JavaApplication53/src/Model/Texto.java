@@ -127,14 +127,16 @@ public class Texto {
         return Ret;
     }
 
+
     private boolean IsElse(char A[]) {
         if (!(IsCaracter(A[0])) && A[1] == 'e' && A[2] == 'l' && A[3] == 's' && A[4] == 'e' && (A[5] == '{' || Character.isWhitespace(A[5]))) {
+
             return true;
         }
         return false;
     }
 
-    private boolean IsDoWhile(char A[]) {
+    public boolean IsDoWhile(char A[]) {
         boolean Ret = false;
         if (!IsCaracter(A[0]) && A[1] == 'd' && A[2] == 'o' && (A[3] == '{' || Character.isWhitespace(A[3]))) {
             Ret = true;

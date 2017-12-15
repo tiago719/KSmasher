@@ -356,6 +356,19 @@ public class While extends Statement
                     break;
             }
         }
+        if(ChavetaUmStatementDentroWhile!=0)
+        {
+            LinhasEmBrancoDepoisChavetaAberta=0;
+            LinhasEmBrancoDepoisChavetaFechada=0;
+            for(i=0;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                    while(ParaAnalise.charAt(++i)=='\n')
+                        LinhasEmBrancoDepoisChavetaAberta++;                       
+            }
+            
+            
+        }
     }
 
     @Override

@@ -3,13 +3,14 @@ package Model.Statement;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
+import Model.EstiloProgramacao.EstiloProgramacao;
 
 public class DoWhile extends Statement {
 
-    private boolean PosicaoPrimeiraChaveta;
+    
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
             LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto,
-            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, PosicaoPrimeiraChaveta;
 
     private Statement Condicao;
     private boolean TemChaveta;
@@ -199,11 +200,11 @@ public class DoWhile extends Statement {
 
     }
 
-    public boolean isPosicaoPrimeiraChaveta() {
+    public int isPosicaoPrimeiraChaveta() {
         return PosicaoPrimeiraChaveta;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta) {
+    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
     }
 
@@ -257,13 +258,70 @@ public class DoWhile extends Statement {
 
     @Override
     public void analisaStatement() {
-
+        LinhasEmBrancoDepoisChavetaAberta = 0;
+        LinhasEmBrancoDepoisChavetaFechada = 0;
+        LinhasEmBrancoEntreChavetaFechadaWhile = 0;
+        EspacosWhileParentesesAberto = 0;
+        EspacosParentesesAbertoCondicao = 0;
+        EspacosCondicaoParentesFechado = 0;
+        PosicaoPrimeiraChaveta = 0;
+        
+        int i;
+        
+        for(i = 0; i < ParaAnalise.length(); i++){
+            if(Texto.IsDoWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1)}))
+            {
+                i+=2;
+            }
+            while(ParaAnalise.charAt(i)!='{')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    LinhasEmBrancoDepoisChavetaAberta++;
+                }
+                else if(ParaAnalise.charAt(i)==';'){
+                    PosicaoPrimeiraChaveta = 1;
+                    LinhasEmBrancoDepoisChavetaAberta = 0;
+                    return;
+                }
+                i++;
+            }            
+            while(ParaAnalise.charAt(i)!='}')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                }
+                i++;
+            }
+            while(ParaAnalise.charAt(i)!='(')
+            {
+                EspacosWhileParentesesAberto++;                
+                i++;
+            }
+            i++; // Para passar do '(' para o proximo espaço
+            while(ParaAnalise.charAt(i)==' ')
+            {
+                EspacosParentesesAbertoCondicao++;
+                i++;
+            }
+            // encontra o ')' e no ciclo a seguir decrementa ate encontrar o fim da condicao;
+            while(ParaAnalise.charAt(i)!=')'){
+                i++;
+            }
+            i--;
+            while(ParaAnalise.charAt(i)==' '){
+                EspacosCondicaoParentesFechado++;
+                i--;                
+            }            
+        }
     }
 
 
  
     public void converteStatement(EstiloProgramacao estilo) {
         //adicionar no inicio "do ..." e no final "while ( <condicao> );"
+
         String aux= this.Codigo;
         StringBuilder build = new StringBuilder(aux); 
         char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
@@ -299,5 +357,6 @@ public class DoWhile extends Statement {
             }
              this.Codigo=build.toString();
    }
+
 
 }
