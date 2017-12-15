@@ -49,7 +49,7 @@ public class InterfaceTexto
         {
             boolean checkname, checkEmail;
 
-            checkname = Controller.ExisteUsername(user);
+            checkname = true;//Controller.ExisteUsername(user);
             checkEmail = Controller.ExisteEmail(email);
 
             if (checkname || checkEmail) {
