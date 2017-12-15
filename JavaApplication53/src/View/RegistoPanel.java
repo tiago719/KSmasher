@@ -47,7 +47,7 @@ public class RegistoPanel extends JPanel implements Observer
         setupLayout();
         setVisible(true);
         
-        setBackground(Color.WHITE);
+        setBackground(Color.YELLOW);
         
     }
     
@@ -84,8 +84,7 @@ public class RegistoPanel extends JPanel implements Observer
     
     public void setupLayout()
     {
-        setLayout(new BorderLayout());
-        
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         Box box=Box.createVerticalBox();
         box.add(tituloL);
         box.add(nomeL);
@@ -97,8 +96,9 @@ public class RegistoPanel extends JPanel implements Observer
         box.add(confirmarPasswordL);
         box.add(confirmarPasswordF);
         box.add(registar);
-        
+
         add(box);
+        
         
         validate();
     }

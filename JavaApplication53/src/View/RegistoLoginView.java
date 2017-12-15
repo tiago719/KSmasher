@@ -10,8 +10,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -23,6 +30,7 @@ public class RegistoLoginView extends JFrame implements Observer
 {
     Controller Controller;
     RegistoLoginPanel panel;
+    Image Image;
     
     public RegistoLoginView(Controller o)
     {
@@ -39,7 +47,9 @@ public class RegistoLoginView extends JFrame implements Observer
         this.setSize(700, 500);
         this.setMinimumSize(new Dimension(650, 450));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         validate();
+
     }
     
     public void addComponents()

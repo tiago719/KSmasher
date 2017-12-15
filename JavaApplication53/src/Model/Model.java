@@ -25,7 +25,7 @@ public class Model {
 
     public Model() 
     {
-
+        Pesquisas=new Pesquisas();
     }   
     
     public boolean ExisteUsername(String nome)
