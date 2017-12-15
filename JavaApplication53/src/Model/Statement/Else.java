@@ -77,7 +77,10 @@ public class Else extends Statement {
         }
 
         
-        this.ParaAnalise = Codigo.substring(0, m + 1);
+          if (m+1 > Codigo.length())
+            this.ParaAnalise = Codigo.substring(0, m);
+        else
+            this.ParaAnalise = Codigo.substring(0, m + 1);
         
         return Codigo.substring(5, m + 1);
     }

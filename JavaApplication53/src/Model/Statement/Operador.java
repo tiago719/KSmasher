@@ -30,7 +30,10 @@ public class Operador extends Statement {
         }
 
         this.ParaAnalise = Codigo;
-        this.Codigo = Codigo.substring(i, j + 1);
+        if(j+1 > Codigo.length())
+            this.Codigo = Codigo.substring(i, j);
+        else
+            this.Codigo = Codigo.substring(i, j +1);
 
         return null;
     }
