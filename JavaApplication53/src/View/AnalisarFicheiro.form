@@ -19,12 +19,12 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jNomeEstilo" min="-2" pref="149" max="-2" attributes="0"/>
-                  <Component id="jErroFicheiro" min="-2" max="-2" attributes="0"/>
+                  <Component id="TxtNomeEstilo" min="-2" pref="149" max="-2" attributes="0"/>
+                  <Component id="LabelErroFicheiro" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="jFicheiro" min="-2" pref="149" max="-2" attributes="0"/>
+                      <Component id="TxtCaminho" min="-2" pref="149" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="BttnProcurar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jErroNomeEstilo1" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -34,7 +34,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="jCheckBox" min="-2" max="-2" attributes="0"/>
+                      <Component id="CheckPermite" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="186" max="-2" attributes="0"/>
@@ -50,17 +50,17 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="69" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jFicheiro" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
+                  <Component id="TxtCaminho" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
+                  <Component id="BttnProcurar" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jErroFicheiro" min="-2" max="-2" attributes="0"/>
+              <Component id="LabelErroFicheiro" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jNomeEstilo" min="-2" pref="27" max="-2" attributes="0"/>
+              <Component id="TxtNomeEstilo" min="-2" pref="27" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jErroNomeEstilo1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jCheckBox" min="-2" max="-2" attributes="0"/>
+              <Component id="CheckPermite" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jAnalisa" min="-2" pref="37" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -75,9 +75,10 @@
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jAnalisaMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jAnalisaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jFicheiro">
+    <Component class="javax.swing.JTextField" name="TxtCaminho">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -85,20 +86,21 @@
         <Property name="text" type="java.lang.String" value="C:\u005cPasta1\u005cPasta2\u005cexemplo.c" containsInvalidXMLChars="true"/>
       </Properties>
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFicheiroFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFicheiroFocusLost"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFicheiroActionPerformed"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="TxtCaminhoFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="TxtCaminhoFocusLost"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TxtCaminhoActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="BttnProcurar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Procurar"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton2MouseClicked"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BttnProcurarMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BttnProcurarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jNomeEstilo">
+    <Component class="javax.swing.JTextField" name="TxtNomeEstilo">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -106,16 +108,16 @@
         <Property name="text" type="java.lang.String" value="Nome Estilo Programa&#xe7;&#xe3;o"/>
       </Properties>
       <Events>
-        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jNomeEstiloFocusGained"/>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jNomeEstiloFocusLost"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="TxtNomeEstiloFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="TxtNomeEstiloFocusLost"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="jCheckBox">
+    <Component class="javax.swing.JCheckBox" name="CheckPermite">
       <Properties>
         <Property name="text" type="java.lang.String" value="O meu estilo de programa&#xe7;&#xe3;o pode ser utilizado por outros utilizadores"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jErroFicheiro">
+    <Component class="javax.swing.JLabel" name="LabelErroFicheiro">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="10" style="0"/>
