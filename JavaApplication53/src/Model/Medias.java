@@ -138,10 +138,35 @@ public class Medias {
             IfPrimeiraChavetaNovaLinhaList.add(aux);
         }
     }
-    
-    public void RetiraDadosFor(For S)
-    {
-        
+
+    public void RetiraDadosFor(For S) {
+        int aux;
+        EspacosForParentesAbertoList.add(S.getEspacosForParentesAberto());
+        if ((aux = S.getEspacosParentesesAbertoCondicaoInicializacao()) != -1) {
+            EspacosParentesesAbertoCondicaoInicializacaoList.add(aux);
+        }
+        if ((aux = S.getEspacosInicializacaoPontoVirgula()) != -1) {
+            EspacosInicializacaoPontoVirgulaList.add(aux);
+        }
+        if ((aux = S.getEspacosCondicaoPontoVirgula()) != -1) {
+            EspacosCondicaoPontoVirgulaList.add(aux);
+        }
+        if ((aux = S.getEspacosPontoVirgulaIncrementacao()) != -1) {
+            EspacosPontoVirgulaIncrementacaoList.add(aux);
+        }
+        if ((aux = S.getEspacosIncrementacaoParentesesFechado()) != -1) {
+            EspacosIncrementacaoParentesesFechadoList.add(aux);
+        }
+        if ((aux = S.getEspacosIncrementacaoParentesesFechado()) != -1) {
+            EspacosIncrementacaoParentesesFechadoList.add(aux);
+        }
+        if ((aux = S.getLinhasEmBrancoDepoisChavetaAberta()) != -1) {
+            LinhasEmBrancoDepoisChavetaAbertaList.add(aux);
+        }
+        if ((aux = S.getLinhasEmBrancoDepoisChavetaFechada()) != -1) {
+            LinhasEmBrancoDepoisChavetaFechadaList.add(aux);
+        }
+
     }
 
     public void FazMediaIf() {
@@ -262,6 +287,64 @@ public class Medias {
         OperadorEspacosVariavelOperador = total / OperadorEspacosVariavelOperadorList.size();
     }
 
+    public void FazMediaFor() {
+        int total = 0;
+
+        for (int i = 0; i < EspacosForParentesAbertoList.size(); i++) {
+            total += EspacosForParentesAbertoList.get(i);
+        }
+        EspacosForParentesAberto = total / EspacosForParentesAbertoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosParentesesAbertoCondicaoInicializacaoList.size(); i++) {
+            total += EspacosParentesesAbertoCondicaoInicializacaoList.get(i);
+        }
+        EspacosParentesesAbertoCondicaoInicializacao = total / EspacosParentesesAbertoCondicaoInicializacaoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosInicializacaoPontoVirgulaList.size(); i++) {
+            total += EspacosInicializacaoPontoVirgulaList.get(i);
+        }
+        EspacosInicializacaoPontoVirgula = total / EspacosInicializacaoPontoVirgulaList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosPontoVirgulaCondicaoList.size(); i++) {
+            total += EspacosPontoVirgulaCondicaoList.get(i);
+        }
+        EspacosPontoVirgulaCondicao = total / EspacosPontoVirgulaCondicaoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosCondicaoPontoVirgulaList.size(); i++) {
+            total += EspacosCondicaoPontoVirgulaList.get(i);
+        }
+        EspacosCondicaoPontoVirgula = total / EspacosCondicaoPontoVirgulaList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosPontoVirgulaIncrementacaoList.size(); i++) {
+            total += EspacosPontoVirgulaIncrementacaoList.get(i);
+        }
+        EspacosPontoVirgulaIncrementacao = total / EspacosPontoVirgulaIncrementacaoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosIncrementacaoParentesesFechadoList.size(); i++) {
+            total += EspacosIncrementacaoParentesesFechadoList.get(i);
+        }
+        EspacosIncrementacaoParentesesFechado = total / EspacosIncrementacaoParentesesFechadoList.size();
+
+        total = 0;
+        for (int i = 0; i < LinhasEmBrancoDepoisChavetaAbertaList.size(); i++) {
+            total += LinhasEmBrancoDepoisChavetaAbertaList.get(i);
+        }
+        LinhasEmBrancoDepoisChavetaAberta = total / LinhasEmBrancoDepoisChavetaAbertaList.size();
+
+        total = 0;
+        for (int i = 0; i < LinhasEmBrancoDepoisChavetaFechadaList.size(); i++) {
+            total += LinhasEmBrancoDepoisChavetaFechadaList.get(i);
+        }
+        LinhasEmBrancoDepoisChavetaFechada = total / LinhasEmBrancoDepoisChavetaFechadaList.size();
+
+    }
+
     public void fazMedias(ArrayList<Statement> Codigo) {
         Statement S;
         int aux, total = 0;
@@ -276,12 +359,15 @@ public class Medias {
                 RetiraDadosOperador((Operador) S);
             } else if (S instanceof If) {
                 RetiraDadosIf((If) S);
+            } else if (S instanceof For) {
+                RetiraDadosFor((For) S);
             }
         }
 
         FazMediaWhile();
         FazMediasOperador();
         FazMediaIf();
+        FazMediaFor();
     }
 
     public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo) {
