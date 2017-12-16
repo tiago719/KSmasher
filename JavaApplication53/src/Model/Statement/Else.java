@@ -118,10 +118,10 @@ public class Else extends Statement {
         
         int i;
         for(i = 0; i < ParaAnalise.length(); i++){
-            if(Texto.IsElse(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3)}))
-                {
-                    i+=4;
-                }
+//            if(Texto.IsElse(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3)}))
+//                {
+//                    i+=4;
+//                }
             while(ParaAnalise.charAt(i)!='{')
             {
                 if(ParaAnalise.charAt(i)=='\n')

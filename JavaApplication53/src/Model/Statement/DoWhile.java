@@ -149,30 +149,6 @@ public class DoWhile extends Statement {
             }
         }
 
-        //procura fim da condicao
-        int numParentesesAbertos = 1;
-        AspasAberto = false;
-        PlicasAberto = false;
-        for (j = ++i; j < Codigo.length(); j++) {
-            if (Codigo.charAt(j) == '"' && Codigo.charAt(j - 1) != '\\') {
-                AspasAberto = !AspasAberto;
-            }
-            if (Codigo.charAt(j) == '\'' && Codigo.charAt(j - 1) != '\\') {
-                PlicasAberto = !PlicasAberto;
-            }
-
-            if (!AspasAberto && !PlicasAberto) {
-                if (Codigo.charAt(j) == ')') {
-                    if (Codigo.charAt(j) == '(') {
-                        numParentesesAbertos++;
-                    } else if (--numParentesesAbertos == 0) {
-                        break;
-                    }
-                }
-            }
-        }
-        int z;
-
         //procura ;
         for (z = j; z < Codigo.length(); z++) {
             if (Codigo.charAt(z) != ' ' && Codigo.charAt(z) != '\n') {

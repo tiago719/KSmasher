@@ -47,13 +47,14 @@ public class InterfaceTexto
 
         if (pass.equals(conf)) 
         {
-            boolean checkname, checkEmail;
+            boolean  checkEmail;
+            int checkname;
 
             checkname = Controller.ExisteUsername(user);
             checkEmail = Controller.ExisteEmail(email);
 
-            if (checkname || checkEmail) {
-                if (checkname) {
+            if (checkname==1 || checkEmail) {
+                if (checkname==1) {
                     System.out.println("Username já está em uso, tente outro");
                 }
                 if (checkEmail) {
