@@ -57,12 +57,13 @@ public class Funcao extends Statement {
                 }
             }
         }
-
         this.Codigo = Codigo.substring(0, PosInicioCodigoFuncao);
-        if (PosFimCodigoFuncao + 1 > Codigo.length())
-            this.ParaAnalise = Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao);
-        else 
-            this.ParaAnalise = Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
+        
+        if(this.Codigo.contains(";"))
+        {
+             this.Codigo = Codigo.substring(0, Codigo.indexOf(";"));
+        } 
+        this.ParaAnalise = Codigo;
         this.NumCarateresAvancar = PosFimCodigoFuncao + 1;
         return Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
 
@@ -88,32 +89,19 @@ public class Funcao extends Statement {
         String aux = ParaAnalise;
         String linha = "";
 
-        if (!aux.contains("main")) {
+        if (!aux.contains(" main(")) {
             AntesMain = true; /// PORQUE SE NAO TEM MAIN É SÓ PARA DEIXAR COMO ESTAO AS FUNÇOES NAO È NECESSARIO CRIAR CABEÇALHO
-            return;
         }
-
-        int posmain = aux.indexOf("main");
-        int nchaveta = 0;
-        for (int i = posmain; i < aux.length(); i++) {
-            if (aux.charAt(i) == '{') {
-                nchaveta++;
-            } else if (aux.charAt(i) == '}') {
-                if (nchaveta == 0) {
-                    posmain = i;
-                    break;
-                } else {
-                    nchaveta--;
-                }
-            }
-        }
-        aux.substring(posmain);
-
-        if (aux.contains(nomeFuncao)) {
-            AntesMain = false;
-        }
+        else
         {
-            AntesMain = true;
+            if(Codigo.contains(";"))
+            {
+                AntesMain = false;
+            }
+            else
+            {
+                AntesMain = true;
+            }
         }
 
     }

@@ -15,6 +15,7 @@ import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
 import Model.Statement.For;
+import Model.Statement.Funcao;
 import Model.Statement.If;
 import Model.Statement.Operador;
 import Model.Statement.Statement;
@@ -27,6 +28,10 @@ import java.util.ArrayList;
  */
 public class Medias {
 
+    
+    //Funções
+     ArrayList<Boolean> AntesMainList = new ArrayList<>();
+    
     //for
     ArrayList<Integer> EspacosForParentesAbertoList = new ArrayList<>();
     ArrayList<Integer> EspacosParentesesAbertoCondicaoInicializacaoList = new ArrayList<>();
@@ -93,6 +98,9 @@ public class Medias {
     int LinhasEmBrancoDepoisChavetaAberta;
     int LinhasEmBrancoDepoisChavetaFechada;
 
+    //FUNCOES
+    int AntesMain;
+   
     public Medias() {
     }
 
@@ -169,6 +177,11 @@ public class Medias {
 
     }
 
+    public void RetiraDadosFuncoes(Funcao S)
+    {
+        AntesMainList.add(S.isAntesMain());
+    }
+    
     public void FazMediaIf() {
         int total = 0;
         for (int i = 0; i < IfEspacosParentesesAbertoCondicaoList.size(); i++) {
@@ -344,6 +357,23 @@ public class Medias {
         LinhasEmBrancoDepoisChavetaFechada = total / LinhasEmBrancoDepoisChavetaFechadaList.size();
 
     }
+    
+    public void FazMediaFuncoes()
+    {
+        int total=0;
+        
+        for(int i=0;i<AntesMainList.size();i++)
+        {
+            if(AntesMainList.get(i) == true)
+                total += 1;
+            else
+            {
+                total +=0;
+            }
+        }
+        
+        AntesMain = total / AntesMainList.size();
+    }
 
     public void fazMedias(ArrayList<Statement> Codigo) {
         Statement S;
@@ -361,13 +391,17 @@ public class Medias {
                 RetiraDadosIf((If) S);
             } else if (S instanceof For) {
                 RetiraDadosFor((For) S);
+            } else if(S instanceof Funcao){
+                RetiraDadosFuncoes((Funcao)S);
             }
+            
         }
 
         FazMediaWhile();
         FazMediasOperador();
         FazMediaIf();
         FazMediaFor();
+        FazMediaFuncoes();
     }
 
     public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo) {
