@@ -512,11 +512,16 @@ public class For extends Statement {
 
         this.Codigo = Codigo.substring(0, j + 1);
           if (n+1 > Codigo.length())
-            this.ParaAnalise = Codigo.substring(0, n);
+            this.ParaAnalise = Codigo.substring(0, n - (n - Codigo.length()));
         else
             this.ParaAnalise = Codigo.substring(0, n + 1);
+          
         this.NumCarateresAvancar = m + 1;
-        return Codigo.substring(l, m + 1);
+        
+        if(m+1 >Codigo.length())
+            return Codigo.substring(l, m - (m - Codigo.length()));
+        else
+            return Codigo.substring(1, m +1);
 
     }
 }
