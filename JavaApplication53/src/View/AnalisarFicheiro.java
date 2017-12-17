@@ -21,15 +21,16 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
     Controller Controller;
     boolean NomeEstiloFirst = true, NomeFicheiroFirst = true;
     String Caminho;
-    File DnDFile;
     Thread T;
+    boolean FlagFicheiro;
 
-    public AnalisarFicheiro(Controller c, File DnDFile) {
+    public AnalisarFicheiro(Controller c) {
         Controller = c;
         initComponents();
         LabelErroFicheiro.setVisible(false);
         jErroNomeEstilo1.setVisible(false);
         Caminho = null;
+        FlagFicheiro = false;
 
 //        jList1.setDragEnabled(true);
 //        jList1.setTransferHandler(new FileListTransferHandler(jList1));
@@ -264,14 +265,23 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            if (DnDFile != null) {
-                try {
+        try {
+            File DnDFile = null;
+            while (true) {
+                if (DnDFile != Controller.getDnDFile()) {
+                    DnDFile = Controller.getDnDFile();
+                } else {
+                    continue;
+                }
+
+                if (DnDFile != null) {
                     TxtCaminho.setText(DnDFile.getCanonicalPath());
                     Caminho = TxtCaminho.getText();
-                } catch (IOException ex) {
                 }
+
             }
+
+        } catch (IOException ex) {
         }
     }
 }

@@ -30,19 +30,17 @@ public class AnalisaConvertePanel extends JPanel implements Observer
     Controller Controller;
     AnalisarFicheiro AnalisarFicheiroPanel;
     ConverterDiretoria ConverterDiretoriaPanel;
-    File DnDFile;
     
-    public AnalisaConvertePanel(Controller C, File DnDFile)
+    public AnalisaConvertePanel(Controller C)
     {
         Controller=C;
-        this.DnDFile = DnDFile;
         setupComponents();
         setupLayout();
     }
     
     public void setupComponents()
     {
-        AnalisarFicheiroPanel=new AnalisarFicheiro(Controller, DnDFile);
+        AnalisarFicheiroPanel=new AnalisarFicheiro(Controller);
         AnalisarFicheiroPanel.start();
         ConverterDiretoriaPanel=new ConverterDiretoria(Controller);
     }

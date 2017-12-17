@@ -2,6 +2,7 @@ package Controller;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Model;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -12,6 +13,18 @@ import org.apache.commons.io.FilenameUtils;
 public class Controller extends Observable
 {
     private Model Model;
+    
+    private File DnDFile;
+
+    public File getDnDFile() {
+        return DnDFile;
+    }
+
+    public void setDnDFile(File DnDFile) {
+        this.DnDFile = DnDFile;
+    }
+    
+    
     
     public Controller()
     {
