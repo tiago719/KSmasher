@@ -122,10 +122,8 @@ public class Medias
         DoWhileEspacosParentesesAbertoCondicaoList.add(S.getEspacosParentesesAbertoCondicao());
         DoWhileEspacosWhileParentesesAbertoList.add(S.getEspacosWhileParentesesAberto());
         DoWhileEspacosCondicaoParentesFechadoList.add(S.getEspacosCondicaoParentesFechado());
-        if((aux=S.getLinhasEmBrancoDepoisChavetaAberta())!=-1)
-            DoWhileLinhasEmBrancoDepoisChavetaAbertaList.add(aux);
-        if((aux=S.getLinhasEmBrancoDepoisChavetaFechada())!=-1)
-            DoWhileLinhasEmBrancoDepoisChavetaFechadaList.add(aux);
+        DoWhileLinhasEmBrancoDepoisChavetaAbertaList.add(S.getLinhasEmBrancoDepoisChavetaAberta());
+        DoWhileLinhasEmBrancoDepoisChavetaFechadaList.add(S.getLinhasEmBrancoDepoisChavetaFechada());
         if((aux=S.getPrimeiraChavetaNovaLinha())!=-1)
             DoWhilePrimeiraChavetaNovaLinhaList.add(aux);
     }
@@ -621,12 +619,6 @@ public class Medias
         //doWhile
         
         aux1=DoWhilePrimeiraChavetaNovaLinha==1;
-        
-        if(DoWhileLinhasEmBrancoDepoisChavetaAberta<0)
-            DoWhileLinhasEmBrancoDepoisChavetaAberta=0;
-        
-        if(DoWhileLinhasEmBrancoDepoisChavetaFechada<0)
-            DoWhileLinhasEmBrancoDepoisChavetaFechada=0;
         
         DoWhile_EP DoWhileEp = new DoWhile_EP(aux1, DoWhileLinhasEmBrancoDepoisChavetaAberta, DoWhileLinhasEmBrancoDepoisChavetaFechada, DoWhileEspacosWhileParentesesAberto, DoWhileEspacosParentesesAbertoCondicao, DoWhileEspacosCondicaoParentesFechado);
         
