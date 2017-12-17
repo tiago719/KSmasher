@@ -31,7 +31,10 @@ public class Operador extends Statement {
         }
 
         this.ParaAnalise = Codigo;
-        this.Codigo = Codigo.substring(i, j + 1);
+        if(j+1 > Codigo.length())
+            this.Codigo = Codigo.substring(i, j - (j-Codigo.length()));
+        else
+            this.Codigo = Codigo.substring(i, j +1);
 
         return null;
     }
@@ -52,80 +55,69 @@ public class Operador extends Statement {
         this.EspacosVariavelOperador = EspacosVariavelOperador;
     }
 
-
     @Override
     public void analisaStatement() {
         EspacosOperadorVariavel = 0;
         EspacosVariavelOperador = 0;
-        int i, posicaoOperador=-1, tipo=0;
+        int i, posicaoOperador = -1, tipo = 0;
 
         for (i = 0; i < ParaAnalise.length(); i++) {
             posicaoOperador = i;
-            try
-            {
-                if (Texto.IsOperador3(ParaAnalise.substring(i,i+3)))
-                {
-                    tipo=3;
+            try {
+                if (Texto.IsOperador3(ParaAnalise.substring(i, i + 3))) {
+                    tipo = 3;
                     break;
                 }
+            } catch (Exception e) {
             }
-            catch(Exception e){}
-            try
-            {
-                if (Texto.IsOperador2(ParaAnalise.substring(i,i+2)))
-                {
-                    tipo=2;
+            try {
+                if (Texto.IsOperador2(ParaAnalise.substring(i, i + 2))) {
+                    tipo = 2;
                     break;
                 }
+            } catch (Exception e) {
             }
-            catch(Exception e){}
-            try
-            {
-                if (Texto.IsOperador1(ParaAnalise.charAt(i)))
-                {
-                    tipo=1;
+            try {
+                if (Texto.IsOperador1(ParaAnalise.charAt(i))) {
+                    tipo = 1;
                     break;
                 }
+            } catch (Exception e) {
             }
-            catch(Exception e){}
         }
-            
-        for(i+=tipo;i<ParaAnalise.length();i++)
-        {
-            if(ParaAnalise.charAt(i)==' ')
-            {
+
+        for (i += tipo; i < ParaAnalise.length(); i++) {
+            if (ParaAnalise.charAt(i) == ' ') {
                 EspacosOperadorVariavel++;
+            } else {
+                break;
             }
-            else
-                break;
         }
-        for(--posicaoOperador;posicaoOperador>0;posicaoOperador--)
-        {
-            if (ParaAnalise.charAt(posicaoOperador) == ' ')
+        for (--posicaoOperador; posicaoOperador > 0; posicaoOperador--) {
+            if (ParaAnalise.charAt(posicaoOperador) == ' ') {
                 EspacosVariavelOperador++;
-            else
+            } else {
                 break;
+            }
         }
     }
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
         StringBuilder novastring = new StringBuilder();
-        for(int i=0; i<Codigo.length(); i++){
-            if(i==0){
-                for(int j=0;j<estilo.getOperador().getEspacosVariavelOperador();j++){
+        for (int i = 0; i < Codigo.length(); i++) {
+            if (i == 0) {
+                for (int j = 0; j < estilo.getOperador().getEspacosVariavelOperador(); j++) {
                     novastring.append(' ');
                 }
-            }
-            else if(i==Codigo.length()-1){
-                for(int j=0;j<estilo.getOperador().getEspacosOperadorVariavel();j++){
+            } else if (i == Codigo.length() - 1) {
+                for (int j = 0; j < estilo.getOperador().getEspacosOperadorVariavel(); j++) {
                     novastring.append(' ');
                 }
-            }
-            else{
+            } else {
                 novastring.append(Codigo.charAt(i));
             }
         }
-        this.Codigo=novastring.toString();
+        this.Codigo = novastring.toString();
     }
 }

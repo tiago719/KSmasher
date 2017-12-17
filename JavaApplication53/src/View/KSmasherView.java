@@ -34,13 +34,16 @@ public class KSmasherView extends JFrame implements Observer
     AnalisaConvertePanel AnalisaConvertePanel;
     RegistoLoginPanel RegistoLoginPanel;
     
+    
     public KSmasherView(Controller o)
     {
         super("KSmasher");
+        
+        
         Controller=o;
         Controller.addObserver(this);
                 
-        AnalisaConvertePanel=new AnalisaConvertePanel(Controller,null);
+        AnalisaConvertePanel=new AnalisaConvertePanel(Controller);
         RegistoLoginPanel=new RegistoLoginPanel(Controller);
         CardLayout cl;
         
@@ -69,6 +72,7 @@ public class KSmasherView extends JFrame implements Observer
         
         cp.setLayout(new BorderLayout());
         cp.add(PainelPrincipal,BorderLayout.CENTER);
+        setTransferHandler(new FileListTransferHandler(Controller));
     }
 
     @Override

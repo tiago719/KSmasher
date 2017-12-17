@@ -30,20 +30,17 @@ public class AnalisaConvertePanel extends JPanel implements Observer
     Controller Controller;
     AnalisarFicheiro AnalisarFicheiroPanel;
     ConverterDiretoria ConverterDiretoriaPanel;
-    File DnDFile;
     
-    public AnalisaConvertePanel(Controller C, File DnDFile)
+    public AnalisaConvertePanel(Controller C)
     {
         Controller=C;
-        this.DnDFile = DnDFile;
         setupComponents();
         setupLayout();
     }
     
     public void setupComponents()
     {
-        AnalisarFicheiroPanel=new AnalisarFicheiro(Controller, DnDFile);
-        AnalisarFicheiroPanel.start();
+        AnalisarFicheiroPanel=new AnalisarFicheiro(Controller);
         ConverterDiretoriaPanel=new ConverterDiretoria(Controller);
     }
     
@@ -53,7 +50,7 @@ public class AnalisaConvertePanel extends JPanel implements Observer
         pEste.setMaximumSize(new Dimension(DIM_X_ANALISA, DIM_Y_ANALISA));
         pEste.setMinimumSize(new Dimension(DIM_X_ANALISA, DIM_Y_ANALISA));
         pEste.setPreferredSize(new Dimension(DIM_X_ANALISA, DIM_Y_ANALISA));
-        pEste.add(AnalisarFicheiroPanel);
+        pEste.add(ConverterDiretoriaPanel);
         
 //        JPanel pOeste=new JPanel();
 //        pOeste.setMaximumSize(new Dimension(DIM_X_CONVERTE, DIM_Y_CONVERTE));

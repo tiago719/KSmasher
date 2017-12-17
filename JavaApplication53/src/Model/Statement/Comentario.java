@@ -40,14 +40,18 @@ public class Comentario extends Statement {
             }
         } else {
             for (i = 2; i < Codigo.length(); i++) {
-                if (Codigo.charAt(i) == '*' && Codigo.charAt(i+1) == '/') {
+                if (Codigo.charAt(i) == '*' && Codigo.charAt(i + 1) == '/') {
                     break;
                 }
             }
             i++;
         }
-        
-        this.Codigo = Codigo.substring(0, i + 1);
+
+        if (i + 1 > Codigo.length()) {
+            this.Codigo = Codigo.substring(0, i);
+        } else {
+            this.Codigo = Codigo.substring(0, i + 1);
+        }
         this.ParaAnalise = null;
         this.NumCarateresAvancar = i;
         return null;

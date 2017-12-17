@@ -18,12 +18,12 @@ import static org.junit.Assert.*;
  *
  * @author Tiago Coutinho
  */
-public class ElseTest
-{
-    Else instance;
-    public ElseTest()
+public class DoWhileTest
+{ 
+    DoWhile instance;
+    public DoWhileTest()
     {
-        instance= new Else("else\n{\n\n\na++;}\n\n\n\nint a;a=b;", new Texto());
+        instance= new DoWhile("do\n\n\t\r{\n\n\n\nint a;\nint b;\n\n\n}\nwhile (   a>0  );\n\n\n\n\n\n\n\nfunca();}", new Texto());
         
         instance.analisaStatement();
     }
@@ -47,13 +47,17 @@ public class ElseTest
     public void tearDown()
     {
     }
-
-   @Test
+    
+    @Test
    public void testAnalisa() 
    {
-       assertEquals(2, instance.getLinhasEmBrancoDepoisChavetaAberta());
-       assertEquals(3, instance.getLinhasEmBrancoDepoisChavetaFechada());
+       assertEquals(2, instance.getEspacosCondicaoParentesFechado());
+       assertEquals(3, instance.getEspacosParentesesAbertoCondicao());
+       assertEquals(1, instance.getEspacosWhileParentesesAberto());
+       assertEquals(3, instance.getLinhasEmBrancoDepoisChavetaAberta());
+       assertEquals(1, instance.getLinhasEmBrancoDepoisChavetaFechada());
        assertEquals(1, instance.getPrimeiraChavetaNovaLinha());
 
    }
+    
 }
