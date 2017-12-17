@@ -6,10 +6,12 @@
 package View;
 
 import Controller.Controller;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -19,6 +21,8 @@ public class Login extends javax.swing.JPanel
 {
     Controller Controller;
     boolean UserFirst=true,PassFirst=true;
+    JPanel CardPanel;
+    
     public Login()
     {
         initComponents();
@@ -30,6 +34,11 @@ public class Login extends javax.swing.JPanel
         initComponents();
         jErro.setVisible(false);
         jPassword.setEchoChar((char) 0);
+    }
+    
+    public void setCardPanel(JPanel J)
+    {
+        CardPanel=J;
     }
 
     /**
@@ -80,6 +89,13 @@ public class Login extends javax.swing.JPanel
         });
 
         jEntrar.setText("Entrar");
+        jEntrar.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jEntrarMouseClicked(evt);
+            }
+        });
         jEntrar.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -148,8 +164,8 @@ public class Login extends javax.swing.JPanel
 
     private void jEntrarActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jEntrarActionPerformed
     {//GEN-HEADEREND:event_jEntrarActionPerformed
-        if(!Controller.Login(jUsername.getText(), jPassword.getText()))
-            jErro.setVisible(true);
+        /*if(!Controller.Login(jUsername.getText(), jPassword.getText()))
+            jErro.setVisible(true);*/
     }//GEN-LAST:event_jEntrarActionPerformed
 
     private void jUsernameMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jUsernameMouseClicked
@@ -182,6 +198,12 @@ public class Login extends javax.swing.JPanel
         jUsername.setForeground(Color.BLACK);
         UserFirst=false;
     }//GEN-LAST:event_jUsernameFocusGained
+
+    private void jEntrarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jEntrarMouseClicked
+    {//GEN-HEADEREND:event_jEntrarMouseClicked
+        CardLayout cl=(CardLayout)CardPanel.getLayout();
+        cl.next(CardPanel);
+    }//GEN-LAST:event_jEntrarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

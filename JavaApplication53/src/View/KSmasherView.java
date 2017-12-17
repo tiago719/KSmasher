@@ -7,6 +7,7 @@ package View;
 
 import Controller.Controller;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -26,19 +27,29 @@ import javax.swing.JPanel;
  *
  * @author Tiago Coutinho
  */
-public class RegistoLoginView extends JFrame implements Observer
+public class KSmasherView extends JFrame implements Observer
 {
     Controller Controller;
-    RegistoLoginPanel panel;
-    Image Image;
+    JPanel PainelPrincipal;
+    AnalisaConvertePanel AnalisaConvertePanel;
+    RegistoLoginPanel RegistoLoginPanel;
     
-    public RegistoLoginView(Controller o)
+    public KSmasherView(Controller o)
     {
         super("KSmasher");
         Controller=o;
         Controller.addObserver(this);
+                
+        AnalisaConvertePanel=new AnalisaConvertePanel(Controller,null);
+        RegistoLoginPanel=new RegistoLoginPanel(Controller);
+        CardLayout cl;
         
-        panel=new RegistoLoginPanel(Controller);
+        PainelPrincipal=new JPanel(cl=new CardLayout());
+        PainelPrincipal.add(RegistoLoginPanel, "RegistoLogin");
+        PainelPrincipal.add(AnalisaConvertePanel, "AnalisaConverte");
+        cl.first(PainelPrincipal);
+        
+        RegistoLoginPanel.setCardPanel(PainelPrincipal);
         
         addComponents();
         
@@ -57,7 +68,7 @@ public class RegistoLoginView extends JFrame implements Observer
         Container cp=getContentPane();
         
         cp.setLayout(new BorderLayout());
-        cp.add(panel,BorderLayout.CENTER);
+        cp.add(PainelPrincipal,BorderLayout.CENTER);
     }
 
     @Override

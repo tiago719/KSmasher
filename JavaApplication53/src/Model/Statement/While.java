@@ -1,6 +1,7 @@
 
 package Model.Statement;
 
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -370,9 +371,7 @@ public class While extends Statement
             
         }
     }
-
     @Override
-    public String converteStatement() {
-        return "";
+    public void converteStatement(EstiloProgramacao estilo) {
     }
 }

@@ -90,14 +90,8 @@ public class Cast extends Statement
             
         }
     }
-    
+
     @Override
-    public String converteStatement()
-    {
-        return "";
-    }
-    //@Override
-    /*
     public void converteStatement(EstiloProgramacao estilo)
     {
         StringBuilder novastring = new StringBuilder();
@@ -110,5 +104,5 @@ public class Cast extends Statement
             novastring.append(Codigo.charAt(i));                   
         }
         this.Codigo=novastring.toString();
-    }*/
+    }
 }
