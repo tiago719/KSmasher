@@ -1,6 +1,7 @@
 
 package Model.Statement;
 
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -365,14 +366,11 @@ public class While extends Statement
                 if(ParaAnalise.charAt(i)=='{')
                     while(ParaAnalise.charAt(++i)=='\n')
                         LinhasEmBrancoDepoisChavetaAberta++;                       
-            }
-            
-            
+            }  
         }
     }
-
     @Override
-    public String converteStatement() {
-        return "";
+    public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
     }
 }

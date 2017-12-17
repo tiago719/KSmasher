@@ -500,14 +500,9 @@ public class If extends Statement {
         }
     }
 
-
-    @Override
-    public String converteStatement() {
-        return "";
-    }
-
-   /*
+     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
         String aux= this.Codigo;
         StringBuilder build = new StringBuilder(aux); 
         char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
@@ -540,11 +535,6 @@ public class If extends Statement {
                 }
                
         }
-            this.Codigo=build.toString();
-
-    
-    }*/
-
-
-
+        this.Codigo=build.toString();
+    }
 }

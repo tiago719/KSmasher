@@ -1,5 +1,6 @@
 package Model.Statement;
 
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 
 public class Funcao extends Statement {
@@ -118,8 +119,8 @@ public class Funcao extends Statement {
         }
 
     }
-
-    public String converteStatement() {
-        return "";
+    @Override
+    public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
     }
 }

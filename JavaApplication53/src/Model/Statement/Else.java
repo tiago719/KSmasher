@@ -14,7 +14,7 @@ import Model.EstiloProgramacao.EstiloProgramacao;
  */
 public class Else extends Statement {
 
-    private int PosicaoPrimeiraChaveta;
+    private int PrimeiraChavetaNovaLinha;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
     public Else(String codigo, Texto t) {
@@ -81,14 +81,14 @@ public class Else extends Statement {
         return Codigo.substring(5, m + 1);
     }
             
-    public int isPosicaoPrimeiraChaveta()
+    public int getPrimeiraChavetaNovaLinha()
     {
-        return PosicaoPrimeiraChaveta;
+        return PrimeiraChavetaNovaLinha;
     }
 
-    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta)
+    public void setPrimeiraChavetaNovaLinha(int PrimeiraChavetaNovaLinha)
     {
-        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+        this.PrimeiraChavetaNovaLinha = PrimeiraChavetaNovaLinha;
     }
 
     public int getLinhasEmBrancoDepoisChavetaAberta() {
@@ -107,20 +107,26 @@ public class Else extends Statement {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
 
+    private boolean isElse(char A[])
+    {
+        if (A[0] == 'e' && A[1] == 'l' && A[2] == 's' && A[3] == 'e' && (A[4]=='{' || Character.isWhitespace(A[2]))) 
+            return true;
+        return false;
+    }
+    
     @Override
     public void analisaStatement()
     {
-        
         LinhasEmBrancoDepoisChavetaAberta = 0;
         LinhasEmBrancoDepoisChavetaFechada = 0;
-        PosicaoPrimeiraChaveta = 0;
+        PrimeiraChavetaNovaLinha = 0;
         
         int i;
         for(i = 0; i < ParaAnalise.length(); i++){
-//            if(Texto.IsElse(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3)}))
-//                {
-//                    i+=4;
-//                }
+            if(isElse(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3)}))
+                {
+                    i+=4;
+                }
             while(ParaAnalise.charAt(i)!='{')
             {
                 if(ParaAnalise.charAt(i)=='\n')
@@ -129,7 +135,7 @@ public class Else extends Statement {
                 }
                 else if(ParaAnalise.charAt(i)==';')
                 {
-                    PosicaoPrimeiraChaveta = 1;
+                    PrimeiraChavetaNovaLinha = 1;
                     LinhasEmBrancoDepoisChavetaAberta = 0;
                     return;
                 }
@@ -143,15 +149,9 @@ public class Else extends Statement {
         }
     }
 
-
     @Override
-    public String converteStatement() {
-        return "";
-    }
-  /*
-
-    //@Override
-    public void converteStatement(EstiloProgramacao estilo) {       
+    public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
         StringBuilder novastring = new StringBuilder();
         novastring.append("else");
         for(int i = 4; i<Codigo.length();i++){
@@ -172,5 +172,4 @@ public class Else extends Statement {
         this.Codigo=novastring.toString();
 
     }
-    */
 }

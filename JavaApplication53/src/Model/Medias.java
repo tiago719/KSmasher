@@ -14,6 +14,8 @@ import Model.EstiloProgramacao.Funcoes_EP;
 import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
+import Model.Statement.DoWhile;
+import Model.Statement.Else;
 import Model.Statement.If;
 import Model.Statement.Operador;
 import Model.Statement.Statement;
@@ -26,6 +28,11 @@ import java.util.ArrayList;
  */
 public class Medias
 {
+    //else
+    ArrayList<Integer> ElseLinhasEmBrancoDepoisChavetaAbertaList=new ArrayList<>();
+    ArrayList<Integer> ElseLinhasEmBrancoDepoisChavetaFechadaList=new ArrayList<>();
+    ArrayList<Integer> ElsePrimeiraChavetaNovaLinhaList=new ArrayList<>();
+    
     //if
     ArrayList<Integer> IfEspacosParentesesAbertoCondicaoList=new ArrayList<>();
     ArrayList<Integer> IfEspacosIfParentesAbertoList=new ArrayList<>();
@@ -44,10 +51,23 @@ public class Medias
     ArrayList<Integer> WhileChavetaUmStatementDentroWhileList=new ArrayList<>();
     ArrayList<Integer> WhilePrimeiraChavetaNovaLinhaList=new ArrayList<>();
     
+    //do-while
+    ArrayList<Integer> DoWhileLinhasEmBrancoDepoisChavetaAbertaList;
+    ArrayList<Integer> DoWhileLinhasEmBrancoDepoisChavetaFechadaList;
+    ArrayList<Integer> DoWhileEspacosWhileParentesesAbertoList;
+    ArrayList<Integer> DoWhileEspacosParentesesAbertoCondicaoList;
+    ArrayList<Integer> DoWhileEspacosCondicaoParentesFechadoList;
+    ArrayList<Integer> DoWhilePrimeiraChavetaNovaLinhaList;
+    
     //operador
     ArrayList<Integer> OperadorEspacosOperadorVariavelList=new ArrayList<>();
     ArrayList<Integer> OperadorEspacosVariavelOperadorList=new ArrayList<>();
 
+    //else
+    int ElseLinhasEmBrancoDepoisChavetaFechada;
+    int ElseLinhasEmBrancoDepoisChavetaAberta;
+    int ElsePrimeiraChavetaNovaLinha;
+    
     //if
     int IfEspacosParentesesAbertoCondicao;
     int IfEspacosIfParentesAberto;
@@ -65,6 +85,14 @@ public class Medias
     int WhileLinhasEmBrancoDepoisChavetaFechada;
     int WhileChavetaUmStatementDentroWhile;
     int WhilePrimeiraChavetaNovaLinha;
+    
+    //do-while
+    int DoWhileLinhasEmBrancoDepoisChavetaAberta;
+    int DoWhileLinhasEmBrancoDepoisChavetaFechada;
+    int DoWhileEspacosWhileParentesesAberto;
+    int DoWhileEspacosParentesesAbertoCondicao;
+    int DoWhileEspacosCondicaoParentesFechado;
+    int DoWhilePrimeiraChavetaNovaLinha;
     
     //operador
     int OperadorEspacosOperadorVariavel;
@@ -86,6 +114,31 @@ public class Medias
             WhileChavetaUmStatementDentroWhileList.add(aux);
         if((aux=S.isPrimeiraChavetaNovaLinha())!=-1)
             WhilePrimeiraChavetaNovaLinhaList.add(aux);
+    }
+    
+    public void RetiraDadosDoWhile(DoWhile S)
+    {
+        int aux;
+        DoWhileEspacosParentesesAbertoCondicaoList.add(S.getEspacosParentesesAbertoCondicao());
+        DoWhileEspacosWhileParentesesAbertoList.add(S.getEspacosWhileParentesesAberto());
+        DoWhileEspacosCondicaoParentesFechadoList.add(S.getEspacosCondicaoParentesFechado());
+        if((aux=S.getLinhasEmBrancoDepoisChavetaAberta())!=-1)
+            DoWhileLinhasEmBrancoDepoisChavetaAbertaList.add(aux);
+        if((aux=S.getLinhasEmBrancoDepoisChavetaFechada())!=-1)
+            DoWhileLinhasEmBrancoDepoisChavetaFechadaList.add(aux);
+        if((aux=S.getPrimeiraChavetaNovaLinha())!=-1)
+            DoWhilePrimeiraChavetaNovaLinhaList.add(aux);
+    }
+    
+    public void RetiraDadosElse(Else S)
+    {
+        int aux;
+        if((aux=S.getLinhasEmBrancoDepoisChavetaAberta())!=-1)
+            ElseLinhasEmBrancoDepoisChavetaAbertaList.add(aux);
+        if((aux=S.getLinhasEmBrancoDepoisChavetaFechada())!=-1)
+            ElseLinhasEmBrancoDepoisChavetaFechadaList.add(aux);
+        if((aux=S.getPrimeiraChavetaNovaLinha())!=-1)
+            ElsePrimeiraChavetaNovaLinhaList.add(aux);
     }
     
     public void RetiraDadosOperador(Operador S)
@@ -216,6 +269,54 @@ public class Medias
         }
     }
     
+    public void FazMediaElse()
+    {
+        int total=0;
+        
+        for(int i=0;i<ElseLinhasEmBrancoDepoisChavetaAbertaList.size();i++)
+        {
+            total+=ElseLinhasEmBrancoDepoisChavetaAbertaList.get(i);
+        }
+        
+        try
+        {
+            ElseLinhasEmBrancoDepoisChavetaAberta=total/ElseLinhasEmBrancoDepoisChavetaAbertaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            ElseLinhasEmBrancoDepoisChavetaAberta=0;
+        }
+        total=0;
+        
+        for(int i=0;i<ElseLinhasEmBrancoDepoisChavetaFechadaList.size();i++)
+        {
+            total+=ElseLinhasEmBrancoDepoisChavetaFechadaList.get(i);
+        }
+        
+        try
+        {
+            ElseLinhasEmBrancoDepoisChavetaFechada=total/ElseLinhasEmBrancoDepoisChavetaFechadaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            ElseLinhasEmBrancoDepoisChavetaFechada=0;
+        }
+        total=0;
+        
+        for(int i=0;i<ElsePrimeiraChavetaNovaLinhaList.size();i++)
+        {
+            total+=ElsePrimeiraChavetaNovaLinhaList.get(i);
+        }
+        try
+        {
+            ElsePrimeiraChavetaNovaLinha=total/ElsePrimeiraChavetaNovaLinhaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            ElsePrimeiraChavetaNovaLinha=0;
+        }
+    }
+    
     public void FazMediaWhile()
     {
         int total=0;
@@ -319,6 +420,95 @@ public class Medias
             WhilePrimeiraChavetaNovaLinha=0;
         }
     }
+
+    public void FazMediaDoWhile()
+    {
+        int total=0;
+        for(int i=0;i<DoWhileEspacosParentesesAbertoCondicaoList.size();i++)
+        {
+            total+=DoWhileEspacosParentesesAbertoCondicaoList.get(i);
+        }
+        try
+        {
+            DoWhileEspacosParentesesAbertoCondicao=total/DoWhileEspacosParentesesAbertoCondicaoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            DoWhileEspacosParentesesAbertoCondicao=0;
+        }
+        
+        total=0;
+        
+        for(int i=0;i<DoWhileEspacosWhileParentesesAbertoList.size();i++)
+        {
+            total+=DoWhileEspacosWhileParentesesAbertoList.get(i);
+        }
+        
+        try
+        {
+            DoWhileEspacosWhileParentesesAberto=total/DoWhileEspacosWhileParentesesAbertoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            DoWhileEspacosWhileParentesesAberto=0;
+        }
+        total=0;
+        
+        for(int i=0;i<DoWhileEspacosCondicaoParentesFechadoList.size();i++)
+        {
+            total+=DoWhileEspacosCondicaoParentesFechadoList.get(i);
+        }
+        try
+        {
+            DoWhileEspacosCondicaoParentesFechado=total/DoWhileEspacosCondicaoParentesFechadoList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            DoWhileEspacosCondicaoParentesFechado=0;
+        }
+        total=0;
+        
+        for(int i=0;i<DoWhileLinhasEmBrancoDepoisChavetaAbertaList.size();i++)
+        {
+            total+=DoWhileLinhasEmBrancoDepoisChavetaAbertaList.get(i);
+        }
+        try
+        {
+            DoWhileLinhasEmBrancoDepoisChavetaAberta=total/DoWhileLinhasEmBrancoDepoisChavetaAbertaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            DoWhileLinhasEmBrancoDepoisChavetaAberta=0;
+        }
+        total=0;
+        
+        for(int i=0;i<DoWhileLinhasEmBrancoDepoisChavetaFechadaList.size();i++)
+        {
+            total+=DoWhileLinhasEmBrancoDepoisChavetaFechadaList.get(i);
+        }
+        try
+        {
+            DoWhileLinhasEmBrancoDepoisChavetaFechada=total/DoWhileLinhasEmBrancoDepoisChavetaFechadaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            DoWhileLinhasEmBrancoDepoisChavetaFechada=0;
+        }
+        total=0;
+        
+        for(int i=0;i<DoWhilePrimeiraChavetaNovaLinhaList.size();i++)
+        {
+            total+=DoWhilePrimeiraChavetaNovaLinhaList.get(i);
+        }
+        try
+        {
+            DoWhilePrimeiraChavetaNovaLinha=total/DoWhilePrimeiraChavetaNovaLinhaList.size();
+        }
+        catch(IllegalArgumentException e)
+        {
+            DoWhilePrimeiraChavetaNovaLinha=0;
+        }
+    }
     
     public void FazMediasOperador()
     {
@@ -351,11 +541,10 @@ public class Medias
             OperadorEspacosVariavelOperador=0;
         }
     }
-    
+
     public void fazMedias(ArrayList<Statement> Codigo)
     {
         Statement S;
-        int aux, total=0;
         for(int i=0;i<Codigo.size();i++)
         {
             if((S=Codigo.get(i)).hasFilhos())
@@ -367,11 +556,15 @@ public class Medias
                 RetiraDadosOperador((Operador)S);  
             else if(S instanceof If)
                 RetiraDadosIf((If) S);
+            else if(S instanceof Else)
+                RetiraDadosElse((Else)S);
         }
         
         FazMediaWhile();
         FazMediasOperador();
         FazMediaIf();
+        FazMediaElse();
+        FazMediaDoWhile();
     }
     
     public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo, boolean Permite)
@@ -412,7 +605,14 @@ public class Medias
         
         //else
         
-        Else_EP ElseEp = null;
+        aux1=ElsePrimeiraChavetaNovaLinha==1;
+        if(ElseLinhasEmBrancoDepoisChavetaAberta<0)
+            ElseLinhasEmBrancoDepoisChavetaAberta=0;
+        
+        if(ElseLinhasEmBrancoDepoisChavetaFechada<0)
+            ElseLinhasEmBrancoDepoisChavetaFechada=0;
+ 
+        Else_EP ElseEp = new Else_EP(aux1,ElseLinhasEmBrancoDepoisChavetaAberta, ElseLinhasEmBrancoDepoisChavetaFechada);
         
         //cats
         
@@ -420,7 +620,15 @@ public class Medias
         
         //doWhile
         
-        DoWhile_EP DoWhileEp = null;
+        aux1=DoWhilePrimeiraChavetaNovaLinha==1;
+        
+        if(DoWhileLinhasEmBrancoDepoisChavetaAberta<0)
+            DoWhileLinhasEmBrancoDepoisChavetaAberta=0;
+        
+        if(DoWhileLinhasEmBrancoDepoisChavetaFechada<0)
+            DoWhileLinhasEmBrancoDepoisChavetaFechada=0;
+        
+        DoWhile_EP DoWhileEp = new DoWhile_EP(aux1, DoWhileLinhasEmBrancoDepoisChavetaAberta, DoWhileLinhasEmBrancoDepoisChavetaFechada, DoWhileEspacosWhileParentesesAberto, DoWhileEspacosParentesesAbertoCondicao, DoWhileEspacosCondicaoParentesFechado);
         
         //for
         

@@ -1,5 +1,6 @@
 package Model.Statement;
 
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -57,11 +58,11 @@ public class Statement {
     }
 
     public void analisaStatement() {
-
+        return;
     }
 
-    public String converteStatement() {
-        return Codigo;
+    public void converteStatement(EstiloProgramacao estilo) {
+        Texto.Converte(StatmentsFilhos, estilo);
     }
 
 

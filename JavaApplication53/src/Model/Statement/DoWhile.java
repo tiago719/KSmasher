@@ -7,10 +7,9 @@ import Model.EstiloProgramacao.EstiloProgramacao;
 
 public class DoWhile extends Statement {
 
-    
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
-            LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto,
-            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, PosicaoPrimeiraChaveta;
+            EspacosWhileParentesesAberto, EspacosParentesesAbertoCondicao, 
+            EspacosCondicaoParentesFechado, PrimeiraChavetaNovaLinha;
 
     private Statement Condicao;
     private boolean TemChaveta;
@@ -176,12 +175,12 @@ public class DoWhile extends Statement {
 
     }
 
-    public int isPosicaoPrimeiraChaveta() {
-        return PosicaoPrimeiraChaveta;
+    public int getPrimeiraChavetaNovaLinha() {
+        return PrimeiraChavetaNovaLinha;
     }
 
-    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta) {
-        this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
+    public void setPrimeiraChavetaNovaLinha(int PrimeiraChavetaNovaLinha) {
+        this.PrimeiraChavetaNovaLinha = PrimeiraChavetaNovaLinha;
     }
 
     public int getLinhasEmBrancoDepoisChavetaAberta() {
@@ -198,14 +197,6 @@ public class DoWhile extends Statement {
 
     public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada) {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-    }
-
-    public int getLinhasEmBrancoEntreChavetaFechadaWhile() {
-        return LinhasEmBrancoEntreChavetaFechadaWhile;
-    }
-
-    public void setLinhasEmBrancoEntreChavetaFechadaWhile(int LinhasEmBrancoEntreChavetaFechadaWhile) {
-        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
     }
 
     public int getEspacosWhileParentesesAberto() {
@@ -236,11 +227,10 @@ public class DoWhile extends Statement {
     public void analisaStatement() {
         LinhasEmBrancoDepoisChavetaAberta = 0;
         LinhasEmBrancoDepoisChavetaFechada = 0;
-        LinhasEmBrancoEntreChavetaFechadaWhile = 0;
         EspacosWhileParentesesAberto = 0;
         EspacosParentesesAbertoCondicao = 0;
         EspacosCondicaoParentesFechado = 0;
-        PosicaoPrimeiraChaveta = 0;
+        PrimeiraChavetaNovaLinha = 0;
         
         int i;
         
@@ -256,7 +246,7 @@ public class DoWhile extends Statement {
                     LinhasEmBrancoDepoisChavetaAberta++;
                 }
                 else if(ParaAnalise.charAt(i)==';'){
-                    PosicaoPrimeiraChaveta = 1;
+                    PrimeiraChavetaNovaLinha = 1;
                     LinhasEmBrancoDepoisChavetaAberta = 0;
                     return;
                 }
@@ -293,14 +283,10 @@ public class DoWhile extends Statement {
         }
     }
 
+ 
     @Override
-    public String converteStatement() {
-        //adicionar no inicio "do ..." e no final "while ( <condicao> );"
-        return "";
-    }
-
- /*
     public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
         //adicionar no inicio "do ..." e no final "while ( <condicao> );"
 
         String aux= this.Codigo;
@@ -319,11 +305,11 @@ public class DoWhile extends Statement {
                    conta+=estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta();
                      
                    build.insert(i+conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
-                   build.insert(i+conta+1+estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta(), linhas, 0, estilo.getDowhile().getLinhasEmBrancoEntreChavetaFechadaWhile());
+                   build.insert(i+conta+1+estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta(), linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada());
                  }
                  if(aux.charAt(i)=='(')
                  {   
-                   conta+=estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()+estilo.getDowhile().getLinhasEmBrancoEntreChavetaFechadaWhile();
+                   conta+=estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()+estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada();
                      
                    build.insert(i+conta, espacos, 0, estilo.getDowhile().getEspacosWhileParentesesAberto());
                    build.insert(i+conta+1+estilo.getDowhile().getEspacosWhileParentesesAberto(), espacos, 0, estilo.getDowhile().getEspacosParentesesAbertoCondicao());
@@ -338,5 +324,4 @@ public class DoWhile extends Statement {
             }
              this.Codigo=build.toString();
    }
-*/
 }

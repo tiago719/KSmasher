@@ -258,13 +258,6 @@ public class For extends Statement {
             LinhasEmBrancoDepoisChavetaFechada++;
         }
     }
-
-    @Override
-
-    public String converteStatement() {
-        return "";
-    }
-
     @Override
     public String RetiraDados(String Codigo, Texto t) {
         int i, j;
@@ -430,11 +423,10 @@ public class For extends Statement {
         return Codigo.substring(l, m + 1);
 
     }
-  
-  /*
-    
-    //@Override
+
+    @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
         String aux= this.Codigo;
         StringBuilder build = new StringBuilder(aux); 
         char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
@@ -488,5 +480,4 @@ public class For extends Statement {
          }
             this.Codigo=build.toString();
     }
-    */
 }

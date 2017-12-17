@@ -61,7 +61,7 @@ public class AnalisaConvertePanel extends JPanel implements Observer
 //        pOeste.setPreferredSize(new Dimension(DIM_Y_CONVERTE, DIM_Y_CONVERTE));
 //        pOeste.add(ConverterDiretoriaPanel);
 
-        JPanel center=new JPanel(new BorderLayout(100,0));
+        JPanel center=new JPanel(new BorderLayout(0,0));
         center.add(pEste, BorderLayout.CENTER);
 //        center.add(pEste, BorderLayout.EAST);
         

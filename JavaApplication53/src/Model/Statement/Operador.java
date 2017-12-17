@@ -109,12 +109,6 @@ public class Operador extends Statement {
     }
 
     @Override
-    public String converteStatement() {
-        return "";
-    }
-
-  /*
-    //@Override
     public void converteStatement(EstiloProgramacao estilo) {
         StringBuilder novastring = new StringBuilder();
         for(int i=0; i<Codigo.length(); i++){
@@ -133,5 +127,5 @@ public class Operador extends Statement {
             }
         }
         this.Codigo=novastring.toString();
-    }*/
+    }
 }
