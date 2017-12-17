@@ -64,6 +64,7 @@ public class Statement {
         return Codigo;
     }
 
+
     public ArrayList<Statement> getStatementsFilhos() {
         return StatmentsFilhos;
     }
@@ -76,12 +77,13 @@ public class Statement {
     //Metedo a ser usado pelos filhos de statment (Override)
     public String RetiraDados(String Codigo, Texto T) {
         return ParaAnalise;
+
     }
 
     public int getNumCarateresAvancar() {
         return NumCarateresAvancar;
     }
-
+  
     public int getNivel() {
         return Nivel;
     }

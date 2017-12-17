@@ -1,13 +1,16 @@
 package Model.Statement;
 
+
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
+import Model.EstiloProgramacao.EstiloProgramacao;
 
 public class DoWhile extends Statement {
 
-    private boolean PosicaoPrimeiraChaveta;
+    
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
             LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto,
-            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, PosicaoPrimeiraChaveta;
 
     private Statement Condicao;
     private boolean TemChaveta;
@@ -81,6 +84,7 @@ public class DoWhile extends Statement {
 
         i += 5 + 1; //depois do while
 
+
         //retira espacos entre while e (
         for (; i < Codigo.length(); i++) {
             if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
@@ -135,6 +139,30 @@ public class DoWhile extends Statement {
             }
         }
 
+
+        i++;//fica depois do (
+
+        //retira espacos ate condicao
+        for (; i < Codigo.length(); i++) {
+            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+                break;
+            }
+        }
+
+        //procura ;
+        for (z = j; z < Codigo.length(); z++) {
+            if (Codigo.charAt(z) != ' ' && Codigo.charAt(z) != '\n') {
+                break;
+            }
+        }
+
+        //retira espacos do fim condicao ate )
+        for (--j; j >= 0; j--) {
+            if (Codigo.charAt(j) != ' ' && Codigo.charAt(j) != '\n') {
+                break;
+            }
+        }
+
         Condicao = new Statement(Codigo.substring(i, j + 1), t);
 
         this.Codigo = null;
@@ -148,11 +176,11 @@ public class DoWhile extends Statement {
 
     }
 
-    public boolean isPosicaoPrimeiraChaveta() {
+    public int isPosicaoPrimeiraChaveta() {
         return PosicaoPrimeiraChaveta;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta) {
+    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
     }
 
@@ -206,7 +234,63 @@ public class DoWhile extends Statement {
 
     @Override
     public void analisaStatement() {
-
+        LinhasEmBrancoDepoisChavetaAberta = 0;
+        LinhasEmBrancoDepoisChavetaFechada = 0;
+        LinhasEmBrancoEntreChavetaFechadaWhile = 0;
+        EspacosWhileParentesesAberto = 0;
+        EspacosParentesesAbertoCondicao = 0;
+        EspacosCondicaoParentesFechado = 0;
+        PosicaoPrimeiraChaveta = 0;
+        
+        int i;
+        
+        for(i = 0; i < ParaAnalise.length(); i++){
+            if(Texto.IsDoWhile(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1)}))
+            {
+                i+=2;
+            }
+            while(ParaAnalise.charAt(i)!='{')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    LinhasEmBrancoDepoisChavetaAberta++;
+                }
+                else if(ParaAnalise.charAt(i)==';'){
+                    PosicaoPrimeiraChaveta = 1;
+                    LinhasEmBrancoDepoisChavetaAberta = 0;
+                    return;
+                }
+                i++;
+            }            
+            while(ParaAnalise.charAt(i)!='}')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                }
+                i++;
+            }
+            while(ParaAnalise.charAt(i)!='(')
+            {
+                EspacosWhileParentesesAberto++;                
+                i++;
+            }
+            i++; // Para passar do '(' para o proximo espaço
+            while(ParaAnalise.charAt(i)==' ')
+            {
+                EspacosParentesesAbertoCondicao++;
+                i++;
+            }
+            // encontra o ')' e no ciclo a seguir decrementa ate encontrar o fim da condicao;
+            while(ParaAnalise.charAt(i)!=')'){
+                i++;
+            }
+            i--;
+            while(ParaAnalise.charAt(i)==' '){
+                EspacosCondicaoParentesFechado++;
+                i--;                
+            }            
+        }
     }
 
     @Override
@@ -214,4 +298,45 @@ public class DoWhile extends Statement {
         //adicionar no inicio "do ..." e no final "while ( <condicao> );"
         return "";
     }
+
+ /*
+    public void converteStatement(EstiloProgramacao estilo) {
+        //adicionar no inicio "do ..." e no final "while ( <condicao> );"
+
+        String aux= this.Codigo;
+        StringBuilder build = new StringBuilder(aux); 
+        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+        char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
+        int  conta=0;
+       
+            for (int i = 0; i < aux.length(); i++) {
+                if(aux.charAt(i)=='{')
+                 {            
+                   build.insert(i+1, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
+                 }
+                if(aux.charAt(i)=='}')
+                 {   
+                   conta+=estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta();
+                     
+                   build.insert(i+conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
+                   build.insert(i+conta+1+estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta(), linhas, 0, estilo.getDowhile().getLinhasEmBrancoEntreChavetaFechadaWhile());
+                 }
+                 if(aux.charAt(i)=='(')
+                 {   
+                   conta+=estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()+estilo.getDowhile().getLinhasEmBrancoEntreChavetaFechadaWhile();
+                     
+                   build.insert(i+conta, espacos, 0, estilo.getDowhile().getEspacosWhileParentesesAberto());
+                   build.insert(i+conta+1+estilo.getDowhile().getEspacosWhileParentesesAberto(), espacos, 0, estilo.getDowhile().getEspacosParentesesAbertoCondicao());
+                 }
+                 if(aux.charAt(i)==')')
+                 {   
+                   conta+=estilo.getDowhile().getEspacosWhileParentesesAberto()+estilo.getDowhile().getEspacosParentesesAbertoCondicao();
+                     
+                   build.insert(i+conta, espacos, 0, estilo.getDowhile().getEspacosCondicaoParentesFechado());
+                  
+                 }
+            }
+             this.Codigo=build.toString();
+   }
+*/
 }

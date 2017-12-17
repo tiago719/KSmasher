@@ -26,6 +26,7 @@ public class Texto {
      * @param In
      */
 
+
     public Texto(BufferedReader In, BufferedWriter Out) {
         ListaStatements = new ArrayList<Statement>();
         TextoBR = In;
@@ -176,14 +177,16 @@ public class Texto {
         return Ret;
     }
 
+
     private boolean IsElse(char A[]) {
         if (!(IsCaracter(A[0])) && A[1] == 'e' && A[2] == 'l' && A[3] == 's' && A[4] == 'e' && (A[5] == '{' || Character.isWhitespace(A[5]))) {
+
             return true;
         }
         return false;
     }
 
-    private boolean IsDoWhile(char A[]) {
+    public boolean IsDoWhile(char A[]) {
         boolean Ret = false;
         if (!IsCaracter(A[0]) && A[1] == 'd' && A[2] == 'o' && (A[3] == '{' || Character.isWhitespace(A[3]))) {
             Ret = true;
@@ -214,6 +217,7 @@ public class Texto {
         }
         return false;
     }
+
 
     public boolean IsOperador2(String S) {
 
@@ -312,7 +316,6 @@ public class Texto {
         if (!TemIgual && TemParenteses) {
             Ret = true;
         }
-
         return Ret;
     }
      */
@@ -358,6 +361,7 @@ public class Texto {
         return i + 1;
     }
 
+
     public ArrayList<Statement> Cataloga(String Codigo, Statement Pai) {
         if (Codigo.length() <= 0) {
             return null;
@@ -371,6 +375,7 @@ public class Texto {
         for (int i = 0; i < Codigo.length(); i++) {
 
             char Carater = Codigo.charAt(i);
+
 
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
@@ -465,6 +470,7 @@ public class Texto {
             } catch (Exception e) {
             }
 
+
             try {
                 if (IsFuncao(Codigo.substring(i))) {
                     int InicioFuncao = EncontraInicioFuncao(i, Codigo);
@@ -479,6 +485,7 @@ public class Texto {
             }
 
             try {
+
                 if (IsOperador3(Codigo.substring(i, i + 3))) {
                     int PrevCarater = 0, NextCarater = 0;
                     OUTER1:
@@ -537,9 +544,11 @@ public class Texto {
                     for (int j = i - 1; j >= 0; j--) {
                         if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
                             PrevCarater = j;
+
                             break;
                         }
                     }
+
 
                     for (int j = i + 1; j < Codigo.length(); j++) {
                         if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
@@ -548,13 +557,13 @@ public class Texto {
                         }
                     }
 
+
                     Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
                     Novo.add(Add);
                     continue;
                 }
-            } catch (Exception e) {
-            }
+            } catch (Exception e){}
 
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));

@@ -7,14 +7,14 @@ package Model.Statement;
 
 import Model.Texto;
 import java.util.ArrayList;
-
+import Model.EstiloProgramacao.EstiloProgramacao;
 /**
  *
  * @author Tiago Coutinho
  */
 public class Else extends Statement {
 
-    private boolean PosicaoPrimeiraChaveta;
+    private int PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
     public Else(String codigo, Texto t) {
@@ -80,12 +80,14 @@ public class Else extends Statement {
 
         return Codigo.substring(5, m + 1);
     }
-
-    public boolean isPosicaoPrimeiraChaveta() {
+            
+    public int isPosicaoPrimeiraChaveta()
+    {
         return PosicaoPrimeiraChaveta;
     }
 
-    public void setPosicaoPrimeiraChaveta(boolean PosicaoPrimeiraChaveta) {
+    public void setPosicaoPrimeiraChaveta(int PosicaoPrimeiraChaveta)
+    {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
     }
 
@@ -106,12 +108,69 @@ public class Else extends Statement {
     }
 
     @Override
-    public void analisaStatement() {
-
+    public void analisaStatement()
+    {
+        
+        LinhasEmBrancoDepoisChavetaAberta = 0;
+        LinhasEmBrancoDepoisChavetaFechada = 0;
+        PosicaoPrimeiraChaveta = 0;
+        
+        int i;
+        for(i = 0; i < ParaAnalise.length(); i++){
+//            if(Texto.IsElse(new char[]{ParaAnalise.charAt(i),ParaAnalise.charAt(i+1),ParaAnalise.charAt(i+2),ParaAnalise.charAt(i+3)}))
+//                {
+//                    i+=4;
+//                }
+            while(ParaAnalise.charAt(i)!='{')
+            {
+                if(ParaAnalise.charAt(i)=='\n')
+                {
+                    LinhasEmBrancoDepoisChavetaAberta++;
+                }
+                else if(ParaAnalise.charAt(i)==';')
+                {
+                    PosicaoPrimeiraChaveta = 1;
+                    LinhasEmBrancoDepoisChavetaAberta = 0;
+                    return;
+                }
+                i++;
+            }            
+            while(ParaAnalise.charAt(i)!='}'){
+                if(ParaAnalise.charAt(i)=='\n')
+                    LinhasEmBrancoDepoisChavetaFechada++;
+                i++;
+            }        
+        }
     }
+
 
     @Override
     public String converteStatement() {
         return "";
     }
+  /*
+
+    //@Override
+    public void converteStatement(EstiloProgramacao estilo) {       
+        StringBuilder novastring = new StringBuilder();
+        novastring.append("else");
+        for(int i = 4; i<Codigo.length();i++){
+            if(Codigo.charAt(i)=='{'){
+                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
+                    novastring.append("\n");
+                }
+                novastring.append('{');
+            }
+            if(Codigo.charAt(i)=='}'){
+                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
+                    novastring.append("\n");
+                }
+                novastring.append('}');
+            }
+            novastring.append(Codigo.charAt(i));
+        }
+        this.Codigo=novastring.toString();
+
+    }
+    */
 }
