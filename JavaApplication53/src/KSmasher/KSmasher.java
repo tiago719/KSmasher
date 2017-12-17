@@ -1,14 +1,14 @@
 package KSmasher;
 
 import Controller.Controller;
-import Model.Texto;
-import View.RegistoLoginView;
+import View.AnalisaConverteView;
 
 public class KSmasher {
 
     public static void main(String[] args)
     {
-        RegistoLoginView view=new RegistoLoginView(new Controller());
+        new AnalisaConverteView(new Controller());
+//        RegistoLoginView view=new RegistoLoginView(new Controller());
     }
     
 }

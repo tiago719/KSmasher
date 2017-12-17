@@ -7,28 +7,41 @@ package View;
 
 import Controller.Controller;
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class AnalisarFicheiro extends javax.swing.JPanel
-{
+public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
+
     Controller Controller;
-    boolean NomeEstiloFirst=true, NomeFicheiroFirst=true;
+    boolean NomeEstiloFirst = true, NomeFicheiroFirst = true;
     String Caminho;
-    
-    public AnalisarFicheiro(Controller c)
-    {
-        Controller=c;
+    File DnDFile;
+    Thread T;
+
+    public AnalisarFicheiro(Controller c, File DnDFile) {
+        Controller = c;
         initComponents();
         LabelErroFicheiro.setVisible(false);
         jErroNomeEstilo1.setVisible(false);
         Caminho = null;
+
+//        jList1.setDragEnabled(true);
+//        jList1.setTransferHandler(new FileListTransferHandler(jList1));
+//        
+//        jPanel1.add(jList1);
+    }
+
+    public void start() {
+        if (T == null) {
+            T = new Thread(this, "Thread1");
+            T.start();
+        }
     }
 
     /**
@@ -47,6 +60,12 @@ public class AnalisarFicheiro extends javax.swing.JPanel
         CheckPermite = new javax.swing.JCheckBox();
         LabelErroFicheiro = new javax.swing.JLabel();
         jErroNomeEstilo1 = new javax.swing.JLabel();
+
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
 
         jAnalisa.setText("Analisar");
         jAnalisa.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -77,11 +96,6 @@ public class AnalisarFicheiro extends javax.swing.JPanel
         });
 
         BttnProcurar.setText("Procurar");
-        BttnProcurar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BttnProcurarMouseClicked(evt);
-            }
-        });
         BttnProcurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BttnProcurarActionPerformed(evt);
@@ -157,30 +171,34 @@ public class AnalisarFicheiro extends javax.swing.JPanel
 
     private void jAnalisaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisaMouseClicked
     {//GEN-HEADEREND:event_jAnalisaMouseClicked
-            if(Controller.isValidFile(TxtCaminho.getText()) && !Controller.ExisteNomeEstilo(TxtNomeEstilo.getText()))
-        Controller.Analisa(TxtCaminho.getText(), CheckPermite.isSelected(), TxtNomeEstilo.getText());
+        if (Controller.isValidFile(TxtCaminho.getText()) && !Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) {
+            Controller.Analisa(Caminho, CheckPermite.isEnabled(), TxtNomeEstilo.getText());
+        }
     }//GEN-LAST:event_jAnalisaMouseClicked
 
     private void TxtCaminhoFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtCaminhoFocusGained
     {//GEN-HEADEREND:event_TxtCaminhoFocusGained
-        if(NomeFicheiroFirst)
+        if (NomeFicheiroFirst) {
             TxtCaminho.setText("");
+        }
         TxtCaminho.setForeground(Color.BLACK);
-        NomeFicheiroFirst=false;
+        NomeFicheiroFirst = false;
     }//GEN-LAST:event_TxtCaminhoFocusGained
 
     private void TxtNomeEstiloFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtNomeEstiloFocusGained
     {//GEN-HEADEREND:event_TxtNomeEstiloFocusGained
-        if(NomeEstiloFirst)
+        if (NomeEstiloFirst) {
             TxtNomeEstilo.setText("");
+        }
         TxtNomeEstilo.setForeground(Color.BLACK);
-        NomeEstiloFirst=false;
+        NomeEstiloFirst = false;
     }//GEN-LAST:event_TxtNomeEstiloFocusGained
 
     private void TxtNomeEstiloFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtNomeEstiloFocusLost
     {//GEN-HEADEREND:event_TxtNomeEstiloFocusLost
-        if(!Controller.ExisteNomeEstilo(TxtNomeEstilo.getText()))
+        if (!Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) {
             jErroNomeEstilo1.setVisible(true);
+        }
     }//GEN-LAST:event_TxtNomeEstiloFocusLost
 
     private void TxtCaminhoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TxtCaminhoActionPerformed
@@ -190,35 +208,31 @@ public class AnalisarFicheiro extends javax.swing.JPanel
 
     private void TxtCaminhoFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtCaminhoFocusLost
     {//GEN-HEADEREND:event_TxtCaminhoFocusLost
-        if(!Controller.isValidFile(TxtCaminho.getText()))
+        if (!Controller.isValidFile(TxtCaminho.getText())) {
             LabelErroFicheiro.setVisible(true);
+        }
     }//GEN-LAST:event_TxtCaminhoFocusLost
 
-    private void BttnProcurarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_BttnProcurarMouseClicked
-    {//GEN-HEADEREND:event_BttnProcurarMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BttnProcurarMouseClicked
-
     private void jAnalisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAnalisaActionPerformed
-        Controller.Analisa(Caminho, CheckPermite.isEnabled(), TxtNomeEstilo.getText());
     }//GEN-LAST:event_jAnalisaActionPerformed
 
     private void BttnProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BttnProcurarActionPerformed
         JFileChooser fc = new JFileChooser();
-        
-        int ReturnValue = fc.showOpenDialog(this);
-        
-        if (ReturnValue == JFileChooser.APPROVE_OPTION){
+        fc.setFileFilter(new FileNameExtensionFilter("Ficheiro .C", "c"));
+
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             try {
                 TxtCaminho.setText(fc.getSelectedFile().getCanonicalPath());
-            } catch (IOException ex) {            }
+            } catch (IOException ex) {
+            }
             Caminho = TxtCaminho.getText();
             LabelErroFicheiro.setVisible(false);
         }
-        else{
-            LabelErroFicheiro.setVisible(true);
-        }
     }//GEN-LAST:event_BttnProcurarActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,4 +244,17 @@ public class AnalisarFicheiro extends javax.swing.JPanel
     private javax.swing.JButton jAnalisa;
     private javax.swing.JLabel jErroNomeEstilo1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        while (true) {
+            if (DnDFile != null) {
+                try {
+                    TxtCaminho.setText(DnDFile.getCanonicalPath());
+                    Caminho = TxtCaminho.getText();
+                } catch (IOException ex) {
+                }
+            }
+        }
+    }
 }

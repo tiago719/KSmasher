@@ -359,7 +359,7 @@ public class While extends Statement
     }
 
     @Override
-    public void converteStatement() {
-
+    public String converteStatement() {
+        return "";
     }
 }

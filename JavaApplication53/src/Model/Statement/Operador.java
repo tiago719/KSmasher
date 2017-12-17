@@ -108,7 +108,7 @@ public class Operador extends Statement {
     }
 
     @Override
-    public void converteStatement() {
-
+    public String converteStatement() {
+        return "";
     }
 }

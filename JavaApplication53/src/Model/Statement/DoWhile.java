@@ -210,7 +210,8 @@ public class DoWhile extends Statement {
     }
 
     @Override
-    public void converteStatement() {
+    public String converteStatement() {
         //adicionar no inicio "do ..." e no final "while ( <condicao> );"
+        return "";
     }
 }

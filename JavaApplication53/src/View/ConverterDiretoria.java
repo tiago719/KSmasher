@@ -20,8 +20,8 @@ public class ConverterDiretoria extends javax.swing.JPanel
         this.Controller =Controller;
         initComponents();
         
-        for(EstiloProgramacao EP: Controller.getEstilosUtilizador())
-            jListaEstilos.add(EP.getNome());
+//        for(EstiloProgramacao EP: Controller.getEstilosUtilizador())
+//            jListaEstilos.add(EP.getNome());
     }
 
     /**
