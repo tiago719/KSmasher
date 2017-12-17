@@ -61,7 +61,7 @@ public class DoWhile extends Statement
                 }
             }
         }
-        PosWhile = i;
+
         //retira espacos entre }/; e while
         for (++i; i < Codigo.length(); i++)
         {
@@ -70,7 +70,8 @@ public class DoWhile extends Statement
                 break;
             }
         }
-
+        PosWhile = i;
+        
         i += 5; //depois do while
 
         //retira espacos entre while e (
@@ -83,15 +84,18 @@ public class DoWhile extends Statement
         }
 
         i++;//fica depois do (
+        char c;
 
         //retira espacos ate condicao
         for (; i < Codigo.length(); i++)
         {
-            if (!Character.isWhitespace(Codigo.charAt(i)))
+            if (!Character.isWhitespace(c=Codigo.charAt(i)))
             {
                 break;
             }
         }
+        
+        int InicioCondicao=i;
 
         //procura fim da condicao
         int numParentesesAbertos = 1;
@@ -117,37 +121,29 @@ public class DoWhile extends Statement
                 }
             }
         }
+        int fimCondicao=j;
+        int d=j;
+        for(--d;d>0;d--)
+        {
+            if(!Character.isWhitespace(Codigo.charAt(d)))
+                break;
+        }
         int z;
-        char c;
         //procura ;
-        for (z = j; z < Codigo.length(); z++)
+        for (z = j+1; z < Codigo.length(); z++)
         {
-            if (!Character.isWhitespace(c=Codigo.charAt(z)))
+            c=Codigo.charAt(z);
+            if (!Character.isWhitespace(c))
             {
                 break;
             }
         }
 
-        //retira espacos do fim condicao ate )
-        for (--j; j >= 0; j--)
-        {
-            if (!Character.isWhitespace(Codigo.charAt(i)))
-            {
-                break;
-            }
-        }
-
-        Condicao = new Statement(Codigo.substring(i, j + 1), t);
-
-        if (z + 2 > Codigo.length())
-        {
-            this.ParaAnalise = Codigo.substring(0, z);
-        } else
-        {
-            this.ParaAnalise = Codigo.substring(0, z + 2);
-        }
-        this.NumCarateresAvancar = z + 1;
-        return Codigo.substring(y, PosWhile + 1);
+        Condicao = new Statement(Codigo.substring(InicioCondicao, d+1), t);
+        this.ParaAnalise = Codigo.substring(0, z+1);
+        this.NumCarateresAvancar = z + 2;
+        this.Codigo=Codigo.substring(PosWhile, z+1);
+        return Codigo.substring(y, PosWhile+1);
 
     }
 
