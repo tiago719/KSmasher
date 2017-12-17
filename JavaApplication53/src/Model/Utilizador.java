@@ -40,6 +40,11 @@ public class Utilizador
     {
         return Email;
     }
+    
+    public int getId()
+    {
+        return IdUtilizador;
+    }
 
     public void setEmail(String Email)
     {

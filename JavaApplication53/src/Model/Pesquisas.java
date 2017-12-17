@@ -137,9 +137,9 @@ public class Pesquisas {
         bd = new BaseDados();
         ResultSet Rt = null;
         int id;
-        id = bd.Modifica("INSERT INTO `estilos`(`IDESTILO`, `IDUTILIZADOR`, `NOMEESTILO`, `PARTILHAESTILO`) VALUES (null,'" + util.IdUtilizador + "','" + est.getNome() + "','" + Partilha + "');");
+        id = bd.Modifica("INSERT INTO `estilos`(`IDESTILO`, `IDUTILIZADOR`, `NOMEESTILO`, `PARTILHAESTILO`) VALUES (null,'" + util.getId() + "','" + est.getNome() + "','" + Partilha + "');");
 
-        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = " + util.IdUtilizador + " AND NOMEESTILO = '" + est.getNome() + "';");
+        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = " + util.getId() + " AND NOMEESTILO = '" + est.getNome() + "';");
         
         try {
             if(Rt.next())
@@ -153,7 +153,7 @@ public class Pesquisas {
         bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `ESPACOSCASTVARIAVEL`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() +")");
         
         bd.Modifica("INSERT INTO `do_while`(`IDDOWHILE`, `IDESTILO`, `DOWHILEPOSPRIMEIRA_`, `DOWHILELINHASDEPOIS_`, `DOWHILELINHASANTES_`, `DOWHILELINHAS_WHILE`, `DOWHILEESPACOSWHILE_`, `DOWHILEESPACOS_CONDICAO`, `DOWHILECONDICAO_`) VALUES "
-                + "(null," + id + " ," + est.getDowhile().isPosicaoPrimeiraChaveta() +"," + est.getDowhile().getLinhasEmBrancoDepoisChavetaAberta() + "," +est.getDowhile().getLinhasEmBrancoDepoisChavetaFechada() +"," +est.getDowhile().getLinhasEmBrancoEntreChavetaFechadaWhile() 
+                + "(null," + id + " ," + est.getDowhile().isPosicaoPrimeiraChaveta() +"," + est.getDowhile().getLinhasEmBrancoDepoisChavetaAberta() + "," +est.getDowhile().getLinhasEmBrancoDepoisChavetaFechada() +"," +est.getDowhile().getEspacosWhileParentesesAberto()
                 + "," + est.getDowhile().getEspacosWhileParentesesAberto() +"," + est.getDowhile().getEspacosWhileParentesesAberto() +"," + est.getDowhile().getEspacosCondicaoParentesFechado() +" )");
         
         bd.Modifica("INSERT INTO `funcoes`(`IDFUNCOES`, `IDESTILO`, `FUNCOESPREVIAMENTEDECLARADAS`) VALUES (null,"+ id +"," + est.getFuncoes().isAntesMain() +")");
