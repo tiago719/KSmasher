@@ -62,7 +62,7 @@ public class Statement {
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
-        return;
+        Texto.Converte(StatmentsFilhos, estilo);
     }
 
 

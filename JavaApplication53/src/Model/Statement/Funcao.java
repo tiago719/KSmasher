@@ -121,5 +121,6 @@ public class Funcao extends Statement {
     }
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
     }
 }

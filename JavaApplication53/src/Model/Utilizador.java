@@ -64,8 +64,8 @@ public class Utilizador
     {
         EstilosProgramacao.add(new EstiloProgramacao("EstiloDefeito",false,
                                 new Cast_EP(1),
-                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
-                                new Else_EP(true, 1, 1, 1),
+                                new DoWhile_EP(true, 1, 0, 1, 1, 1),
+                                new Else_EP(true, 1, 1),
                                 new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
                                 new If_EP(true, false, 1, 1, 1, 1, 1),
@@ -81,5 +81,13 @@ public class Utilizador
     public ArrayList<EstiloProgramacao> getEstilos()
     {
         return EstilosProgramacao;
+    }
+    
+    public EstiloProgramacao getEstilo(String NomeEstilo)
+    {
+        for(EstiloProgramacao EP : EstilosProgramacao)
+            if(EP.getNome().equals(NomeEstilo))
+                return EP;
+        return null;
     }
 }
