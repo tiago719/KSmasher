@@ -258,6 +258,8 @@ public class For extends Statement {
             LinhasEmBrancoDepoisChavetaFechada++;
         }
     }
+    
+    
     @Override
     public String RetiraDados(String Codigo, Texto t) {
         int i, j;

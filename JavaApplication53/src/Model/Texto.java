@@ -71,6 +71,7 @@ public class Texto {
         for (Statement s : Lista) {
             if (s.hasFilhos()) {
                 Analisa(s.getStatementsFilhos());
+                s.analisaStatement();
             } else {
                 s.analisaStatement();
             }

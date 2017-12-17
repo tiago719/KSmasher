@@ -58,7 +58,7 @@ public class Statement {
     }
 
     public void analisaStatement() {
-        return;
+        
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
