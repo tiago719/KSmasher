@@ -76,9 +76,14 @@ public class Else extends Statement {
             }
         }
 
-        this.ParaAnalise = Codigo.substring(0, m + 1);
-
-        return Codigo.substring(5, m + 1);
+        if(m+1>Codigo.length())
+            this.ParaAnalise = Codigo.substring(0, m -(m-Codigo.length()));
+        else
+            this.ParaAnalise = Codigo.substring(0, m +1);
+        if(m+1>Codigo.length())
+            return Codigo.substring(5, m -(m-Codigo.length()));
+        else
+            return Codigo.substring(5,m+1);
     }
             
     public int getPrimeiraChavetaNovaLinha()
