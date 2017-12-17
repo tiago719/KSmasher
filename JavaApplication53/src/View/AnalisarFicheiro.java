@@ -7,23 +7,41 @@ package View;
 
 import Controller.Controller;
 import java.awt.Color;
-import org.apache.commons.io.FileUtils;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class AnalisarFicheiro extends javax.swing.JPanel
-{
+public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
+
     Controller Controller;
-    boolean NomeEstiloFirst=true, NomeFicheiroFirst=true;
-    
-    public AnalisarFicheiro(Controller c)
-    {
-        Controller=c;
+    boolean NomeEstiloFirst = true, NomeFicheiroFirst = true;
+    String Caminho;
+    File DnDFile;
+    Thread T;
+
+    public AnalisarFicheiro(Controller c, File DnDFile) {
+        Controller = c;
         initComponents();
-        jErroFicheiro.setVisible(false);
+        LabelErroFicheiro.setVisible(false);
         jErroNomeEstilo1.setVisible(false);
+        Caminho = null;
+
+//        jList1.setDragEnabled(true);
+//        jList1.setTransferHandler(new FileListTransferHandler(jList1));
+//        
+//        jPanel1.add(jList1);
+    }
+
+    public void start() {
+        if (T == null) {
+            T = new Thread(this, "Thread1");
+            T.start();
+        }
     }
 
     /**
@@ -33,75 +51,73 @@ public class AnalisarFicheiro extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jAnalisa = new javax.swing.JButton();
-        jFicheiro = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jNomeEstilo = new javax.swing.JTextField();
-        jCheckBox = new javax.swing.JCheckBox();
-        jErroFicheiro = new javax.swing.JLabel();
+        TxtCaminho = new javax.swing.JTextField();
+        BttnProcurar = new javax.swing.JButton();
+        TxtNomeEstilo = new javax.swing.JTextField();
+        CheckPermite = new javax.swing.JCheckBox();
+        LabelErroFicheiro = new javax.swing.JLabel();
         jErroNomeEstilo1 = new javax.swing.JLabel();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+
         jAnalisa.setText("Analisar");
-        jAnalisa.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jAnalisa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jAnalisaMouseClicked(evt);
             }
         });
-
-        jFicheiro.setForeground(new java.awt.Color(204, 204, 204));
-        jFicheiro.setText("C:\\Pasta1\\Pasta2\\exemplo.c");
-        jFicheiro.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
-                jFicheiroFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt)
-            {
-                jFicheiroFocusLost(evt);
-            }
-        });
-        jFicheiro.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jFicheiroActionPerformed(evt);
+        jAnalisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAnalisaActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Procurar");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                jButton2MouseClicked(evt);
+        TxtCaminho.setForeground(new java.awt.Color(204, 204, 204));
+        TxtCaminho.setText("C:\\Pasta1\\Pasta2\\exemplo.c");
+        TxtCaminho.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TxtCaminhoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TxtCaminhoFocusLost(evt);
+            }
+        });
+        TxtCaminho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtCaminhoActionPerformed(evt);
             }
         });
 
-        jNomeEstilo.setForeground(new java.awt.Color(204, 204, 204));
-        jNomeEstilo.setText("Nome Estilo Programação");
-        jNomeEstilo.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
-                jNomeEstiloFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt)
-            {
-                jNomeEstiloFocusLost(evt);
+        BttnProcurar.setText("Procurar");
+        BttnProcurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BttnProcurarActionPerformed(evt);
             }
         });
 
-        jCheckBox.setText("O meu estilo de programação pode ser utilizado por outros utilizadores");
+        TxtNomeEstilo.setForeground(new java.awt.Color(204, 204, 204));
+        TxtNomeEstilo.setText("Nome Estilo Programação");
+        TxtNomeEstilo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                TxtNomeEstiloFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                TxtNomeEstiloFocusLost(evt);
+            }
+        });
 
-        jErroFicheiro.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        jErroFicheiro.setForeground(new java.awt.Color(204, 0, 0));
-        jErroFicheiro.setText("Introduza um ficheiro .c");
+        CheckPermite.setText("O meu estilo de programação pode ser utilizado por outros utilizadores");
+
+        LabelErroFicheiro.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        LabelErroFicheiro.setForeground(new java.awt.Color(204, 0, 0));
+        LabelErroFicheiro.setText("Introduza um ficheiro .c");
 
         jErroNomeEstilo1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroNomeEstilo1.setForeground(new java.awt.Color(204, 0, 0));
@@ -114,19 +130,19 @@ public class AnalisarFicheiro extends javax.swing.JPanel
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jNomeEstilo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jErroFicheiro)
+                    .addComponent(TxtNomeEstilo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelErroFicheiro)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jFicheiro, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addComponent(BttnProcurar))
                     .addComponent(jErroNomeEstilo1))
                 .addGap(49, 49, 49))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jCheckBox))
+                        .addComponent(CheckPermite))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(186, 186, 186)
                         .addComponent(jAnalisa, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -137,16 +153,16 @@ public class AnalisarFicheiro extends javax.swing.JPanel
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(69, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFicheiro, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BttnProcurar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jErroFicheiro)
+                .addComponent(LabelErroFicheiro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jNomeEstilo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TxtNomeEstilo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jErroNomeEstilo1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox)
+                .addComponent(CheckPermite)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jAnalisa, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
@@ -155,56 +171,90 @@ public class AnalisarFicheiro extends javax.swing.JPanel
 
     private void jAnalisaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisaMouseClicked
     {//GEN-HEADEREND:event_jAnalisaMouseClicked
-            if(Controller.isValidFile(jFicheiro.getText()) && !Controller.ExisteNomeEstilo(jNomeEstilo.getText()))
-        Controller.Analisa(jFicheiro.getText(), jCheckBox.isSelected(), jNomeEstilo.getText());
+        if (Controller.isValidFile(TxtCaminho.getText()) && !Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) {
+            Controller.Analisa(Caminho, CheckPermite.isEnabled(), TxtNomeEstilo.getText());
+        }
     }//GEN-LAST:event_jAnalisaMouseClicked
 
-    private void jFicheiroFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jFicheiroFocusGained
-    {//GEN-HEADEREND:event_jFicheiroFocusGained
-        if(NomeFicheiroFirst)
-            jFicheiro.setText("");
-        jFicheiro.setForeground(Color.BLACK);
-        NomeFicheiroFirst=false;
-    }//GEN-LAST:event_jFicheiroFocusGained
+    private void TxtCaminhoFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtCaminhoFocusGained
+    {//GEN-HEADEREND:event_TxtCaminhoFocusGained
+        if (NomeFicheiroFirst) {
+            TxtCaminho.setText("");
+        }
+        TxtCaminho.setForeground(Color.BLACK);
+        NomeFicheiroFirst = false;
+    }//GEN-LAST:event_TxtCaminhoFocusGained
 
-    private void jNomeEstiloFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jNomeEstiloFocusGained
-    {//GEN-HEADEREND:event_jNomeEstiloFocusGained
-        if(NomeEstiloFirst)
-            jNomeEstilo.setText("");
-        jNomeEstilo.setForeground(Color.BLACK);
-        NomeEstiloFirst=false;
-    }//GEN-LAST:event_jNomeEstiloFocusGained
+    private void TxtNomeEstiloFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtNomeEstiloFocusGained
+    {//GEN-HEADEREND:event_TxtNomeEstiloFocusGained
+        if (NomeEstiloFirst) {
+            TxtNomeEstilo.setText("");
+        }
+        TxtNomeEstilo.setForeground(Color.BLACK);
+        NomeEstiloFirst = false;
+    }//GEN-LAST:event_TxtNomeEstiloFocusGained
 
-    private void jNomeEstiloFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jNomeEstiloFocusLost
-    {//GEN-HEADEREND:event_jNomeEstiloFocusLost
-        if(!Controller.ExisteNomeEstilo(jNomeEstilo.getText()))
+    private void TxtNomeEstiloFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtNomeEstiloFocusLost
+    {//GEN-HEADEREND:event_TxtNomeEstiloFocusLost
+        if (!Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) {
             jErroNomeEstilo1.setVisible(true);
-    }//GEN-LAST:event_jNomeEstiloFocusLost
+        }
+    }//GEN-LAST:event_TxtNomeEstiloFocusLost
 
-    private void jFicheiroActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jFicheiroActionPerformed
-    {//GEN-HEADEREND:event_jFicheiroActionPerformed
+    private void TxtCaminhoActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_TxtCaminhoActionPerformed
+    {//GEN-HEADEREND:event_TxtCaminhoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFicheiroActionPerformed
+    }//GEN-LAST:event_TxtCaminhoActionPerformed
 
-    private void jFicheiroFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jFicheiroFocusLost
-    {//GEN-HEADEREND:event_jFicheiroFocusLost
-        if(!Controller.isValidFile(jFicheiro.getText()))
-            jErroFicheiro.setVisible(true);
-    }//GEN-LAST:event_jFicheiroFocusLost
+    private void TxtCaminhoFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtCaminhoFocusLost
+    {//GEN-HEADEREND:event_TxtCaminhoFocusLost
+        if (!Controller.isValidFile(TxtCaminho.getText())) {
+            LabelErroFicheiro.setVisible(true);
+        }
+    }//GEN-LAST:event_TxtCaminhoFocusLost
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton2MouseClicked
-    {//GEN-HEADEREND:event_jButton2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2MouseClicked
+    private void jAnalisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAnalisaActionPerformed
+    }//GEN-LAST:event_jAnalisaActionPerformed
+
+    private void BttnProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BttnProcurarActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter("Ficheiro .C", "c"));
+
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                TxtCaminho.setText(fc.getSelectedFile().getCanonicalPath());
+            } catch (IOException ex) {
+            }
+            Caminho = TxtCaminho.getText();
+            LabelErroFicheiro.setVisible(false);
+        }
+    }//GEN-LAST:event_BttnProcurarActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+
+    }//GEN-LAST:event_formFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BttnProcurar;
+    private javax.swing.JCheckBox CheckPermite;
+    private javax.swing.JLabel LabelErroFicheiro;
+    private javax.swing.JTextField TxtCaminho;
+    private javax.swing.JTextField TxtNomeEstilo;
     private javax.swing.JButton jAnalisa;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox;
-    private javax.swing.JLabel jErroFicheiro;
     private javax.swing.JLabel jErroNomeEstilo1;
-    private javax.swing.JTextField jFicheiro;
-    private javax.swing.JTextField jNomeEstilo;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        while (true) {
+            if (DnDFile != null) {
+                try {
+                    TxtCaminho.setText(DnDFile.getCanonicalPath());
+                    Caminho = TxtCaminho.getText();
+                } catch (IOException ex) {
+                }
+            }
+        }
+    }
 }

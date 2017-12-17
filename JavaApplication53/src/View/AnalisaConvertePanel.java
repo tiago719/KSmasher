@@ -16,6 +16,7 @@ import static View.Constants.DIM_Y_LOGIN;
 import static View.Constants.DIM_Y_REGISTO;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JPanel;
@@ -29,18 +30,20 @@ public class AnalisaConvertePanel extends JPanel implements Observer
     Controller Controller;
     AnalisarFicheiro AnalisarFicheiroPanel;
     ConverterDiretoria ConverterDiretoriaPanel;
+    File DnDFile;
     
-    public AnalisaConvertePanel(Controller C)
+    public AnalisaConvertePanel(Controller C, File DnDFile)
     {
         Controller=C;
-        
+        this.DnDFile = DnDFile;
         setupComponents();
         setupLayout();
     }
     
     public void setupComponents()
     {
-        AnalisarFicheiroPanel=new AnalisarFicheiro(Controller);
+        AnalisarFicheiroPanel=new AnalisarFicheiro(Controller, DnDFile);
+        AnalisarFicheiroPanel.start();
         ConverterDiretoriaPanel=new ConverterDiretoria(Controller);
     }
     
@@ -52,15 +55,15 @@ public class AnalisaConvertePanel extends JPanel implements Observer
         pEste.setPreferredSize(new Dimension(DIM_X_ANALISA, DIM_Y_ANALISA));
         pEste.add(AnalisarFicheiroPanel);
         
-        JPanel pOeste=new JPanel();
-        pOeste.setMaximumSize(new Dimension(DIM_X_CONVERTE, DIM_Y_CONVERTE));
-        pOeste.setMinimumSize(new Dimension(DIM_Y_CONVERTE, DIM_Y_CONVERTE));
-        pOeste.setPreferredSize(new Dimension(DIM_Y_CONVERTE, DIM_Y_CONVERTE));
-        pOeste.add(ConverterDiretoriaPanel);
+//        JPanel pOeste=new JPanel();
+//        pOeste.setMaximumSize(new Dimension(DIM_X_CONVERTE, DIM_Y_CONVERTE));
+//        pOeste.setMinimumSize(new Dimension(DIM_Y_CONVERTE, DIM_Y_CONVERTE));
+//        pOeste.setPreferredSize(new Dimension(DIM_Y_CONVERTE, DIM_Y_CONVERTE));
+//        pOeste.add(ConverterDiretoriaPanel);
 
         JPanel center=new JPanel(new BorderLayout(100,0));
-        center.add(pOeste, BorderLayout.WEST);
-        center.add(pEste, BorderLayout.EAST);
+        center.add(pEste, BorderLayout.CENTER);
+//        center.add(pEste, BorderLayout.EAST);
         
         add(center);
         
@@ -71,6 +74,7 @@ public class AnalisaConvertePanel extends JPanel implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
+        repaint();
     }
     
 }

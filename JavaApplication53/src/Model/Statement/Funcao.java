@@ -59,10 +59,11 @@ public class Funcao extends Statement {
         }
 
         this.Codigo = Codigo.substring(0, PosInicioCodigoFuncao);
-        if (PosFimCodigoFuncao + 1 > Codigo.length())
+        if (PosFimCodigoFuncao + 1 > Codigo.length()) {
             this.ParaAnalise = Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao);
-        else 
+        } else {
             this.ParaAnalise = Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
+        }
         this.NumCarateresAvancar = PosFimCodigoFuncao + 1;
         return Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
 
@@ -118,7 +119,7 @@ public class Funcao extends Statement {
 
     }
 
-    public void converteStatement() {
-
+    public String converteStatement() {
+        return "";
     }
 }
