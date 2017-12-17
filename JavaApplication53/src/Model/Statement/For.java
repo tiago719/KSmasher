@@ -426,6 +426,7 @@ public class For extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
         String aux= this.Codigo;
         StringBuilder build = new StringBuilder(aux); 
         char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };

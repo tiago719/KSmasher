@@ -15,9 +15,8 @@ public class Else_EP
     private int LinhasEmBrancoEntreIfElse,LinhasEmBrancoDepoisChavetaAberta,
         LinhasEmBrancoDepoisChavetaFechada;
 
-    public Else_EP(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoEntreIfElse, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+    public Else_EP(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
-        this.LinhasEmBrancoEntreIfElse = LinhasEmBrancoEntreIfElse;
         this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }

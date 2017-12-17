@@ -77,12 +77,18 @@ public class Texto {
         }
     }
 
-    public void ComecaConverte() {
-        Converte(ListaStatements);
+    public void ComecaConverte(EstiloProgramacao EstiloProgramacao) {
+        Converte(ListaStatements, EstiloProgramacao);
     }
 
-    private String Converte(ArrayList<Statement> Lista) {
-        String Str = "";
+    public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) 
+    {
+        for(Statement S : Lista)
+        {
+            S.converteStatement(EstiloProgramacao);
+        }
+        
+/*        String Str = "";
         for (Statement S : Lista) {
             if (S instanceof If) {
                 Str += "if";
@@ -142,6 +148,7 @@ public class Texto {
             }
         }
         return Str;
+        */
     }
 
     public ArrayList<Statement> getListaStatements() {

@@ -1,21 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
 import static Model.Constantes.DIRETORIA_DESTINO;
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Statement.Statement;
-import Model.Statement.While;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -74,7 +66,7 @@ public class Model {
         Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeEstilo, Permite));
     }
     
-    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino)
+    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino,String NomeEstilo)
     {
         String proxDiretoria=DiretoriaDestino;
         File Diretoria=new File(NomeDiretoria);
@@ -87,7 +79,7 @@ public class Model {
             {
                 try {
                     if(FilenameUtils.getExtension(file.getCanonicalPath()).equals("c"))
-                        ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                        ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria, NomeEstilo);
                     else
                         CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
                 } catch (IOException ex) {
@@ -96,12 +88,12 @@ public class Model {
             }
             else if(file.isDirectory())
             {  
-                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName());
+                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName(), NomeEstilo);
             }
         }      
     }
     
-    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
+    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual,String NomeEstilo)
     {
         Ficheiros F=new Ficheiros();
         File source = new File(DiretoriaAtual + Nome);
@@ -111,7 +103,17 @@ public class Model {
         
         Texto Texto=new Texto(in,out);
         Texto.ComecaCataloga();
-        Texto.ComecaConverte();
+        
+        EstiloProgramacao Estilo=Utilizador.getEstilo(NomeEstilo);
+        Texto.ComecaConverte(Estilo);
+        
+        try
+        {
+            out.write(Texto.toString());
+        } catch (IOException ex)
+        {
+            System.out.println("Erro a escrever para o novo ficheiro");
+        }
     }
     
     public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
@@ -131,9 +133,7 @@ public class Model {
     
     public void Converte(String Diretoria, String NomeEstilo, String NomeUtilizador)
     {
-        listaDiretoria(Diretoria,DIRETORIA_DESTINO);
-        throw new UnsupportedOperationException("Funcionalidade nao implementada");
-        //TODO: Ir buscar o estilo e mandalo para o converter
+        listaDiretoria(Diretoria,DIRETORIA_DESTINO, NomeEstilo);
     }
     
     public ArrayList<EstiloProgramacao> getEstilosUtilizador()

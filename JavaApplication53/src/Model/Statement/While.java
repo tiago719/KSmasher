@@ -366,12 +366,11 @@ public class While extends Statement
                 if(ParaAnalise.charAt(i)=='{')
                     while(ParaAnalise.charAt(++i)=='\n')
                         LinhasEmBrancoDepoisChavetaAberta++;                       
-            }
-            
-            
+            }  
         }
     }
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
     }
 }
