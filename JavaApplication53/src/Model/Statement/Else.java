@@ -143,14 +143,7 @@ public class Else extends Statement {
         }
     }
 
-
     @Override
-    public String converteStatement() {
-        return "";
-    }
-  /*
-
-    //@Override
     public void converteStatement(EstiloProgramacao estilo) {       
         StringBuilder novastring = new StringBuilder();
         novastring.append("else");
@@ -172,5 +165,4 @@ public class Else extends Statement {
         this.Codigo=novastring.toString();
 
     }
-    */
 }

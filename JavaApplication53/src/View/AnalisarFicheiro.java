@@ -51,7 +51,8 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jAnalisa = new javax.swing.JButton();
         TxtCaminho = new javax.swing.JTextField();
@@ -61,54 +62,70 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
         LabelErroFicheiro = new javax.swing.JLabel();
         jErroNomeEstilo1 = new javax.swing.JLabel();
 
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+        addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
                 formFocusGained(evt);
             }
         });
 
         jAnalisa.setText("Analisar");
-        jAnalisa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jAnalisa.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jAnalisaMouseClicked(evt);
             }
         });
-        jAnalisa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jAnalisa.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jAnalisaActionPerformed(evt);
             }
         });
 
         TxtCaminho.setForeground(new java.awt.Color(204, 204, 204));
         TxtCaminho.setText("C:\\Pasta1\\Pasta2\\exemplo.c");
-        TxtCaminho.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+        TxtCaminho.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
                 TxtCaminhoFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
                 TxtCaminhoFocusLost(evt);
             }
         });
-        TxtCaminho.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        TxtCaminho.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 TxtCaminhoActionPerformed(evt);
             }
         });
 
         BttnProcurar.setText("Procurar");
-        BttnProcurar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BttnProcurar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 BttnProcurarActionPerformed(evt);
             }
         });
 
         TxtNomeEstilo.setForeground(new java.awt.Color(204, 204, 204));
         TxtNomeEstilo.setText("Nome Estilo Programação");
-        TxtNomeEstilo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+        TxtNomeEstilo.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
                 TxtNomeEstiloFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
                 TxtNomeEstiloFocusLost(evt);
             }
         });
@@ -146,12 +163,12 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(186, 186, 186)
                         .addComponent(jAnalisa, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addContainerGap(105, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtCaminho, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BttnProcurar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))

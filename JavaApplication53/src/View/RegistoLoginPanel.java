@@ -40,6 +40,7 @@ public class RegistoLoginPanel extends JPanel implements Observer
     Controller Controller;
     Registo registoPanel;
     Login loginPanel;
+    JPanel CardPanel;
     
     public RegistoLoginPanel(Controller o)
     {
@@ -53,6 +54,12 @@ public class RegistoLoginPanel extends JPanel implements Observer
     {
         registoPanel=new Registo(Controller);
         loginPanel=new Login(Controller);
+    }
+    
+    public void setCardPanel(JPanel J)
+    {
+        CardPanel=J;
+        loginPanel.setCardPanel(J);
     }
     
     public void setupLayout()

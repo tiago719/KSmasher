@@ -259,6 +259,8 @@ public class Registo extends javax.swing.JPanel
 
     private void jRegistarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRegistarMouseClicked
     {//GEN-HEADEREND:event_jRegistarMouseClicked
+        
+        
         if(Controller.ExisteUsername(jUsername.getText())==-3 && Controller.ExisteEmail(jEmail.getText())==-1 && jPassword==jCPassword)
             Controller.Regista(jUsername.getText(), jEmail.getText(), jPassword.getText()); 
     }//GEN-LAST:event_jRegistarMouseClicked

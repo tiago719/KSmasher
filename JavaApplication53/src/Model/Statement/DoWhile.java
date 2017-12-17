@@ -293,13 +293,8 @@ public class DoWhile extends Statement {
         }
     }
 
+ 
     @Override
-    public String converteStatement() {
-        //adicionar no inicio "do ..." e no final "while ( <condicao> );"
-        return "";
-    }
-
- /*
     public void converteStatement(EstiloProgramacao estilo) {
         //adicionar no inicio "do ..." e no final "while ( <condicao> );"
 
@@ -338,5 +333,4 @@ public class DoWhile extends Statement {
             }
              this.Codigo=build.toString();
    }
-*/
 }
