@@ -139,13 +139,22 @@ public class DoWhile extends Statement {
 
         this.Codigo = null;
         if (z + 2 > Codigo.length()) {
-            this.ParaAnalise = Codigo.substring(0, z);
+            this.ParaAnalise = Codigo.substring(0, z - (z - Codigo.length()));
         } else {
             this.ParaAnalise = Codigo.substring(0, z + 2);
         }
-        this.NumCarateresAvancar = z + 1;
-        return Codigo.substring(y, PosWhile + 1);
 
+        if (z + 1 > Codigo.length()) {
+            this.NumCarateresAvancar = z - (z - Codigo.length());
+        } else {
+
+            this.NumCarateresAvancar = z + 1;
+        }
+        if (PosWhile + 1 > Codigo.length()) {
+            return Codigo.substring(y, PosWhile - (PosWhile - Codigo.length()));
+        } else {
+            return Codigo.substring(y, PosWhile + 1);
+        }
     }
 
     public boolean isPosicaoPrimeiraChaveta() {

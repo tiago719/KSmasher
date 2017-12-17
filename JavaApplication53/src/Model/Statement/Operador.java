@@ -31,7 +31,7 @@ public class Operador extends Statement {
 
         this.ParaAnalise = Codigo;
         if(j+1 > Codigo.length())
-            this.Codigo = Codigo.substring(i, j);
+            this.Codigo = Codigo.substring(i, j - (j-Codigo.length()));
         else
             this.Codigo = Codigo.substring(i, j +1);
 

@@ -58,14 +58,20 @@ public class Funcao extends Statement {
             }
         }
         this.Codigo = Codigo.substring(0, PosInicioCodigoFuncao);
-        
-        if(this.Codigo.contains(";"))
-        {
-             this.Codigo = Codigo.substring(0, Codigo.indexOf(";"));
-        } 
+
+        if (this.Codigo.contains(";")) {
+            this.Codigo = Codigo.substring(0, Codigo.indexOf(";"));
+        }
         this.ParaAnalise = Codigo;
-        this.NumCarateresAvancar = PosFimCodigoFuncao + 1;
-        return Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
+        if (PosFimCodigoFuncao + 1 > Codigo.length()) {
+            this.NumCarateresAvancar = PosFimCodigoFuncao - (PosFimCodigoFuncao - Codigo.length());
+            return Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao  - (PosFimCodigoFuncao - Codigo.length()));
+        }
+        else
+        {
+             this.NumCarateresAvancar = PosFimCodigoFuncao + 1;
+            return Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
+        }
 
     }
 
@@ -91,15 +97,10 @@ public class Funcao extends Statement {
 
         if (!aux.contains(" main(")) {
             AntesMain = true; /// PORQUE SE NAO TEM MAIN É SÓ PARA DEIXAR COMO ESTAO AS FUNÇOES NAO È NECESSARIO CRIAR CABEÇALHO
-        }
-        else
-        {
-            if(Codigo.contains(";"))
-            {
+        } else {
+            if (Codigo.contains(";")) {
                 AntesMain = false;
-            }
-            else
-            {
+            } else {
                 AntesMain = true;
             }
         }

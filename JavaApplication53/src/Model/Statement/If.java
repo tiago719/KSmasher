@@ -129,14 +129,32 @@ public class If extends Statement {
             Condicao = new Statement(Codigo.substring(i, j), T);
         } catch (Exception e) {
         }
-        this.Codigo = Codigo.substring(0, j + 1);
+        if(j+1 > Codigo.length())
+        {
+            this.Codigo = Codigo.substring(0, 1 + j - (j - Codigo.length())); 
+        }
+        else
+        {
+           this.Codigo = Codigo.substring(0, j + 1); 
+        }
+
         if (n+1 > Codigo.length())
-            this.ParaAnalise = Codigo.substring(0, n);
+            this.ParaAnalise = Codigo.substring(0, n - (n - Codigo.length()));
         else
             this.ParaAnalise = Codigo.substring(0, n + 1);
         
-        this.NumCarateresAvancar = m + 1;
-        return Codigo.substring(j, m + 1);
+       
+        if(m+1 > Codigo.length())
+        {
+             this.NumCarateresAvancar = m  - (m - Codigo.length());
+             return Codigo.substring(j, m  - (m - Codigo.length()));
+        }
+        else
+        {
+            this.NumCarateresAvancar = m + 1;
+            return Codigo.substring(j, m + 1); 
+        }
+       
 
     }
 

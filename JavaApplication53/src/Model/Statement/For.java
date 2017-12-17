@@ -516,12 +516,17 @@ public class For extends Statement {
         else
             this.ParaAnalise = Codigo.substring(0, n + 1);
           
-        this.NumCarateresAvancar = m + 1;
+     
         
         if(m+1 >Codigo.length())
+        {
+            this.NumCarateresAvancar = m - (m - Codigo.length());
             return Codigo.substring(l, m - (m - Codigo.length()));
+        }
         else
+        {   this.NumCarateresAvancar = m + 1;
             return Codigo.substring(1, m +1);
+        }
 
     }
 }

@@ -11,6 +11,7 @@ package Model.EstiloProgramacao;
  */
 public class EstiloProgramacao
 {
+    private int id;
     private String nome;
     private Cast_EP cast;
     private DoWhile_EP dowhile;
@@ -21,6 +22,12 @@ public class EstiloProgramacao
     private Operador_EP operador;
     private While_EP whiles;
 
+     public EstiloProgramacao(int id, String nome)
+     {
+        this.nome = nome;
+        this.id = id;
+    }
+     
     public EstiloProgramacao(String nome, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Operador_EP operador, While_EP whiles) {
         this.nome = nome;
         this.cast = cast;

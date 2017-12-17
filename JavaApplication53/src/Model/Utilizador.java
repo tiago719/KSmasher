@@ -18,43 +18,50 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author Tiago Coutinho
  */
-public class Utilizador
-{
+public class Utilizador {
+
     String Username, Email, Password;
     int IdUtilizador;
     ArrayList<EstiloProgramacao> EstilosProgramacao;
-    
-    public Utilizador()
-    {
-        EstilosProgramacao=new ArrayList<EstiloProgramacao>();
+
+    public Utilizador() {
+        EstilosProgramacao = new ArrayList<EstiloProgramacao>();
     }
-    
-    public void AdicionaEstiloPorDefeito()
-    {
+
+    public Utilizador(String User, String Em, String Pass) {
+        Username = User;
+        Email = Em;
+        Password = Pass;
+    }
+
+    public void AdicionaUtilizador(String User, String Em, String Pass) {
+        Username = User;
+        Email = Em;
+        Password = Pass;
+    }
+
+    public void AdicionaEstiloPorDefeito() {
         EstilosProgramacao.add(new EstiloProgramacao("EstiloDefeito",
-                                new Cast_EP(1),
-                                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
-                                new Else_EP(true, 1, 1, 1),
-                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
-                                new Funcoes_EP(false),
-                                new If_EP(true, false, 1, 1, 1, 1, 1),
-                                new Operador_EP(1, 1),
-                                new While_EP(true, false, 1, 1, 1, 1, 1)));
+                new Cast_EP(1),
+                new DoWhile_EP(true, 1, 0, 0, 1, 1, 1),
+                new Else_EP(true, 1, 1, 1),
+                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                new Funcoes_EP(false),
+                new If_EP(true, false, 1, 1, 1, 1, 1),
+                new Operador_EP(1, 1),
+                new While_EP(true, false, 1, 1, 1, 1, 1)));
     }
-    
-    public void NovoEstilo(EstiloProgramacao EP)
-    {
+
+    public void NovoEstilo(EstiloProgramacao EP) {
         EstilosProgramacao.add(EP);
-    }   
+    }
 }
