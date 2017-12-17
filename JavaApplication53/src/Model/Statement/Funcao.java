@@ -1,5 +1,6 @@
 package Model.Statement;
 
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 
 public class Funcao extends Statement {
@@ -73,6 +74,7 @@ public class Funcao extends Statement {
             return Codigo.substring(PosInicioCodigoFuncao, PosFimCodigoFuncao + 1);
         }
 
+
     }
 
     public String getNomeFuncao() {
@@ -106,8 +108,8 @@ public class Funcao extends Statement {
         }
 
     }
-
-    public void converteStatement() {
-
+    @Override
+    public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
     }
 }

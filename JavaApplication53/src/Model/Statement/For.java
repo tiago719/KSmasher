@@ -1,5 +1,7 @@
 package Model.Statement;
 
+
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -345,12 +347,6 @@ public class For extends Statement {
             }
         }
     }
-
-    @Override
-    public void converteStatement() {
-
-    }
-
     @Override
     public String RetiraDados(String Codigo, Texto t) {
         int i, j;
@@ -528,5 +524,62 @@ public class For extends Statement {
             return Codigo.substring(1, m +1);
         }
 
+    }
+
+    @Override
+    public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
+        String aux= this.Codigo;
+        StringBuilder build = new StringBuilder(aux); 
+        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+        char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
+        int flag=0, conta=0;
+       
+            for (int i = 0; i < aux.length(); i++) {
+                if(aux.charAt(i)=='(')
+                 {            
+                   build.insert(i, espacos, 0, estilo.getFors().getEspacosForParentesAberto());
+                   build.insert(i+1+estilo.getFors().getEspacosForParentesAberto(), espacos, 0, estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao());
+                 }
+                if(aux.charAt(i)==';')
+                 {   
+                   flag++;
+                   
+                    if(flag==1)
+                    {
+                   conta+=estilo.getFors().getEspacosForParentesAberto()+estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao();
+                   
+                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosInicializacaoPontoVirgula());
+                   build.insert(i+conta+1+estilo.getFors().getEspacosInicializacaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaCondicao());
+                     }
+                   if(flag==2)
+                   {
+                    conta+=estilo.getFors().getEspacosInicializacaoPontoVirgula()+ estilo.getFors().getEspacosPontoVirgulaCondicao();
+                   
+                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosCondicaoPontoVirgula());
+                   build.insert(i+conta+1+estilo.getFors().getEspacosCondicaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaIncrementacao()); 
+                   }
+                 }
+                 if(aux.charAt(i)==')')
+                 {    
+                   conta+=estilo.getFors().getEspacosCondicaoPontoVirgula()+estilo.getFors().getEspacosPontoVirgulaIncrementacao();
+                     
+                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
+                 }
+                  if(aux.charAt(i)=='{')
+                 {    
+                   conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
+                     
+                   build.insert(i+1+conta, linhas, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
+                 }
+                  if(aux.charAt(i)=='}')
+                 {    
+                   conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
+                     
+                   build.insert(i+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada());
+                 }
+            
+         }
+            this.Codigo=build.toString();
     }
 }

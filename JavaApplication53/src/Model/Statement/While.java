@@ -1,5 +1,6 @@
 package Model.Statement;
 
+import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -342,12 +343,21 @@ public class While extends Statement {
                 }
             }
         }
+        if(ChavetaUmStatementDentroWhile!=0)
+        {
+            LinhasEmBrancoDepoisChavetaAberta=0;
+            LinhasEmBrancoDepoisChavetaFechada=0;
+            for(i=0;i<ParaAnalise.length();i++)
+            {
+                if(ParaAnalise.charAt(i)=='{')
+                    while(ParaAnalise.charAt(++i)=='\n')
+                        LinhasEmBrancoDepoisChavetaAberta++;                       
+            }  
+        }
     }
-
     @Override
-    public void converteStatement() {
-        /// PARAAnalisar  
-        /// CODIGO 
 
+    public void converteStatement(EstiloProgramacao estilo) {
+        super.converteStatement(estilo);
     }
 }

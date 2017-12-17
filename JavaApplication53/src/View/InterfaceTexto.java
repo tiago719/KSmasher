@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package View;
 
 import Controller.Controller;
@@ -19,10 +15,7 @@ import Model.Utilizador;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-/**
- *
- * @author Tiago Coutinho
- */
+
 public class InterfaceTexto
 {
     private Controller Controller;
@@ -47,13 +40,15 @@ public class InterfaceTexto
 
         if (pass.equals(conf)) 
         {
-            boolean checkname, checkEmail;
+            boolean  checkEmail;
+            int checkname;
 
-            checkname = true;//Controller.ExisteUsername(user);
-            checkEmail = Controller.ExisteEmail(email);
 
-            if (checkname || checkEmail) {
-                if (checkname) {
+            checkname = 1;//Controller.ExisteUsername(user);
+            checkEmail = false;//Controller.ExisteEmail(email);
+
+            if (checkname==1 || checkEmail) {
+                if (checkname==1) {
                     System.out.println("Username já está em uso, tente outro");
                 }
                 if (checkEmail) {

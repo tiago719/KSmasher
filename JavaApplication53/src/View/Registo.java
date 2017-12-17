@@ -56,7 +56,7 @@ public class Registo extends javax.swing.JPanel
         jErroPass = new javax.swing.JLabel();
         jErroCPass = new javax.swing.JLabel();
 
-        jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel1.setText("Registar");
 
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
@@ -81,6 +81,10 @@ public class Registo extends javax.swing.JPanel
             public void focusGained(java.awt.event.FocusEvent evt)
             {
                 jEmailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                jEmailFocusLost(evt);
             }
         });
 
@@ -108,6 +112,10 @@ public class Registo extends javax.swing.JPanel
             {
                 jPasswordFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                jPasswordFocusLost(evt);
+            }
         });
         jPassword.addActionListener(new java.awt.event.ActionListener()
         {
@@ -125,6 +133,10 @@ public class Registo extends javax.swing.JPanel
             {
                 jCPasswordFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+                jCPasswordFocusLost(evt);
+            }
         });
         jCPassword.addActionListener(new java.awt.event.ActionListener()
         {
@@ -134,15 +146,19 @@ public class Registo extends javax.swing.JPanel
             }
         });
 
+        jErroUser.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroUser.setForeground(new java.awt.Color(153, 0, 0));
-        jErroUser.setText("Nome de Utilizador Já Existente");
+        jErroUser.setText("Utilizador entre 7-15 Caracteres");
 
+        jErroEmail.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroEmail.setForeground(new java.awt.Color(153, 0, 0));
         jErroEmail.setText("Email Já Existente");
 
+        jErroPass.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroPass.setForeground(new java.awt.Color(153, 0, 0));
         jErroPass.setText("Palavra-Passe entre 8-15 caracteres");
 
+        jErroCPass.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroCPass.setForeground(new java.awt.Color(153, 0, 0));
         jErroCPass.setText("Palavras-Passe não Correspondem");
 
@@ -151,16 +167,14 @@ public class Registo extends javax.swing.JPanel
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jPassword, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jUsername, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jPassword, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jUsername, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jErroUser)
                             .addComponent(jErroEmail)
                             .addComponent(jErroPass)
@@ -168,12 +182,11 @@ public class Registo extends javax.swing.JPanel
                             .addComponent(jCPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(46, 46, 46)
-                                .addComponent(jRegistar)
-                                .addGap(57, 57, 57))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jRegistar)))
+                        .addGap(51, 51, 51))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(87, 87, 87))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,7 +259,10 @@ public class Registo extends javax.swing.JPanel
 
     private void jRegistarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRegistarMouseClicked
     {//GEN-HEADEREND:event_jRegistarMouseClicked
-        Controller.Regista(jUsername.getText(), jEmail.getText(), jPassword.getText()); 
+        
+        
+        if(Controller.ExisteUsername(jUsername.getText())==-3 && Controller.ExisteEmail(jEmail.getText())==-1 && jPassword==jCPassword)
+            Controller.Regista(jUsername.getText(), jEmail.getText(), jPassword.getText()); 
     }//GEN-LAST:event_jRegistarMouseClicked
 
     private void jCPasswordFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jCPasswordFocusGained
@@ -277,7 +293,7 @@ public class Registo extends javax.swing.JPanel
             }
             else if(Controller.ExisteUsername(jUsername.getText())==-2)
             {
-                jErroUser.setText("Utilizador Contém Caracteres Especiais");
+                jErroUser.setText("Contém Caracteres Especiais");
             }
             else if(Controller.ExisteUsername(jUsername.getText())==-3)
             {
@@ -290,6 +306,38 @@ public class Registo extends javax.swing.JPanel
         }
   
     }//GEN-LAST:event_jUsernameFocusLost
+
+    private void jEmailFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jEmailFocusLost
+    {//GEN-HEADEREND:event_jEmailFocusLost
+        int ret=Controller.ExisteEmail(jEmail.getText());
+        
+        if(ret==1)
+        {
+            jErroEmail.setText("Email Já Existente");
+            jErroEmail.setVisible(true);
+        }
+        else if(ret==-2)
+        {
+            jErroEmail.setText("Email Inválido");
+            jErroEmail.setVisible(true);
+        }
+    }//GEN-LAST:event_jEmailFocusLost
+
+    private void jPasswordFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jPasswordFocusLost
+    {//GEN-HEADEREND:event_jPasswordFocusLost
+        if(jPassword.getText().length()<8 || jPassword.getText().length()>15)
+        {
+            jErroPass.setVisible(true);
+        }
+    }//GEN-LAST:event_jPasswordFocusLost
+
+    private void jCPasswordFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jCPasswordFocusLost
+    {//GEN-HEADEREND:event_jCPasswordFocusLost
+        if(jPassword.getText()!=jCPassword.getText())
+        {
+            jErroCPass.setVisible(true);
+        }
+    }//GEN-LAST:event_jCPasswordFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

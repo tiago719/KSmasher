@@ -13,14 +13,12 @@ public class DoWhile_EP
 {
     private boolean PosicaoPrimeiraChaveta;
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada, 
-            LinhasEmBrancoEntreChavetaFechadaWhile, EspacosWhileParentesesAberto, 
-            EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
+                 EspacosWhileParentesesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
 
-    public DoWhile_EP(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int LinhasEmBrancoEntreChavetaFechadaWhile, int EspacosWhileParentesesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
+    public DoWhile_EP(boolean PosicaoPrimeiraChaveta, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int EspacosWhileParentesesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
         this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
         this.EspacosWhileParentesesAberto = EspacosWhileParentesesAberto;
         this.EspacosParentesesAbertoCondicao = EspacosParentesesAbertoCondicao;
         this.EspacosCondicaoParentesFechado = EspacosCondicaoParentesFechado;
@@ -54,16 +52,6 @@ public class DoWhile_EP
     public void setLinhasEmBrancoDepoisChavetaFechada(int LinhasEmBrancoDepoisChavetaFechada)
     {
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
-    }
-
-    public int getLinhasEmBrancoEntreChavetaFechadaWhile()
-    {
-        return LinhasEmBrancoEntreChavetaFechadaWhile;
-    }
-
-    public void setLinhasEmBrancoEntreChavetaFechadaWhile(int LinhasEmBrancoEntreChavetaFechadaWhile)
-    {
-        this.LinhasEmBrancoEntreChavetaFechadaWhile = LinhasEmBrancoEntreChavetaFechadaWhile;
     }
 
     public int getEspacosWhileParentesesAberto()

@@ -3,6 +3,7 @@ package Model.Statement;
 import Model.Constantes;
 import Model.Texto;
 import java.util.ArrayList;
+import Model.EstiloProgramacao.EstiloProgramacao;
 
 public class Operador extends Statement {
 
@@ -111,7 +112,23 @@ public class Operador extends Statement {
     }
 
     @Override
-    public void converteStatement() {
-
+    public void converteStatement(EstiloProgramacao estilo) {
+        StringBuilder novastring = new StringBuilder();
+        for(int i=0; i<Codigo.length(); i++){
+            if(i==0){
+                for(int j=0;j<estilo.getOperador().getEspacosVariavelOperador();j++){
+                    novastring.append(' ');
+                }
+            }
+            else if(i==Codigo.length()-1){
+                for(int j=0;j<estilo.getOperador().getEspacosOperadorVariavel();j++){
+                    novastring.append(' ');
+                }
+            }
+            else{
+                novastring.append(Codigo.charAt(i));
+            }
+        }
+        this.Codigo=novastring.toString();
     }
 }

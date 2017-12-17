@@ -20,6 +20,12 @@ public class Constants
     public static final int DIM_X_LOGIN=200;
     public static final int DIM_Y_LOGIN=200;
     
+    public static final int DIM_X_ANALISA=600;
+    public static final int DIM_Y_ANALISA=600;
+    
+    public static final int DIM_X_CONVERTE=300;
+    public static final int DIM_Y_CONVERTE=400;
+    
     public static final int DIM_X_TEXT_FIELD=50;
     public static final int DIM_Y_TEXT_FIELD=400;
 }

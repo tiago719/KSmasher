@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Model.Statement;
 
 import Model.Texto;
 import java.util.ArrayList;
+import Model.EstiloProgramacao.EstiloProgramacao;
 
-/**
- *
- * @author Tiago Coutinho
- */
+
 public class Cast extends Statement {
 
     private int EspacosEntreCastVariavel;
@@ -71,18 +65,41 @@ public class Cast extends Statement {
     }
 
     @Override
-    public void analisaStatement() {
-        EspacosEntreCastVariavel = 0;
 
-        try {
+    public void analisaStatement() { 
+        EspacosEntreCastVariavel=0;
+        
+        try
+        { 
+         for (int i = 0; i < ParaAnalise.length(); i++) {
+            if (ParaAnalise.charAt(i) == ')') {
+                i++;
+                while(ParaAnalise.charAt(i)==' ')
+                {
+                    EspacosEntreCastVariavel++;
+                    i++;
+                }
+            }
+        }catch (Exception e) {
 
-        } catch (Exception e) {
+
 
         }
     }
 
     @Override
-    public void converteStatement() {
 
+    public void converteStatement(EstiloProgramacao estilo)
+    {
+        StringBuilder novastring = new StringBuilder();
+        for(int i=0; i<Codigo.length();i++){
+            if(Codigo.charAt(i-1)==')'){
+                for(int j=0; j<estilo.getCast().getEspacosEntreCastVariavel(); j++){
+                    novastring.append(' ');
+                }
+            }
+            novastring.append(Codigo.charAt(i));                   
+        }
+        this.Codigo=novastring.toString();
     }
 }

@@ -40,6 +40,7 @@ public class RegistoLoginPanel extends JPanel implements Observer
     Controller Controller;
     Registo registoPanel;
     Login loginPanel;
+    JPanel CardPanel;
     
     public RegistoLoginPanel(Controller o)
     {
@@ -55,13 +56,19 @@ public class RegistoLoginPanel extends JPanel implements Observer
         loginPanel=new Login(Controller);
     }
     
+    public void setCardPanel(JPanel J)
+    {
+        CardPanel=J;
+        loginPanel.setCardPanel(J);
+    }
+    
     public void setupLayout()
     {   
         JPanel pEste = new JPanel();
         pEste.setMaximumSize(new Dimension(DIM_X_LOGIN, DIM_Y_LOGIN));
         pEste.setMinimumSize(new Dimension(DIM_X_LOGIN, DIM_Y_LOGIN));
         pEste.setPreferredSize(new Dimension(DIM_X_LOGIN, DIM_Y_LOGIN));
-        pEste.add(new Login(Controller));
+        pEste.add(loginPanel);
         
         JPanel pOeste=new JPanel();
         pOeste.setMaximumSize(new Dimension(DIM_X_REGISTO, DIM_Y_REGISTO));
