@@ -20,8 +20,9 @@ public class EstiloProgramacao
     private If_EP ifs;
     private Operador_EP operador;
     private While_EP whiles;
+    private boolean Permite;
 
-    public EstiloProgramacao(String nome, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Operador_EP operador, While_EP whiles) {
+    public EstiloProgramacao(String nome,boolean Permite, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Operador_EP operador, While_EP whiles) {
         this.nome = nome;
         this.cast = cast;
         this.dowhile = dowhile;
@@ -31,6 +32,7 @@ public class EstiloProgramacao
         this.ifs = ifs;
         this.operador = operador;
         this.whiles = whiles;
+        this.Permite=Permite;
     }
 
     public String getNome() {

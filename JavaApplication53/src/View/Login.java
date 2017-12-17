@@ -51,7 +51,7 @@ public class Login extends javax.swing.JPanel
 
         jPasswordField1.setText("jPasswordField1");
 
-        jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel1.setText("Login");
 
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
@@ -88,7 +88,8 @@ public class Login extends javax.swing.JPanel
             }
         });
 
-        jErro.setForeground(new java.awt.Color(204, 0, 0));
+        jErro.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jErro.setForeground(new java.awt.Color(153, 0, 0));
         jErro.setText("Credencias Incorretas");
 
         jPassword.setForeground(new java.awt.Color(204, 204, 204));

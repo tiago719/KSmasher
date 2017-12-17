@@ -260,6 +260,12 @@ public class For extends Statement {
     }
 
     @Override
+
+    public String converteStatement() {
+        return "";
+    }
+
+    @Override
     public String RetiraDados(String Codigo, Texto t) {
         int i, j;
         boolean AspasAberto = false, PlicasAberto = false;
@@ -424,6 +430,8 @@ public class For extends Statement {
         return Codigo.substring(l, m + 1);
 
     }
+  
+  /*
     
     //@Override
     public void converteStatement(EstiloProgramacao estilo) {
@@ -480,4 +488,5 @@ public class For extends Statement {
          }
             this.Codigo=build.toString();
     }
+    */
 }

@@ -23,10 +23,10 @@ public class Else extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
-        
+
         int i, m;
         boolean AspasAberto = false, PlicasAberto = false;
-        
+
         this.Codigo = "else";
         this.NumCarateresAvancar = 5;
 
@@ -76,9 +76,8 @@ public class Else extends Statement {
             }
         }
 
-        
         this.ParaAnalise = Codigo.substring(0, m + 1);
-        
+
         return Codigo.substring(5, m + 1);
     }
             
@@ -144,6 +143,13 @@ public class Else extends Statement {
         }
     }
 
+
+    @Override
+    public String converteStatement() {
+        return "";
+    }
+  /*
+
     //@Override
     public void converteStatement(EstiloProgramacao estilo) {       
         StringBuilder novastring = new StringBuilder();
@@ -164,5 +170,7 @@ public class Else extends Statement {
             novastring.append(Codigo.charAt(i));
         }
         this.Codigo=novastring.toString();
+
     }
+    */
 }

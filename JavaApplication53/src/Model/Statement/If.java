@@ -500,7 +500,13 @@ public class If extends Statement {
         }
     }
 
-   
+
+    @Override
+    public String converteStatement() {
+        return "";
+    }
+
+   /*
     public void converteStatement(EstiloProgramacao estilo) {
         String aux= this.Codigo;
         StringBuilder build = new StringBuilder(aux); 
@@ -536,6 +542,9 @@ public class If extends Statement {
         }
             this.Codigo=build.toString();
 
-    }
+    
+    }*/
+
+
 
 }
