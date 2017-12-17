@@ -26,6 +26,10 @@ public class Texto {
      * @param In
      */
 
+    public Texto()
+    {
+        
+    }
 
     public Texto(BufferedReader In, BufferedWriter Out) {
         ListaStatements = new ArrayList<Statement>();
