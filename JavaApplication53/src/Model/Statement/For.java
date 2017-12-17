@@ -347,6 +347,8 @@ public class For extends Statement {
             }
         }
     }
+    
+    
     @Override
     public String RetiraDados(String Codigo, Texto t) {
         int i, j;

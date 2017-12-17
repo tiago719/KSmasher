@@ -19,6 +19,7 @@ public class Model {
 
     public Model() 
     {
+        Utilizador = new Utilizador();
         Pesquisas=new Pesquisas();
     }   
     

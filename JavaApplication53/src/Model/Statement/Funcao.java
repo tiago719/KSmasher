@@ -93,6 +93,7 @@ public class Funcao extends Statement {
         this.AntesMain = AntesMain;
     }
 
+    @Override
     public void analisaStatement() {
         String aux = ParaAnalise;
         String linha = "";
