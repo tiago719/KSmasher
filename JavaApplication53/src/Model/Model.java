@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -23,29 +24,51 @@ public class Model {
     
     public boolean ExisteUsername(String nome)
     {
-        return Pesquisas.ExisteUsername(nome);
+        try {
+            return Pesquisas.ExisteUsername(nome);
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
     public boolean ExisteEmail(String email)
     {
-        return Pesquisas.ExisteEmail(email);
+        try {
+            return Pesquisas.ExisteEmail(email);
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
     public void Regista(String username, String email, String password)
     {
-        Pesquisas.AdicionaUtilizador(email, email, username);
+        Utilizador = new Utilizador();
+        Utilizador.AdicionaUtilizador(username, email, password);
         Utilizador.AdicionaEstiloPorDefeito();
+       Pesquisas.AdicionaUtilizador(email, email, username);
+        
     }
     
     public boolean Login(String username, String password)
     {
-        boolean resultado= Pesquisas.VerificaLogin(username, password);
+        boolean resultado = false;
+        try {
+            resultado = Pesquisas.VerificaLogin(username, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         if(!resultado)
             return false;
         else
         {
-            Utilizador=Pesquisas.getUser(username);
+            try {
+                Utilizador=Pesquisas.getUser(username);
+            } catch (SQLException ex) {
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Utilizador.AdicionaEstiloPorDefeito();
             return true;
         }

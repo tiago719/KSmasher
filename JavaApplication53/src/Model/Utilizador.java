@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Model;
 
 import Model.EstiloProgramacao.Cast_EP;
@@ -18,17 +14,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class Utilizador
 {
     private String Username, Email, Password;
@@ -71,11 +62,12 @@ public class Utilizador
                                 new If_EP(true, false, 1, 1, 1, 1, 1),
                                 new Operador_EP(1, 1),
                                 new While_EP(true, false, 1, 1, 1, 1, 1)));
+
     }
-    
-    public void NovoEstilo(EstiloProgramacao EP)
-    {
+
+    public void NovoEstilo(EstiloProgramacao EP) {
         EstilosProgramacao.add(EP);
+
     }   
     
     public ArrayList<EstiloProgramacao> getEstilos()
@@ -89,5 +81,17 @@ public class Utilizador
             if(EP.getNome().equals(NomeEstilo))
                 return EP;
         return null;
+    }
+  
+      public Utilizador(String User, String Em, String Pass) {
+        Username = User;
+        Email = Em;
+        Password = Pass;
+    }
+
+    public void AdicionaUtilizador(String User, String Em, String Pass) {
+        Username = User;
+        Email = Em;
+        Password = Pass;
     }
 }
