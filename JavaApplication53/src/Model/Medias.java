@@ -65,6 +65,21 @@ public class Medias {
     ArrayList<Integer> OperadorEspacosOperadorVariavelList = new ArrayList<>();
     ArrayList<Integer> OperadorEspacosVariavelOperadorList = new ArrayList<>();
 
+    //FOR
+    ArrayList<Integer> PosicaoPrimeiraChavetaList = new ArrayList<>();
+    ArrayList<Integer> EspacosForParentesAbertoList = new ArrayList<>();
+    ArrayList<Integer> EspacosParentesesAbertoCondicaoInicializacaoList = new ArrayList<>();
+    ArrayList<Integer> EspacosInicializacaoPontoVirgulaList = new ArrayList<>();
+    ArrayList<Integer> EspacosPontoVirgulaCondicaoList = new ArrayList<>();
+    ArrayList<Integer> EspacosCondicaoPontoVirgulaList = new ArrayList<>();
+    ArrayList<Integer> EspacosPontoVirgulaIncrementacaoList = new ArrayList<>();
+    ArrayList<Integer> EspacosIncrementacaoParentesesFechadoList = new ArrayList<>();
+    ArrayList<Integer> LinhasEmBrancoDepoisChavetaAbertaList = new ArrayList<>();
+    ArrayList<Integer> LinhasEmBrancoDepoisChavetaFechadaList = new ArrayList<>();
+
+    //FUNÇÕES
+    ArrayList<Boolean> AntesMainList = new ArrayList<>();
+
     //else
     int ElseLinhasEmBrancoDepoisChavetaFechada;
     int ElseLinhasEmBrancoDepoisChavetaAberta;
@@ -110,19 +125,10 @@ public class Medias {
     int EspacosIncrementacaoParentesesFechado;
     int LinhasEmBrancoDepoisChavetaAberta;
     int LinhasEmBrancoDepoisChavetaFechada;
-    ArrayList<Integer> EspacosForParentesAbertoList = new ArrayList<>();
-    ArrayList<Integer> EspacosParentesesAbertoCondicaoInicializacaoList = new ArrayList<>();
-    ArrayList<Integer> EspacosInicializacaoPontoVirgulaList = new ArrayList<>();
-    ArrayList<Integer> EspacosPontoVirgulaCondicaoList = new ArrayList<>();
-    ArrayList<Integer> EspacosCondicaoPontoVirgulaList = new ArrayList<>();
-    ArrayList<Integer> EspacosPontoVirgulaIncrementacaoList = new ArrayList<>();
-    ArrayList<Integer> EspacosIncrementacaoParentesesFechadoList = new ArrayList<>();
-    ArrayList<Integer> LinhasEmBrancoDepoisChavetaAbertaList = new ArrayList<>();
-    ArrayList<Integer> LinhasEmBrancoDepoisChavetaFechadaList = new ArrayList<>();
+    int PosicaoPrimeiraChaveta;
 
     //FUNCOES
     int AntesMain;
-    ArrayList<Boolean> AntesMainList = new ArrayList<>();
 
     public Medias() {
     }
@@ -202,6 +208,12 @@ public class Medias {
     public void RetiraDadosFor(For S) {
         int aux;
         EspacosForParentesAbertoList.add(S.getEspacosForParentesAberto());
+
+        if (S.isPosicaoPrimeiraChaveta() == false) {
+            EspacosForParentesAbertoList.add(0);
+        } else {
+            EspacosForParentesAbertoList.add(1);
+        }
         if ((aux = S.getEspacosParentesesAbertoCondicaoInicializacao()) != -1) {
             EspacosParentesesAbertoCondicaoInicializacaoList.add(aux);
         }
@@ -507,6 +519,85 @@ public class Medias {
         }
     }
 
+    public void FazMediaFor() {
+        int total = 0;
+
+        for (int i = 0; i < EspacosForParentesAbertoList.size(); i++) {
+            total += EspacosForParentesAbertoList.get(i);
+        }
+        EspacosForParentesAberto = total / EspacosForParentesAbertoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosParentesesAbertoCondicaoInicializacaoList.size(); i++) {
+            total += EspacosParentesesAbertoCondicaoInicializacaoList.get(i);
+        }
+        EspacosParentesesAbertoCondicaoInicializacao = total / EspacosParentesesAbertoCondicaoInicializacaoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosInicializacaoPontoVirgulaList.size(); i++) {
+            total += EspacosInicializacaoPontoVirgulaList.get(i);
+        }
+        EspacosInicializacaoPontoVirgula = total / EspacosInicializacaoPontoVirgulaList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosPontoVirgulaCondicaoList.size(); i++) {
+            total += EspacosPontoVirgulaCondicaoList.get(i);
+        }
+        EspacosPontoVirgulaCondicao = total / EspacosPontoVirgulaCondicaoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosCondicaoPontoVirgulaList.size(); i++) {
+            total += EspacosCondicaoPontoVirgulaList.get(i);
+        }
+        EspacosCondicaoPontoVirgula = total / EspacosCondicaoPontoVirgulaList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosPontoVirgulaIncrementacaoList.size(); i++) {
+            total += EspacosPontoVirgulaIncrementacaoList.get(i);
+        }
+        EspacosPontoVirgulaIncrementacao = total / EspacosPontoVirgulaIncrementacaoList.size();
+
+        total = 0;
+        for (int i = 0; i < EspacosIncrementacaoParentesesFechadoList.size(); i++) {
+            total += EspacosIncrementacaoParentesesFechadoList.get(i);
+        }
+        EspacosIncrementacaoParentesesFechado = total / EspacosIncrementacaoParentesesFechadoList.size();
+
+        total = 0;
+        for (int i = 0; i < LinhasEmBrancoDepoisChavetaAbertaList.size(); i++) {
+            total += LinhasEmBrancoDepoisChavetaAbertaList.get(i);
+        }
+        LinhasEmBrancoDepoisChavetaAberta = total / LinhasEmBrancoDepoisChavetaAbertaList.size();
+
+        total = 0;
+        for (int i = 0; i < LinhasEmBrancoDepoisChavetaFechadaList.size(); i++) {
+            total += LinhasEmBrancoDepoisChavetaFechadaList.get(i);
+        }
+        LinhasEmBrancoDepoisChavetaFechada = total / LinhasEmBrancoDepoisChavetaFechadaList.size();
+
+        total = 0;
+
+        for (int i = 0; i < PosicaoPrimeiraChavetaList.size(); i++) {
+            total += PosicaoPrimeiraChavetaList.get(i);
+        }
+        PosicaoPrimeiraChaveta = total / PosicaoPrimeiraChavetaList.size();
+
+    }
+
+    public void FazMediaFuncoes() {
+        int total = 0;
+
+        for (int i = 0; i < AntesMainList.size(); i++) {
+            if (AntesMainList.get(i) == true) {
+                total += 1;
+            } else {
+                total += 0;
+            }
+        }
+
+        AntesMain = total / AntesMainList.size();
+    }
+
     public void fazMedias(ArrayList<Statement> Codigo) {
         Statement S;
         for (int i = 0; i < Codigo.size(); i++) {
@@ -605,84 +696,60 @@ public class Medias {
         DoWhile_EP DoWhileEp = new DoWhile_EP(aux1, DoWhileLinhasEmBrancoDepoisChavetaAberta, DoWhileLinhasEmBrancoDepoisChavetaFechada, DoWhileEspacosWhileParentesesAberto, DoWhileEspacosParentesesAbertoCondicao, DoWhileEspacosCondicaoParentesFechado);
 
         //for
-        For_EP ForEp = null;
+        if (EspacosForParentesAberto < 0) {
+            EspacosForParentesAberto = 0;
+        }
+        if (EspacosParentesesAbertoCondicaoInicializacao < 0) {
+            EspacosParentesesAbertoCondicaoInicializacao = 0;
+        }
+        if (EspacosInicializacaoPontoVirgula < 0) {
+            EspacosInicializacaoPontoVirgula=0;
+        }
+        if(EspacosPontoVirgulaCondicao < 0)
+        {
+            EspacosPontoVirgulaCondicao = 0;
+        }
+        if(EspacosPontoVirgulaCondicao < 0)
+        {
+            EspacosPontoVirgulaCondicao = 0;
+        }
+        if(EspacosCondicaoPontoVirgula < 0)
+        {
+            EspacosCondicaoPontoVirgula = 0;
+        }
+        if(EspacosPontoVirgulaIncrementacao < 0)
+        {
+            EspacosPontoVirgulaIncrementacao = 0;
+        }
+        if(EspacosIncrementacaoParentesesFechado < 0)
+        {
+            EspacosIncrementacaoParentesesFechado = 0;
+        }
+        if(LinhasEmBrancoDepoisChavetaAberta < 0)
+        {
+            LinhasEmBrancoDepoisChavetaAberta = 0;
+        }
+        if( LinhasEmBrancoDepoisChavetaFechada < 0)
+        {
+            LinhasEmBrancoDepoisChavetaFechada = 0;
+        }
+        
 
+        For_EP ForEp;
+        if (PosicaoPrimeiraChaveta > 0.5) {
+            ForEp = new For_EP(false, true, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+        } else {
+            ForEp = new For_EP(false, true, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+        }
         //funcoes
-        Funcoes_EP FuncoesEp = null;
+        Funcoes_EP FuncoesEp;
+         if (PosicaoPrimeiraChaveta > 0.5) {
+            FuncoesEp= new Funcoes_EP(true);
+        } else {
+            FuncoesEp= new Funcoes_EP(false);
+        }
 
         return new EstiloProgramacao(NomeEstilo, Permite, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
-    }
-
-    public void FazMediaFor() {
-        int total = 0;
-
-        for (int i = 0; i < EspacosForParentesAbertoList.size(); i++) {
-            total += EspacosForParentesAbertoList.get(i);
-        }
-        EspacosForParentesAberto = total / EspacosForParentesAbertoList.size();
-
-        total = 0;
-        for (int i = 0; i < EspacosParentesesAbertoCondicaoInicializacaoList.size(); i++) {
-            total += EspacosParentesesAbertoCondicaoInicializacaoList.get(i);
-        }
-        EspacosParentesesAbertoCondicaoInicializacao = total / EspacosParentesesAbertoCondicaoInicializacaoList.size();
-
-        total = 0;
-        for (int i = 0; i < EspacosInicializacaoPontoVirgulaList.size(); i++) {
-            total += EspacosInicializacaoPontoVirgulaList.get(i);
-        }
-        EspacosInicializacaoPontoVirgula = total / EspacosInicializacaoPontoVirgulaList.size();
-
-        total = 0;
-        for (int i = 0; i < EspacosPontoVirgulaCondicaoList.size(); i++) {
-            total += EspacosPontoVirgulaCondicaoList.get(i);
-        }
-        EspacosPontoVirgulaCondicao = total / EspacosPontoVirgulaCondicaoList.size();
-
-        total = 0;
-        for (int i = 0; i < EspacosCondicaoPontoVirgulaList.size(); i++) {
-            total += EspacosCondicaoPontoVirgulaList.get(i);
-        }
-        EspacosCondicaoPontoVirgula = total / EspacosCondicaoPontoVirgulaList.size();
-
-        total = 0;
-        for (int i = 0; i < EspacosPontoVirgulaIncrementacaoList.size(); i++) {
-            total += EspacosPontoVirgulaIncrementacaoList.get(i);
-        }
-        EspacosPontoVirgulaIncrementacao = total / EspacosPontoVirgulaIncrementacaoList.size();
-
-        total = 0;
-        for (int i = 0; i < EspacosIncrementacaoParentesesFechadoList.size(); i++) {
-            total += EspacosIncrementacaoParentesesFechadoList.get(i);
-        }
-        EspacosIncrementacaoParentesesFechado = total / EspacosIncrementacaoParentesesFechadoList.size();
-
-        total = 0;
-        for (int i = 0; i < LinhasEmBrancoDepoisChavetaAbertaList.size(); i++) {
-            total += LinhasEmBrancoDepoisChavetaAbertaList.get(i);
-        }
-        LinhasEmBrancoDepoisChavetaAberta = total / LinhasEmBrancoDepoisChavetaAbertaList.size();
-
-        total = 0;
-        for (int i = 0; i < LinhasEmBrancoDepoisChavetaFechadaList.size(); i++) {
-            total += LinhasEmBrancoDepoisChavetaFechadaList.get(i);
-        }
-        LinhasEmBrancoDepoisChavetaFechada = total / LinhasEmBrancoDepoisChavetaFechadaList.size();
-
-    }
-
-    public void FazMediaFuncoes() {
-        int total = 0;
-
-        for (int i = 0; i < AntesMainList.size(); i++) {
-            if (AntesMainList.get(i) == true) {
-                total += 1;
-            } else {
-                total += 0;
-            }
-        }
-
-        AntesMain = total / AntesMainList.size();
     }
 
 }

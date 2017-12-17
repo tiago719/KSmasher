@@ -290,7 +290,6 @@ public class For extends Statement {
         if (temchaveta == 1) {         //ESPAÇOS EM BRANCO DEPOIS DA {
 
             Conta = 0;
-
             aux = ParaAnalise;
 
             Conta = 0;
@@ -298,6 +297,20 @@ public class For extends Statement {
                 if (aux.charAt(Conta) != '{') {
                     Conta++;
                 } else {
+                    for(int x = Conta; x> 0;x--)
+                    {
+                        if(aux.charAt(x) == ')')
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            if(aux.charAt(x) == '\n')
+                            {
+                                PosicaoPrimeiraChaveta = false;
+                            }
+                        }
+                    }
                     break;
                 }
             }
