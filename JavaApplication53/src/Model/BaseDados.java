@@ -10,7 +10,7 @@ public class BaseDados {
     private Connection Con;
     private Statement St;
     private ResultSet Rs;
-    private String BDName = "ksmasherdb";
+    private String BDName = "ksmasher";
     private String User = "root";
     private String Pass = "";
     
@@ -32,6 +32,7 @@ public class BaseDados {
         int resposta = 0;
         try{
             resposta = St.executeUpdate(q);
+            
             
             return resposta;
         }catch(Exception ex)

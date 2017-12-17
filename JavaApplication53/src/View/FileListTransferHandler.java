@@ -22,10 +22,10 @@ import static javax.swing.TransferHandler.COPY_OR_MOVE;
  */
 public class FileListTransferHandler extends TransferHandler {
 
-    private File F;
+    private Controller.Controller C;
 
-    public FileListTransferHandler(File F) {
-        this.F = F;
+    public FileListTransferHandler(Controller.Controller C) {
+        this.C = C;
     }
 
     public int getSourceActions(JComponent c) {
@@ -45,7 +45,7 @@ public class FileListTransferHandler extends TransferHandler {
                 return false;
             }
 
-            F = (File) data.get(0);
+            C.setDnDFile((File) data.get(0));
             return true;
 
         } catch (UnsupportedFlavorException e) {

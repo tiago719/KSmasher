@@ -101,7 +101,8 @@ public class Else extends Statement {
         if(m+1>Codigo.length())
             return Codigo.substring(5, m -(m-Codigo.length()));
         else
-            return Codigo.substring(5,m+1);
+         return Codigo.substring(5, m + 1);
+
     }
             
     public int getPrimeiraChavetaNovaLinha()

@@ -144,7 +144,6 @@ public class DoWhile extends Statement
         this.NumCarateresAvancar = z + 2;
         this.Codigo=Codigo.substring(PosWhile, z+1);
         return Codigo.substring(y, PosWhile+1);
-
     }
 
     public int getPrimeiraChavetaNovaLinha()

@@ -1,27 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Controller.Controller;
 import Model.EstiloProgramacao.EstiloProgramacao;
+import java.io.File;
+import java.io.IOException;
 
-/**
- *
- * @author Tiago Coutinho
- */
-public class ConverterDiretoria extends javax.swing.JPanel
-{
+public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
+
     Controller Controller;
-    public ConverterDiretoria(Controller Controller)
-    {
-        this.Controller =Controller;
+    Thread T;
+
+    public ConverterDiretoria(Controller Controller) {
+        this.Controller = Controller;
         initComponents();
-        
-//        for(EstiloProgramacao EP: Controller.getEstilosUtilizador())
-//            jListaEstilos.add(EP.getNome());
+
+        if (Controller.getEstilosUtilizador() != null) {
+            for (EstiloProgramacao EP : Controller.getEstilosUtilizador()) {
+                jListaEstilos.add(EP.getNome());
+            }
+        }
+
+        start();
+    }
+
+    public void start() {
+        if (T == null) {
+            T = new Thread(this, "Thread2");
+            T.start();
+        }
     }
 
     /**
@@ -119,8 +125,9 @@ public class ConverterDiretoria extends javax.swing.JPanel
 
     private void jConverterMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jConverterMouseClicked
     {//GEN-HEADEREND:event_jConverterMouseClicked
-        if(Controller.ExisteNomeEstilo(jListaEstilos.getSelectedItem()))
+        if (Controller.ExisteNomeEstilo(jListaEstilos.getSelectedItem())) {
             Controller.Converte(jDiretoria.getText(), jListaEstilos.getSelectedItem(), Controller.getUtilizadorAtualNome());
+        }
     }//GEN-LAST:event_jConverterMouseClicked
 
 
@@ -131,4 +138,25 @@ public class ConverterDiretoria extends javax.swing.JPanel
     private java.awt.Choice jListaEstilos;
     private javax.swing.JButton jProcurar;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        File DnDFile = null;
+        while (true) {
+            try {
+                File Aux = Controller.getDnDFile();
+                if (DnDFile != Aux && Controller.IsDiretorio(Aux)) {
+                    DnDFile = Controller.getDnDFile();
+                } else {
+                    continue;
+                }
+
+                if (DnDFile != null) {
+                    jDiretoria.setText(DnDFile.getCanonicalPath());
+                }
+            } catch (IOException ex) {
+            }
+        }
+
+    }
 }
