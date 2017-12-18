@@ -25,19 +25,17 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author edu_f
+ * @author Diogo´Viana
  */
-public class IfTest {
+public class DoWhileTest {
     
-    public ArrayList<If> lista;
-    public ArrayList<If> lista2;
-
-    public IfTest() {
-        
-        lista=new ArrayList<>();
-        lista2=new ArrayList<>();
-        lista.add(new If("if (   ola = 5  ){ int a = 5; } else {    }", new Texto()));
-        lista2.add(new If("if(ola = 5){ int a = 5; int x=6; } else {    }", new Texto()));
+     public ArrayList<DoWhile> lista;
+    
+    public DoWhileTest() {
+         lista=new ArrayList<>();
+      
+        lista.add(new DoWhile("f", new Texto()));
+      
         
         EstiloProgramacao estilo=new EstiloProgramacao("EstiloDefeito",false,
                                 new Cast_EP(1),
@@ -49,45 +47,34 @@ public class IfTest {
                                 new Operador_EP(1, 1),
                                 new While_EP(true, false, 1, 1, 1, 1, 1));
         
-        for(If S : lista)
-            S.analisaStatement();
-        for(If S : lista2)
+       
+        for(DoWhile S : lista)
             S.converteStatement(estilo);
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
     }
-
+    
     @After
     public void tearDown() {
     }
 
+   
     /**
-     * Test of RetiraDados method, of class If.
+     * Test of converteStatement method, of class DoWhile.
      */
     @Test
-    public void testRetiraDados() {
-        System.out.println("RetiraDados");
-        
-        assertEquals(2, lista.get(0).getEspacosCondicaoParentesFechado());
-        assertEquals(1, lista.get(0).getEspacosIfParentesAberto());
-        assertEquals(3, lista.get(0).getEspacosParentesesAbertoCondicao());
-        assertEquals(0, lista.get(0).getLinhasEmBrancoDepoisChavetaAberta());
-        assertEquals(0, lista.get(0).getLinhasEmBrancoDepoisChavetaFechada());
-        assertEquals(1, lista.get(0).isChavetaUmStatementDentroIf());
-        assertEquals(0, lista.get(0).getPrimeiraChavetaNovaLinha());
-
+    public void testConverteStatement() {
+       
     }
-    public void testconverte() {
-        
-    }
+    
 }
