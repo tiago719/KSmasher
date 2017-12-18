@@ -1,10 +1,8 @@
-
 package Model.Statement;
 
 import Model.Texto;
 import java.util.ArrayList;
 import Model.EstiloProgramacao.EstiloProgramacao;
-
 
 public class Cast extends Statement {
 
@@ -66,41 +64,33 @@ public class Cast extends Statement {
 
     @Override
 
-    public void analisaStatement() { 
-        EspacosEntreCastVariavel=0;
-        
-        try
-        { 
-         for (int i = 0; i < ParaAnalise.length(); i++) {
-            if (ParaAnalise.charAt(i) == ')') {
-                i++;
-                while(ParaAnalise.charAt(i)==' ')
-                {
-                    EspacosEntreCastVariavel++;
+    public void analisaStatement() {
+        EspacosEntreCastVariavel = 0;
+
+        try {
+            for (int i = 0; i < ParaAnalise.length(); i++) {
+                if (ParaAnalise.charAt(i) == ')') {
                     i++;
+                    while (ParaAnalise.charAt(i) == ' ') {
+                        EspacosEntreCastVariavel++;
+                        i++;
+                    }
                 }
             }
-         }
-        }catch (Exception e) {
-
-
+        } catch (Exception e) {
 
         }
     }
 
     @Override
-
-    public void converteStatement(EstiloProgramacao estilo)
-    {
+    public void converteStatement(EstiloProgramacao estilo) {
         StringBuilder novastring = new StringBuilder();
-        for(int i=0; i<Codigo.length();i++){
-            if(Codigo.charAt(i-1)==')'){
-                for(int j=0; j<estilo.getCast().getEspacosEntreCastVariavel(); j++){
-                    novastring.append(' ');
-                }
-            }
-            novastring.append(Codigo.charAt(i));                   
+
+        novastring.append(Codigo);
+        for (int j = 0; j < estilo.getCast().getEspacosEntreCastVariavel(); j++) {
+            novastring.append(' ');
         }
-        this.Codigo=novastring.toString();
+
+        this.Codigo = novastring.toString();
     }
 }

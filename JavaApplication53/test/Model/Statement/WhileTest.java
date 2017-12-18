@@ -25,7 +25,7 @@ public class WhileTest
     public WhileTest()
     {
         lista=new ArrayList<>();
-        lista.add(new While("while (   ola = 5  ){ int a = 5; }   else {    }", new Texto()));
+        lista.add(new While("while (   ola = 5  )           { int a = 5;       }   else {    }", new Texto()));
         
         for(While S : lista)
             S.analisaStatement();
@@ -55,6 +55,9 @@ public class WhileTest
     @Test
     public void verificaAnalisa()
     {
+//        assertEquals(3, lista.get(0).getEspacosParentesesAbertoCondicao());
+        
+        
         assertEquals(1,lista.get(0).isChavetaUmStatementDentroWhile());
         assertEquals(0,lista.get(0).isPrimeiraChavetaNovaLinha());
         assertEquals(1,lista.get(0).getEspacosWhileParentesAberto());

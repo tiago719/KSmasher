@@ -295,43 +295,6 @@ public class Texto {
         return ret;
     }
 
-    /*
-    private boolean IsFuncao(String S) {
-        boolean Ret = false;
-        boolean TemIgual = false, TemParenteses = false;
-
-        if (Character.isWhitespace(S.charAt(0))) {
-            return Ret;
-        }
-
-        String StringSplited[] = S.substring(0, 18).split(" ");
-        OUTER_FOR1:
-        for (String TipoDado : Constantes.TIPO_DADOS) {
-            if (TipoDado.contains(StringSplited[0])) {
-                for (int i = 0; i < S.length(); i++) {
-                    switch (S.charAt(i)) {
-                        case ';':
-                        case '{':
-                            break OUTER_FOR1;
-                        case '(':
-                            TemParenteses = true;
-                            break OUTER_FOR1;
-                        case '=':
-                            TemIgual = true;
-                            break OUTER_FOR1;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
-        if (!TemIgual && TemParenteses) {
-            Ret = true;
-        }
-        return Ret;
-    }
-     */
-
     private boolean IsFuncao(String S) {
         int i;
 
@@ -385,9 +348,6 @@ public class Texto {
         String Aux = "";
 
         for (int i = 0; i < Codigo.length(); i++) {
-
-            char Carater = Codigo.charAt(i);
-
 
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
@@ -621,20 +581,9 @@ public class Texto {
     public String ImprimeCodigo(ArrayList<Statement> AL) {
         String Ret = "";
         for (Statement S : AL) {
-
-            if (S instanceof If) {
-                Ret += "if(";
-                for (Statement statementsFilho : ((If) S).getCondicao().getStatementsFilhos()) {
-                    Ret += statementsFilho.getCodigo();
-
-                }
-            } else {
-                Ret += S.getCodigo();
-            }
-
-            if (S.hasFilhos()) {
+            Ret += S.getCodigo();
+            if (S.hasFilhos())
                 Ret += ImprimeCodigo(S.getStatementsFilhos());
-            }
         }
         return Ret;
     }

@@ -332,7 +332,6 @@ public class DoWhile extends Statement
     public void converteStatement(EstiloProgramacao estilo)
     {
         super.converteStatement(estilo);
-        //adicionar no inicio "do ..." e no final "while ( <condicao> );"
 
         String aux = this.Codigo;
         StringBuilder build = new StringBuilder(aux);

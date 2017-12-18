@@ -4,6 +4,8 @@ import Controller.Controller;
 import Model.EstiloProgramacao.EstiloProgramacao;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
@@ -37,8 +39,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jConverter = new javax.swing.JButton();
         jDiretoria = new javax.swing.JTextField();
@@ -47,10 +48,8 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jEscolherOutro = new javax.swing.JButton();
 
         jConverter.setText("Converter");
-        jConverter.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jConverter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jConverterMouseClicked(evt);
             }
         });
@@ -59,19 +58,20 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jDiretoria.setText("C:\\Pasta1\\Pasta2");
 
         jProcurar.setText("Procurar");
+        jProcurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jProcurarActionPerformed(evt);
+            }
+        });
 
         jEscolherOutro.setText("Escolher Outro");
-        jEscolherOutro.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jEscolherOutro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jEscolherOutroMouseClicked(evt);
             }
         });
-        jEscolherOutro.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jEscolherOutro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jEscolherOutroActionPerformed(evt);
             }
         });
@@ -129,6 +129,18 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             Controller.Converte(jDiretoria.getText(), jListaEstilos.getSelectedItem(), Controller.getUtilizadorAtualNome());
         }
     }//GEN-LAST:event_jConverterMouseClicked
+  
+    private void jProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jProcurarActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                jDiretoria.setText(fc.getSelectedFile().getCanonicalPath());
+            } catch (IOException ex) {
+            }
+        }
+    }//GEN-LAST:event_jProcurarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
