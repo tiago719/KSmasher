@@ -2,6 +2,8 @@ package Model.Statement;
 
 
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.If_EP;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -424,7 +426,7 @@ public class For extends Statement {
             }
         }
 
-        Condicao = new Statement(Codigo.substring(i, j + 1), t);
+      Condicao = new Statement(Codigo.substring(i, j + 1), t);
 
         //retirar espacos entre Condicao; ate incrementacao
         for (i = j; i < Codigo.length(); i++) {
@@ -544,7 +546,8 @@ public class For extends Statement {
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
         super.converteStatement(estilo);
-        String aux= this.Codigo;
+        
+        String aux= this.ParaAnalise;
         StringBuilder build = new StringBuilder(aux); 
         char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
         char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
@@ -574,6 +577,12 @@ public class For extends Statement {
                    build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosCondicaoPontoVirgula());
                    build.insert(i+conta+1+estilo.getFors().getEspacosCondicaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaIncrementacao()); 
                    }
+                   if(flag>2)
+                   {
+                    conta+= estilo.getFors().getLinhasEmBrancoDepoisChavetaAberta();
+                   
+                   build.insert(i+conta+1, linhas, 0, 1); 
+                   }
                  }
                  if(aux.charAt(i)==')')
                  {    
@@ -585,16 +594,17 @@ public class For extends Statement {
                  {    
                    conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
                      
-                   build.insert(i+1+conta, linhas, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
+                   build.insert(i+1+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaAberta());
                  }
                   if(aux.charAt(i)=='}')
                  {    
                    conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
                      
-                   build.insert(i+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada());
+                   build.insert(i+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada()-1);
                  }
             
          }
-            this.Codigo=build.toString();
+        this.Codigo=build.toString();
+        
     }
 }

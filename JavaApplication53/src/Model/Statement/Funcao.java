@@ -112,5 +112,26 @@ public class Funcao extends Statement {
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
         super.converteStatement(estilo);
+        System.out.println(this.ParaAnalise);
+        System.out.print(this.Codigo);
+//        String aux=this.ParaAnalise;
+//        
+//        if(!AntesMain){
+//              int posmain = aux.indexOf("main");
+//        int nchaveta = 0;
+//        for (int i = posmain; i < aux.length(); i++) {
+//            if (aux.charAt(i) == '{') {
+//                nchaveta++;
+//            } else if (aux.charAt(i) == '}') {
+//                if (nchaveta == 0) {
+//                    posmain = i;
+//                    break;
+//                } else {
+//                    nchaveta--;
+//                }
+//            }
+//        }
+//        }else
+//            return;
     }
 }

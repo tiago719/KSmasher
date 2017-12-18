@@ -2,6 +2,7 @@ package Model.Statement;
 
 
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.If_EP;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -520,8 +521,8 @@ public class If extends Statement {
 
      @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        super.converteStatement(estilo);
-        String aux= this.Codigo;
+         super.converteStatement(estilo);
+        String aux= this.ParaAnalise;
         StringBuilder build = new StringBuilder(aux); 
         char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
         char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
@@ -549,10 +550,18 @@ public class If extends Statement {
                 {
                     conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta();
                     
-                   build.insert(i+conta, linhas, 0, estilo.getIfs().getLinhasEmBrancoDepoisChavetaFechada());
+                   build.insert(i+conta, linhas, 0, estilo.getIfs().getLinhasEmBrancoDepoisChavetaFechada()-1);
+                }
+                if(aux.charAt(i)==';')
+                {
+                    conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta();
+                    
+                   build.insert(i+1+conta, linhas, 0, 1);
                 }
                
         }
-        this.Codigo=build.toString();
+            this.Codigo=build.toString();
+       
+              
     }
 }
