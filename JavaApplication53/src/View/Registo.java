@@ -336,8 +336,7 @@ public class Registo extends javax.swing.JPanel
     {//GEN-HEADEREND:event_jEmailFocusLost
        
         int ret=Controller.ExisteEmail(jEmail.getText());
-        
-        
+
         if(ret==1)
         {
             jErroEmail.setText("Email Já Existente");
@@ -359,8 +358,7 @@ public class Registo extends javax.swing.JPanel
     {//GEN-HEADEREND:event_jPasswordFocusLost
         if(jPassword.getText().length()<=8 || jPassword.getText().length()>15)
         {
-            jErroPass.setForeground(Color.RED);
-            jErroPass.setText("Palavras-Passe não Correspondem");
+            jErroPass.setText("Palavras-Passe entre 8 e 15");
             jErroPass.setVisible(true);
         }
         else
