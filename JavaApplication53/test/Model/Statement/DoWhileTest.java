@@ -14,8 +14,9 @@ import Model.EstiloProgramacao.Funcoes_EP;
 import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
-import Model.Texto;
 import java.util.ArrayList;
+import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.Texto;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,8 +24,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
  * @author Diogo´Viana
  */
 public class DoWhileTest {
@@ -76,5 +75,49 @@ public class DoWhileTest {
     public void testConverteStatement() {
        
     }
+ * @author Tiago Coutinho
+ */
+/*public class DoWhileTest
+{ 
+    DoWhile instance;
+    public DoWhileTest()
+    {
+        instance= new DoWhile("do\n\n\t\r{\n\n\n\nint a;\nint b;\n\n\n}\nwhile (   a>0  );\n\n\n\n\n\n\n\nfunca();}", new Texto());
+        
+        instance.analisaStatement();
+    }
     
-}
+    @BeforeClass
+    public static void setUpClass()
+    {
+    }
+    
+    @AfterClass
+    public static void tearDownClass()
+    {
+    }
+    
+    @Before
+    public void setUp()
+    {
+    }
+    
+    @After
+    public void tearDown()
+    {
+    }
+    
+    @Test
+   public void testAnalisa() 
+   {
+       assertEquals(2, instance.getEspacosCondicaoParentesFechado());
+       assertEquals(3, instance.getEspacosParentesesAbertoCondicao());
+       assertEquals(1, instance.getEspacosWhileParentesesAberto());
+       assertEquals(3, instance.getLinhasEmBrancoDepoisChavetaAberta());
+       assertEquals(1, instance.getLinhasEmBrancoDepoisChavetaFechada());
+       assertEquals(1, instance.getPrimeiraChavetaNovaLinha());
+
+   }
+
+    
+}*/

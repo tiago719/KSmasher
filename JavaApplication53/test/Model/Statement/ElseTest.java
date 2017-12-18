@@ -23,7 +23,7 @@ public class ElseTest
     Else instance;
     public ElseTest()
     {
-        instance= new Else("Else{a++;}", new Texto());
+        instance= new Else("else\n{\n\n\na++;}\n\n\n\nint a;a=b;", new Texto());
         
         instance.analisaStatement();
     }
@@ -51,9 +51,9 @@ public class ElseTest
    @Test
    public void testAnalisa() 
    {
-       assertEquals(0, instance.getLinhasEmBrancoDepoisChavetaAberta());
-       assertEquals(0, instance.getLinhasEmBrancoDepoisChavetaFechada());
-       assertEquals(0, instance.getPrimeiraChavetaNovaLinha());
+       assertEquals(2, instance.getLinhasEmBrancoDepoisChavetaAberta());
+       assertEquals(3, instance.getLinhasEmBrancoDepoisChavetaFechada());
+       assertEquals(1, instance.getPrimeiraChavetaNovaLinha());
 
    }
 }

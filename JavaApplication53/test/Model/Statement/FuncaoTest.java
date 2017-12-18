@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
  *
  * @author Diogo´Viana
  */
+
 public class FuncaoTest {
     
      public ArrayList<Funcao> lista;
@@ -75,4 +76,27 @@ public class FuncaoTest {
         
     }
     
+=======
+ * @author andre
+ */
+  
+  /*
+public class FuncaoTest {
+    Funcao f1;
+    public FuncaoTest() {
+         f1 =new Funcao("void Soma1(); void main(){} void Soma1(){\\\\nint x;\\\\n}void Soma2(){}", new Texto());
+         f1.analisaStatement();
+    }
+    
+
+    /**
+     * Test of isAntesMain method, of class Funcao.
+
+    @Test
+    public void testAnalisaStatement() {
+        System.out.println("analisaStatement");
+      
+        assertEquals(true, f1.isAntesMain());    
+    }
+*/
 }
