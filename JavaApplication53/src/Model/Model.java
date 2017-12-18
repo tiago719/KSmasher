@@ -50,7 +50,7 @@ public class Model {
         Utilizador = new Utilizador();
         Utilizador.AdicionaUtilizador(username, email, password);
         Utilizador.AdicionaEstiloPorDefeito();
-       Pesquisas.AdicionaUtilizador(email, email, username);
+       Pesquisas.AdicionaUtilizador(username, email, password);
         
     }
     

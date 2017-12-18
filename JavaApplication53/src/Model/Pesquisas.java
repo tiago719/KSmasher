@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.*;
+import java.util.logging.*;
+import javax.xml.bind.DatatypeConverter;
 
 public class Pesquisas {
 
@@ -25,10 +28,11 @@ public class Pesquisas {
 
     public void AdicionaUtilizador(String Nome, String Email, String PalavraChave) {
         bd = new BaseDados();
+
         try {
-            bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome + "','" + Email + "','" + SHA1(PalavraChave) + "');");
+            bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome.trim() + "','" + Email.trim() + "','" + SHA1(PalavraChave) + "');");
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Utilizador.class.getName()).log(Level.SEVERE, null, ex);
+
         }
 
         bd.CloseConnection();
@@ -53,10 +57,10 @@ public class Pesquisas {
 
         if (Rt.next()) {
             bd.CloseConnection();
-            return false;
+            return true;
         } else {
             bd.CloseConnection();
-            return true;
+            return false;
         }
 
     }
@@ -80,13 +84,11 @@ public class Pesquisas {
         bd = new BaseDados();
         ResultSet Rt = null;
         boolean existe = false;
-
         try {
             Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "' and PASSWORD = '" + SHA1(Password) + "';");
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+        }
         if (Rt.next()) {
             bd.CloseConnection();
             return true;
@@ -312,9 +314,8 @@ public class Pesquisas {
         boolean permite = Rt.getBoolean("PARTILHAESTILO");
         return new EstiloProgramacao(id, nome, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
     }
-    
-    public EstiloProgramacao DevolveEstiloAcede(int id) throws SQLException
-    {
+
+    public EstiloProgramacao DevolveEstiloAcede(int id) throws SQLException {
         bd = new BaseDados();
         ResultSet Rt = null;
         Cast_EP castep;
@@ -437,5 +438,5 @@ public class Pesquisas {
         String nome = Rt.getString("NOMEESTILO");
         boolean permite = Rt.getBoolean("PARTILHAESTILO");
         return new EstiloProgramacao(id, nome, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
-    } 
+    }
 }

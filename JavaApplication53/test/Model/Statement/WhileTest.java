@@ -15,13 +15,11 @@ import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
 import Model.Texto;
-import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -69,15 +67,15 @@ public class WhileTest
     @Test
     public void VerificaconverteStatement()
     {
-       EstiloProgramacao es = new EstiloProgramacao("EstiloDefeito",false,
+       EstiloProgramacao es = new EstiloProgramacao(0,"EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1),
-                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new For_EP(true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
-                                new If_EP(true, false, 1, 1, 1, 1, 1),
+                                new If_EP(true, 1, 1, 1, 1, 1),
                                 new Operador_EP(1, 1),
-                                new While_EP(true, false, 1, 1, 1, 1, 1));
+                                new While_EP(true, 1, 1, 1, 1, 1));
         w.converteStatement(es);
     }
 }
