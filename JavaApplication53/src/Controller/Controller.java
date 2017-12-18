@@ -49,9 +49,9 @@ public class Controller extends Observable {
         }
 
         if (Model.ExisteUsername(nome)) {
-            return 1;
-        } else {
             return -3;
+        } else {
+            return 1;
         }
     }
 
@@ -59,6 +59,7 @@ public class Controller extends Observable {
     //-1: Não existe email
     //-2:Email invalido
     public int ExisteEmail(String email) {
+        if(email.length() == 0) return 0;
         if (!email.contains(".") || !email.contains(".")) {
             return -2;
         }

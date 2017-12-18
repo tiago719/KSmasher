@@ -57,15 +57,15 @@ public class Utilizador
     
     public void AdicionaEstiloPorDefeito()
     {
-        EstilosProgramacao.add(new EstiloProgramacao("EstiloDefeito",false,
+        EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1),
-                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new For_EP(true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
-                                new If_EP(true, false, 1, 1, 1, 1, 1),
+                                new If_EP(true, 1, 1, 1, 1, 1),
                                 new Operador_EP(1, 1),
-                                new While_EP(true, false, 1, 1, 1, 1, 1)));
+                                new While_EP(true, 1, 1, 1, 1, 1)));
 
     }
 

@@ -682,7 +682,7 @@ public class Medias {
             WhileLinhasEmBrancoDepoisChavetaFechada = 0;
         }
 
-        While_EP WhileEp = new While_EP(aux1, aux2, WhileLinhasEmBrancoDepoisChavetaAberta, WhileLinhasEmBrancoDepoisChavetaFechada, WhileEspacosWhileParentesAberto, WhileEspacosParentesesAbertoCondicao, WhileEspacosCondicaoParentesFechado);
+        While_EP WhileEp = new While_EP(aux1, WhileLinhasEmBrancoDepoisChavetaAberta, WhileLinhasEmBrancoDepoisChavetaFechada, WhileEspacosWhileParentesAberto, WhileEspacosParentesesAbertoCondicao, WhileEspacosCondicaoParentesFechado);
 
         //operador
         Operador_EP OperadorEp = new Operador_EP(OperadorEspacosOperadorVariavel, OperadorEspacosVariavelOperador);
@@ -700,7 +700,7 @@ public class Medias {
             IfLinhasEmBrancoDepoisChavetaFechada = 0;
         }
 
-        If_EP IfEp = new If_EP(aux1, aux2, IfLinhasEmBrancoDepoisChavetaAberta, IfLinhasEmBrancoDepoisChavetaFechada, IfEspacosIfParentesAberto, IfEspacosParentesesAbertoCondicao, IfEspacosCondicaoParentesFechado);
+        If_EP IfEp = new If_EP(aux1, IfLinhasEmBrancoDepoisChavetaAberta, IfLinhasEmBrancoDepoisChavetaFechada, IfEspacosIfParentesAberto, IfEspacosParentesesAbertoCondicao, IfEspacosCondicaoParentesFechado);
 
         //else
         aux1 = ElsePrimeiraChavetaNovaLinha == 1;
@@ -764,9 +764,9 @@ public class Medias {
 
         For_EP ForEp;
         if (PosicaoPrimeiraChaveta > 0.5) {
-            ForEp = new For_EP(false, true, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+            ForEp = new For_EP(false, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         } else {
-            ForEp = new For_EP(false, true, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+            ForEp = new For_EP(false, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         }
         //funcoes
         Funcoes_EP FuncoesEp;
@@ -776,7 +776,7 @@ public class Medias {
             FuncoesEp = new Funcoes_EP(false);
         }
 
-        return new EstiloProgramacao(NomeEstilo, Permite, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
+        return new EstiloProgramacao(0, NomeEstilo, Permite, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
     }
 
 }

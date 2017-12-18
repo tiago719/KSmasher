@@ -359,30 +359,70 @@ public class While extends Statement {
     }
 
     @Override
-
     public void converteStatement(EstiloProgramacao estilo) {
-//        super.converteStatement(estilo);
-        While_EP ep = estilo.getWhiles();
 
-        String Aux = "while";
-        for (int i = 0; i < ep.getEspacosWhileParentesAberto(); i++) {
-            Aux += " ";
+        super.converteStatement(estilo);
+
+        String aux = this.Codigo.trim();
+        aux = aux.replaceAll("\\s+", "");
+        StringBuilder str = new StringBuilder(aux);
+
+        int i;
+        int x, temp, nchaveta;
+        // ESTA: while_
+        for (i = 0; i < this.Codigo.length(); i++) {
+            if (str.charAt(i) == 'e') {
+                i++;
+                break;
+            }
         }
-        Aux += "(";
-        
-        for (int i = 0; i < ep.getEspacosParentesesAbertoCondicao(); i++) {
-            Aux += " ";
+        temp = i;
+        for (i = 0; i < estilo.getWhiles().getEspacosWhileParentesAberto(); i++) {
+            str.insert(temp, ' ');
         }
-        
-        this.Condicao.converteStatement(estilo);
-        Aux += this.Condicao.Codigo;
-        
-        for (int i = 0; i < ep.getEspacosCondicaoParentesFechado(); i++) {
-            Aux += " ";
+        i = temp + estilo.getWhiles().getEspacosWhileParentesAberto();
+
+        //ESTA: while (_
+        for (; i < str.length(); i++) {
+            if (str.charAt(i) == '(') {
+                i++;
+                break;
+            }
         }
-        Aux += ")";
-        
-        this.Codigo = Aux;
-        
+
+        for (x = 0; x <= estilo.getWhiles().getEspacosParentesesAbertoCondicao(); x++) {
+            str.insert(i, ' ');
+        }
+
+        i = i + estilo.getWhiles().getEspacosParentesesAbertoCondicao();
+        //ESTA: while( xxx_)
+        nchaveta = 1;
+        for (; i < str.length(); i++) {
+            if (str.charAt(i) == '(') {
+                nchaveta++;
+            } else {
+                if (str.charAt(i) == ')') {
+                    if (nchaveta <= 0) {
+                        break;
+                    } else {
+                        nchaveta--;
+                    }
+                }
+            }
+        }
+        temp = i - 1;
+        for (i = temp; i > 0; i--) {
+            if (str.charAt(i) != ' ') {
+                break;
+            }
+        }
+
+        for (x = 0; x <= estilo.getWhiles().getEspacosCondicaoParentesFechado(); x++) {
+            str.insert(i, ' ');
+        }
+        i += estilo.getWhiles().getEspacosCondicaoParentesFechado();
+
+        this.Codigo = str.toString();
     }
+
 }
