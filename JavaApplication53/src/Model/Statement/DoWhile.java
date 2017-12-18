@@ -332,7 +332,7 @@ public class DoWhile extends Statement
     {
         super.converteStatement(estilo);
 
-        String aux = this.Codigo;
+        String aux = this.ParaAnalise;
         StringBuilder build = new StringBuilder(aux);
         char espacos[] =
         {
@@ -350,16 +350,21 @@ public class DoWhile extends Statement
             {
                 build.insert(i + 1, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
             }
+             if (aux.charAt(i) == ';')
+            {
+                conta += estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta();
+                build.insert(i + 1+conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
+            }
             if (aux.charAt(i) == '}')
             {
                 conta += estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta();
 
-                build.insert(i + conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
-                build.insert(i + conta + 1 + estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta(), linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada());
+                build.insert(i + conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()-1);
+                build.insert(i + conta + 1 + estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()-1, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada());
             }
             if (aux.charAt(i) == '(')
             {
-                conta += estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta() + estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada();
+                conta += estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()-1 + estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada();
 
                 build.insert(i + conta, espacos, 0, estilo.getDowhile().getEspacosWhileParentesesAberto());
                 build.insert(i + conta + 1 + estilo.getDowhile().getEspacosWhileParentesesAberto(), espacos, 0, estilo.getDowhile().getEspacosParentesesAbertoCondicao());
@@ -373,5 +378,6 @@ public class DoWhile extends Statement
             }
         }
         this.Codigo = build.toString();
+     
     }
 }
