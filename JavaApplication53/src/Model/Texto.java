@@ -191,7 +191,7 @@ public class Texto {
 
     private boolean IsIF(char A[]) {
         boolean Ret = false;
-        if (!IsCaracter(A[0]) && A[1] == 'i' && A[2] == 'f' && (A[3] == '(' || Character.isWhitespace(A[3]))) {
+        if (Character.isWhitespace(A[0]) && A[1] == 'i' && A[2] == 'f' && (A[3] == '(' || Character.isWhitespace(A[3]))) {
             Ret = true;
         }
 
