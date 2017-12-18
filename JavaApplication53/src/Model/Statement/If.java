@@ -536,7 +536,7 @@ public class If extends Statement {
                 }
                 if(aux.charAt(i)==';')
                 {
-                    conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaFechada();
+                    conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta();
                     
                    build.insert(i+1+conta, linhas, 0, 1);
                 }

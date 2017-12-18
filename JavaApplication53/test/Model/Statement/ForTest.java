@@ -36,7 +36,7 @@ public class ForTest {
         
         lista=new ArrayList<>();
       
-        lista.add(new For("for(i=0;i<dscf;i++){ gddfhg;}edf", new Texto()));
+        lista.add(new For("for(i=0;i<dscf;i++){gddfhg;fggdsf;fedsc;}e", new Texto()));
       
         
         EstiloProgramacao estilo=new EstiloProgramacao("EstiloDefeito",false,
@@ -49,7 +49,6 @@ public class ForTest {
                                 new Operador_EP(1, 1),
                                 new While_EP(true, false, 1, 1, 1, 1, 1));
         
-       
         for(For S : lista)
             S.converteStatement(estilo);
     }
@@ -76,7 +75,7 @@ public class ForTest {
      */
     @Test
     public void testConverteStatement() {
-        
+        assertEquals("for ( i=0; i<dscf; i++){\ngddfhg;\nfggdsf;\nfedsc;\n}e",lista.get(0).Codigo);
     }
     
 }

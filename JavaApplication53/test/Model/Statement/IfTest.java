@@ -87,7 +87,8 @@ public class IfTest {
         assertEquals(0, lista.get(0).getPrimeiraChavetaNovaLinha());
 
     }
+     @Test
     public void testconverte() {
-        
+         assertEquals("if ( ola = 5 ){\n int a = 5;\n int x=6;\n } e",lista2.get(0).Codigo);
     }
 }

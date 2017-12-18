@@ -462,10 +462,9 @@ public class For extends Statement {
                    }
                    if(flag>2)
                    {
-                    conta+=estilo.getFors().getEspacosInicializacaoPontoVirgula()+ estilo.getFors().getEspacosPontoVirgulaCondicao();
+                    conta+= estilo.getFors().getLinhasEmBrancoDepoisChavetaAberta();
                    
-                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosCondicaoPontoVirgula());
-                   build.insert(i+conta+1+estilo.getFors().getEspacosCondicaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaIncrementacao()); 
+                   build.insert(i+conta+1, linhas, 0, 1); 
                    }
                  }
                  if(aux.charAt(i)==')')
@@ -478,17 +477,17 @@ public class For extends Statement {
                  {    
                    conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
                      
-                   build.insert(i+1+conta, linhas, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
+                   build.insert(i+1+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaAberta());
                  }
                   if(aux.charAt(i)=='}')
                  {    
                    conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
                      
-                   build.insert(i+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada());
+                   build.insert(i+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada()-1);
                  }
             
          }
         this.Codigo=build.toString();
-        System.out.print(this.Codigo);
+        
     }
 }
