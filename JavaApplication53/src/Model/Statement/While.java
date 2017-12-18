@@ -343,21 +343,83 @@ public class While extends Statement {
                 }
             }
         }
-        if(ChavetaUmStatementDentroWhile!=0)
-        {
-            LinhasEmBrancoDepoisChavetaAberta=0;
-            LinhasEmBrancoDepoisChavetaFechada=0;
-            for(i=0;i<ParaAnalise.length();i++)
-            {
-                if(ParaAnalise.charAt(i)=='{')
-                    while(ParaAnalise.charAt(++i)=='\n')
-                        LinhasEmBrancoDepoisChavetaAberta++;                       
-            }  
+        if (ChavetaUmStatementDentroWhile != 0) {
+            LinhasEmBrancoDepoisChavetaAberta = 0;
+            LinhasEmBrancoDepoisChavetaFechada = 0;
+            for (i = 0; i < ParaAnalise.length(); i++) {
+                if (ParaAnalise.charAt(i) == '{') {
+                    while (ParaAnalise.charAt(++i) == '\n') {
+                        LinhasEmBrancoDepoisChavetaAberta++;
+                    }
+                }
+            }
         }
     }
-    @Override
 
+    @Override
     public void converteStatement(EstiloProgramacao estilo) {
         super.converteStatement(estilo);
+
+        String aux = this.Codigo.trim();
+        aux = aux.replaceAll("\\s+", "");
+        StringBuilder str = new StringBuilder(aux);
+
+        int i;
+        int x, temp, nchaveta;
+        // ESTA: while_
+        for (i = 0; i < this.Codigo.length(); i++) {
+            if (str.charAt(i) == 'e') {
+                i++;
+                break;
+            }
+        }
+        temp = i;
+        for (i = 0; i < estilo.getWhiles().getEspacosWhileParentesAberto(); i++) {
+            str.insert(temp, ' ');
+        }
+        i = temp + estilo.getWhiles().getEspacosWhileParentesAberto();
+
+        //ESTA: while (_
+        for (; i < str.length(); i++) {
+            if (str.charAt(i) == '(') {
+                i++;
+                break;
+            }
+        }
+
+        for (x = 0; x <= estilo.getWhiles().getEspacosParentesesAbertoCondicao(); x++) {
+            str.insert(i, ' ');
+        }
+
+        i = i + estilo.getWhiles().getEspacosParentesesAbertoCondicao();
+        //ESTA: while( xxx_)
+        nchaveta = 1;
+        for (; i < str.length(); i++) {
+            if (str.charAt(i) == '(') {
+                nchaveta++;
+            } else {
+                if (str.charAt(i) == ')') {
+                    if (nchaveta <= 0) {
+                        break;
+                    } else {
+                        nchaveta--;
+                    }
+                }
+            }
+        }
+        temp = i - 1;
+        for (i = temp; i > 0; i--) {
+            if (str.charAt(i) != ' ') {
+                break;
+            }
+        }
+
+        for (x = 0; x <= estilo.getWhiles().getEspacosCondicaoParentesFechado(); x++) {
+            str.insert(i, ' ');
+        }
+        i += estilo.getWhiles().getEspacosCondicaoParentesFechado();
+
+        this.Codigo = str.toString();
     }
+
 }

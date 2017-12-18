@@ -65,7 +65,6 @@ public class Cast extends Statement {
     }
 
     @Override
-
     public void analisaStatement() { 
         EspacosEntreCastVariavel=0;
         
@@ -89,7 +88,6 @@ public class Cast extends Statement {
     }
 
     @Override
-
     public void converteStatement(EstiloProgramacao estilo)
     {
         StringBuilder novastring = new StringBuilder();

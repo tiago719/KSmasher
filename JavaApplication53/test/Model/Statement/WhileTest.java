@@ -5,6 +5,15 @@
  */
 package Model.Statement;
 
+import Model.EstiloProgramacao.Cast_EP;
+import Model.EstiloProgramacao.DoWhile_EP;
+import Model.EstiloProgramacao.Else_EP;
+import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.Funcoes_EP;
+import Model.EstiloProgramacao.If_EP;
+import Model.EstiloProgramacao.Operador_EP;
+import Model.EstiloProgramacao.While_EP;
 import Model.Texto;
 import java.util.ArrayList;
 import org.junit.After;
@@ -20,15 +29,14 @@ import static org.junit.Assert.*;
  */
 public class WhileTest
 {
-    public ArrayList<While> lista;
+    public While w;
     
     public WhileTest()
     {
-        lista=new ArrayList<>();
-        lista.add(new While("while (   ola = 5  ){ int a = 5; }   else {    }", new Texto()));
+       w = new While("while (   (())  ) {",new Texto());
         
-        for(While S : lista)
-            S.analisaStatement();
+      /*  for(While S : lista)
+            S.analisaStatement();*/
     }
     
     @BeforeClass
@@ -55,13 +63,21 @@ public class WhileTest
     @Test
     public void verificaAnalisa()
     {
-        assertEquals(1,lista.get(0).isChavetaUmStatementDentroWhile());
-        assertEquals(0,lista.get(0).isPrimeiraChavetaNovaLinha());
-        assertEquals(1,lista.get(0).getEspacosWhileParentesAberto());
-        assertEquals(3,lista.get(0).getEspacosParentesesAbertoCondicao());
-        assertEquals(2,lista.get(0).getEspacosCondicaoParentesFechado());
-        assertEquals(0,lista.get(0).getLinhasEmBrancoDepoisChavetaAberta());
-        assertEquals(0, lista.get(0).getLinhasEmBrancoDepoisChavetaFechada());
-
+ 
+    }
+    
+    @Test
+    public void VerificaconverteStatement()
+    {
+       EstiloProgramacao es = new EstiloProgramacao("EstiloDefeito",false,
+                                new Cast_EP(1),
+                                new DoWhile_EP(true, 1, 0, 1, 1, 1),
+                                new Else_EP(true, 1, 1),
+                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new Funcoes_EP(false),
+                                new If_EP(true, false, 1, 1, 1, 1, 1),
+                                new Operador_EP(1, 1),
+                                new While_EP(true, false, 1, 1, 1, 1, 1));
+        w.converteStatement(es);
     }
 }
