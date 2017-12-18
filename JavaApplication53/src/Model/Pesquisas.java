@@ -307,9 +307,135 @@ public class Pesquisas {
         } else {
             return null;
         }
-        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = " + id + ";");
+        Rt = bd.Le("SELECT * FROM estilos WHERE IDESTILO = " + idestilo + ";");
         String nome = Rt.getString("NOMEESTILO");
         boolean permite = Rt.getBoolean("PARTILHAESTILO");
         return new EstiloProgramacao(id, nome, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
     }
+    
+    public EstiloProgramacao DevolveEstiloAcede(int id) throws SQLException
+    {
+        bd = new BaseDados();
+        ResultSet Rt = null;
+        Cast_EP castep;
+        DoWhile_EP dowhileep;
+        Else_EP elseep;
+        For_EP forep;
+        Funcoes_EP funcoesep;
+        If_EP ifep;
+        Operador_EP operadorep;
+        While_EP whilep;
+        int idestilo;
+
+        Rt = bd.Le("SELECT * FROM acede WHERE IDUTILIZADOR = " + id + ";");
+
+        if (Rt.next()) {
+            idestilo = Rt.getInt("IDESTILO");
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            boolean pos;
+            if (Rt.getInt("DOWHILEPOSPRIMEIRA_") == 1) {
+                pos = true;
+            } else {
+                pos = false;
+            }
+            dowhileep = new DoWhile_EP(pos, Rt.getInt("DOWHILELINHASDEPOIS_"), Rt.getInt("DOWHILELINHASANTES_"),
+                    Rt.getInt("DOWHILEESPACOSWHILE_"), Rt.getInt("DOWHILEESPACOS_CONDICAO"), Rt.getInt("DOWHILECONDICAO_"));
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            funcoesep = new Funcoes_EP(Rt.getBoolean("FUNCOESPREVIAMENTEDECLARADAS"));
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            operadorep = new Operador_EP(Rt.getInt("ESPACOSOPERADORVARIAVEL"), Rt.getInt("ESPACOSOPERADORSEGUINTE"));
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            boolean pos;
+            if (Rt.getInt("ELSEPOSPRIMEIRA_") == 1) {
+                pos = true;
+            } else {
+                pos = false;
+            }
+            elseep = new Else_EP(pos, Rt.getInt("ELSELINHASDEPOIS"), Rt.getInt("ELSELINHASANTES"));
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            boolean pos;
+            if (Rt.getInt("FORPOSPRIMEIRA_") == 1) {
+                pos = true;
+            } else {
+                pos = false;
+            }
+            forep = new For_EP(pos, Rt.getInt("FORESPACOSFOR"), Rt.getInt("FORESPACOS_INICIALIZACAO "), Rt.getInt("FORESPACOSINICIALIZACAO_"),
+                    Rt.getInt("FORESPACOS_CONDICAO"), Rt.getInt("FORESPACOSCONDICAO_"), Rt.getInt("FORESPACOS_INCREMENTACAO"), Rt.getInt("FORESPACOSINCREMENTACAO_"),
+                    Rt.getInt("FORLINHASDEPOIS_"), Rt.getInt("FORLINHASANTES_"));
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            boolean pos;
+            if (Rt.getInt("IFPOSPRIMEIRA_") == 1) {
+                pos = true;
+            } else {
+                pos = false;
+            }
+            ifep = new If_EP(pos, Rt.getInt("IFESPACOSIF_"), Rt.getInt("IFESPACOS_CONDICAO"), Rt.getInt("IFESPACOSCONDICAO_"),
+                    Rt.getInt("IFLINHASDEPOIS_"), Rt.getInt("IFLINHASANTES_"));
+        } else {
+            return null;
+        }
+
+        Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idestilo + ";");
+
+        if (Rt.next()) {
+            boolean pos;
+            if (Rt.getInt("WHILEPOSPRIMEIRA_") == 1) {
+                pos = true;
+            } else {
+                pos = false;
+            }
+            whilep = new While_EP(pos, Rt.getInt("WHILEESPACOSWHILE_"), Rt.getInt("WHILEESPACOS_CONDICAO"), Rt.getInt("WHILEESPACOSCONDICAO_"),
+                    Rt.getInt("WHILELINHASDEPOIS_"), Rt.getInt("WHILELINHASANTES_"));
+        } else {
+            return null;
+        }
+        Rt = bd.Le("SELECT * FROM estilos WHERE IDESTILO = " + idestilo + ";");
+        String nome = Rt.getString("NOMEESTILO");
+        boolean permite = Rt.getBoolean("PARTILHAESTILO");
+        return new EstiloProgramacao(id, nome, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
+    } 
 }
