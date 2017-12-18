@@ -73,6 +73,8 @@ public class Model {
                 Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
             Utilizador.AdicionaEstiloPorDefeito();
+            Pesquisas.getEstilos(Utilizador);
+            
             return true;
         }
     }

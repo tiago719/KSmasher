@@ -439,4 +439,15 @@ public class Pesquisas {
         boolean permite = Rt.getBoolean("PARTILHAESTILO");
         return new EstiloProgramacao(id, nome, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
     }
+    
+     public void getEstilos(Utilizador ut)
+     {
+         try
+         {
+         ut.NovoEstilo(DevolveEstiloUtilizador(ut.getId()));
+         }catch(SQLException se)
+         {
+             System.out.println("Model.Pesquisas.getEstilos()");
+         }
+     }
 }
