@@ -121,11 +121,19 @@ public class Model {
     
     public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual,String NomeEstilo)
     {
+        Utilizador.AdicionaEstiloPorDefeito();
         Ficheiros F=new Ficheiros();
-        File source = new File(DiretoriaAtual + Nome);
+        File source = new File(DiretoriaAtual + "\\"+ Nome);
         
-        BufferedReader in=F.abreFObjectosLeitura(source.getName());
-        BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+Nome);
+        BufferedReader in=null;
+        try
+        {
+            in = F.abreFObjectosLeitura(source.getCanonicalPath());
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+"\\"+Nome);
         
         Texto Texto=new Texto(in,out);
         Texto.ComecaCataloga();
@@ -135,11 +143,14 @@ public class Model {
         
         try
         {
-            out.write(Texto.toString());
+            out.write(Texto.toString(), 0,Texto.toString().length());
+            out.flush();
         } catch (IOException ex)
         {
             System.out.println("Erro a escrever para o novo ficheiro");
         }
+        
+        
     }
     
     public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)

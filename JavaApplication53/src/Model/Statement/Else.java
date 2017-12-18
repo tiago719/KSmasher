@@ -145,6 +145,7 @@ public class Else extends Statement {
         LinhasEmBrancoDepoisChavetaFechada = -1;
         PrimeiraChavetaNovaLinha = -1;
         boolean encontrou=false;
+        int parentesesAberto=1;
         
         int i;
         for(i = 0; i < ParaAnalise.length(); i++)
@@ -187,19 +188,20 @@ public class Else extends Statement {
         if(PrimeiraChavetaNovaLinha==-1)
             return;
         
-        for(i=ParaAnalise.length()-1;i>0;i--)
+        for(++i;i<ParaAnalise.length();i++)
         {
-            if(ParaAnalise.charAt(i)=='}')
-            {
-                for(++i;i<ParaAnalise.length();i++)
+            if(ParaAnalise.charAt(i)=='{')
+                parentesesAberto++;
+            else if(ParaAnalise.charAt(i)=='}')
+                if(--parentesesAberto==0)
                 {
-                    if(ParaAnalise.charAt(i)=='\n')
-                        LinhasEmBrancoDepoisChavetaFechada++;
-                    else
-                        break;
+                    for(++i;i<ParaAnalise.length();i++)
+                        if(ParaAnalise.charAt(i)=='\n')
+                            LinhasEmBrancoDepoisChavetaFechada++;
+                        else if(!Character.isWhitespace(ParaAnalise.charAt(i)))
+                            break;
+                    break;
                 }
-                break;
-            }
         }
         
         if(LinhasEmBrancoDepoisChavetaAberta<0)
