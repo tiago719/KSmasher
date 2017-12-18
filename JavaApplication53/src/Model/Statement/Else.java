@@ -25,11 +25,11 @@ public class Else extends Statement {
     @Override
     public String RetiraDados(String Codigo, Texto t) {
 
-        int i, m;
+        int i, m=0, j;
         boolean AspasAberto = false, PlicasAberto = false;
 
         this.Codigo = "else";
-        this.NumCarateresAvancar = 5;
+        
 
         for (i = 4; i < Codigo.charAt(i); i++) {
             if (Character.isWhitespace(Codigo.charAt(i))) {
@@ -50,6 +50,7 @@ public class Else extends Statement {
                 break;
             } else if (Codigo.charAt(i) == ';') {
                 temChaveta = false;
+                m = i;
                 break;
             }
         }
@@ -74,34 +75,22 @@ public class Else extends Statement {
                     }  
                 }
             }
-        } else {
-            for (m = i + 1; m < Codigo.length(); m++) {
-                if (Codigo.charAt(m) == '"' && Codigo.charAt(m - 1) != '\\') {
-                    AspasAberto = !AspasAberto;
-                    continue;
-                } else if (Codigo.charAt(m) == '\'' && Codigo.charAt(m - 1) != '\\') {
-                    PlicasAberto = !PlicasAberto;
-                    continue;
-                }
-                if (Codigo.charAt(m) == ';') {
-                    break;
-                }
-            }
-        }
-        
+        } 
+        j = m;
+        this.NumCarateresAvancar = j+2;
         for(++m;m<Codigo.length();m++)
             if(!Character.isWhitespace(Codigo.charAt(m)))
                 break;
 
         if(m+1>ParaAnalise.length())
-            this.ParaAnalise = Codigo.substring(0, m);
+            this.ParaAnalise = Codigo.substring(0, m - (m - Codigo.length()));
         else
             this.ParaAnalise = Codigo.substring(0, m+1);
 
-        if(m+1>Codigo.length())
-            return Codigo.substring(5, m -(m-Codigo.length()));
+        if(j+1>Codigo.length())
+            return Codigo.substring(5, j -(j-Codigo.length()));
         else
-         return Codigo.substring(5, m + 1);
+         return Codigo.substring(5, j + 1);
 
     }
             
@@ -213,25 +202,25 @@ public class Else extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        super.converteStatement(estilo);
-        StringBuilder novastring = new StringBuilder();
-        novastring.append("else");
-        for(int i = 4; i<Codigo.length();i++){
-            if(Codigo.charAt(i)=='{'){
-                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
-                    novastring.append("\n");
-                }
-                novastring.append('{');
-            }
-            if(Codigo.charAt(i)=='}'){
-                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
-                    novastring.append("\n");
-                }
-                novastring.append('}');
-            }
-            novastring.append(Codigo.charAt(i));
-        }
-        this.Codigo=novastring.toString();
+//        super.converteStatement(estilo);
+//        StringBuilder novastring = new StringBuilder();
+//        novastring.append("else");
+//        for(int i = 4; i<Codigo.length();i++){
+//            if(Codigo.charAt(i)=='{'){
+//                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
+//                    novastring.append("\n");
+//                }
+//                novastring.append('{');
+//            }
+//            if(Codigo.charAt(i)=='}'){
+//                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
+//                    novastring.append("\n");
+//                }
+//                novastring.append('}');
+//            }
+//            novastring.append(Codigo.charAt(i));
+//        }
+//        this.Codigo=novastring.toString();
 
     }
 }

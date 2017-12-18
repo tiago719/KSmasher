@@ -4,8 +4,11 @@ import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Model;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
@@ -105,9 +108,5 @@ public class Controller extends Observable {
 
     public String getUtilizadorAtualNome() {
         return Model.getUtilizadorAtualNome();
-    }
-
-    public boolean IsDiretorio(File Aux) {
-        return FilenameUtils.getExtension(Aux.getPath()).equals("");
     }
 }

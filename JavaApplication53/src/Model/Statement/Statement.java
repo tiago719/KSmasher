@@ -62,8 +62,8 @@ public class Statement {
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
-        if (hasFilhos())
-            Texto.Converte(StatmentsFilhos, estilo);
+//        if (hasFilhos())
+//            Texto.Converte(StatmentsFilhos, estilo);
 
     }
 

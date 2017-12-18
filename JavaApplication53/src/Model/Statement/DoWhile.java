@@ -330,7 +330,7 @@ public class DoWhile extends Statement
     @Override
     public void converteStatement(EstiloProgramacao estilo)
     {
-        super.converteStatement(estilo);
+//        super.converteStatement(estilo);
 
         String aux = this.ParaAnalise;
         StringBuilder build = new StringBuilder(aux);
