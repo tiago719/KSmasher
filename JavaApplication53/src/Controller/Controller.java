@@ -33,6 +33,7 @@ public class Controller extends Observable {
     //1: utilizador não existe
 
     public int ExisteUsername(String nome) {
+  
         if (nome.length() > 15 || nome.length() < 7) {
             return -1;
         }
@@ -87,12 +88,11 @@ public class Controller extends Observable {
     }
 
     public boolean ExisteNomeEstilo(String NomeEstilo) {
-        //TODO:Fazer a pesquisa
-        throw new UnsupportedOperationException("Funcionalidade nao implementada");
+        return Model.TemEstilo(NomeEstilo);
     }
 
     public boolean isValidFile(String NomeFicheiro) {
-        return FilenameUtils.getExtension(NomeFicheiro).equals(".c");
+        return FilenameUtils.getExtension(NomeFicheiro).equals("c");
     }
 
     public ArrayList<EstiloProgramacao> getEstilosUtilizador() {
