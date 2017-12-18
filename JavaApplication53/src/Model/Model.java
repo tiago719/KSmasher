@@ -180,4 +180,9 @@ public class Model {
     {
         return Utilizador.getUsername();
     }
+    
+    public boolean TemEstilo(String NomeEstilo)
+    {
+        return Utilizador.getEstilo(NomeEstilo)!=null;
+    }
 }

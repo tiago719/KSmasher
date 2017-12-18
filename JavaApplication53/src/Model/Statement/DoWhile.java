@@ -6,7 +6,6 @@ import Model.EstiloProgramacao.EstiloProgramacao;
 
 public class DoWhile extends Statement
 {
-
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
             EspacosWhileParentesesAberto, EspacosParentesesAbertoCondicao,
             EspacosCondicaoParentesFechado, PrimeiraChavetaNovaLinha;
