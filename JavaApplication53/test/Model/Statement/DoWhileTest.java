@@ -24,8 +24,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
- * @author Diogo´Viana
- */
+
 public class DoWhileTest {
     
      public ArrayList<DoWhile> lista;
@@ -75,8 +74,8 @@ public class DoWhileTest {
     public void testConverteStatement() {
        
     }
- * @author Tiago Coutinho
- */
+}
+
 /*public class DoWhileTest
 { 
     DoWhile instance;
