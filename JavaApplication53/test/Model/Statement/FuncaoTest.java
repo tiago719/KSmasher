@@ -76,9 +76,6 @@ public class FuncaoTest {
         
     }
     
-=======
- * @author andre
- */
   
   /*
 public class FuncaoTest {

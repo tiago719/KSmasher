@@ -111,9 +111,9 @@ public class Funcao extends Statement {
     }
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        super.converteStatement(estilo);
-        System.out.println(this.ParaAnalise);
-        System.out.print(this.Codigo);
+//        super.converteStatement(estilo);
+//        System.out.println(this.ParaAnalise);
+//        System.out.print(this.Codigo);
 //        String aux=this.ParaAnalise;
 //        
 //        if(!AntesMain){

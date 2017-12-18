@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Model.Statement;
 
 import Model.EstiloProgramacao.Cast_EP;
@@ -15,6 +11,7 @@ import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
 import Model.Texto;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,10 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Diogo´Viana
- */
+
 public class ForTest {
     
     public ArrayList<For> lista;

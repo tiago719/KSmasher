@@ -3,9 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.Statement;
+package Model;
 
-import Model.Texto;
+import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.Statement.DoWhile;
+import Model.Statement.Else;
+import Model.Statement.For;
+import Model.Statement.Funcao;
+import Model.Statement.If;
+import Model.Statement.Operador;
+import Model.Statement.Statement;
+import Model.Statement.While;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,23 +26,19 @@ import static org.junit.Assert.*;
  *
  * @author Tiago Coutinho
  */
-public class OperadorTest
+public class MediasTest
 {
-    public ArrayList<Operador> lista;
-    public OperadorTest()
+    
+    public MediasTest()
     {
+        Model m=new Model();
         
-        lista=new ArrayList<>();
-        lista.add(new Operador(" a  ==  0", new Texto()));
-      
-       for(int i=0;i<lista.size();i++)
-            lista.get(i).analisaStatement();
+        m.Analisa("C:\\Users\\Tiago Coutinho\\Desktop\\Tiago Coutinho\\medias.c", true, "Medias");
     }
     
     @BeforeClass
     public static void setUpClass()
     {
-        
     }
     
     @AfterClass
@@ -51,13 +55,10 @@ public class OperadorTest
     public void tearDown()
     {
     }
-    /**
-     * Test of analisaStatement method, of class Operador.
-     */
-    @Test
-    public void verificaContaEspacos()
-    {
-        assertEquals(2, lista.get(0).getEspacosVariavelOperador());
-        assertEquals(2, lista.get(0).getEspacosOperadorVariavel());
-    }    
+
+   @Test
+   public void teste1()
+   {
+       
+   }
 }
