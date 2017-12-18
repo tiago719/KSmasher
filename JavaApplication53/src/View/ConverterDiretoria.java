@@ -298,7 +298,10 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         while (true) {
             try {
                 File Aux = Controller.getDnDFile();
-                if (DnDFile != Aux && Controller.IsDiretorio(Aux)) {
+                if (Aux == null)
+                    continue;
+                
+                if (DnDFile != Aux && Aux.isDirectory()) {
                     DnDFile = Controller.getDnDFile();
                 } else {
                     continue;

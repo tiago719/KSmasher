@@ -25,10 +25,8 @@ public class Texto {
      *
      * @param In
      */
+    public Texto() {
 
-    public Texto()
-    {
-        
     }
 
     public Texto(BufferedReader In, BufferedWriter Out) {
@@ -52,7 +50,18 @@ public class Texto {
             System.out.println("Deu erro a passar o bufferedReader para string");
         }
         ListaStatements = Cataloga(Codigo, null);
-        int nivel = 0;
+        int a = 0;
+    }
+
+    public void ComecaCataloga(String t) {
+        String Codigo = null;
+
+        Codigo = t;
+
+        ListaStatements = Cataloga(Codigo, null);
+        int a = 0;
+        
+        a = 5;
     }
 
     public void ComecaAnalisa() {
@@ -82,14 +91,14 @@ public class Texto {
         Converte(ListaStatements, EstiloProgramacao);
     }
 
-    public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) 
-    {
-        for(Statement S : Lista)
-        {
+    public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
+        for (Statement S : Lista) {
             S.converteStatement(EstiloProgramacao);
+            if (S.hasFilhos())
+                Converte(S.getStatementsFilhos(), EstiloProgramacao);
         }
-        
-/*        String Str = "";
+
+        /*        String Str = "";
         for (Statement S : Lista) {
             if (S instanceof If) {
                 Str += "if";
@@ -149,7 +158,7 @@ public class Texto {
             }
         }
         return Str;
-        */
+         */
     }
 
     public ArrayList<Statement> getListaStatements() {
@@ -188,7 +197,6 @@ public class Texto {
 
         return Ret;
     }
-
 
     private boolean IsElse(char A[]) {
         if (!(IsCaracter(A[0])) && A[1] == 'e' && A[2] == 'l' && A[3] == 's' && A[4] == 'e' && (A[5] == '{' || Character.isWhitespace(A[5]))) {
@@ -229,7 +237,6 @@ public class Texto {
         }
         return false;
     }
-
 
     public boolean IsOperador2(String S) {
 
@@ -336,7 +343,6 @@ public class Texto {
         return i + 1;
     }
 
-
     public ArrayList<Statement> Cataloga(String Codigo, Statement Pai) {
         if (Codigo.length() <= 0) {
             return null;
@@ -442,7 +448,6 @@ public class Texto {
             } catch (Exception e) {
             }
 
-
             try {
                 if (IsFuncao(Codigo.substring(i))) {
                     int InicioFuncao = EncontraInicioFuncao(i, Codigo);
@@ -521,7 +526,6 @@ public class Texto {
                         }
                     }
 
-
                     for (int j = i + 1; j < Codigo.length(); j++) {
                         if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
                             NextCarater = j + 1;
@@ -529,13 +533,13 @@ public class Texto {
                         }
                     }
 
-
                     Aux = NovoStatement(Aux, Novo, Pai);
                     Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
                     Novo.add(Add);
                     continue;
                 }
-            } catch (Exception e){}
+            } catch (Exception e) {
+            }
 
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
@@ -582,14 +586,14 @@ public class Texto {
         String Ret = "";
         for (Statement S : AL) {
             Ret += S.getCodigo();
-            if (S.hasFilhos())
+            if (S.hasFilhos()) {
                 Ret += ImprimeCodigo(S.getStatementsFilhos());
+            }
         }
         return Ret;
     }
 
     private String NovoStatement(String Aux, ArrayList<Statement> Novo, Statement Pai) {
-
         if (!"".equals(Aux)) {
             if (Pai != null && !Aux.equals(Pai.getCodigo())) {
 

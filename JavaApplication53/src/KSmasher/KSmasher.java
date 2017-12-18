@@ -26,7 +26,7 @@ public class KSmasher {
 "        if (a[i] || b[i])\n" +
 "            r[i]=1;\n" +
 "        else\n" +
-"            r[i] = 0\n" +
+"            r[i] = 0;\n" +
 "    }\n" +
 "\n" +
 "}\n" +
@@ -37,7 +37,7 @@ public class KSmasher {
 "        if (a[i] && b[i])\n" +
 "            r[i]=1;\n" +
 "        else\n" +
-"            r[i] = 0\n" +
+"            r[i] = 0;\n" +
 "    }\n" +
 "\n" +
 "}\n" +
@@ -49,7 +49,7 @@ public class KSmasher {
 "        if (a[i] && !b[i])\n" +
 "            r[i]=1;\n" +
 "        else\n" +
-"            r[i] = 0\n" +
+"            r[i] = 0;\n" +
 "    }\n" +
 "\n" +
 "}\n" +

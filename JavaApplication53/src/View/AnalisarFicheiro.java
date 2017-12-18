@@ -283,7 +283,10 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
         File DnDFile = null;
         while (true) {
             try {
-                if (DnDFile != Controller.getDnDFile() && Controller.isValidFile(DnDFile.getPath())) {
+                File Aux = Controller.getDnDFile();
+                
+                
+                if (DnDFile != Aux && Controller.isValidFile(Aux.getPath())) {
                     DnDFile = Controller.getDnDFile();
                 } else {
                     continue;

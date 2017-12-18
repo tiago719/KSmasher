@@ -358,6 +358,6 @@ public class While extends Statement {
     @Override
 
     public void converteStatement(EstiloProgramacao estilo) {
-        super.converteStatement(estilo);
+//        super.converteStatement(estilo);
     }
 }
