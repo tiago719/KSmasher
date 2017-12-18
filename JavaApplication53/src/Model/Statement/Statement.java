@@ -58,15 +58,21 @@ public class Statement {
     }
 
     public void analisaStatement() {
-        
+
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
 //        if (hasFilhos())
 //            Texto.Converte(StatmentsFilhos, estilo);
+        if (hasFilhos()) {
+            for (Statement StatmentsFilho : StatmentsFilhos) {
+                if (!(StatmentsFilho instanceof Statement)) {
+                    StatmentsFilho.converteStatement(estilo);
+                }
+            }
+        }
 
     }
-
 
     public ArrayList<Statement> getStatementsFilhos() {
         return StatmentsFilhos;
@@ -86,7 +92,7 @@ public class Statement {
     public int getNumCarateresAvancar() {
         return NumCarateresAvancar;
     }
-  
+
     public int getNivel() {
         return Nivel;
     }

@@ -1,6 +1,8 @@
 package Model.Statement;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.While_EP;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -343,21 +345,44 @@ public class While extends Statement {
                 }
             }
         }
-        if(ChavetaUmStatementDentroWhile!=0)
-        {
-            LinhasEmBrancoDepoisChavetaAberta=0;
-            LinhasEmBrancoDepoisChavetaFechada=0;
-            for(i=0;i<ParaAnalise.length();i++)
-            {
-                if(ParaAnalise.charAt(i)=='{')
-                    while(ParaAnalise.charAt(++i)=='\n')
-                        LinhasEmBrancoDepoisChavetaAberta++;                       
-            }  
+        if (ChavetaUmStatementDentroWhile != 0) {
+            LinhasEmBrancoDepoisChavetaAberta = 0;
+            LinhasEmBrancoDepoisChavetaFechada = 0;
+            for (i = 0; i < ParaAnalise.length(); i++) {
+                if (ParaAnalise.charAt(i) == '{') {
+                    while (ParaAnalise.charAt(++i) == '\n') {
+                        LinhasEmBrancoDepoisChavetaAberta++;
+                    }
+                }
+            }
         }
     }
+
     @Override
 
     public void converteStatement(EstiloProgramacao estilo) {
 //        super.converteStatement(estilo);
+        While_EP ep = estilo.getWhiles();
+
+        String Aux = "while";
+        for (int i = 0; i < ep.getEspacosWhileParentesAberto(); i++) {
+            Aux += " ";
+        }
+        Aux += "(";
+        
+        for (int i = 0; i < ep.getEspacosParentesesAbertoCondicao(); i++) {
+            Aux += " ";
+        }
+        
+        this.Condicao.converteStatement(estilo);
+        Aux += this.Condicao.Codigo;
+        
+        for (int i = 0; i < ep.getEspacosCondicaoParentesFechado(); i++) {
+            Aux += " ";
+        }
+        Aux += ")";
+        
+        this.Codigo = Aux;
+        
     }
 }

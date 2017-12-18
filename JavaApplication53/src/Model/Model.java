@@ -141,6 +141,8 @@ public class Model {
         EstiloProgramacao Estilo=Utilizador.getEstilo(NomeEstilo);
         Texto.ComecaConverte(Estilo);
         
+        System.out.println(Texto);
+        
         try
         {
             out.write(Texto.toString(), 0,Texto.toString().length());

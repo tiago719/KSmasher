@@ -13,7 +13,7 @@ public class KSmasher {
 
         //KSmasherView view=new KSmasherView(new Controller()); 
         Controller controller=new Controller();
-        controller.Converte("C:\\Users\\Tiago Coutinho\\Desktop\\Trabalho Prático", "EstiloDefeito", "tiago");
+        controller.Converte("C:\\Users\\edu_f\\Google Drive\\ISEC\\1 ano\\1 semestre\\IP\\ficha 6\\6.6", "EstiloDefeito", "tiago");
     }
     
 }
