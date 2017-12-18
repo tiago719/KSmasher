@@ -32,12 +32,12 @@ public class DoWhileTest {
     public DoWhileTest() {
          lista=new ArrayList<>();
       
-        lista.add(new DoWhile("f", new Texto()));
+        lista.add(new DoWhile("do{hjskgd;sgrvs;svsvf;}while(x<5)e", new Texto()));
       
         
         EstiloProgramacao estilo=new EstiloProgramacao("EstiloDefeito",false,
                                 new Cast_EP(1),
-                                new DoWhile_EP(true, 1, 0, 1, 1, 1),
+                                new DoWhile_EP(true, 1, 0, 1, 1, 2),
                                 new Else_EP(true, 1, 1),
                                 new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
@@ -72,7 +72,7 @@ public class DoWhileTest {
      */
     @Test
     public void testConverteStatement() {
-       
+       assertEquals("do{\nhjskgd;\nsgrvs;\nsvsvf;\n}while ( x<5  )e",lista.get(0).Codigo);
     }
 }
 

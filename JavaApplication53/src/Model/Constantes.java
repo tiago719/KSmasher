@@ -11,5 +11,5 @@ public interface Constantes {
 
     public static final String[] OPERADORES_3 = {"<<=", ">>="};
 
-    public static final String DIRETORIA_DESTINO = "DiretoriasConvertidas";
+    public static final String DIRETORIA_DESTINO = "..\\..\\DiretoriasConvertidas";
 }
