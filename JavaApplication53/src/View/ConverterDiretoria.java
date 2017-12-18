@@ -6,6 +6,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -51,8 +53,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jConverter = new javax.swing.JButton();
         jDiretoria = new javax.swing.JTextField();
@@ -66,10 +67,8 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jErroUtilizador = new javax.swing.JLabel();
 
         jConverter.setText("Converter");
-        jConverter.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jConverter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jConverterMouseClicked(evt);
             }
         });
@@ -199,6 +198,18 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             Controller.Converte(jDiretoria.getText(), jListaEstilos.getSelectedItem(), Controller.getUtilizadorAtualNome());
         }
     }//GEN-LAST:event_jConverterMouseClicked
+  
+    private void jProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jProcurarActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                jDiretoria.setText(fc.getSelectedFile().getCanonicalPath());
+            } catch (IOException ex) {
+            }
+        }
+    }//GEN-LAST:event_jProcurarActionPerformed
 
     private void jAnalisaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisaMouseClicked
     {//GEN-HEADEREND:event_jAnalisaMouseClicked

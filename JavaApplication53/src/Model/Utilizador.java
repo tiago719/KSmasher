@@ -51,8 +51,7 @@ public class Utilizador
         this.Email = Email;
     }
     
-    public Utilizador()
-    {
+    public Utilizador(){
         EstilosProgramacao=new ArrayList<EstiloProgramacao>();
     }
     
