@@ -4,8 +4,11 @@ import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Model;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FilenameUtils;
@@ -33,6 +36,7 @@ public class Controller extends Observable {
     //1: utilizador não existe
 
     public int ExisteUsername(String nome) {
+  
         if (nome.length() > 15 || nome.length() < 7) {
             return -1;
         }
@@ -88,12 +92,11 @@ public class Controller extends Observable {
     }
 
     public boolean ExisteNomeEstilo(String NomeEstilo) {
-        //TODO:Fazer a pesquisa
-        throw new UnsupportedOperationException("Funcionalidade nao implementada");
+        return Model.TemEstilo(NomeEstilo);
     }
 
     public boolean isValidFile(String NomeFicheiro) {
-        return FilenameUtils.getExtension(NomeFicheiro).equals(".c");
+        return FilenameUtils.getExtension(NomeFicheiro).equals("c");
     }
 
     public ArrayList<EstiloProgramacao> getEstilosUtilizador() {
@@ -106,9 +109,5 @@ public class Controller extends Observable {
 
     public String getUtilizadorAtualNome() {
         return Model.getUtilizadorAtualNome();
-    }
-
-    public boolean IsDiretorio(File Aux) {
-        return FilenameUtils.getExtension(Aux.getPath()).equals("");
     }
 }

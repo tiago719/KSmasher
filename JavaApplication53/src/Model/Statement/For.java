@@ -1,7 +1,8 @@
 package Model.Statement;
 
-
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.If_EP;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -297,16 +298,11 @@ public class For extends Statement {
                 if (aux.charAt(Conta) != '{') {
                     Conta++;
                 } else {
-                    for(int x = Conta; x> 0;x--)
-                    {
-                        if(aux.charAt(x) == ')')
-                        {
+                    for (int x = Conta; x > 0; x--) {
+                        if (aux.charAt(x) == ')') {
                             break;
-                        }
-                        else
-                        {
-                            if(aux.charAt(x) == '\n')
-                            {
+                        } else {
+                            if (aux.charAt(x) == '\n') {
                                 PosicaoPrimeiraChaveta = false;
                             }
                         }
@@ -360,8 +356,7 @@ public class For extends Statement {
             }
         }
     }
-    
-    
+
     @Override
     public String RetiraDados(String Codigo, Texto t) {
         int i, j;
@@ -399,7 +394,7 @@ public class For extends Statement {
             }
         }
 
-        PInicializacao = new Statement(Codigo.substring(i, j + 1), t);
+        PInicializacao = new Statement(Codigo.substring(i, j), t);
 
         //retirar espacos entre Inicializacao; ate condicao
         for (i = j; i < Codigo.length(); i++) {
@@ -424,7 +419,7 @@ public class For extends Statement {
             }
         }
 
-        Condicao = new Statement(Codigo.substring(i, j + 1), t);
+        Condicao = new Statement(Codigo.substring(i, j), t);
 
         //retirar espacos entre Condicao; ate incrementacao
         for (i = j; i < Codigo.length(); i++) {
@@ -461,20 +456,6 @@ public class For extends Statement {
         int l, k, m, n;
 
         //procurar {
-        for (l = j + 1; l < Codigo.length(); l++) {
-            char qqq = Codigo.charAt(l);
-            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
-                AspasAberto = !AspasAberto;
-                continue;
-            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
-                PlicasAberto = !PlicasAberto;
-                continue;
-            }
-            if (Codigo.charAt(l) == '{') {
-                break;
-            }
-        }
-
         for (l = j + 1; l < Codigo.length(); l++) {
             if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
                 AspasAberto = !AspasAberto;
@@ -521,80 +502,120 @@ public class For extends Statement {
             }
         }
 
-        this.Codigo = Codigo.substring(0, j + 1);
-          if (n+1 > Codigo.length())
+        this.Codigo = Codigo.substring(0, l);
+        if (n + 1 > Codigo.length()) {
             this.ParaAnalise = Codigo.substring(0, n - (n - Codigo.length()));
-        else
+        } else {
             this.ParaAnalise = Codigo.substring(0, n + 1);
-          
-     
-        
-        if(m+1 >Codigo.length())
-        {
-            this.NumCarateresAvancar = m - (m - Codigo.length());
-            return Codigo.substring(l, m - (m - Codigo.length()));
-        }
-        else
-        {   this.NumCarateresAvancar = m + 1;
-            return Codigo.substring(1, m +1);
         }
 
+        if (m + 1 > Codigo.length()) {
+            this.NumCarateresAvancar = m + 2;
+            return Codigo.substring(l, m - (m - Codigo.length()));
+        } else {
+            this.NumCarateresAvancar = m + 2;
+            return Codigo.substring(l, m + 1);
+        }
     }
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        super.converteStatement(estilo);
-        String aux= this.Codigo;
-        StringBuilder build = new StringBuilder(aux); 
-        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
-        char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
-        int flag=0, conta=0;
-       
-            for (int i = 0; i < aux.length(); i++) {
-                if(aux.charAt(i)=='(')
-                 {            
-                   build.insert(i, espacos, 0, estilo.getFors().getEspacosForParentesAberto());
-                   build.insert(i+1+estilo.getFors().getEspacosForParentesAberto(), espacos, 0, estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao());
-                 }
-                if(aux.charAt(i)==';')
-                 {   
-                   flag++;
-                   
-                    if(flag==1)
-                    {
-                   conta+=estilo.getFors().getEspacosForParentesAberto()+estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao();
-                   
-                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosInicializacaoPontoVirgula());
-                   build.insert(i+conta+1+estilo.getFors().getEspacosInicializacaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaCondicao());
-                     }
-                   if(flag==2)
-                   {
-                    conta+=estilo.getFors().getEspacosInicializacaoPontoVirgula()+ estilo.getFors().getEspacosPontoVirgulaCondicao();
-                   
-                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosCondicaoPontoVirgula());
-                   build.insert(i+conta+1+estilo.getFors().getEspacosCondicaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaIncrementacao()); 
-                   }
-                 }
-                 if(aux.charAt(i)==')')
-                 {    
-                   conta+=estilo.getFors().getEspacosCondicaoPontoVirgula()+estilo.getFors().getEspacosPontoVirgulaIncrementacao();
-                     
-                   build.insert(i+conta, espacos, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
-                 }
-                  if(aux.charAt(i)=='{')
-                 {    
-                   conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
-                     
-                   build.insert(i+1+conta, linhas, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
-                 }
-                  if(aux.charAt(i)=='}')
-                 {    
-                   conta+=estilo.getFors().getEspacosIncrementacaoParentesesFechado();
-                     
-                   build.insert(i+conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada());
-                 }
-            
-         }
-            this.Codigo=build.toString();
+//        super.converteStatement(estilo);
+
+//        String aux = this.ParaAnalise;
+//        StringBuilder build = new StringBuilder(aux);
+//        char espacos[] = {' ', ' ', ' ', ' ', ' ', ' ', ' '};
+//        char linhas[] = {'\n', '\n', '\n', '\n', '\n', '\n', '\n'};
+//        int flag = 0, conta = 0;
+//
+//        for (int i = 0; i < aux.length(); i++) {
+//            if (aux.charAt(i) == '(') {
+//                build.insert(i, espacos, 0, estilo.getFors().getEspacosForParentesAberto());
+//                build.insert(i + 1 + estilo.getFors().getEspacosForParentesAberto(), espacos, 0, estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao());
+//            }
+//            if (aux.charAt(i) == ';') {
+//                flag++;
+//
+//                if (flag == 1) {
+//                    conta += estilo.getFors().getEspacosForParentesAberto() + estilo.getFors().getEspacosParentesesAbertoCondicaoInicializacao();
+//
+//                    build.insert(i + conta, espacos, 0, estilo.getFors().getEspacosInicializacaoPontoVirgula());
+//                    build.insert(i + conta + 1 + estilo.getFors().getEspacosInicializacaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaCondicao());
+//                }
+//                if (flag == 2) {
+//                    conta += estilo.getFors().getEspacosInicializacaoPontoVirgula() + estilo.getFors().getEspacosPontoVirgulaCondicao();
+//
+//                    build.insert(i + conta, espacos, 0, estilo.getFors().getEspacosCondicaoPontoVirgula());
+//                    build.insert(i + conta + 1 + estilo.getFors().getEspacosCondicaoPontoVirgula(), espacos, 0, estilo.getFors().getEspacosPontoVirgulaIncrementacao());
+//                }
+//                if (flag > 2) {
+//                    conta += estilo.getFors().getLinhasEmBrancoDepoisChavetaAberta();
+//
+//                    build.insert(i + conta + 1, linhas, 0, 1);
+//                }
+//            }
+//            if (aux.charAt(i) == ')') {
+//                conta += estilo.getFors().getEspacosCondicaoPontoVirgula() + estilo.getFors().getEspacosPontoVirgulaIncrementacao();
+//
+//                build.insert(i + conta, espacos, 0, estilo.getFors().getEspacosIncrementacaoParentesesFechado());
+//            }
+//            if (aux.charAt(i) == '{') {
+//                conta += estilo.getFors().getEspacosIncrementacaoParentesesFechado();
+//
+//                build.insert(i + 1 + conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaAberta());
+//            }
+//            if (aux.charAt(i) == '}') {
+//                conta += estilo.getFors().getEspacosIncrementacaoParentesesFechado();
+//
+//                build.insert(i + conta, linhas, 0, estilo.getFors().getLinhasEmBrancoDepoisChavetaFechada() - 1);
+//            }
+//
+//        }
+        For_EP ep = estilo.getFors();
+
+        String Aux = "for";
+
+        for (int i = 0; i < ep.getEspacosForParentesAberto(); i++) {
+            Aux += " ";
+        }
+        Aux += "(";
+
+        for (int i = 0; i < ep.getEspacosParentesesAbertoCondicaoInicializacao(); i++) {
+            Aux += " ";
+        }
+
+        this.PInicializacao.converteStatement(estilo);
+        Aux += this.PInicializacao.Codigo;
+
+        for (int i = 0; i < ep.getEspacosInicializacaoPontoVirgula(); i++) {
+            Aux += " ";
+        }
+        Aux += ";";
+
+        for (int i = 0; i < ep.getEspacosPontoVirgulaCondicao(); i++) {
+            Aux += " ";
+        }
+        this.Condicao.converteStatement(estilo);
+        Aux += this.Condicao.Codigo;
+
+        for (int i = 0; i < ep.getEspacosCondicaoPontoVirgula(); i++) {
+            Aux += " ";
+        }
+        Aux += ";";
+
+        for (int i = 0; i < ep.getEspacosPontoVirgulaIncrementacao(); i++) {
+            Aux += " ";
+        }
+        this.Incrementacao.converteStatement(estilo);
+        Aux += this.Incrementacao.Codigo;
+
+        for (int i = 0; i < ep.getEspacosIncrementacaoParentesesFechado(); i++) {
+            Aux += " ";
+        }
+        Aux += ")";
+
+
+        this.Codigo = Aux;
+
     }
 }

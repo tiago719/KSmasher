@@ -31,10 +31,11 @@ public class Operador extends Statement {
         }
 
         this.ParaAnalise = Codigo;
-        if(j+1 > Codigo.length())
-            this.Codigo = Codigo.substring(i, j - (j-Codigo.length()));
-        else
-            this.Codigo = Codigo.substring(i, j +1);
+        if (j + 1 > Codigo.length()) {
+            this.Codigo = Codigo.substring(i, j - (j - Codigo.length()));
+        } else {
+            this.Codigo = Codigo.substring(i, j + 1);
+        }
 
         return null;
     }
@@ -105,19 +106,17 @@ public class Operador extends Statement {
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
         StringBuilder novastring = new StringBuilder();
-        for (int i = 0; i < Codigo.length(); i++) {
-            if (i == 0) {
-                for (int j = 0; j < estilo.getOperador().getEspacosVariavelOperador(); j++) {
-                    novastring.append(' ');
-                }
-            } else if (i == Codigo.length() - 1) {
-                for (int j = 0; j < estilo.getOperador().getEspacosOperadorVariavel(); j++) {
-                    novastring.append(' ');
-                }
-            } else {
-                novastring.append(Codigo.charAt(i));
-            }
+
+        for (int j = 0; j < estilo.getOperador().getEspacosVariavelOperador(); j++) {
+            novastring.append(' ');
         }
+
+        novastring.append(Codigo);
+        
+        for (int j = 0; j < estilo.getOperador().getEspacosOperadorVariavel(); j++) {
+            novastring.append(' ');
+        }
+        
         this.Codigo = novastring.toString();
     }
 }

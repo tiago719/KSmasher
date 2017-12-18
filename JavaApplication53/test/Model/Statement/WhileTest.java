@@ -31,7 +31,9 @@ public class WhileTest
     
     public WhileTest()
     {
-       w = new While("while (   (())  ) {",new Texto());
+
+        lista=new ArrayList<>();
+        lista.add(new While("while (   ola = 5  )           { int a = 5;       }   else {    }", new Texto()));
         
       /*  for(While S : lista)
             S.analisaStatement();*/
@@ -77,5 +79,16 @@ public class WhileTest
                                 new Operador_EP(1, 1),
                                 new While_EP(true, 1, 1, 1, 1, 1));
         w.converteStatement(es);
+
+//        assertEquals(3, lista.get(0).getEspacosParentesesAbertoCondicao());
+        
+        
+        assertEquals(1,lista.get(0).isChavetaUmStatementDentroWhile());
+        assertEquals(0,lista.get(0).isPrimeiraChavetaNovaLinha());
+        assertEquals(1,lista.get(0).getEspacosWhileParentesAberto());
+        assertEquals(3,lista.get(0).getEspacosParentesesAbertoCondicao());
+        assertEquals(2,lista.get(0).getEspacosCondicaoParentesFechado());
+        assertEquals(0,lista.get(0).getLinhasEmBrancoDepoisChavetaAberta());
+        assertEquals(0, lista.get(0).getLinhasEmBrancoDepoisChavetaFechada());
     }
 }

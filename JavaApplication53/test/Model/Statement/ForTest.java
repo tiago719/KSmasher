@@ -1,11 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Model.Statement;
 
+import Model.EstiloProgramacao.Cast_EP;
+import Model.EstiloProgramacao.DoWhile_EP;
+import Model.EstiloProgramacao.Else_EP;
+import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.Funcoes_EP;
+import Model.EstiloProgramacao.If_EP;
+import Model.EstiloProgramacao.Operador_EP;
+import Model.EstiloProgramacao.While_EP;
 import Model.Texto;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,10 +19,61 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
+
+public class ForTest {
+    
+    public ArrayList<For> lista;
+    
+    public ForTest() {
+        
+        
+        lista=new ArrayList<>();
+      
+        lista.add(new For("for(i=0;i<dscf;i++){gddfhg;fggdsf;fedsc;}e", new Texto()));
+      
+        
+        EstiloProgramacao estilo=new EstiloProgramacao("EstiloDefeito",false,
+                                new Cast_EP(1),
+                                new DoWhile_EP(true, 1, 0, 1, 1, 1),
+                                new Else_EP(true, 1, 1),
+                                new For_EP(true, false, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new Funcoes_EP(false),
+                                new If_EP(true, false, 1, 1, 1, 1, 1),
+                                new Operador_EP(1, 1),
+                                new While_EP(true, false, 1, 1, 1, 1, 1));
+        
+        for(For S : lista)
+            S.converteStatement(estilo);
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+   
+    /**
+     * Test of converteStatement method, of class For.
+     */
+    @Test
+    public void testConverteStatement() {
+        assertEquals("for ( i=0; i<dscf; i++){\ngddfhg;\nfggdsf;\nfedsc;\n}e",lista.get(0).Codigo);
+    }
+/*
  * @author andre
  */
+  /*
 public class ForTest {
     
     For for1;
@@ -55,6 +112,5 @@ public class ForTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }*/
-
     
 }

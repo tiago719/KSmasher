@@ -1,6 +1,8 @@
 package Model.Statement;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.While_EP;
 import Model.Texto;
 import java.util.ArrayList;
 
@@ -358,6 +360,7 @@ public class While extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+
         super.converteStatement(estilo);
 
         String aux = this.Codigo.trim();

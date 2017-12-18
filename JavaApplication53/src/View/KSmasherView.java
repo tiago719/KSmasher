@@ -31,7 +31,8 @@ public class KSmasherView extends JFrame implements Observer
 {
     Controller Controller;
     JPanel PainelPrincipal;
-    AnalisaConvertePanel AnalisaConvertePanel;
+    AnalisarFicheiro AnalisaPanel;
+    ConverterDiretoria ConvertePanel;
     RegistoLoginPanel RegistoLoginPanel;
     
     
@@ -43,23 +44,27 @@ public class KSmasherView extends JFrame implements Observer
         Controller=o;
         Controller.addObserver(this);
                 
-        AnalisaConvertePanel=new AnalisaConvertePanel(Controller);
+        AnalisaPanel=new AnalisarFicheiro(Controller);
         RegistoLoginPanel=new RegistoLoginPanel(Controller);
+        ConvertePanel=new ConverterDiretoria(Controller);
         CardLayout cl;
         
         PainelPrincipal=new JPanel(cl=new CardLayout());
         PainelPrincipal.add(RegistoLoginPanel, "RegistoLogin");
-        PainelPrincipal.add(AnalisaConvertePanel, "AnalisaConverte");
+        PainelPrincipal.add(AnalisaPanel, "Analisa");
+        PainelPrincipal.add(ConvertePanel, "Converte");
         cl.first(PainelPrincipal);
         
         RegistoLoginPanel.setCardPanel(PainelPrincipal);
+        AnalisaPanel.setCardPanel(PainelPrincipal);
+        ConvertePanel.setCardPanel(PainelPrincipal);
         
         addComponents();
         
         setVisible(true);
         
-        this.setSize(700, 500);
-        this.setMinimumSize(new Dimension(650, 450));
+        this.setSize(500, 400);
+        this.setMinimumSize(new Dimension(650, 400));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         validate();
