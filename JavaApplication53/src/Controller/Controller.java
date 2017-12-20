@@ -35,7 +35,8 @@ public class Controller extends Observable {
     //-3: utilizador ja existe
     //1: utilizador não existe
 
-    public int ExisteUsername(String nome) {
+    public int ExisteUsername(String nome) 
+    {
   
         if (nome.length() > 15 || nome.length() < 7) {
             return -1;
