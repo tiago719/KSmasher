@@ -27,7 +27,7 @@ public class CastTest {
         
         
         lista=new ArrayList<>();
-        lista.add(new Cast("( int )  o", new Texto()));
+        lista.add(new Cast("( int )o", new Texto()));
         
         for(Cast S : lista)
             S.analisaStatement();
@@ -52,7 +52,7 @@ public class CastTest {
     @Test
     public void testAnalisaStatement() {
         
-       assertEquals(2,lista.get(0).getEspacosEntreCastVariavel());
+       assertEquals(0,lista.get(0).getEspacosEntreCastVariavel());
       
     }
 

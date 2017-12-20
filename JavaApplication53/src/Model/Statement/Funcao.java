@@ -34,6 +34,14 @@ public class Funcao extends Statement {
                 PosInicioCodigoFuncao = j;
                 break;
             }
+            
+            if(Codigo.charAt(j)==';')
+            {
+                this.Codigo = Codigo.substring(0, PosInicioCodigoFuncao);
+                this.NumCarateresAvancar=j;
+                this.ParaAnalise=Codigo;
+                return this.Codigo;
+            }
         }
 
         int NumAspasAbertos = 1;

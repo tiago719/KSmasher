@@ -123,7 +123,7 @@ public class If extends Statement {
             m = a;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n') {
+            if (!Character.isWhitespace(Codigo.charAt(n))) {
                 break;
             }
         }
@@ -289,7 +289,7 @@ public class If extends Statement {
             }
         }
 
-        if (!temChaveta) {
+        if (temChaveta) {
             for (++i; i < ParaAnalise.length(); i++) {
                 if (!Character.isWhitespace(ParaAnalise.charAt(i))) {
                     break;
@@ -302,11 +302,11 @@ public class If extends Statement {
                 PrimeiraChavetaNovaLinha = -1;
             }
         } else {
-            ChavetaUmStatementIf = -1;
+            ChavetaUmStatementIf = 0;
         }
         boolean primeiro = true;
 
-        if (ChavetaUmStatementIf != 0) {
+        if (ChavetaUmStatementIf == 1) {
             PrimeiraChavetaNovaLinha = 0;
             LinhasEmBrancoDepoisChavetaAberta = 0;
             LinhasEmBrancoDepoisChavetaFechada = 0;

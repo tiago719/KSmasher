@@ -341,8 +341,11 @@ public class For extends Statement {
 
                 }
             }
-            aux = aux.substring(Conta + 1);
-
+            if(Conta+1<=aux.length())
+                aux = aux.substring(Conta + 1);
+            else
+                aux = aux.substring(Conta);
+            
             LinhasEmBrancoDepoisChavetaFechada = 0;
             for (i = 0; i < aux.length(); i++) {
                 if (aux.charAt(i) != ' ' && aux.charAt(i) != '\n') {

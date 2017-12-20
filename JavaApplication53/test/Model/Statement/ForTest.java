@@ -20,13 +20,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-public class ForTest {
+/*public class ForTest {
     
     public ArrayList<For> lista;
     
     public ForTest() {
         
-        
+        /*
         lista=new ArrayList<>();
       
         lista.add(new For("for(i=0;i<dscf;i++){gddfhg;fggdsf;fedsc;}e", new Texto()));
@@ -44,43 +44,27 @@ public class ForTest {
         
         for(For S : lista)
             S.converteStatement(estilo);
-    }
+        */
+   /* }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-   
-    /**
-     * Test of converteStatement method, of class For.
-     */
     @Test
     public void testConverteStatement() {
         assertEquals("for ( i=0; i<dscf; i++){\ngddfhg;\nfggdsf;\nfedsc;\n}e",lista.get(0).Codigo);
     }
+    */
 /*
  * @author andre
  */
-  /*
+ 
 public class ForTest {
     
-    For for1;
+    For for1, for2;
     
     public ForTest() {
-        for1 =new For("for(;i<6;i++) a", new Texto());
+        for1 =new For("for(;i<6;i++) a;{...}", new Texto());
+        for1 =new For("for  (;;){\n\n\n a;}\n\n\n}", new Texto());
         for1.analisaStatement();
+        for2.analisaStatement();
     }
 
     @Test
@@ -96,6 +80,20 @@ public class ForTest {
         assertEquals(0, for1.getEspacosIncrementacaoParentesesFechado());
         assertEquals(-1, for1.getLinhasEmBrancoDepoisChavetaAberta());
         assertEquals(-1, for1.getLinhasEmBrancoDepoisChavetaFechada());
+        assertEquals(-1, for1.isPosicaoPrimeiraChaveta());
+        assertEquals(0,for1.isChavetaUmStatementDentroFor());
+        
+        assertEquals(2, for2.getEspacosForParentesAberto());
+        assertEquals(-1, for2.getEspacosParentesesAbertoCondicaoInicializacao());
+        assertEquals(-1, for2.getEspacosInicializacaoPontoVirgula());
+        assertEquals(-1, for2.getEspacosPontoVirgulaCondicao());
+        assertEquals(-1, for2.getEspacosCondicaoPontoVirgula());
+        assertEquals(-1, for2.getEspacosPontoVirgulaIncrementacao());
+        assertEquals(-1, for2.getEspacosIncrementacaoParentesesFechado());
+        assertEquals(2, for2.getLinhasEmBrancoDepoisChavetaAberta());
+        assertEquals(2, for2.getLinhasEmBrancoDepoisChavetaFechada());
+        assertEquals(0, for2.isPosicaoPrimeiraChaveta());
+        assertEquals(1,for2.isChavetaUmStatementDentroFor());
         
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

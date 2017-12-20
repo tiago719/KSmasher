@@ -355,6 +355,7 @@ public class Texto {
 
         for (int i = 0; i < Codigo.length(); i++) {
 
+            char c=Codigo.charAt(i);
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
@@ -544,11 +545,10 @@ public class Texto {
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
                 int PrevCarater = 0, NextCarater = 0;
-                char c;
                 if (NumCarCast != -1) {
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if ((c = Codigo.charAt(j)) != ' ' || Codigo.charAt(j) != '\n') {
+                        if ( !Character.isWhitespace(Codigo.charAt(i))) {
                             PrevCarater = j;
                             break;
                         }
