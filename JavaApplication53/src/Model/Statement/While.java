@@ -65,7 +65,7 @@ public class While extends Statement {
 
         //retira espacos do fim condicao ate )
         for (z = j - 1; z >= 0; z--) {
-            if (Codigo.charAt(z) != ' ' && Codigo.charAt(j) != '\n') {
+            if (!Character.isWhitespace(Codigo.charAt(z))) {
                 break;
             }
 
@@ -105,7 +105,6 @@ public class While extends Statement {
                 }
                 if (Codigo.charAt(m) == '{') {
                     NumParentesesAbertos++;
-                    break;
                 } else if (Codigo.charAt(m) == '}') {
                     if (--NumParentesesAbertos == 0) {
                         break;
@@ -116,7 +115,7 @@ public class While extends Statement {
             m = l;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n') {
+            if (!Character.isWhitespace(Codigo.charAt(n))) {
                 break;
             }
         }
