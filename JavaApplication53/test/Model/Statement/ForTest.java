@@ -62,7 +62,7 @@ public class ForTest {
     
     public ForTest() {
         for1 =new For("for(;i<6;i++) a;{...}", new Texto());
-        for1 =new For("for  (;;){\n\n\n a;}\n\n\n}", new Texto());
+        for2 =new For("for  (;;){\n\n\n a;}\n\n\n}a++;", new Texto());
         for1.analisaStatement();
         for2.analisaStatement();
     }
@@ -80,8 +80,8 @@ public class ForTest {
         assertEquals(0, for1.getEspacosIncrementacaoParentesesFechado());
         assertEquals(-1, for1.getLinhasEmBrancoDepoisChavetaAberta());
         assertEquals(-1, for1.getLinhasEmBrancoDepoisChavetaFechada());
-        assertEquals(-1, for1.isPosicaoPrimeiraChaveta());
-        assertEquals(0,for1.isChavetaUmStatementDentroFor());
+        assertEquals(false, for1.isPosicaoPrimeiraChaveta());
+        assertEquals(false,for1.isChavetaUmStatementDentroFor());
         
         assertEquals(2, for2.getEspacosForParentesAberto());
         assertEquals(-1, for2.getEspacosParentesesAbertoCondicaoInicializacao());
@@ -92,8 +92,8 @@ public class ForTest {
         assertEquals(-1, for2.getEspacosIncrementacaoParentesesFechado());
         assertEquals(2, for2.getLinhasEmBrancoDepoisChavetaAberta());
         assertEquals(2, for2.getLinhasEmBrancoDepoisChavetaFechada());
-        assertEquals(0, for2.isPosicaoPrimeiraChaveta());
-        assertEquals(1,for2.isChavetaUmStatementDentroFor());
+        assertEquals(false, for2.isPosicaoPrimeiraChaveta());
+        assertEquals(true,for2.isChavetaUmStatementDentroFor());
         
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

@@ -61,11 +61,11 @@ public class Utilizador
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1),
-                                new For_EP(true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new For_EP(true,true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
-                                new If_EP(true, 1, 1, 1, 1, 1),
+                                new If_EP(true,true, 1, 1, 1, 1, 1),
                                 new Operador_EP(1, 1),
-                                new While_EP(true, 1, 1, 1, 1, 1)));
+                                new While_EP(true,true, 1, 1, 1, 1, 1)));
 
     }
 
