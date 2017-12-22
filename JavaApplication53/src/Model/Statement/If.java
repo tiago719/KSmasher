@@ -224,7 +224,7 @@ public class If extends Statement {
         EspacosIfParentesAberto = 0;
         EspacosCondicaoParentesFechado = 0;
         PrimeiraChavetaNovaLinha = -1;
-        ChavetaUmStatementIf = -1;
+        ChavetaUmStatementIf= -1;
         LinhasEmBrancoDepoisChavetaAberta = -1;
         LinhasEmBrancoDepoisChavetaFechada = -1;
         int contParenteses = 0, indexParenteses = -1, i, aux, a, contPontoVirgula = 0;
@@ -288,6 +288,18 @@ public class If extends Statement {
                 break;
             }
         }
+        
+        contPontoVirgula=0;
+        
+        for(++a;a<ParaAnalise.length();a++)
+        {
+            if(ParaAnalise.charAt(a)==';')
+                if(++contPontoVirgula>=2)
+                {
+                    ChavetaUmStatementIf=-1;
+                    break;
+                }
+        }
 
         if (temChaveta) {
             for (++i; i < ParaAnalise.length(); i++) {
@@ -295,18 +307,24 @@ public class If extends Statement {
                     break;
                 }
             }
-            if (ParaAnalise.charAt(i) == '{') {
+            if (ParaAnalise.charAt(i) == '{' && contPontoVirgula<2) 
+            {
                 ChavetaUmStatementIf = 1;
-            } else {
+            } 
+            else if(contPontoVirgula<2) 
+            {
                 ChavetaUmStatementIf = 0;
                 PrimeiraChavetaNovaLinha = -1;
             }
+            else
+                PrimeiraChavetaNovaLinha = -1;
+            
         } else {
             ChavetaUmStatementIf = 0;
         }
         boolean primeiro = true;
 
-        if (ChavetaUmStatementIf == 1) {
+        if (ChavetaUmStatementIf == 1 || ChavetaUmStatementIf == -1) {
             PrimeiraChavetaNovaLinha = 0;
             LinhasEmBrancoDepoisChavetaAberta = 0;
             LinhasEmBrancoDepoisChavetaFechada = 0;

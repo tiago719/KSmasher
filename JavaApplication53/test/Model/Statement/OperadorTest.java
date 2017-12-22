@@ -25,7 +25,7 @@ public class OperadorTest
     {
         
         lista=new ArrayList<>();
-        lista.add(new Operador(" a  ==  0", new Texto()));
+        lista.add(new Operador("a  ==  0", new Texto()));
       
        for(int i=0;i<lista.size();i++)
             lista.get(i).analisaStatement();
@@ -59,5 +59,7 @@ public class OperadorTest
     {
         assertEquals(2, lista.get(0).getEspacosVariavelOperador());
         assertEquals(2, lista.get(0).getEspacosOperadorVariavel());
+        assertEquals("a  ==  0", lista.get(0).ParaAnalise);
+        assertEquals("==", lista.get(0).Codigo);
     }    
 }
