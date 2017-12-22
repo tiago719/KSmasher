@@ -103,8 +103,9 @@ public class Pesquisas {
         ResultSet Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "'");
 
         if (Rt.next()) {
+            Utilizador util = new Utilizador(Rt.getInt("IDUTILIZADOR"),Rt.getString("NOME"), Rt.getString("EMAIL"), Rt.getString("PASSWORD"));
             bd.CloseConnection();
-            return new Utilizador(Rt.getString("NOME"), Rt.getString("EMAIL"), Rt.getString("PASSWORD"));
+            return util;
         } else {
             bd.CloseConnection();
             return null;
@@ -113,7 +114,7 @@ public class Pesquisas {
     }
 
     //// VAI DEVOLVER UM ARRAY DE ESTILOS DE PROGRAMAÇAO MAS SÒ COM O NOME E O ID DO ESTILO
-    public ArrayList<EstiloProgramacao> DevolveEstiloProgramacao(String nome) {
+    public ArrayList<EstiloProgramacao> DevolveEstilosProgramacao(String nome) {
         ArrayList<EstiloProgramacao> Estilos = new ArrayList<>();
         bd = new BaseDados();
         EstiloProgramacao est;
@@ -131,7 +132,29 @@ public class Pesquisas {
         }
         return Estilos;
     }
+    
+    /// DEVOLVE OS ESTILO DE UM UTILIZADOR
+     public ArrayList<EstiloProgramacao> DevolveEstilosProgramacaoUtilizador(int Id) {
+        ArrayList<EstiloProgramacao> Estilos = new ArrayList<>();
+        bd = new BaseDados();
+        EstiloProgramacao est;
+        ResultSet Rt = null;
 
+        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Id + "';");
+
+        try {
+            while (Rt.next()) {
+                est = new EstiloProgramacao(Rt.getInt("IDESTILO"), Rt.getString("NOMEESTILO"));
+                Estilos.add(est);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Estilos;
+    }
+    
+    
+  /*
     public void AdicionaEstilo(EstiloProgramacao est, Utilizador util, int Partilha) {
         bd = new BaseDados();
         ResultSet Rt = null;
@@ -449,5 +472,5 @@ public class Pesquisas {
          {
              System.out.println("Model.Pesquisas.getEstilos()");
          }
-     }
+     }*/
 }

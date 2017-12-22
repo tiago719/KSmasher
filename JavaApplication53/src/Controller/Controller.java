@@ -77,7 +77,9 @@ public class Controller extends Observable {
     }
 
     public boolean Login(String username, String password) {
-        return Model.Login(username, password);
+        boolean Result = Model.Login(username, password);
+        Model.getEstilosUtilizador();
+        return Result;
     }
 
     public boolean Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {

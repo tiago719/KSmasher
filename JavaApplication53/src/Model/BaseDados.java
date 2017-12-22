@@ -10,7 +10,7 @@ public class BaseDados {
     private Connection Con;
     private Statement St;
     private ResultSet Rs;
-    private String BDName = "ksmasher";
+    private String BDName = "ksmasherdb";
     private String User = "root";
     private String Pass = "";
     
