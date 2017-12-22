@@ -5,46 +5,54 @@
  */
 package Model.Statement;
 
+import Model.EstiloProgramacao.Cast_EP;
+import Model.EstiloProgramacao.DoWhile_EP;
+import Model.EstiloProgramacao.Else_EP;
+import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.For_EP;
+import Model.EstiloProgramacao.Funcoes_EP;
+import Model.EstiloProgramacao.If_EP;
+import Model.EstiloProgramacao.Operador_EP;
+import Model.EstiloProgramacao.While_EP;
 import Model.Texto;
+import java.util.ArrayList;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 
 public class DoWhileTest {
     
-        //public ArrayList<DoWhile> lista;
+        public ArrayList<DoWhile> lista;
     public DoWhile instance;
     
     public DoWhileTest() {
-         //lista=new ArrayList<>();
+         lista=new ArrayList<>();
       
         instance = new DoWhile("do{hjskgd;sgrvs;svsvf;}while(x<5)e", new Texto());
       
-        /*
-        EstiloProgramacao estilo=new EstiloProgramacao("EstiloDefeito",false
+        
+        EstiloProgramacao estilo=new EstiloProgramacao(1,"EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 2),
                                 new Else_EP(true, 1, 1),
-                                new For_EP(true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new For_EP(true, true,1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
-                                new If_EP(true, 1, 1, 1, 1, 1),
+                                new If_EP(true, true,1, 1, 1, 1, 1),
                                 new Operador_EP(1, 1),
-                                new While_EP(true, 1, 1, 1, 1, 1));
+                                new While_EP(true, true,1, 1, 1, 1, 1));
         
        
         for(DoWhile S : lista)
             S.converteStatement(estilo);
-         */
+         
         
         instance.analisaStatement();
     }
 
-   
-    /**
-     * Test of converteStatement method, of class DoWhile.
-     */
-   /* @Test
+    @Test
     public void testConverteStatement() {
-       assertEquals("do{\nhjskgd;\nsgrvs;\nsvsvf;\n}while ( x<5  )e",lista.get(0).Codigo);
-    }*/
+       assertEquals("do\n{hjskgd;\nsgrvs;\nsvsvf;\n}while ( x<5  )e",lista.get(0).Codigo);
+    }
 }
 
 /*public class DoWhileTest
