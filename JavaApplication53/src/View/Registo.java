@@ -237,6 +237,7 @@ public class Registo extends javax.swing.JPanel
         if(UserFirst)
             jUsername.setText("");
         jUsername.setForeground(Color.BLACK);
+        jErroCPass.setVisible(false);
         UserFirst=false;
         
     }//GEN-LAST:event_jUsernameFocusGained
@@ -247,6 +248,7 @@ public class Registo extends javax.swing.JPanel
         if(EmailFirst)
             jEmail.setText("");
         jEmail.setForeground(Color.BLACK);
+        jErroCPass.setVisible(false);
         EmailFirst=false;
     }//GEN-LAST:event_jEmailFocusGained
 
@@ -257,6 +259,7 @@ public class Registo extends javax.swing.JPanel
         
         jPassword.setForeground(Color.BLACK);
         jPassword.setEchoChar('•');
+        jErroCPass.setVisible(false);
         PassFirst=false;
     }//GEN-LAST:event_jPasswordFocusGained
 
@@ -276,10 +279,13 @@ public class Registo extends javax.swing.JPanel
             UserOk = false;
             Emailok = false;
             Passok = false;
+            jCPassword.setText("");
+            jPassword.setText("");
+            jEmail.setText("");
+            jUsername.setText("");
         }
         else
         {
-            jErroCPass.setVisible(false);
         }
          
     }//GEN-LAST:event_jRegistarMouseClicked
@@ -292,6 +298,8 @@ public class Registo extends javax.swing.JPanel
         jCPassword.setForeground(Color.BLACK);
         jCPassword.setEchoChar('•');
         CPassFirst=false;
+        
+        jErroCPass.setVisible(false);  
     }//GEN-LAST:event_jCPasswordFocusGained
 
     private void jCPasswordActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCPasswordActionPerformed
