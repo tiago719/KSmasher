@@ -57,7 +57,7 @@ public class Utilizador
     
     public void AdicionaEstiloPorDefeito()
     {
-      /*  EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
+        EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1),
@@ -66,13 +66,18 @@ public class Utilizador
                                 new If_EP(true,true, 1, 1, 1, 1, 1),
                                 new Operador_EP(1, 1),
                                 new While_EP(true,true, 1, 1, 1, 1, 1)));
-*/
+
     }
 
     public void NovoEstilo(EstiloProgramacao EP) {
+        Pesquisas p = new Pesquisas();
+        if(EP.isPermite())
+            p.AdicionaEstilo(EP, this, 1);
+        else
+            p.AdicionaEstilo(EP, this, 0);
         
         EstilosProgramacao.add(EP);
-
+      
     }   
     
     public ArrayList<EstiloProgramacao> getEstilos()
@@ -107,14 +112,12 @@ public class Utilizador
         Password = Pass;
         Pesquisas p = new Pesquisas();     
         EstilosProgramacao = p.DevolveEstilosProgramacaoUtilizador(IdUtilizador);
+        if(EstilosProgramacao == null) EstilosProgramacao = new ArrayList<EstiloProgramacao>();
       }
 
     public void AdicionaUtilizador(String User, String Em, String Pass) {
         Username = User;
         Email = Em;
         Password = Pass;
-        
-        Pesquisas p = new Pesquisas();     
-        EstilosProgramacao = p.DevolveEstilosProgramacaoUtilizador(IdUtilizador);
     }
 }

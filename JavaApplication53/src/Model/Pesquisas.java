@@ -265,18 +265,18 @@ public class Pesquisas {
                 Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";");
 
                 if (Rt.next()) {
-                    boolean pos,pos2;
+                    boolean pos, pos2;
                     if (Rt.getInt("PrimeiraChavetaNovaLinha") == 1) {
                         pos = true;
                     } else {
                         pos = false;
                     }
-                      if (Rt.getInt("ChavetaUmStatementDentroWhile") == 1) {
+                    if (Rt.getInt("ChavetaUmStatementDentroWhile") == 1) {
                         pos2 = true;
                     } else {
                         pos2 = false;
                     }
-                    
+
                     whilep = new While_EP(pos, pos2, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"), Rt.getInt("EspacosWhileParentesAberto"),
                             Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"));
                 } else {
@@ -285,14 +285,14 @@ public class Pesquisas {
 
                 est = new EstiloProgramacao(idEstilo, NomeEstilo, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
                 Estilos.add(est);
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Estilos;
     }
-    
+
     public void AdicionaEstilo(EstiloProgramacao est, Utilizador util, int Partilha) {
         bd = new BaseDados();
         ResultSet Rt = null;
@@ -309,30 +309,45 @@ public class Pesquisas {
             Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `EspacosEntreCastVariavel`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() + ")");
+        if (est.getCast() != null) {
+            bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `EspacosEntreCastVariavel`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() + ")");
+        }
 
-        bd.Modifica("INSERT INTO `do_while`(`IDDOWHILE`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`, `EspacosWhileParentesesAberto`, `EspacosParentesesAbertoCondicao`, `EspacosCondicaoParentesFechado`) VALUES "
-                + "(null," + id + " ," + est.getDowhile().isPosicaoPrimeiraChaveta() + "," + est.getDowhile().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getDowhile().getLinhasEmBrancoDepoisChavetaFechada() + "," + est.getDowhile().getEspacosWhileParentesesAberto()
-                + "," + est.getDowhile().getEspacosParentesesAbertoCondicao() + "," + est.getDowhile().getEspacosCondicaoParentesFechado() + ")");
+        if (est.getDowhile() != null) {
+            bd.Modifica("INSERT INTO `do_while`(`IDDOWHILE`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`, `EspacosWhileParentesesAberto`, `EspacosParentesesAbertoCondicao`, `EspacosCondicaoParentesFechado`) VALUES "
+                    + "(null," + id + " ," + est.getDowhile().isPosicaoPrimeiraChaveta() + "," + est.getDowhile().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getDowhile().getLinhasEmBrancoDepoisChavetaFechada() + "," + est.getDowhile().getEspacosWhileParentesesAberto()
+                    + "," + est.getDowhile().getEspacosParentesesAbertoCondicao() + "," + est.getDowhile().getEspacosCondicaoParentesFechado() + ")");
+        }
 
-        bd.Modifica("INSERT INTO `funcoes`(`IDFUNCOES`, `IDESTILO`, `AntesMain`) VALUES (null," + id + "," + est.getFuncoes().isAntesMain() + ")");
+        if (est.getFuncoes() != null) {
+            bd.Modifica("INSERT INTO `funcoes`(`IDFUNCOES`, `IDESTILO`, `AntesMain`) VALUES (null," + id + "," + est.getFuncoes().isAntesMain() + ")");
+        }
 
-        bd.Modifica("INSERT INTO `operadores`(`IDOPERADORES`, `IDESTILO`, `EspacosOperadorVariavel`, `EspacosVariavelOperador`) VALUES (null," + id + "," + est.getOperador().getEspacosOperadorVariavel() + "," + est.getOperador().getEspacosVariavelOperador() + ")");
+        if (est.getOperador() != null) {
+            bd.Modifica("INSERT INTO `operadores`(`IDOPERADORES`, `IDESTILO`, `EspacosOperadorVariavel`, `EspacosVariavelOperador`) VALUES (null," + id + "," + est.getOperador().getEspacosOperadorVariavel() + "," + est.getOperador().getEspacosVariavelOperador() + ")");
+        }
 
-        bd.Modifica("INSERT INTO `t_else`(`IDELSES`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `LinhasEmBrancoEntreIfElse`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`) VALUES (null," + id + ", 0 ," + est.getElses().isPosicaoPrimeiraChaveta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaFechada() + ");");
+        if (est.getElses() != null) {
+            bd.Modifica("INSERT INTO `t_else`(`IDELSES`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `LinhasEmBrancoEntreIfElse`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`) VALUES (null," + id + ", 0 ," + est.getElses().isPosicaoPrimeiraChaveta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaFechada() + ");");
+        }
 
-        bd.Modifica("INSERT INTO `t_for`(`IDFOR`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroFor`, `EspacosForParentesAberto`, `EspacosParentesesAbertoCondicaoInicializacao`, `EspacosInicializacaoPontoVirgula`, `EspacosPontoVirgulaCondicao`, `EspacosCondicaoPontoVirgula`, `EspacosPontoVirgulaIncrementacao`, `EspacosIncrementacaoParentesesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`)"
-                + "VALUES (null," + id + "," + est.getFors().isPosicaoPrimeiraChaveta() + "," + est.getFors().isChavetaUmStatementDentroFor() + "," + est.getFors().getEspacosForParentesAberto() + "," + est.getFors().getEspacosParentesesAbertoCondicaoInicializacao() + "," + est.getFors().getEspacosInicializacaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaCondicao() + "," + est.getFors().getEspacosCondicaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaIncrementacao() + "," + est.getFors().getEspacosIncrementacaoParentesesFechado() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaFechada() + ")");
+        if (est.getFors() != null) {
+            bd.Modifica("INSERT INTO `t_for`(`IDFOR`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroFor`, `EspacosForParentesAberto`, `EspacosParentesesAbertoCondicaoInicializacao`, `EspacosInicializacaoPontoVirgula`, `EspacosPontoVirgulaCondicao`, `EspacosCondicaoPontoVirgula`, `EspacosPontoVirgulaIncrementacao`, `EspacosIncrementacaoParentesesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`)"
+                    + "VALUES (null," + id + "," + est.getFors().isPosicaoPrimeiraChaveta() + "," + est.getFors().isChavetaUmStatementDentroFor() + "," + est.getFors().getEspacosForParentesAberto() + "," + est.getFors().getEspacosParentesesAbertoCondicaoInicializacao() + "," + est.getFors().getEspacosInicializacaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaCondicao() + "," + est.getFors().getEspacosCondicaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaIncrementacao() + "," + est.getFors().getEspacosIncrementacaoParentesesFechado() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaFechada() + ")");
+        }
 
-        bd.Modifica("INSERT INTO `t_if`(`IDIF`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroIf`, `EspacosIfParentesAberto`, `EspacosParentesesAbertoCondicao`, `EspacosCondicaoParentesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`) "
-                + "VALUES (null," + id + "," + est.getIfs().isPosicaoPrimeiraChaveta() + "," + est.getIfs().isChavetaUmStatementDentroIf() + " ," + est.getIfs().getEspacosIfParentesAberto() + "," + est.getIfs().getEspacosParentesesAbertoCondicao() + "," + est.getIfs().getEspacosCondicaoParentesFechado() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaFechada() + ");");
+        if (est.getIfs() != null) {
+            bd.Modifica("INSERT INTO `t_if`(`IDIF`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroIf`, `EspacosIfParentesAberto`, `EspacosParentesesAbertoCondicao`, `EspacosCondicaoParentesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`) "
+                    + "VALUES (null," + id + "," + est.getIfs().isPosicaoPrimeiraChaveta() + "," + est.getIfs().isChavetaUmStatementDentroIf() + " ," + est.getIfs().getEspacosIfParentesAberto() + "," + est.getIfs().getEspacosParentesesAbertoCondicao() + "," + est.getIfs().getEspacosCondicaoParentesFechado() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaFechada() + ");");
+        }
 
-        bd.Modifica("INSERT INTO `t_while`(`IDWHILE`, `IDESTILO`, `PrimeiraChavetaNovaLinha`, `ChavetaUmStatementDentroWhile`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`, `EspacosWhileParentesAberto`, `EspacosParentesesAbertoCondicao`,'EspacosCondicaoParentesFechado')"
-                + "VALUES (null," + id + "," + est.getWhiles().isPosicaoPrimeiraChaveta() + "," + est.getIfs().isChavetaUmStatementDentroIf() + "," + est.getIfs().getEspacosParentesesAbertoCondicao() + ", " + est.getIfs().getEspacosCondicaoParentesFechado() + " ," + est.getIfs().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaFechada() + ")");
+        if (est.getWhiles() != null) {
+            bd.Modifica("INSERT INTO `t_while`(`IDWHILE`, `IDESTILO`, `PrimeiraChavetaNovaLinha`, `ChavetaUmStatementDentroWhile`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`, `EspacosWhileParentesAberto`, `EspacosParentesesAbertoCondicao`,`EspacosCondicaoParentesFechado`)"
+                    + "VALUES (null," + id + "," + est.getWhiles().isPosicaoPrimeiraChaveta() + "," + est.getWhiles().isChavetaUmStatementDentroWhile()+"," + est.getWhiles().getLinhasEmBrancoDepoisChavetaAberta() + " ," + est.getWhiles().getLinhasEmBrancoDepoisChavetaFechada()  + "," + est.getWhiles().getEspacosWhileParentesAberto()+ ", " + est.getWhiles().getEspacosParentesesAbertoCondicao()+ ", " + est.getWhiles().getEspacosCondicaoParentesFechado()+ ")");
+        }
         bd.CloseConnection();
     }
- 
-    
+
     public boolean VerificaNomeEstilo(String nome) {
         bd = new BaseDados();
 
@@ -351,7 +366,7 @@ public class Pesquisas {
         }
         return false;
     }
-/*
+    /*
     public EstiloProgramacao DevolveEstiloUtilizador(int id) throws SQLException {
         bd = new BaseDados();
         ResultSet Rt = null;

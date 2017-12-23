@@ -23,6 +23,10 @@ public class EstiloProgramacao
     private While_EP whiles;
     private boolean Permite;
 
+    public boolean isPermite() {
+        return Permite;
+    }
+
      public EstiloProgramacao(int id, String nome)
      {
         this.nome = nome;
