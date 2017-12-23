@@ -70,6 +70,7 @@ public class Utilizador
     }
 
     public void NovoEstilo(EstiloProgramacao EP) {
+        
         EstilosProgramacao.add(EP);
 
     }   
@@ -81,8 +82,20 @@ public class Utilizador
     
     public EstiloProgramacao getEstilo(String NomeEstilo)
     {
+        if(EstilosProgramacao == null)
+        {
+            return null;
+        }
         for(EstiloProgramacao EP : EstilosProgramacao)
             if(EP.getNome().equals(NomeEstilo))
+                return EP;
+        return null;
+    }
+    
+     public EstiloProgramacao getEstiloID(int idEstilo)
+    {
+        for(EstiloProgramacao EP : EstilosProgramacao)
+            if(EP.getId() == idEstilo)
                 return EP;
         return null;
     }
