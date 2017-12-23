@@ -284,7 +284,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
     }//GEN-LAST:event_jProcurarMouseClicked
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        
+        jListaEstilos.removeAll();
         if (Controller.getEstilosUtilizador() != null) {
             for (EstiloProgramacao EP : Controller.getEstilosUtilizador()) {
                 jListaEstilos.add(EP.getNome());

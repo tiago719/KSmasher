@@ -66,6 +66,7 @@ public class Model {
         if(!resultado)
             return false;
         else
+            
         {
             try {
                 Utilizador=Pesquisas.getUser(username);
