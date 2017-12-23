@@ -57,7 +57,7 @@ public class Utilizador
     
     public void AdicionaEstiloPorDefeito()
     {
-        EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
+      /*  EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1),
@@ -66,10 +66,11 @@ public class Utilizador
                                 new If_EP(true,true, 1, 1, 1, 1, 1),
                                 new Operador_EP(1, 1),
                                 new While_EP(true,true, 1, 1, 1, 1, 1)));
-
+*/
     }
 
     public void NovoEstilo(EstiloProgramacao EP) {
+        
         EstilosProgramacao.add(EP);
 
     }   
@@ -81,21 +82,39 @@ public class Utilizador
     
     public EstiloProgramacao getEstilo(String NomeEstilo)
     {
+        if(EstilosProgramacao == null)
+        {
+            return null;
+        }
         for(EstiloProgramacao EP : EstilosProgramacao)
             if(EP.getNome().equals(NomeEstilo))
                 return EP;
         return null;
     }
+    
+     public EstiloProgramacao getEstiloID(int idEstilo)
+    {
+        for(EstiloProgramacao EP : EstilosProgramacao)
+            if(EP.getId() == idEstilo)
+                return EP;
+        return null;
+    }
   
-      public Utilizador(String User, String Em, String Pass) {
+      public Utilizador(int id, String User, String Em, String Pass) {
+        IdUtilizador = id;
         Username = User;
         Email = Em;
         Password = Pass;
-    }
+        Pesquisas p = new Pesquisas();     
+        EstilosProgramacao = p.DevolveEstilosProgramacaoUtilizador(IdUtilizador);
+      }
 
     public void AdicionaUtilizador(String User, String Em, String Pass) {
         Username = User;
         Email = Em;
         Password = Pass;
+        
+        Pesquisas p = new Pesquisas();     
+        EstilosProgramacao = p.DevolveEstilosProgramacaoUtilizador(IdUtilizador);
     }
 }

@@ -43,6 +43,12 @@ public class EstiloProgramacao
         this.Permite=Permite;
     }
 
+    
+    public int getId()
+    {
+        return id;
+    }
+    
     public String getNome() {
         return nome;
     }
