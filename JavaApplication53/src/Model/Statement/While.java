@@ -273,6 +273,18 @@ public class While extends Statement {
                 break;
             }
         }
+        
+        contPontoVirgula=0;
+        
+        for(++a;a<ParaAnalise.length();a++)
+        {
+            if(ParaAnalise.charAt(a)==';')
+                if(++contPontoVirgula>=2)
+                {
+                    ChavetaUmStatementDentroWhile=-1;
+                    break;
+                }
+        }
 
         if (temChaveta) {
             for (++i; i < ParaAnalise.length(); i++) {
@@ -280,18 +292,24 @@ public class While extends Statement {
                     break;
                 }
             }
-            if (ParaAnalise.charAt(i) == '{') {
+            if (ParaAnalise.charAt(i) == '{' && contPontoVirgula<2) 
+            {
                 ChavetaUmStatementDentroWhile = 1;
-            } else {
+            } 
+            else if(contPontoVirgula<2) 
+            {
                 ChavetaUmStatementDentroWhile = 0;
                 PrimeiraChavetaNovaLinha = -1;
             }
+            else
+                PrimeiraChavetaNovaLinha = -1;
+            
         } else {
             ChavetaUmStatementDentroWhile = 0;
         }
         boolean primeiro = true;
 
-        if (ChavetaUmStatementDentroWhile == 1) {
+        if (ChavetaUmStatementDentroWhile == 1 || ChavetaUmStatementDentroWhile == -1) {
             PrimeiraChavetaNovaLinha = 0;
             LinhasEmBrancoDepoisChavetaAberta = 0;
             LinhasEmBrancoDepoisChavetaFechada = 0;

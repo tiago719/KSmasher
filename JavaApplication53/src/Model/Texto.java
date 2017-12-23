@@ -468,14 +468,14 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
                     OUTER1:
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
                             break OUTER1;
                         }
                     }
                     OUTER2:
                     for (int j = i + 3; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j;
                             break OUTER2;
                         }
@@ -494,14 +494,14 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
                             break;
                         }
                     }
 
                     for (int j = i + 2; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j + 1;
                             break;
                         }
@@ -520,7 +520,7 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
 
                             break;
@@ -528,7 +528,7 @@ public class Texto {
                     }
 
                     for (int j = i + 1; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j + 1;
                             break;
                         }
