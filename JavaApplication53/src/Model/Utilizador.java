@@ -63,7 +63,7 @@ public class Utilizador
                                 new Else_EP(true, 1, 1),
                                 new For_EP(true,true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
                                 new Funcoes_EP(false),
-                                new If_EP(true,true, 1, 1, 1, 1, 1),
+                                new If_EP(true,false, 3, 3, 3, 3, 3),
                                 new Operador_EP(1, 1),
                                 new While_EP(true,true, 1, 1, 1, 1, 1)));
 

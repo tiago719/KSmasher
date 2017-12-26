@@ -274,7 +274,7 @@ public class Texto {
 
         int i;
         for (i = 0; i < S.length(); i++) {
-            if (S.charAt(i) != ' ' || S.charAt(i) != '\n') {
+            if (!Character.isWhitespace(S.charAt(i))) {
                 break;
             }
         }
@@ -283,7 +283,7 @@ public class Texto {
         for (String TipoDado : Constantes.TIPO_DADOS) {
             if (Aux.contains(TipoDado)) {
                 for (i = 0; i < S.length(); i++) {
-                    if ((c = S.charAt(i)) != ' ' || S.charAt(i) != '\n') {
+                    if (!Character.isWhitespace(S.charAt(i))) {
                         if (S.charAt(i) == ')') {
                             return TipoDado.length() + 2;
                         }
@@ -604,5 +604,24 @@ public class Texto {
 
         }
         return "";
+    }
+    
+    public void retiraChaveta()
+    {
+        retiraChaveta(ListaStatements);
+    }
+    
+    private void retiraChaveta(ArrayList<Statement> Lista)
+    {
+        for(int i=0;i<Lista.size();i++)
+        {
+            if(Lista.get(i).hasFilhos())
+                retiraChaveta(Lista.get(i).getStatementsFilhos());
+            
+            String codigo=Lista.get(i).getCodigo();
+            codigo=codigo.replace("}","");
+            codigo=codigo.replace("{", "");
+            Lista.get(i).setCodigo(codigo);
+        }
     }
 }
