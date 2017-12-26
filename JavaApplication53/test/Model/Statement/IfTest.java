@@ -37,7 +37,7 @@ public class IfTest {
     {
         
         lista=new ArrayList<>();
-        //lista2=new ArrayList<>();
+        lista2=new ArrayList<>();
         lista.add(new If("if (   ola = 5  ){ int a = 5; } else {    }", new Texto()));
         
                 for(If S : lista)
@@ -56,10 +56,9 @@ public class IfTest {
         
         instance3.analisaStatement();
                 
-        //lista2.add(new If("if(ola = 5){ int a = 5; int x=6; } else {    }", new Texto()));
-        /*
+        lista2.add(new If("if(ola = 5){ int a = 5; int x=6; } else {    }", new Texto()));
         
-        EstiloProgramacao estilo=new EstiloProgramacao("EstiloDefeito",false,
+        EstiloProgramacao estilo=new EstiloProgramacao(0,"EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1),
@@ -72,27 +71,6 @@ public class IfTest {
 
         for(If S : lista2)
             S.converteStatement(estilo);
-        
-        instance = new If("if( a  ==  0 )\n" +
-"	{\n" +
-"		while( a == 0 )\n" +
-"		{\n" +
-"			a  ++  ;\n" +
-"		}\n" +
-"		else\n" +
-"		{\n" +
-"			c  =  (int) 4.0 ;\n" +
-"		}\n" +
-"	}\n" +
-"	do\n" +
-"	{\n" +
-"		while(true)\n" +
-"			b  ++  ;\n" +
-"\n" +
-"	}while(true);", new Texto());
-        
-        instance.analisaStatement();
-        */
     }
 
     @Test
@@ -131,8 +109,8 @@ public class IfTest {
         assertEquals(1, instance3.isChavetaUmStatementDentroIf());
         assertEquals(1, instance3.getPrimeiraChavetaNovaLinha());
     }
-    /* @Test
+     @Test
     public void testconverte() {
-         //assertEquals("if ( ola = 5 ){\n int a = 5;\n int x=6;\n } e",lista2.get(0).Codigo);
-    }*/
+         assertEquals("if ( ola = 5 )\n{\n\n int a = 5; int x=6; }\n\n",lista2.get(0).getCodigo());
+    }
 }
