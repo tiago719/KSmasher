@@ -21,7 +21,7 @@ public class While extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
-        int i, j, z, l, m, n;
+        int i, j, z, a, m, n;
 
         //retira espacos entre while e (
         for (i = 5; i < Codigo.length(); i++) {
@@ -75,18 +75,18 @@ public class While extends Statement {
 
         AspasAberto = PlicasAberto = false;
         //procurar {
-        for (l = j + 1; l < Codigo.length(); l++) {
-            if (Codigo.charAt(l) == '"' && Codigo.charAt(l - 1) != '\\') {
+        for (a = j + 1; a < Codigo.length(); a++) {
+            if (Codigo.charAt(a) == '"' && Codigo.charAt(a - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
-            } else if (Codigo.charAt(l) == '\'' && Codigo.charAt(l - 1) != '\\') {
+            } else if (Codigo.charAt(a) == '\'' && Codigo.charAt(a - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
                 continue;
             }
-            if (Codigo.charAt(l) == '{') {
+            if (Codigo.charAt(a) == '{') {
                 TemChaveta = true;
                 break;
-            } else if (Codigo.charAt(l) == ';') {
+            } else if (Codigo.charAt(a) == ';') {
                 TemChaveta = false;
                 break;
             }
@@ -95,7 +95,7 @@ public class While extends Statement {
             int NumParentesesAbertos = 1;
             AspasAberto = PlicasAberto = false;
 
-            for (m = l + 1; m < Codigo.length(); m++) {
+            for (m = a + 1; m < Codigo.length(); m++) {
                 if (Codigo.charAt(m) == '"' && Codigo.charAt(m - 1) != '\\') {
                     AspasAberto = !AspasAberto;
                     continue;
@@ -112,7 +112,7 @@ public class While extends Statement {
                 }
             }
         } else {
-            m = l;
+            m = a;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
             if (!Character.isWhitespace(Codigo.charAt(n))) {
@@ -133,10 +133,10 @@ public class While extends Statement {
 
         if (m + 1 > Codigo.length()) {
             this.NumCarateresAvancar = m - (m - Codigo.length());
-            return Codigo.substring(l, m - (m - Codigo.length()));
+            return Codigo.substring(a, m - (m - Codigo.length()));
         } else {
             this.NumCarateresAvancar = m + 1;
-            return Codigo.substring(l, m + 1);
+            return Codigo.substring(a, m + 1);
         }
     }
 
