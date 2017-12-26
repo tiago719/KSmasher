@@ -62,8 +62,6 @@ public class Statement {
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
-//        if (hasFilhos())
-//            Texto.Converte(StatmentsFilhos, estilo);
         if (hasFilhos()) {
             for (Statement StatmentsFilho : StatmentsFilhos) {
                 if (!(StatmentsFilho instanceof Statement)) {
