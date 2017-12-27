@@ -675,7 +675,7 @@ public class Texto {
             String codigo=Lista.get(i).getCodigo();
             for(a=0;a<codigo.length();a++)
             {
-                if(Last!=null && Last.getCodigo().charAt(Last.getCodigo().length()-1)=='}')
+                if(Last!=null && Last.getCodigo().charAt(Last.getCodigo().length()-1)=='{')
                 {
                     indexChaveta=0;
                     for(++indexChaveta;indexChaveta<codigo.length();indexChaveta++)
