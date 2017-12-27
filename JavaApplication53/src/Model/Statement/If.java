@@ -363,64 +363,27 @@ public class If extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-//         super.converteStatement(estilo);
-//        String aux= this.ParaAnalise;
-//        StringBuilder build = new StringBuilder(aux); 
-//        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
-//        char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
-//        int conta=0;
-//       
-//            for (int i = 0; i < aux.length(); i++) {
-//                if(aux.charAt(i)=='(')
-//                {
-//                   build.insert(i, espacos, 0, estilo.getIfs().getEspacosIfParentesAberto());
-//                   build.insert(i+1+estilo.getIfs().getEspacosIfParentesAberto(), espacos, 0, estilo.getIfs().getEspacosParentesesAbertoCondicao());
-//                }
-//                if(aux.charAt(i)==')')
-//                {
-//                   conta+=estilo.getIfs().getEspacosIfParentesAberto()+estilo.getIfs().getEspacosParentesesAbertoCondicao();
-//                   
-//                   build.insert(i+conta, espacos, 0, estilo.getIfs().getEspacosCondicaoParentesFechado());
-//                }
-//                if(aux.charAt(i)=='{')
-//                {
-//                    conta+=estilo.getIfs().getEspacosCondicaoParentesFechado();
-//                    
-//                   build.insert(i+1+conta, linhas, 0, estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta());
-//                }
-//                 if(aux.charAt(i)=='}')
-//                {
-//                    conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta();
-//                    
-//                   build.insert(i+conta, linhas, 0, estilo.getIfs().getLinhasEmBrancoDepoisChavetaFechada()-1);
-//                }
-//                if(aux.charAt(i)==';')
-//                {
-//                    conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta();
-//                    
-//                   build.insert(i+1+conta, linhas, 0, 1);
-//                }
-//               
-//        }
-//            this.Codigo=build.toString();
         String Aux = "if";
-        If_EP ep = estilo.getIfs();
-        for (int i = 0; i < ep.getEspacosIfParentesAberto(); i++) {
+        If_EP Ep = estilo.getIfs();
+        for (int i = 0; i < Ep.getEspacosIfParentesAberto(); i++) {
             Aux += " ";
         }
         Aux += "(";
 
-        for (int i = 0; i < ep.getEspacosParentesesAbertoCondicao(); i++) {
+        for (int i = 0; i < Ep.getEspacosParentesesAbertoCondicao(); i++) {
             Aux += " ";
         }
 
         this.Condicao.converteStatement(estilo);
         Aux += this.Condicao.Codigo;
 
-        for (int i = 0; i < ep.getEspacosCondicaoParentesFechado(); i++) {
+        for (int i = 0; i < Ep.getEspacosCondicaoParentesFechado(); i++) {
             Aux += " ";
         }
         Aux += ")";
+        
+        if (Ep.isPosicaoPrimeiraChaveta())
+            Aux += "\n";
 
         this.Codigo = Aux;
     }

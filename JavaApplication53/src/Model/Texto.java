@@ -2,14 +2,13 @@ package Model;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.EstiloProgramacao.If_EP;
+import Model.EstiloProgramacao.While_EP;
 import Model.Statement.Comentario;
 import java.io.BufferedReader;
 import Model.Statement.*;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Texto {
 
@@ -60,7 +59,7 @@ public class Texto {
 
         ListaStatements = Cataloga(Codigo, null);
         int a = 0;
-        
+
         a = 5;
     }
 
@@ -91,12 +90,46 @@ public class Texto {
         Converte(ListaStatements, EstiloProgramacao);
     }
 
-    public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
+    public String Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
+        String Str = "";
+
         for (Statement S : Lista) {
             S.converteStatement(EstiloProgramacao);
-            if (S.hasFilhos())
-                Converte(S.getStatementsFilhos(), EstiloProgramacao);
+            
+            if (S instanceof If) {
+
+                If_EP EP = EstiloProgramacao.getIfs();
+
+                Str += S.getCodigo();
+
+                if (S.hasFilhos()) {
+                    Str += Converte(S.getStatementsFilhos(), EstiloProgramacao);
+                }
+                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaFechada(); i++) {
+                    Str += "\n";
+                }
+//                for (int i = 0; i < Aux.getNivel(); i++) {
+//                    Str += "\t";
+//                }
+
+            }
+            else if (S instanceof While) {
+                While_EP EP = EstiloProgramacao.getWhiles();
+
+                Str += S.getCodigo();
+
+                if (S.hasFilhos()) {
+                    Str += Converte(S.getStatementsFilhos(), EstiloProgramacao);
+                }
+                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaFechada(); i++) {
+                    Str += "\n";
+                }
+            }
+
+            
         }
+
+        return Str;
 
         /*        String Str = "";
         for (Statement S : Lista) {
