@@ -62,15 +62,13 @@ public class Statement {
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
-//        if (hasFilhos())
-//            Texto.Converte(StatmentsFilhos, estilo);
-        if (hasFilhos()) {
-            for (Statement StatmentsFilho : StatmentsFilhos) {
-                if (!(StatmentsFilho instanceof Statement)) {
-                    StatmentsFilho.converteStatement(estilo);
-                }
-            }
-        }
+//        if (hasFilhos()) {
+//            for (Statement StatmentsFilho : StatmentsFilhos) {
+//                if (!(StatmentsFilho instanceof Statement)) {
+//                    StatmentsFilho.converteStatement(estilo);
+//                }
+//            }
+//        }
 
     }
 
@@ -97,4 +95,27 @@ public class Statement {
         return Nivel;
     }
 
+        
+    private int precisaChaveta(ArrayList<Statement> Filhos)
+    {
+        int a=0;
+        for(int i=0;i<Filhos.size();i++)
+        {
+            if(Filhos.get(i).hasFilhos())
+                a=precisaChaveta(Filhos.get(i).getStatementsFilhos());
+            if(Filhos.get(i).Codigo.contains(";"))
+                a++;
+            if(a==2)
+                break;
+        }
+        return a;
+    }
+    
+    protected boolean precisaChaveta()
+    {
+        if(precisaChaveta(StatmentsFilhos)>0)
+            return true;
+        else 
+            return false;  
+    }
 }

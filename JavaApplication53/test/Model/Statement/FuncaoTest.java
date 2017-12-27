@@ -30,10 +30,10 @@ import static org.junit.Assert.*;
 
 public class FuncaoTest {
     
-     public ArrayList<Funcao> lista;
+    public ArrayList<Funcao> lista;
     
     public FuncaoTest() {
-          
+         /* 
         lista=new ArrayList<>();
       
         lista.add(new Funcao("int main(ghj){gg}int sum(intx,inty){}", new Texto()));
@@ -52,30 +52,8 @@ public class FuncaoTest {
        
         for(Funcao S : lista)
             S.converteStatement(estilo);
+        */
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    
-    @Test
-    public void testConverteStatement() {
-        
-    }
-    
   
   /*
 public class FuncaoTest {
