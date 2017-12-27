@@ -98,6 +98,32 @@ public class If extends Statement {
                 break;
             }
         }
+        a=k;
+        boolean ultimo=false;
+        for(++a;a<Codigo.length();a++)
+        {
+            if(Codigo.charAt(a)=='\t' || Codigo.charAt(a)==' ')
+            {
+                ultimo=false;
+                continue;
+            }
+            else if(Codigo.charAt(a)=='{')
+            {
+                ultimo=true;
+                continue;
+            }
+            else if(Codigo.charAt(a)!='\n' && Codigo.charAt(a)!='\r')
+            {
+                ultimo=true;
+                break;
+            }
+        }
+        if(ultimo)
+        {
+            for(--a;a>0;a--)
+               if(Codigo.charAt(a)!='\t' && Codigo.charAt(a)!=' ')
+                   break;
+        }
         if (TemChaveta) {
             NumParentesesAbertos = 1;
             AspasAberto = PlicasAberto = false;
@@ -121,11 +147,35 @@ public class If extends Statement {
         } else {
             m = a;
         }
+        
         for (n = m + 1; n < Codigo.length(); n++) {
             if (!Character.isWhitespace(Codigo.charAt(n))) {
                 break;
             }
         }
+        int r=n;
+        boolean primeiro=true;
+        for(--r;r>0;r--)
+        {
+            if(Codigo.charAt(r)=='\t' || Codigo.charAt(r)==' ')
+            {
+                continue;
+            }
+            else if(Codigo.charAt(r)=='}' && primeiro)
+            {
+                primeiro=false;
+                continue;
+            }
+            else if(Codigo.charAt(r)!='\n' && Codigo.charAt(r)!='\r')
+            {
+                break;
+            }
+        }
+        
+        if(m+2>Codigo.length())
+            this.NumCarateresAvancar = m+1;
+        else
+            this.NumCarateresAvancar = m+2;
 
         try {
             Condicao = new Statement(Codigo.substring(i, j), T, this);
@@ -143,12 +193,11 @@ public class If extends Statement {
             this.ParaAnalise = Codigo.substring(0, n + 1);
         }
 
-        if (m + 1 > Codigo.length()) {
-            this.NumCarateresAvancar = m - (m - Codigo.length());
-            return Codigo.substring(a + 1, m - (m - Codigo.length()));
+        if (r + 1 > Codigo.length()) {
+            return Codigo.substring(a+1, r - (r - Codigo.length()));
         } else {
-            this.NumCarateresAvancar = m + 2;
-            return Codigo.substring(a+1, m + 1);
+            
+            return Codigo.substring(a+1, r + 1);
         }
 
     }
@@ -479,7 +528,7 @@ public class If extends Statement {
                 Aux+="{";
             }
             
-            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaAberta();a++)
+            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaAberta()+1;a++)
             {
                 Aux+="\n";
             }
