@@ -94,9 +94,9 @@ public class Texto {
 
     public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
         for (Statement S : Lista) {
-            S.converteStatement(EstiloProgramacao);
             if (S.hasFilhos())
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);
+            S.converteStatement(EstiloProgramacao);
         }
 
         /*        String Str = "";
@@ -655,102 +655,4 @@ public class Texto {
         }
         return "";
     }
-//    
-//    public void retiraChaveta()
-//    {
-//        retiraChaveta(ListaStatements);
-//    }
-//    
-//    private void retiraChaveta(ArrayList<Statement> Lista)
-//    {
-//        int a,b=0, indexChaveta=0;
-//        String aux1="",aux2="";
-//        Statement next=null;
-//
-//        for(int i=0;i<Lista.size();i++)
-//        {
-//            if(Lista.get(i).hasFilhos())
-//                retiraChaveta(Lista.get(i).getStatementsFilhos());
-//            
-//            String codigo=Lista.get(i).getCodigo();
-//           
-//            for(a=0;a<codigo.length();a++)
-//            {
-//                if(codigo.charAt(a)=='{')
-//                {
-//                    b=a;
-//                    indexChaveta=a;
-//                    for(--b;b>=0;b--)
-//                        if(codigo.charAt(b)!='\n' && codigo.charAt(b)!='\r' && codigo.charAt(b)!='\t')
-//                            break;
-//                    for(++indexChaveta;indexChaveta<codigo.length();indexChaveta++)
-//                    {
-//                        if(codigo.charAt(indexChaveta)=='\t')
-//                            continue;
-//                        else if(codigo.charAt(indexChaveta)!='\n' && codigo.charAt(indexChaveta)!='\r')
-//                            break;
-//                    }
-//                    
-//                    aux2=codigo.substring(indexChaveta);
-//                     if(b>0)
-//                     {
-//                        aux1=codigo.substring(0,b);
-//                        aux2=aux1.concat(aux2);
-//                     }
-//                     
-//                    Lista.get(i).setCodigo(aux2);
-//                }
-//                else if(codigo.charAt(a)=='}')
-//                {
-//                    indexChaveta=a;
-//                    b=a;
-//                    for(--b;b>=0;b--)
-//                        if(codigo.charAt(b)!='\n' && codigo.charAt(b)!='\r' && codigo.charAt(b)!='\t')
-//                            break;
-//                    for(++indexChaveta;indexChaveta<codigo.length();indexChaveta++)
-//                    {
-//                        if(codigo.charAt(indexChaveta)=='\t')
-//                            continue;
-//                        
-//                        else if(codigo.charAt(indexChaveta)!='\n' && codigo.charAt(indexChaveta)!='\r')
-//                            break;
-//                    }
-//                    
-//                     if(b>=0 && b+1<codigo.length())
-//                        aux1=codigo.substring(0,b+1);
-//                     
-//                    aux2=codigo.substring(indexChaveta);
-//                    codigo=aux1.concat(aux2);
-//                    Lista.get(i).setCodigo(codigo);
-//                }
-//                else if(codigo.charAt(a)=='\n' || codigo.charAt(a)=='\r')
-//                {
-//                    int c=a;
-//                    for(++c;c<codigo.length();c++)
-//                    {
-//                        if(codigo.charAt(c)=='\t')
-//                            continue;
-//                        else if(codigo.charAt(c)!='\n' || codigo.charAt(c)!='\r')
-//                            break;
-//                    }
-//                    codigo=codigo.substring(a,c);
-//                    int d=a;
-//                    
-//                    try
-//                    {
-//                        for(--d;d>0;d--)
-//                        {
-//                            if(codigo.charAt(d)=='\t')
-//                                continue;
-//                            else if(codigo.charAt(d)!='\n' || codigo.charAt(d)!='\r')
-//                                break;
-//                        }
-//
-//                        codigo=codigo.substring(d);
-//                    }
-//                    catch(Exception e){}
-//                }
-//            }
-//        }
-//    }
 }

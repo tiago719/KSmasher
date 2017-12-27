@@ -252,25 +252,6 @@ public class Else extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-//        super.converteStatement(estilo);
-//        StringBuilder novastring = new StringBuilder();
-//        novastring.append("else");
-//        for(int i = 4; i<Codigo.length();i++){
-//            if(Codigo.charAt(i)=='{'){
-//                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
-//                    novastring.append("\n");
-//                }
-//                novastring.append('{');
-//            }
-//            if(Codigo.charAt(i)=='}'){
-//                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
-//                    novastring.append("\n");
-//                }
-//                novastring.append('}');
-//            }
-//            novastring.append(Codigo.charAt(i));
-//        }
-//        this.Codigo=novastring.toString();
         
         String Aux = "";
         Statement Last=null;
