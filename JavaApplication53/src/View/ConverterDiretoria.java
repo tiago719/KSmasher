@@ -17,7 +17,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
     Controller Controller;
     Thread T;
     JPanel CardPanel;
-    boolean UserFirst=true, DiretoriaFirst=true;
+    boolean UserFirst = true, DiretoriaFirst = true;
     ArrayList<Integer> IdEstilo;
 
     public ConverterDiretoria(Controller Controller) {
@@ -35,10 +35,9 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         }
         start();
     }
-    
-    public void setCardPanel(JPanel J)
-    {
-        CardPanel=J;
+
+    public void setCardPanel(JPanel J) {
+        CardPanel = J;
     }
 
     public void start() {
@@ -200,10 +199,12 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
     private void jConverterMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jConverterMouseClicked
     {//GEN-HEADEREND:event_jConverterMouseClicked
         if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
-            Controller.Converte(jDiretoria.getText(), IdEstilo.get(jListaEstilos.getSelectedIndex()) , Controller.getUtilizadorAtualNome());
+            Controller.Converte(jDiretoria.getText(), IdEstilo.get(jListaEstilos.getSelectedIndex()), Controller.getUtilizadorAtualNome());
+            CardLayout cl = (CardLayout) CardPanel.getLayout();
+            cl.next(CardPanel);
         }
     }//GEN-LAST:event_jConverterMouseClicked
-  
+
     private void jProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jProcurarActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -218,7 +219,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
     private void jAnalisaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisaMouseClicked
     {//GEN-HEADEREND:event_jAnalisaMouseClicked
-        CardLayout cl=(CardLayout)CardPanel.getLayout();
+        CardLayout cl = (CardLayout) CardPanel.getLayout();
         cl.previous(CardPanel);
     }//GEN-LAST:event_jAnalisaMouseClicked
 
@@ -231,41 +232,40 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
     private void jUsernameFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jUsernameFocusGained
     {//GEN-HEADEREND:event_jUsernameFocusGained
-        if(UserFirst)
+        if (UserFirst) {
             jUsername.setText("");
+        }
         jUsername.setForeground(Color.BLACK);
-        UserFirst=false;        
+        UserFirst = false;
     }//GEN-LAST:event_jUsernameFocusGained
 
     private void jUsernameFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jUsernameFocusLost
     {//GEN-HEADEREND:event_jUsernameFocusLost
-        if(Controller.ExisteUsername(jUsername.getText())<0)
-        {
+        if (Controller.ExisteUsername(jUsername.getText()) < 0) {
             jErroUtilizador.setVisible(true);
             return;
         }
-        
-        ArrayList<EstiloProgramacao> estilos= Controller.UtilizadorEstilos(jUsername.getText());
-        
-        if(estilos==null)
-        {
+
+        ArrayList<EstiloProgramacao> estilos = Controller.UtilizadorEstilos(jUsername.getText());
+
+        if (estilos == null) {
             jErroUtilizador.setVisible(true);
             jErroUtilizador.setText("O utilizador não tem Estilos de Programação");
             return;
         }
-        
-        for(EstiloProgramacao estilo : estilos)
-        {
+
+        for (EstiloProgramacao estilo : estilos) {
             jListaEstilosOutro.add(estilo.getNome());
         }
     }//GEN-LAST:event_jUsernameFocusLost
 
     private void jDiretoriaFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jDiretoriaFocusGained
     {//GEN-HEADEREND:event_jDiretoriaFocusGained
-        if(DiretoriaFirst)
+        if (DiretoriaFirst) {
             jDiretoria.setText("");
+        }
         jDiretoria.setForeground(Color.BLACK);
-        DiretoriaFirst=false;   
+        DiretoriaFirst = false;
     }//GEN-LAST:event_jDiretoriaFocusGained
 
     private void jProcurarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jProcurarMouseClicked
@@ -277,7 +277,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             try {
                 jDiretoria.setText(fc.getSelectedFile().getCanonicalPath());
                 jDiretoria.setForeground(Color.black);
-                DiretoriaFirst=false;
+                DiretoriaFirst = false;
             } catch (IOException ex) {
             }
         }
@@ -321,9 +321,10 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         while (true) {
             try {
                 File Aux = Controller.getDnDFile();
-                if (Aux == null)
+                if (Aux == null) {
                     continue;
-                
+                }
+
                 if (DnDFile != Aux && Aux.isDirectory()) {
                     DnDFile = Controller.getDnDFile();
                 } else {
