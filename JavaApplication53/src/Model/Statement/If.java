@@ -380,6 +380,7 @@ public class If extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+
 //        String aux= this.ParaAnalise;
 //        StringBuilder build = new StringBuilder(aux); 
 //        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
@@ -431,18 +432,19 @@ public class If extends Statement {
         }
         Aux += "(";
 
-        for (int i = 0; i < ep.getEspacosParentesesAbertoCondicao(); i++) {
+        for (int i = 0; i < Ep.getEspacosParentesesAbertoCondicao(); i++) {
             Aux += " ";
         }
 
         this.Condicao.converteStatement(estilo);
         Aux += this.Condicao.Codigo;
 
-        for (int i = 0; i < ep.getEspacosCondicaoParentesFechado(); i++) {
+        for (int i = 0; i < Ep.getEspacosCondicaoParentesFechado(); i++) {
             Aux += " ";
         }
         Aux += ")";
         
+
         if(ep.isPosicaoPrimeiraChaveta() && ep.isChavetaUmStatementDentroIf())
         {
             Aux+="\n";
