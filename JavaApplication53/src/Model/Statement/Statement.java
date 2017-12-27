@@ -7,15 +7,17 @@ import java.util.ArrayList;
 public class Statement {
 
     protected ArrayList<Statement> StatmentsFilhos = null;
+    protected Statement Pai;
     String ParaAnalise;
     String Codigo;
     Texto Texto;
     int NumCarateresAvancar;
     int Nivel;
 
-    public Statement(String Codigo, Texto T) {
+    public Statement(String Codigo, Texto T, Statement Pai) {
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
+        this.Pai=Pai;
         Texto = T;
         String Aux = RetiraDados(Codigo, T);
         Nivel = T.getNivel();
@@ -62,14 +64,23 @@ public class Statement {
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
-//        if (hasFilhos()) {
-//            for (Statement StatmentsFilho : StatmentsFilhos) {
-//                if (!(StatmentsFilho instanceof Statement)) {
-//                    StatmentsFilho.converteStatement(estilo);
-//                }
-//            }
+//        String aux="";
+//        int ultimo=0, a=0;
+//        for(int i=0;i<Codigo.length();i++)
+//        {
+//            if(Codigo.charAt(i)==';' || Codigo.charAt(i)=='}' || Codigo.charAt(i)==')'  || Codigo.charAt(i)=='{')
+//                for(;i+1<Codigo.length();i++)
+//                    if(!Character.isWhitespace(Codigo.charAt(i+1)))
+//                    {
+//                        aux+=Codigo.substring(ultimo,i);
+//                        for(a=0;a<getNivel();a++)
+//                            aux+="\t";
+//                        ultimo=i;
+//                        break;
+//                    }
 //        }
-
+//        aux=Codigo.substring(ultimo);
+//        Codigo=aux;
     }
 
     public ArrayList<Statement> getStatementsFilhos() {
@@ -93,29 +104,5 @@ public class Statement {
 
     public int getNivel() {
         return Nivel;
-    }
-
-        
-    private int precisaChaveta(ArrayList<Statement> Filhos)
-    {
-        int a=0;
-        for(int i=0;i<Filhos.size();i++)
-        {
-            if(Filhos.get(i).hasFilhos())
-                a=precisaChaveta(Filhos.get(i).getStatementsFilhos());
-            if(Filhos.get(i).Codigo.contains(";"))
-                a++;
-            if(a==2)
-                break;
-        }
-        return a;
-    }
-    
-    protected boolean precisaChaveta()
-    {
-        if(precisaChaveta(StatmentsFilhos)>0)
-            return true;
-        else 
-            return false;  
     }
 }

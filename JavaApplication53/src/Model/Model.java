@@ -144,7 +144,7 @@ public class Model {
         EstiloProgramacao Estilo=Utilizador.getEstiloID(idEstilo);
         Texto.ComecaConverte(Estilo);
         
-        System.out.println(Texto);
+        
         
         try
         {

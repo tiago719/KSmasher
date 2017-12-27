@@ -8,8 +8,8 @@ public class Funcao extends Statement {
     private boolean AntesMain;
     private String nomeFuncao;
 
-    public Funcao(String codigo, Texto t) {
-        super(codigo, t);
+    public Funcao(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override

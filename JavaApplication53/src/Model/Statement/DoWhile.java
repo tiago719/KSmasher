@@ -13,9 +13,9 @@ public class DoWhile extends Statement
     private Statement Condicao;
     private boolean TemChaveta;
 
-    public DoWhile(String codigo, Texto t)
+    public DoWhile(String codigo, Texto t, Statement Pai)
     {
-        super(codigo, t);
+        super(codigo, t, Pai);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class DoWhile extends Statement
             }
         }
 
-        Condicao = new Statement(Codigo.substring(InicioCondicao, d+1), t);
+        Condicao = new Statement(Codigo.substring(InicioCondicao, d+1), t, this);
         this.ParaAnalise = Codigo.substring(0, z+1);
         this.NumCarateresAvancar = z + 2;
         this.Codigo=Codigo.substring(PosWhile, z+1);

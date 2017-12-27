@@ -9,8 +9,8 @@ public class Operador extends Statement {
 
     private int EspacosOperadorVariavel, EspacosVariavelOperador;
 
-    public Operador(String codigo, Texto t) {
-        super(codigo, t);
+    public Operador(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override

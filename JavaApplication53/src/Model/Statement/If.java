@@ -15,8 +15,8 @@ public class If extends Statement {
     private Statement Condicao;
     private boolean TemChaveta;
 
-    public If(String codigo, Texto t) {
-        super(codigo, t);
+    public If(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     public Statement getCondicao() {
@@ -128,7 +128,7 @@ public class If extends Statement {
         }
 
         try {
-            Condicao = new Statement(Codigo.substring(i, j), T);
+            Condicao = new Statement(Codigo.substring(i, j), T, this);
         } catch (Exception e) {
         }
         if (j + 1 > Codigo.length()) {
@@ -421,7 +421,29 @@ public class If extends Statement {
 //            this.Codigo=build.toString();
         TemChaveta=false;
         String Aux = "";
+        Statement Last=null;
         
+        for(Statement s :Pai.getStatementsFilhos())
+        {
+            if(s==this)
+                break;
+            Last=s;
+        }
+        
+        if(Last!=null)
+        {
+            int i=1;
+            for(i=Last.getCodigo().length()-1;i>0;i--)
+            {
+                if(Last.getCodigo().charAt(i)!='\t')
+                    break;
+            }
+            try
+            {
+                Last.Codigo=Last.getCodigo().substring(0,i);
+            }
+            catch(Exception e){}
+        }
         for(int i=0;i<getNivel();i++)
             Aux+="\t";
         Aux+="if";
@@ -443,29 +465,20 @@ public class If extends Statement {
         }
         Aux += ")";
         
-        if(ep.isPosicaoPrimeiraChaveta() && ep.isChavetaUmStatementDentroIf())
+        if(Texto.precisaChavetaP(StatmentsFilhos) || ep.isChavetaUmStatementDentroIf())
         {
-            Aux+="\n";
-            for(int i=0;i<getNivel();i++)
-                Aux+="\t";
-            Aux+="{";
-            TemChaveta=true;
-        }
-        else if(!ep.isPosicaoPrimeiraChaveta() && ep.isChavetaUmStatementDentroIf())
-        {
-            Aux+="{";
-            TemChaveta=true;
-        }
-        else if(!ep.isChavetaUmStatementDentroIf() && precisaChaveta() && ep.isPosicaoPrimeiraChaveta())
-        {
-            Aux+="\n{";
-        }
-        else if(!ep.isChavetaUmStatementDentroIf() && precisaChaveta() && !ep.isPosicaoPrimeiraChaveta())
-        {
-            Aux+="{\n";
-        }
-        if(TemChaveta)
-        {
+            if(ep.isPosicaoPrimeiraChaveta())
+            {
+                Aux+="\n";
+                for(int i=0;i<getNivel();i++)
+                    Aux+="\t";
+                Aux+="{";
+            }
+            else
+            {
+                Aux+="{";
+            }
+            
             for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaAberta();a++)
             {
                 Aux+="\n";
@@ -475,6 +488,12 @@ public class If extends Statement {
             {
                 StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\n";
             }
+            StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\n";
+            for(int a=0;a<getNivel();a++)
+            {
+                StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\t";
+            }
+            StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="}";
         }
         this.Codigo = Aux;
     }

@@ -17,8 +17,8 @@ public class For extends Statement {
     private Statement PInicializacao, Condicao, Incrementacao;
     private boolean temChaveta;
 
-    public For(String codigo, Texto t) {
-        super(codigo, t);
+    public For(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
 
     }
 
@@ -405,7 +405,7 @@ public class For extends Statement {
             }
         }
 
-        PInicializacao = new Statement(Codigo.substring(i, j), t);
+        PInicializacao = new Statement(Codigo.substring(i, j), t, this);
 
         //retirar espacos entre Inicializacao; ate condicao
         for (i = j; i < Codigo.length(); i++) {
@@ -430,7 +430,7 @@ public class For extends Statement {
             }
         }
 
-        Condicao = new Statement(Codigo.substring(i, j), t);
+        Condicao = new Statement(Codigo.substring(i, j), t, this);
 
         //retirar espacos entre Condicao; ate incrementacao
         for (i = j; i < Codigo.length(); i++) {
@@ -462,7 +462,7 @@ public class For extends Statement {
                 }
             }
         }
-        Incrementacao = new Statement(Codigo.substring(i, j), t);
+        Incrementacao = new Statement(Codigo.substring(i, j), t, this);
 
         int a, m, n;
 
