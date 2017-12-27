@@ -5,9 +5,11 @@
  */
 package Model.Statement;
 
+import Model.EstiloProgramacao.Else_EP;
 import Model.Texto;
 import java.util.ArrayList;
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.If_EP;
 /**
  *
  * @author Tiago Coutinho
@@ -18,8 +20,8 @@ public class Else extends Statement {
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
     private boolean temChaveta;
 
-    public Else(String codigo, Texto t) {
-        super(codigo, t);
+    public Else(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override
@@ -204,25 +206,78 @@ public class Else extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        super.converteStatement(estilo);
-        StringBuilder novastring = new StringBuilder();
-        novastring.append("else");
-        for(int i = 4; i<Codigo.length();i++){
-            if(Codigo.charAt(i)=='{'){
-                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
-                    novastring.append("\n");
-                }
-                novastring.append('{');
-            }
-            if(Codigo.charAt(i)=='}'){
-                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
-                    novastring.append("\n");
-                }
-                novastring.append('}');
-            }
-            novastring.append(Codigo.charAt(i));
+//        super.converteStatement(estilo);
+//        StringBuilder novastring = new StringBuilder();
+//        novastring.append("else");
+//        for(int i = 4; i<Codigo.length();i++){
+//            if(Codigo.charAt(i)=='{'){
+//                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
+//                    novastring.append("\n");
+//                }
+//                novastring.append('{');
+//            }
+//            if(Codigo.charAt(i)=='}'){
+//                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
+//                    novastring.append("\n");
+//                }
+//                novastring.append('}');
+//            }
+//            novastring.append(Codigo.charAt(i));
+//        }
+//        this.Codigo=novastring.toString();
+        
+        String Aux = "";
+        Statement Last=null;
+        
+        for(Statement s :Pai.getStatementsFilhos())
+        {
+            if(s==this)
+                break;
+            Last=s;
         }
-        this.Codigo=novastring.toString();
+        
+        if(Last!=null)
+        {
+            int i=1;
+            for(i=Last.getCodigo().length()-1;i>0;i--)
+            {
+                if(Last.getCodigo().charAt(i)!='\t')
+                    break;
+            }
+            try
+            {
+                Last.Codigo=Last.getCodigo().substring(0,i);
+            }
+            catch(Exception e){}
+        }
+        Else_EP ep = estilo.getElses();
+        
+        for(int i=0;i<getNivel();i++)
+            Aux+="\t";
+        Aux+="else";
 
+        if(Texto.precisaChavetaP(StatmentsFilhos))
+        {
+            Aux+="\n";
+            for(int i=0;i<getNivel();i++)
+                Aux+="\t";
+            
+            Aux+="{";
+            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaAberta()+1;a++)
+            {
+                Aux+="\n";
+            }
+
+            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada()+1;a++)
+            {
+                StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\n";
+            }
+            for(int a=0;a<getNivel();a++)
+            {
+                StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\t";
+            }
+            StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="}";
+        }
+        this.Codigo = Aux;
     }
 }

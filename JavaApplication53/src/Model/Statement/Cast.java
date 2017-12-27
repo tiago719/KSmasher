@@ -8,8 +8,8 @@ public class Cast extends Statement {
 
     private int EspacosEntreCastVariavel;
 
-    public Cast(String codigo, Texto t) {
-        super(codigo, t);
+    public Cast(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override

@@ -15,8 +15,8 @@ public class While extends Statement {
     private Statement Condicao;
     private boolean TemChaveta;
 
-    public While(String codigo, Texto t) {
-        super(codigo, t);
+    public While(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class While extends Statement {
 
         }
 
-        Condicao = new Statement(Codigo.substring(i, z + 1), t);
+        Condicao = new Statement(Codigo.substring(i, z + 1), t, this);
 
         AspasAberto = PlicasAberto = false;
         //procurar {

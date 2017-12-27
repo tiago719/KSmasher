@@ -8,8 +8,8 @@ import Model.Texto;
  */
 public class Include extends Statement {
 
-    public Include(String codigo, Texto t) {
-        super(codigo, t);
+    public Include(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override
