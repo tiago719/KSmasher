@@ -17,7 +17,7 @@ public class For_EP
             EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
-    public For_EP(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroFor, int EspacosForParentesAberto, int EspacosParentesesAbertoCondicaoInicializacao, int EspacosInicializacaoPontoVirgula, int EspacosPontoVirgulaCondicao, int EspacosCondicaoPontoVirgula, int EspacosPontoVirgulaIncrementacao, int EspacosIncrementacaoParentesesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+    public For_EP(boolean PosicaoPrimeiraChaveta,boolean ChavetaUmStatementDentroFor, int EspacosForParentesAberto, int EspacosParentesesAbertoCondicaoInicializacao, int EspacosInicializacaoPontoVirgula, int EspacosPontoVirgulaCondicao, int EspacosCondicaoPontoVirgula, int EspacosPontoVirgulaIncrementacao, int EspacosIncrementacaoParentesesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
         this.ChavetaUmStatementDentroFor = ChavetaUmStatementDentroFor;
         this.EspacosForParentesAberto = EspacosForParentesAberto;

@@ -77,6 +77,8 @@ public class Else extends Statement {
             }
         } 
         j = m;
+
+            
         this.NumCarateresAvancar = j+2;
         for(++m;m<Codigo.length();m++)
             if(!Character.isWhitespace(Codigo.charAt(m)))
@@ -177,7 +179,7 @@ public class Else extends Statement {
         if(PrimeiraChavetaNovaLinha==-1)
             return;
         
-        for(++i;i<ParaAnalise.length();i++)
+        for(;i<ParaAnalise.length();i++)
         {
             if(ParaAnalise.charAt(i)=='{')
                 parentesesAberto++;
@@ -202,25 +204,25 @@ public class Else extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-//        super.converteStatement(estilo);
-//        StringBuilder novastring = new StringBuilder();
-//        novastring.append("else");
-//        for(int i = 4; i<Codigo.length();i++){
-//            if(Codigo.charAt(i)=='{'){
-//                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
-//                    novastring.append("\n");
-//                }
-//                novastring.append('{');
-//            }
-//            if(Codigo.charAt(i)=='}'){
-//                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
-//                    novastring.append("\n");
-//                }
-//                novastring.append('}');
-//            }
-//            novastring.append(Codigo.charAt(i));
-//        }
-//        this.Codigo=novastring.toString();
+        super.converteStatement(estilo);
+        StringBuilder novastring = new StringBuilder();
+        novastring.append("else");
+        for(int i = 4; i<Codigo.length();i++){
+            if(Codigo.charAt(i)=='{'){
+                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
+                    novastring.append("\n");
+                }
+                novastring.append('{');
+            }
+            if(Codigo.charAt(i)=='}'){
+                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
+                    novastring.append("\n");
+                }
+                novastring.append('}');
+            }
+            novastring.append(Codigo.charAt(i));
+        }
+        this.Codigo=novastring.toString();
 
     }
 }

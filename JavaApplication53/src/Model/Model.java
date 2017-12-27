@@ -50,7 +50,7 @@ public class Model {
         Utilizador = new Utilizador();
         Utilizador.AdicionaUtilizador(username, email, password);
         Utilizador.AdicionaEstiloPorDefeito();
-       Pesquisas.AdicionaUtilizador(email, email, username);
+       Pesquisas.AdicionaUtilizador(username, email, password);
         
     }
     
@@ -66,13 +66,15 @@ public class Model {
         if(!resultado)
             return false;
         else
+            
         {
             try {
                 Utilizador=Pesquisas.getUser(username);
             } catch (SQLException ex) {
                 Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Utilizador.AdicionaEstiloPorDefeito();
+            Utilizador.AdicionaEstiloPorDefeito(); ///TODO: ALTERAR
+            
             return true;
         }
     }
@@ -92,7 +94,7 @@ public class Model {
         Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeEstilo, Permite));
     }
     
-    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino,String NomeEstilo)
+    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino,int IdEstilo)
     {
         String proxDiretoria=DiretoriaDestino;
         File Diretoria=new File(NomeDiretoria);
@@ -105,7 +107,7 @@ public class Model {
             {
                 try {
                     if(FilenameUtils.getExtension(file.getCanonicalPath()).equals("c"))
-                        ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria, NomeEstilo);
+                        ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria, IdEstilo);
                     else
                         CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
                 } catch (IOException ex) {
@@ -114,12 +116,12 @@ public class Model {
             }
             else if(file.isDirectory())
             {  
-                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName(), NomeEstilo);
+                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName(), IdEstilo);
             }
         }      
     }
     
-    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual,String NomeEstilo)
+    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual,int idEstilo)
     {
         Utilizador.AdicionaEstiloPorDefeito();
         Ficheiros F=new Ficheiros();
@@ -137,8 +139,9 @@ public class Model {
         
         Texto Texto=new Texto(in,out);
         Texto.ComecaCataloga();
+        Texto.retiraChaveta();
         
-        EstiloProgramacao Estilo=Utilizador.getEstilo(NomeEstilo);
+        EstiloProgramacao Estilo=Utilizador.getEstiloID(idEstilo);
         Texto.ComecaConverte(Estilo);
         
         System.out.println(Texto);
@@ -170,9 +173,9 @@ public class Model {
         }
     }
     
-    public void Converte(String Diretoria, String NomeEstilo, String NomeUtilizador)
+    public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador)
     {
-        listaDiretoria(Diretoria,DIRETORIA_DESTINO, NomeEstilo);
+        listaDiretoria(Diretoria,DIRETORIA_DESTINO, IdEstilo);
     }
     
     public ArrayList<EstiloProgramacao> getEstilosUtilizador()
@@ -197,5 +200,9 @@ public class Model {
     public boolean TemEstilo(String NomeEstilo)
     {
         return Utilizador.getEstilo(NomeEstilo)!=null;
+    }
+    public boolean TemEstiloID(int  IdEstilo){
+        
+        return Utilizador.getEstiloID(IdEstilo)!=null;
     }
 }

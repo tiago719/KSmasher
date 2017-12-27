@@ -15,7 +15,7 @@ public class While_EP
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada,
         EspacosWhileParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado;
 
-    public While_EP(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroWhile, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int EspacosWhileParentesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
+    public While_EP(boolean PosicaoPrimeiraChaveta,boolean ChavetaUmStatementDentroWhile, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada, int EspacosWhileParentesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado) {
         this.PrimeiraChavetaNovaLinha = PosicaoPrimeiraChaveta;
         this.ChavetaUmStatementDentroWhile = ChavetaUmStatementDentroWhile;
         this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;

@@ -274,7 +274,7 @@ public class Texto {
 
         int i;
         for (i = 0; i < S.length(); i++) {
-            if (S.charAt(i) != ' ' || S.charAt(i) != '\n') {
+            if (!Character.isWhitespace(S.charAt(i))) {
                 break;
             }
         }
@@ -283,7 +283,7 @@ public class Texto {
         for (String TipoDado : Constantes.TIPO_DADOS) {
             if (Aux.contains(TipoDado)) {
                 for (i = 0; i < S.length(); i++) {
-                    if ((c = S.charAt(i)) != ' ' || S.charAt(i) != '\n') {
+                    if (!Character.isWhitespace(S.charAt(i))) {
                         if (S.charAt(i) == ')') {
                             return TipoDado.length() + 2;
                         }
@@ -355,6 +355,7 @@ public class Texto {
 
         for (int i = 0; i < Codigo.length(); i++) {
 
+            char c=Codigo.charAt(i);
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
@@ -467,14 +468,14 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
                     OUTER1:
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
                             break OUTER1;
                         }
                     }
                     OUTER2:
                     for (int j = i + 3; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j;
                             break OUTER2;
                         }
@@ -493,14 +494,14 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
                             break;
                         }
                     }
 
                     for (int j = i + 2; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j + 1;
                             break;
                         }
@@ -519,7 +520,7 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
 
                             break;
@@ -527,7 +528,7 @@ public class Texto {
                     }
 
                     for (int j = i + 1; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j + 1;
                             break;
                         }
@@ -544,11 +545,10 @@ public class Texto {
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
                 int PrevCarater = 0, NextCarater = 0;
-                char c;
                 if (NumCarCast != -1) {
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if ((c = Codigo.charAt(j)) != ' ' || Codigo.charAt(j) != '\n') {
+                        if ( !Character.isWhitespace(Codigo.charAt(i))) {
                             PrevCarater = j;
                             break;
                         }
@@ -604,5 +604,24 @@ public class Texto {
 
         }
         return "";
+    }
+    
+    public void retiraChaveta()
+    {
+        retiraChaveta(ListaStatements);
+    }
+    
+    private void retiraChaveta(ArrayList<Statement> Lista)
+    {
+        for(int i=0;i<Lista.size();i++)
+        {
+            if(Lista.get(i).hasFilhos())
+                retiraChaveta(Lista.get(i).getStatementsFilhos());
+            
+            String codigo=Lista.get(i).getCodigo();
+            codigo=codigo.replace("}","");
+            codigo=codigo.replace("{", "");
+            Lista.get(i).setCodigo(codigo);
+        }
     }
 }
