@@ -105,4 +105,17 @@ public class Statement {
     public int getNivel() {
         return Nivel;
     }
+    
+    private Statement getLastSon(ArrayList<Statement> Lista)
+    {
+        if(Lista.get(Lista.size()-1).hasFilhos())
+            return getLastSon(Lista.get(Lista.size()-1).getStatementsFilhos());
+        else
+            return Lista.get(Lista.size()-1);
+    }
+    
+    public Statement getLastSon()
+    {
+        return getLastSon(StatmentsFilhos);
+    }
 }

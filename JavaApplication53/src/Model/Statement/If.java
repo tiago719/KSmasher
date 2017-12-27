@@ -471,6 +471,7 @@ public class If extends Statement {
         TemChaveta=false;
         String Aux = "";
         Statement Last=null;
+        Statement ultimoFilho=getLastSon();
         
         for(Statement s :Pai.getStatementsFilhos())
         {
@@ -535,14 +536,14 @@ public class If extends Statement {
 
             for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
             {
-                StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\n";
+                ultimoFilho.Codigo+="\n";
             }
-            StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\n";
+            ultimoFilho.Codigo+="\n";
             for(int a=0;a<getNivel();a++)
             {
-                StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\t";
+                ultimoFilho.Codigo+="\t";
             }
-            StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="}";
+            ultimoFilho.Codigo+="}";
         }
         this.Codigo = Aux;
     }
