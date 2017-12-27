@@ -34,6 +34,14 @@ public class Funcao extends Statement {
                 PosInicioCodigoFuncao = j;
                 break;
             }
+            
+            if(Codigo.charAt(j)==';')
+            {
+                this.Codigo = Codigo.substring(0, j);
+                this.NumCarateresAvancar=j;
+                this.ParaAnalise=Codigo;
+                return this.Codigo;
+            }
         }
 
         int NumAspasAbertos = 1;
@@ -96,16 +104,11 @@ public class Funcao extends Statement {
     @Override
     public void analisaStatement() {
         String aux = ParaAnalise;
-        String linha = "";
 
         if (!aux.contains(" main(")) {
             AntesMain = true; /// PORQUE SE NAO TEM MAIN É SÓ PARA DEIXAR COMO ESTAO AS FUNÇOES NAO È NECESSARIO CRIAR CABEÇALHO
         } else {
-            if (Codigo.contains(";")) {
-                AntesMain = false;
-            } else {
-                AntesMain = true;
-            }
+            AntesMain = !Codigo.contains(";");
         }
 
     }

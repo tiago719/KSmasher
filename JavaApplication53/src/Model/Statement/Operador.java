@@ -18,7 +18,7 @@ public class Operador extends Statement {
         int i = 0, j = 0;
 
         for (i = 1; i < Codigo.length(); i++) {
-            if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
+            if (!Character.isWhitespace(Codigo.charAt(i))) {
                 break;
             }
         }

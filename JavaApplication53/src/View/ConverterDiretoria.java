@@ -18,6 +18,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
     Thread T;
     JPanel CardPanel;
     boolean UserFirst=true, DiretoriaFirst=true;
+    ArrayList<Integer> IdEstilo;
 
     public ConverterDiretoria(Controller Controller) {
         this.Controller = Controller;
@@ -25,6 +26,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jUsername.setVisible(false);
         jListaEstilosOutro.setVisible(false);
         jErroUtilizador.setVisible(false);
+        IdEstilo = new ArrayList<>();
 
         if (Controller.getEstilosUtilizador() != null) {
             for (EstiloProgramacao EP : Controller.getEstilosUtilizador()) {
@@ -66,28 +68,38 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jEscolherOutro = new javax.swing.JButton();
         jErroUtilizador = new javax.swing.JLabel();
 
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+
         jConverter.setText("Converter");
         jConverter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jConverterMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jConverterMouseEntered(evt);
+            }
+        });
+        jConverter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jConverterActionPerformed(evt);
+            }
         });
 
         jDiretoria.setForeground(new java.awt.Color(204, 204, 204));
         jDiretoria.setText("C:\\Pasta1\\Pasta2");
-        jDiretoria.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        jDiretoria.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 jDiretoriaFocusGained(evt);
             }
         });
 
         jProcurar.setText("Procurar");
-        jProcurar.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jProcurar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jProcurarMouseClicked(evt);
             }
         });
@@ -96,33 +108,26 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jLabel1.setText("Converter");
 
         jAnalisa.setText("Analisa");
-        jAnalisa.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jAnalisa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jAnalisaMouseClicked(evt);
             }
         });
 
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
         jUsername.setText("Nome Utilizador");
-        jUsername.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        jUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 jUsernameFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt)
-            {
+            public void focusLost(java.awt.event.FocusEvent evt) {
                 jUsernameFocusLost(evt);
             }
         });
 
         jEscolherOutro.setText("Escolher Outro");
-        jEscolherOutro.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jEscolherOutro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jEscolherOutroMouseClicked(evt);
             }
         });
@@ -194,8 +199,8 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
     private void jConverterMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jConverterMouseClicked
     {//GEN-HEADEREND:event_jConverterMouseClicked
-        if (Controller.ExisteNomeEstilo(jListaEstilos.getSelectedItem())) {
-            Controller.Converte(jDiretoria.getText(), jListaEstilos.getSelectedItem(), Controller.getUtilizadorAtualNome());
+        if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
+            Controller.Converte(jDiretoria.getText(), IdEstilo.get(jListaEstilos.getSelectedIndex()) , Controller.getUtilizadorAtualNome());
         }
     }//GEN-LAST:event_jConverterMouseClicked
   
@@ -277,6 +282,24 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             }
         }
     }//GEN-LAST:event_jProcurarMouseClicked
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        jListaEstilos.removeAll();
+        if (Controller.getEstilosUtilizador() != null) {
+            for (EstiloProgramacao EP : Controller.getEstilosUtilizador()) {
+                jListaEstilos.add(EP.getNome());
+                IdEstilo.add(EP.getId());
+            }
+        }
+    }//GEN-LAST:event_formComponentShown
+
+    private void jConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConverterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jConverterActionPerformed
+
+    private void jConverterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jConverterMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jConverterMouseEntered
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

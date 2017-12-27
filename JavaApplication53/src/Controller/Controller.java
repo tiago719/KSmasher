@@ -35,7 +35,8 @@ public class Controller extends Observable {
     //-3: utilizador ja existe
     //1: utilizador não existe
 
-    public int ExisteUsername(String nome) {
+    public int ExisteUsername(String nome) 
+    {
   
         if (nome.length() > 15 || nome.length() < 7) {
             return -1;
@@ -76,7 +77,9 @@ public class Controller extends Observable {
     }
 
     public boolean Login(String username, String password) {
-        return Model.Login(username, password);
+        boolean Result = Model.Login(username, password);
+        Model.getEstilosUtilizador();
+        return Result;
     }
 
     public boolean Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {
@@ -87,12 +90,16 @@ public class Controller extends Observable {
         return false;
     }
 
-    public void Converte(String Diretoria, String NomeEstilo, String NomeUtilizador) {
-        Model.Converte(Diretoria, NomeEstilo, NomeUtilizador);
+    public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador) {
+        Model.Converte(Diretoria, IdEstilo, NomeUtilizador);
     }
 
     public boolean ExisteNomeEstilo(String NomeEstilo) {
         return Model.TemEstilo(NomeEstilo);
+    }
+    
+     public boolean ExisteEstiloID(int idEstilo) {
+        return Model.TemEstiloID(idEstilo);
     }
 
     public boolean isValidFile(String NomeFicheiro) {

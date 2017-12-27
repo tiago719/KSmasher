@@ -68,7 +68,7 @@ public class If extends Statement {
 
         //retira espacos do fim condicao ate )
         for (k = j; k >= 0; k--) {
-            if (Codigo.charAt(k) != ' ' && Codigo.charAt(k) != '\n') {
+            if (!Character.isWhitespace(Codigo.charAt(k))) {
                 break;
             }
 
@@ -112,7 +112,6 @@ public class If extends Statement {
                 }
                 if (Codigo.charAt(m) == '{') {
                     NumParentesesAbertos++;
-                    break;
                 } else if (Codigo.charAt(m) == '}') {
                     if (--NumParentesesAbertos == 0) {
                         break;
@@ -123,7 +122,7 @@ public class If extends Statement {
             m = a;
         }
         for (n = m + 1; n < Codigo.length(); n++) {
-            if (Codigo.charAt(n) != ' ' && Codigo.charAt(n) != '\n') {
+            if (!Character.isWhitespace(Codigo.charAt(n))) {
                 break;
             }
         }
@@ -146,10 +145,10 @@ public class If extends Statement {
 
         if (m + 1 > Codigo.length()) {
             this.NumCarateresAvancar = m - (m - Codigo.length());
-            return Codigo.substring(j + 1, m - (m - Codigo.length()));
+            return Codigo.substring(a + 1, m - (m - Codigo.length()));
         } else {
             this.NumCarateresAvancar = m + 2;
-            return Codigo.substring(j + 1, m + 1);
+            return Codigo.substring(a+1, m + 1);
         }
 
     }
@@ -224,7 +223,7 @@ public class If extends Statement {
         EspacosIfParentesAberto = 0;
         EspacosCondicaoParentesFechado = 0;
         PrimeiraChavetaNovaLinha = -1;
-        ChavetaUmStatementIf = -1;
+        ChavetaUmStatementIf= -1;
         LinhasEmBrancoDepoisChavetaAberta = -1;
         LinhasEmBrancoDepoisChavetaFechada = -1;
         int contParenteses = 0, indexParenteses = -1, i, aux, a, contPontoVirgula = 0;
@@ -288,25 +287,43 @@ public class If extends Statement {
                 break;
             }
         }
+        
+        contPontoVirgula=0;
+        
+        for(++a;a<ParaAnalise.length();a++)
+        {
+            if(ParaAnalise.charAt(a)==';')
+                if(++contPontoVirgula>=2)
+                {
+                    ChavetaUmStatementIf=-1;
+                    break;
+                }
+        }
 
-        if (!temChaveta) {
+        if (temChaveta) {
             for (++i; i < ParaAnalise.length(); i++) {
                 if (!Character.isWhitespace(ParaAnalise.charAt(i))) {
                     break;
                 }
             }
-            if (ParaAnalise.charAt(i) == '{') {
+            if (ParaAnalise.charAt(i) == '{' && contPontoVirgula<2) 
+            {
                 ChavetaUmStatementIf = 1;
-            } else {
+            } 
+            else if(contPontoVirgula<2) 
+            {
                 ChavetaUmStatementIf = 0;
                 PrimeiraChavetaNovaLinha = -1;
             }
+            else
+                PrimeiraChavetaNovaLinha = -1;
+            
         } else {
-            ChavetaUmStatementIf = -1;
+            ChavetaUmStatementIf = 0;
         }
         boolean primeiro = true;
 
-        if (ChavetaUmStatementIf != 0) {
+        if (ChavetaUmStatementIf == 1 || ChavetaUmStatementIf == -1) {
             PrimeiraChavetaNovaLinha = 0;
             LinhasEmBrancoDepoisChavetaAberta = 0;
             LinhasEmBrancoDepoisChavetaFechada = 0;
@@ -363,9 +380,54 @@ public class If extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        String Aux = "if";
-        If_EP Ep = estilo.getIfs();
-        for (int i = 0; i < Ep.getEspacosIfParentesAberto(); i++) {
+
+//        String aux= this.ParaAnalise;
+//        StringBuilder build = new StringBuilder(aux); 
+//        char espacos[] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+//        char linhas[] = { '\n', '\n', '\n', '\n', '\n', '\n', '\n' };
+//        int conta=0;
+//       
+//            for (int i = 0; i < aux.length(); i++) {
+//                if(aux.charAt(i)=='(')
+//                {
+//                   build.insert(i, espacos, 0, estilo.getIfs().getEspacosIfParentesAberto());
+//                   build.insert(i+1+estilo.getIfs().getEspacosIfParentesAberto(), espacos, 0, estilo.getIfs().getEspacosParentesesAbertoCondicao());
+//                }
+//                if(aux.charAt(i)==')')
+//                {
+//                   conta+=estilo.getIfs().getEspacosIfParentesAberto()+estilo.getIfs().getEspacosParentesesAbertoCondicao();
+//                   
+//                   build.insert(i+conta, espacos, 0, estilo.getIfs().getEspacosCondicaoParentesFechado());
+//                }
+//                if(aux.charAt(i)=='{')
+//                {
+//                    conta+=estilo.getIfs().getEspacosCondicaoParentesFechado();
+//                    
+//                   build.insert(i+1+conta, linhas, 0, estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta());
+//                }
+//                 if(aux.charAt(i)=='}')
+//                {
+//                    conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta();
+//                    
+//                   build.insert(i+conta, linhas, 0, estilo.getIfs().getLinhasEmBrancoDepoisChavetaFechada()-1);
+//                }
+//                if(aux.charAt(i)==';')
+//                {
+//                    conta+=estilo.getIfs().getLinhasEmBrancoDepoisChavetaAberta();
+//                    
+//                   build.insert(i+1+conta, linhas, 0, 1);
+//                }
+//               
+//        }
+//            this.Codigo=build.toString();
+        TemChaveta=false;
+        String Aux = "";
+        
+        for(int i=0;i<getNivel();i++)
+            Aux+="\t";
+        Aux+="if";
+        If_EP ep = estilo.getIfs();
+        for (int i = 0; i < ep.getEspacosIfParentesAberto(); i++) {
             Aux += " ";
         }
         Aux += "(";
@@ -382,9 +444,40 @@ public class If extends Statement {
         }
         Aux += ")";
         
-        if (Ep.isPosicaoPrimeiraChaveta())
-            Aux += "\n";
 
+        if(ep.isPosicaoPrimeiraChaveta() && ep.isChavetaUmStatementDentroIf())
+        {
+            Aux+="\n";
+            for(int i=0;i<getNivel();i++)
+                Aux+="\t";
+            Aux+="{";
+            TemChaveta=true;
+        }
+        else if(!ep.isPosicaoPrimeiraChaveta() && ep.isChavetaUmStatementDentroIf())
+        {
+            Aux+="{";
+            TemChaveta=true;
+        }
+        else if(!ep.isChavetaUmStatementDentroIf() && precisaChaveta() && ep.isPosicaoPrimeiraChaveta())
+        {
+            Aux+="\n{";
+        }
+        else if(!ep.isChavetaUmStatementDentroIf() && precisaChaveta() && !ep.isPosicaoPrimeiraChaveta())
+        {
+            Aux+="{\n";
+        }
+        if(TemChaveta)
+        {
+            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaAberta();a++)
+            {
+                Aux+="\n";
+            }
+
+            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
+            {
+                StatmentsFilhos.get(StatmentsFilhos.size()-1).Codigo+="\n";
+            }
+        }
         this.Codigo = Aux;
     }
 }

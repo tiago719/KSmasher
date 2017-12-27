@@ -31,16 +31,34 @@ public class IfTest {
     
     public ArrayList<If> lista;
     public ArrayList<If> lista2;
-    If instance;
+    If instance1, instance2, instance3;
 
-    public IfTest() {
+    public IfTest() 
+    {
         
         lista=new ArrayList<>();
         lista2=new ArrayList<>();
         lista.add(new If("if (   ola = 5  ){ int a = 5; } else {    }", new Texto()));
+        
+                for(If S : lista)
+            S.analisaStatement();
+                
+        instance1 = new If("if ( ola==5 )int a++; else{} ", new Texto());
+        instance1.analisaStatement();
+        instance2= new If("if ( ola==5 )\n{\n\n\n\nint a++;}\n\n\n\n else{} ", new Texto());
+        instance2.analisaStatement();
+        instance3= new If("if  (  a  ==  0  )\n" +
+"	{\n" +
+"		\n" +
+"		\n" +
+"		int a;\n" +
+"	}", new Texto());
+        
+        instance3.analisaStatement();
+                
         lista2.add(new If("if(ola = 5){ int a = 5; int x=6; } else {    }", new Texto()));
         
-        EstiloProgramacao estilo=new EstiloProgramacao("EstiloDefeito",false,
+        EstiloProgramacao estilo=new EstiloProgramacao(0,"EstiloDefeito",false,
                                 new Cast_EP(1),
                                 new DoWhile_EP(true, 1, 0, 1, 1, 1),
                                 new Else_EP(true, 1, 1),
@@ -50,51 +68,11 @@ public class IfTest {
                                 new Operador_EP(1, 1),
                                 new While_EP(true, false, 1, 1, 1, 1, 1));
         
-        for(If S : lista)
-            S.analisaStatement();
+
         for(If S : lista2)
             S.converteStatement(estilo);
-        
-        instance = new If("if( a  ==  0 )\n" +
-"	{\n" +
-"		while( a == 0 )\n" +
-"		{\n" +
-"			a  ++  ;\n" +
-"		}\n" +
-"		else\n" +
-"		{\n" +
-"			c  =  (int) 4.0 ;\n" +
-"		}\n" +
-"	}\n" +
-"	do\n" +
-"	{\n" +
-"		while(true)\n" +
-"			b  ++  ;\n" +
-"\n" +
-"	}while(true);", new Texto());
-        
-        instance.analisaStatement();
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of RetiraDados method, of class If.
-     */
     @Test
     public void testRetiraDados() {
         System.out.println("RetiraDados");
@@ -107,16 +85,32 @@ public class IfTest {
         assertEquals(1, lista.get(0).isChavetaUmStatementDentroIf());
         assertEquals(0, lista.get(0).getPrimeiraChavetaNovaLinha());
         
-        assertEquals(1, instance.getEspacosCondicaoParentesFechado());
-        assertEquals(0, instance.getEspacosIfParentesAberto());
-        assertEquals(1, instance.getEspacosParentesesAbertoCondicao());
-        assertEquals(0, instance.getLinhasEmBrancoDepoisChavetaAberta());
-        assertEquals(0, instance.getLinhasEmBrancoDepoisChavetaFechada());
-        assertEquals(-1, instance.isChavetaUmStatementDentroIf());
-        assertEquals(1, instance.getPrimeiraChavetaNovaLinha());
+        assertEquals(1, instance1.getEspacosCondicaoParentesFechado());
+        assertEquals(1, instance1.getEspacosIfParentesAberto());
+        assertEquals(1, instance1.getEspacosParentesesAbertoCondicao());
+        assertEquals(-1, instance1.getLinhasEmBrancoDepoisChavetaAberta());
+        assertEquals(-1, instance1.getLinhasEmBrancoDepoisChavetaFechada());
+        assertEquals(0, instance1.isChavetaUmStatementDentroIf());
+        assertEquals(-1, instance1.getPrimeiraChavetaNovaLinha());
+        
+        assertEquals(1, instance2.getEspacosCondicaoParentesFechado());
+        assertEquals(1, instance2.getEspacosIfParentesAberto());
+        assertEquals(1, instance2.getEspacosParentesesAbertoCondicao());
+        assertEquals(3, instance2.getLinhasEmBrancoDepoisChavetaAberta());
+        assertEquals(3, instance2.getLinhasEmBrancoDepoisChavetaFechada());
+        assertEquals(1, instance2.isChavetaUmStatementDentroIf());
+        assertEquals(1, instance2.getPrimeiraChavetaNovaLinha());
+        
+        assertEquals(2, instance3.getEspacosCondicaoParentesFechado());
+        assertEquals(2, instance3.getEspacosIfParentesAberto());
+        assertEquals(2, instance3.getEspacosParentesesAbertoCondicao());
+        assertEquals(2, instance3.getLinhasEmBrancoDepoisChavetaAberta());
+        assertEquals(0, instance3.getLinhasEmBrancoDepoisChavetaFechada());
+        assertEquals(1, instance3.isChavetaUmStatementDentroIf());
+        assertEquals(1, instance3.getPrimeiraChavetaNovaLinha());
     }
      @Test
     public void testconverte() {
-         //assertEquals("if ( ola = 5 ){\n int a = 5;\n int x=6;\n } e",lista2.get(0).Codigo);
+         assertEquals("if ( ola = 5 )\n{\n\n int a = 5; int x=6; }\n\n",lista2.get(0).getCodigo());
     }
 }
