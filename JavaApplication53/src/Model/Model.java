@@ -139,7 +139,6 @@ public class Model {
         
         Texto Texto=new Texto(in,out);
         Texto.ComecaCataloga();
-        Texto.retiraChaveta();
         
         EstiloProgramacao Estilo=Utilizador.getEstiloID(idEstilo);
         Texto.ComecaConverte(Estilo);
