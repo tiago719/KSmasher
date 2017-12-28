@@ -98,68 +98,6 @@ public class Texto {
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);
             S.converteStatement(EstiloProgramacao);
         }
-
-        /*        String Str = "";
-        for (Statement S : Lista) {
-            if (S instanceof If) {
-                Str += "if";
-
-                If Aux = (If) S;
-                If_EP EP = EstiloProgramacao.getIfs();
-
-                for (int i = 0; i < EP.getEspacosIfParentesAberto(); i++) {
-                    Str += " ";
-                }
-
-                Str += "(";
-
-                for (int i = 0; i < EP.getEspacosParentesesAbertoCondicao(); i++) {
-                    Str += " ";
-                }
-
-                Str += Aux.getCondicao().getCodigo();
-
-                for (int i = 0; i < EP.getEspacosCondicaoParentesFechado(); i++) {
-                    Str += " ";
-                }
-
-                Str += ")";
-
-//                if (EP.PrimeiraChavetaNovaLinha() == 1) {
-//                    Str += "\n";
-//                    for (int i = 0; i < Aux.getNivel(); i++) {
-//                        Str += "\t";
-//                    }
-//                }
-//                if (EP.ChavetaUmStatementIf() != 0) {
-//                    Str += "{";
-//                }
-
-                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaAberta(); i++) {
-                    Str += "\n";
-                }
-                for (int i = 0; i < Aux.getNivel(); i++) {
-                    Str += "\t";
-                }
-
-                if (S.hasFilhos()) {
-                    Str += Converte(S.getStatementsFilhos());
-                }
-
-                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaFechada(); i++) {
-                    Str += "\n";
-                }
-                for (int i = 0; i < Aux.getNivel(); i++) {
-                    Str += "\t";
-                }
-
-//                if (EP.ChavetaUmStatementIf() != 0) {
-//                    Str += "}";
-//                }
-            }
-        }
-        return Str;
-         */
     }
 
     public ArrayList<Statement> getListaStatements() {
@@ -273,13 +211,23 @@ public class Texto {
             return -1;
         }
 
-        int i;
+        int i, a, parentesesAbertos=0;
         for (i = 0; i < S.length(); i++) {
             if (!Character.isWhitespace(S.charAt(i))) {
                 break;
             }
         }
-        String Aux = S.substring(i);
+        
+        for(a=0;a<S.length();a++)
+        {
+            if(S.charAt(a)=='(')
+                parentesesAbertos++;
+            else if(S.charAt(a)==')')
+                if(--parentesesAbertos==0)
+                    break;
+        }
+        
+        String Aux = S.substring(i+1,a);
         char c;
         for (String TipoDado : Constantes.TIPO_DADOS) {
             if (Aux.contains(TipoDado)) {
@@ -405,16 +353,22 @@ public class Texto {
 
         for (int i = 0; i < Codigo.length(); i++) {
 
+            if(Pai==null)
+                System.out.println("Ola");
+            
             char c=Codigo.charAt(i);
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
+                Aux += Codigo.charAt(i);
                 continue;
             } else if (Codigo.charAt(i) == '\'' && Codigo.charAt(i - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
+                Aux += Codigo.charAt(i);
                 continue;
             }
 
             if (AspasAberto || PlicasAberto) {
+                Aux += Codigo.charAt(i);
                 continue;
             }
 
@@ -558,9 +512,18 @@ public class Texto {
                     }
 
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this, Pai);
+                    try
+                    {
+                        Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this, Pai);
+                        Novo.add(Add);
+                    }
+                    catch(Exception e)
+                    {
+                        Add = new Operador(Codigo.substring(1), this, Pai);
+                        Novo.add(Add);
+                    }
+                    
                     i += 1;
-                    Novo.add(Add);
                     continue;
                 }
             } catch (Exception e) {

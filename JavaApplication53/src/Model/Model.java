@@ -98,6 +98,8 @@ public class Model {
     {
         String proxDiretoria=DiretoriaDestino;
         File Diretoria=new File(NomeDiretoria);
+        File someFile=new File(DiretoriaDestino);
+        someFile.mkdir();
         
         File[] fList=Diretoria.listFiles();
         
@@ -116,7 +118,7 @@ public class Model {
             }
             else if(file.isDirectory())
             {  
-                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//"+ file.getName(), IdEstilo);
+                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "\\"+ file.getName(), IdEstilo);
             }
         }      
     }
@@ -142,9 +144,7 @@ public class Model {
         
         EstiloProgramacao Estilo=Utilizador.getEstiloID(idEstilo);
         Texto.ComecaConverte(Estilo);
-        
-        
-        
+
         try
         {
             out.write(Texto.toString(), 0,Texto.toString().length());
@@ -152,15 +152,13 @@ public class Model {
         } catch (IOException ex)
         {
             System.out.println("Erro a escrever para o novo ficheiro");
-        }
-        
-        
+        }   
     }
     
     public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
     {
-        File source = new File(DiretoriaAtual + "//" + Nome);
-        File dest = new File(DiretoriaDestino + "//" + Nome);
+        File source = new File(DiretoriaAtual + "\\" + Nome);
+        File dest = new File(DiretoriaDestino + "\\" + Nome);
         
         try
         {

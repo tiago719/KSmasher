@@ -233,7 +233,7 @@ public class Pesquisas {
                     }
 
                     forep = new For_EP(pos, pos2, Rt.getInt("EspacosForParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicaoInicializacao "), Rt.getInt("EspacosInicializacaoPontoVirgula"),
-                            Rt.getInt("EspacosPontoVirgulaCondicao"), Rt.getInt("EspacosCondicaoPontoVirgula"), Rt.getInt("EspacosPontoVirgulaIncrementacao"), Rt.getInt("EspacosIncrementacaoParentesesFechado"),
+                            Rt.getInt("EspacosPontoVirgulaCondicao"), Rt.getInt("EspacosCondicaoPontoVirgula"), Rt.getInt("EspacosPontoVirgulaIncrementacao"),
                             Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
                 } else {
                     return null;
@@ -333,7 +333,7 @@ public class Pesquisas {
 
         if (est.getFors() != null) {
             bd.Modifica("INSERT INTO `t_for`(`IDFOR`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroFor`, `EspacosForParentesAberto`, `EspacosParentesesAbertoCondicaoInicializacao`, `EspacosInicializacaoPontoVirgula`, `EspacosPontoVirgulaCondicao`, `EspacosCondicaoPontoVirgula`, `EspacosPontoVirgulaIncrementacao`, `EspacosIncrementacaoParentesesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`)"
-                    + "VALUES (null," + id + "," + est.getFors().isPosicaoPrimeiraChaveta() + "," + est.getFors().isChavetaUmStatementDentroFor() + "," + est.getFors().getEspacosForParentesAberto() + "," + est.getFors().getEspacosParentesesAbertoCondicaoInicializacao() + "," + est.getFors().getEspacosInicializacaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaCondicao() + "," + est.getFors().getEspacosCondicaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaIncrementacao() + "," + est.getFors().getEspacosIncrementacaoParentesesFechado() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaFechada() + ")");
+                    + "VALUES (null," + id + "," + est.getFors().isPosicaoPrimeiraChaveta() + "," + est.getFors().isChavetaUmStatementDentroFor() + "," + est.getFors().getEspacosForParentesAberto() + "," + est.getFors().getEspacosParentesesAbertoCondicaoInicializacao() + "," + est.getFors().getEspacosInicializacaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaCondicao() + "," + est.getFors().getEspacosCondicaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaIncrementacao() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaFechada() + ")");
         }
 
         if (est.getIfs() != null) {

@@ -14,10 +14,10 @@ public class For_EP
     private boolean PosicaoPrimeiraChaveta, ChavetaUmStatementDentroFor;
     private int EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, 
             EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula,
-            EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, 
-            LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
+            EspacosPontoVirgulaIncrementacao,LinhasEmBrancoDepoisChavetaAberta, 
+            LinhasEmBrancoDepoisChavetaFechada;
 
-    public For_EP(boolean PosicaoPrimeiraChaveta,boolean ChavetaUmStatementDentroFor, int EspacosForParentesAberto, int EspacosParentesesAbertoCondicaoInicializacao, int EspacosInicializacaoPontoVirgula, int EspacosPontoVirgulaCondicao, int EspacosCondicaoPontoVirgula, int EspacosPontoVirgulaIncrementacao, int EspacosIncrementacaoParentesesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
+    public For_EP(boolean PosicaoPrimeiraChaveta,boolean ChavetaUmStatementDentroFor, int EspacosForParentesAberto, int EspacosParentesesAbertoCondicaoInicializacao, int EspacosInicializacaoPontoVirgula, int EspacosPontoVirgulaCondicao, int EspacosCondicaoPontoVirgula, int EspacosPontoVirgulaIncrementacao, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
         this.ChavetaUmStatementDentroFor = ChavetaUmStatementDentroFor;
         this.EspacosForParentesAberto = EspacosForParentesAberto;
@@ -26,7 +26,6 @@ public class For_EP
         this.EspacosPontoVirgulaCondicao = EspacosPontoVirgulaCondicao;
         this.EspacosCondicaoPontoVirgula = EspacosCondicaoPontoVirgula;
         this.EspacosPontoVirgulaIncrementacao = EspacosPontoVirgulaIncrementacao;
-        this.EspacosIncrementacaoParentesesFechado = EspacosIncrementacaoParentesesFechado;
         this.LinhasEmBrancoDepoisChavetaAberta = LinhasEmBrancoDepoisChavetaAberta;
         this.LinhasEmBrancoDepoisChavetaFechada = LinhasEmBrancoDepoisChavetaFechada;
     }
@@ -109,16 +108,6 @@ public class For_EP
     public void setEspacosPontoVirgulaIncrementacao(int EspacosPontoVirgulaIncrementacao)
     {
         this.EspacosPontoVirgulaIncrementacao = EspacosPontoVirgulaIncrementacao;
-    }
-
-    public int getEspacosIncrementacaoParentesesFechado()
-    {
-        return EspacosIncrementacaoParentesesFechado;
-    }
-
-    public void setEspacosIncrementacaoParentesesFechado(int EspacosIncrementacaoParentesesFechado)
-    {
-        this.EspacosIncrementacaoParentesesFechado = EspacosIncrementacaoParentesesFechado;
     }
 
     public int getLinhasEmBrancoDepoisChavetaAberta()
