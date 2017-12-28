@@ -65,7 +65,7 @@ public class Utilizador
                                 new Funcoes_EP(false),
                                 new If_EP(false,false, 3, 3, 3, 3, 3),
                                 new Operador_EP(3, 3),
-                                new While_EP(true,true, 1, 1, 1, 1, 1)));
+                                new While_EP(true,true, 3, 3, 3, 3, 3)));
 
     }
 

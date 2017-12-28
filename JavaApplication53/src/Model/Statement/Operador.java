@@ -118,11 +118,10 @@ public class Operador extends Statement {
             
             for(a=aux1.length()-1;a>0;a--)
             {
-                char c=aux1.charAt(a);
                 if(aux1.charAt(a)!=' ')
                     break;
             }
-            Pai.getStatementsFilhos().get(i-1).Codigo=aux1.substring(0, a-1);
+            Pai.getStatementsFilhos().get(i-1).Codigo=aux1.substring(0, a+1);
         }
         catch(Exception e){}
         

@@ -426,7 +426,6 @@ public class If extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        TemChaveta=false;
         String Aux = "";
         Statement Last=null;
         Statement ultimoFilho=getLastSon();
@@ -470,6 +469,9 @@ public class If extends Statement {
             for(Statement S : Condicao.getStatementsFilhos())
             {
                 S.converteStatement(estilo);
+            }
+            for(Statement S : Condicao.getStatementsFilhos())
+            {
                 Aux+=S.getCodigo();
             }
         }
@@ -510,6 +512,9 @@ public class If extends Statement {
             }
             ultimoFilho.Codigo+="}";
         }
+        else
+            Aux+="\n";
+            
         this.Codigo = Aux;
     }
 }
