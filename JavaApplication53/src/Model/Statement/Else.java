@@ -300,17 +300,16 @@ public class Else extends Statement {
         {
             Aux+="\n";
         }
-
-        for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada()+1;a++)
-        {
-            ultimoFilho.Codigo+="\n";
-        }
+         ultimoFilho.Codigo+="\n";
         for(int a=0;a<getNivel();a++)
         {
             ultimoFilho.Codigo+="\t";
         }
         ultimoFilho.Codigo+="}";
-        
-        this.Codigo = Aux;
+        for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
+        {
+            ultimoFilho.Codigo+="\n";
+        }
+         this.Codigo = Aux;
     }
 }

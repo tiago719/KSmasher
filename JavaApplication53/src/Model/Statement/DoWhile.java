@@ -1,8 +1,10 @@
 package Model.Statement;
 
+import Model.EstiloProgramacao.DoWhile_EP;
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.EstiloProgramacao.While_EP;
 
 public class DoWhile extends Statement
 {
@@ -24,6 +26,32 @@ public class DoWhile extends Statement
         int i, j, y = 0, PosWhile = 0;
         boolean AspasAberto = false, PlicasAberto = false;
 
+        int a=2;
+        boolean ultimo=false;
+        for(++a;a<Codigo.length();a++)
+        {
+            if(Codigo.charAt(a)=='\t' || Codigo.charAt(a)==' ')
+            {
+                ultimo=false;
+                continue;
+            }
+            else if(Codigo.charAt(a)=='{')
+            {
+                ultimo=true;
+                continue;
+            }
+            else if(Codigo.charAt(a)!='\n' && Codigo.charAt(a)!='\r')
+            {
+                ultimo=true;
+                break;
+            }
+        }
+        if(ultimo)
+        {
+            for(--a;a>0;a--)
+               if(Codigo.charAt(a)!='\t' && Codigo.charAt(a)!=' ')
+                   break;
+        }
         //procura se tem { ou nao
         for (i = 2; i < Codigo.length(); i++)
         {
@@ -32,7 +60,6 @@ public class DoWhile extends Statement
                 break;
             }
         }
-
         int numChavetasAbertos = 1;
 
         for (++i; i < Codigo.length(); i++)
@@ -60,7 +87,8 @@ public class DoWhile extends Statement
                 }
             }
         }
-
+        
+        
         //retira espacos entre }/; e while
         for (++i; i < Codigo.length(); i++)
         {
@@ -142,7 +170,7 @@ public class DoWhile extends Statement
         this.ParaAnalise = Codigo.substring(0, z+1);
         this.NumCarateresAvancar = z + 2;
         this.Codigo=Codigo.substring(PosWhile, z+1);
-        return Codigo.substring(y, PosWhile+1);
+        return Codigo.substring(a+1,z);
     }
 
     public int getPrimeiraChavetaNovaLinha()
@@ -330,54 +358,96 @@ public class DoWhile extends Statement
     @Override
     public void converteStatement(EstiloProgramacao estilo)
     {
-//        super.converteStatement(estilo);
-
-        String aux = this.ParaAnalise;
-        StringBuilder build = new StringBuilder(aux);
-        char espacos[] =
+        String Aux = "";
+        Statement Last=null;
+        Statement ultimoFilho=getLastSon();
+        
+        for(Statement s :Pai.getStatementsFilhos())
         {
-            ' ', ' ', ' ', ' ', ' ', ' ', ' '
-        };
-        char linhas[] =
+            if(s==this)
+                break;
+            Last=s;
+        }
+        
+        if(Last!=null)
         {
-            '\n', '\n', '\n', '\n', '\n', '\n', '\n'
-        };
-        int conta = 0;
-
-        for (int i = 0; i < aux.length(); i++)
+            int i=1;
+            for(i=Last.getCodigo().length()-1;i>0;i--)
+            {
+                if(Last.getCodigo().charAt(i)!='\t')
+                    break;
+            }
+            try
+            {
+                Last.Codigo=Last.getCodigo().substring(0,i);
+            }
+            catch(Exception e){}
+        }
+        for(int i=0;i<getNivel();i++)
+            Aux+="\t";
+        Aux+="do";
+        DoWhile_EP ep = estilo.getDowhile();
+        
+        if(ep.isPosicaoPrimeiraChaveta())
         {
-            if (aux.charAt(i) == '{')
+            Aux+="\n";
+            
+            for(int i=0;i<getNivel();i++)
+                Aux+="\t";
+            Aux+="{";
+        }
+        else
+        {
+            Aux+="{";
+        }
+        
+        for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaAberta()+1;a++)
+        {
+            Aux+="\n";
+        }
+        ultimoFilho.Codigo+="\n";
+        for(int a=0;a<getNivel();a++)
+        {
+            ultimoFilho.Codigo+="\t";
+        }
+        ultimoFilho.Codigo+="}";
+        
+        for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
+        {
+            ultimoFilho.Codigo+="\n";
+        }
+        ultimoFilho.Codigo+="while";
+        
+        for(int a=0;a<ep.getEspacosWhileParentesesAberto();a++)
+        {
+            ultimoFilho.Codigo+=" ";
+        }
+        ultimoFilho.Codigo+="(";
+        
+        for(int a=0;a<ep.getEspacosParentesesAbertoCondicao();a++)
+        {
+            ultimoFilho.Codigo+=" ";
+        }
+        
+        if(Condicao.hasFilhos())
+        {
+            for(Statement S : Condicao.getStatementsFilhos())
             {
-                build.insert(i + 1, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
+                S.converteStatement(estilo);
             }
-             if (aux.charAt(i) == ';')
+            for(Statement S : Condicao.getStatementsFilhos())
             {
-                conta += estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta();
-                build.insert(i + 1+conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta());
-            }
-            if (aux.charAt(i) == '}')
-            {
-                conta += estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta();
-
-                build.insert(i + conta, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()-1);
-                build.insert(i + conta + 1 + estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()-1, linhas, 0, estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada());
-            }
-            if (aux.charAt(i) == '(')
-            {
-                conta += estilo.getDowhile().getLinhasEmBrancoDepoisChavetaAberta()-1 + estilo.getDowhile().getLinhasEmBrancoDepoisChavetaFechada();
-
-                build.insert(i + conta, espacos, 0, estilo.getDowhile().getEspacosWhileParentesesAberto());
-                build.insert(i + conta + 1 + estilo.getDowhile().getEspacosWhileParentesesAberto(), espacos, 0, estilo.getDowhile().getEspacosParentesesAbertoCondicao());
-            }
-            if (aux.charAt(i) == ')')
-            {
-                conta += estilo.getDowhile().getEspacosWhileParentesesAberto() + estilo.getDowhile().getEspacosParentesesAbertoCondicao();
-
-                build.insert(i + conta, espacos, 0, estilo.getDowhile().getEspacosCondicaoParentesFechado());
-
+                ultimoFilho.Codigo+=S.getCodigo();
             }
         }
-        this.Codigo = build.toString();
-     
+        else
+            ultimoFilho.Codigo+=Condicao.getCodigo();
+        
+        for(int a=0;a<ep.getEspacosCondicaoParentesFechado();a++)
+        {
+            ultimoFilho.Codigo+=" ";
+        }
+        ultimoFilho.Codigo+=");\n";
+        this.Codigo = Aux;
     }
 }

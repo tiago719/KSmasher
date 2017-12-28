@@ -526,7 +526,7 @@ public class Texto {
                     OUTER2:
                     for (int j = i + 3; j < Codigo.length(); j++) {
                         if (!Character.isWhitespace(Codigo.charAt(j))) {
-                            NextCarater = j;
+                            NextCarater = j+1;
                             break OUTER2;
                         }
                     }
@@ -598,14 +598,14 @@ public class Texto {
                 if (NumCarCast != -1) {
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if ( !Character.isWhitespace(Codigo.charAt(i))) {
+                        if (!Character.isWhitespace(Codigo.charAt(i))) {
                             PrevCarater = j;
                             break;
                         }
                     }
 
                     for (int j = i + NumCarCast; j < Codigo.length(); j++) {
-                        if ((c = Codigo.charAt(j)) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(i))) {
                             NextCarater = j + 1;
                             break;
                         }

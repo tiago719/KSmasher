@@ -59,9 +59,9 @@ public class Utilizador
     {
         EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
                                 new Cast_EP(3),
-                                new DoWhile_EP(true, 1, 0, 1, 1, 1),
+                                new DoWhile_EP(true, 3, 3, 3, 3, 3),
                                 new Else_EP(false, 3, 3),
-                                new For_EP(true,true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
+                                new For_EP(true,true, 3, 3, 3, 3, 3, 3, 5, 3, 3),
                                 new Funcoes_EP(false),
                                 new If_EP(false,false, 3, 3, 3, 3, 3),
                                 new Operador_EP(3, 3),

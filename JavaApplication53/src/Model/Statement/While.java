@@ -496,17 +496,16 @@ public class While extends Statement {
             {
                 Aux+="\n";
             }
-
-            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
-            {
-                ultimoFilho.Codigo+="\n";
-            }
             ultimoFilho.Codigo+="\n";
             for(int a=0;a<getNivel();a++)
             {
                 ultimoFilho.Codigo+="\t";
             }
             ultimoFilho.Codigo+="}";
+            for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
+            {
+                ultimoFilho.Codigo+="\n";
+            }     
         }
         else
             Aux+="\n";
