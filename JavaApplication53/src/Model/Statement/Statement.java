@@ -64,23 +64,7 @@ public class Statement {
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
-//        String aux="";
-//        int ultimo=0, a=0;
-//        for(int i=0;i<Codigo.length();i++)
-//        {
-//            if(Codigo.charAt(i)==';' || Codigo.charAt(i)=='}' || Codigo.charAt(i)==')'  || Codigo.charAt(i)=='{')
-//                for(;i+1<Codigo.length();i++)
-//                    if(!Character.isWhitespace(Codigo.charAt(i+1)))
-//                    {
-//                        aux+=Codigo.substring(ultimo,i);
-//                        for(a=0;a<getNivel();a++)
-//                            aux+="\t";
-//                        ultimo=i;
-//                        break;
-//                    }
-//        }
-//        aux=Codigo.substring(ultimo);
-//        Codigo=aux;
+
     }
 
     public ArrayList<Statement> getStatementsFilhos() {
