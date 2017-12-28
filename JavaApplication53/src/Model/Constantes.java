@@ -2,7 +2,7 @@ package Model;
 
 public interface Constantes {
 
-    public static final String[] TIPO_DADOS = {"char", "int", "float", "double", "unsigned", "signed", "short", "long"};
+    public static final String[] TIPO_DADOS = { "int", "float","char", "double", "unsigned", "signed", "short", "long"};
 
     public static final char[] OPERADORES_1 = {'=', '+', '-', '/', '%', '<', '>', '!', '&', '|', '^', '?'};
 

@@ -75,11 +75,10 @@ public class If extends Statement {
         }
 
         int a;
-        char c;
         AspasAberto = PlicasAberto = false;
         //procurar {
         for (a = j + 1; a < Codigo.length(); a++) {
-            if ((c = Codigo.charAt(a)) == '"' && Codigo.charAt(a - 1) != '\\') {
+            if (Codigo.charAt(a) == '"' && Codigo.charAt(a - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
             } else if (Codigo.charAt(a) == '\'' && Codigo.charAt(a - 1) != '\\') {
@@ -430,27 +429,31 @@ public class If extends Statement {
         Statement Last=null;
         Statement ultimoFilho=getLastSon();
         
-        for(Statement s :Pai.getStatementsFilhos())
+        if(Pai!=null)
         {
-            if(s==this)
-                break;
-            Last=s;
+            for(Statement s :Pai.getStatementsFilhos())
+            {
+                if(s==this)
+                    break;
+                Last=s;
+            }
+
+            if(Last!=null)
+            {
+                int i=1;
+                for(i=Last.getCodigo().length()-1;i>0;i--)
+                {
+                    if(Last.getCodigo().charAt(i)!='\t' && Last.getCodigo().charAt(i)!=' ')
+                        break;
+                }
+                try
+                {
+                    Last.Codigo=Last.getCodigo().substring(0,i);
+                }
+                catch(Exception e){}
+            }
         }
         
-        if(Last!=null)
-        {
-            int i=1;
-            for(i=Last.getCodigo().length()-1;i>0;i--)
-            {
-                if(Last.getCodigo().charAt(i)!='\t')
-                    break;
-            }
-            try
-            {
-                Last.Codigo=Last.getCodigo().substring(0,i);
-            }
-            catch(Exception e){}
-        }
         for(int i=0;i<getNivel();i++)
             Aux+="\t";
         Aux+="if";

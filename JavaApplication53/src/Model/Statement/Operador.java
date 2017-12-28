@@ -107,23 +107,28 @@ public class Operador extends Statement {
     public void converteStatement(EstiloProgramacao estilo) {
         String aux1;
         int i=0,a=0, b=0;
-        for(i=0;i<Pai.getStatementsFilhos().size();i++)
+        
+        if(Pai!=null)
         {
-            if(Pai.getStatementsFilhos().get(i)==this)
-                break;
-        }
-        try
-        {
-            aux1=Pai.getStatementsFilhos().get(i-1).Codigo;
-            
-            for(a=aux1.length()-1;a>0;a--)
+            for(i=0;i<Pai.getStatementsFilhos().size();i++)
             {
-                if(aux1.charAt(a)!=' ')
+                if(Pai.getStatementsFilhos().get(i)==this)
                     break;
             }
-            Pai.getStatementsFilhos().get(i-1).Codigo=aux1.substring(0, a+1);
+            try
+            {
+                aux1=Pai.getStatementsFilhos().get(i-1).Codigo;
+
+                for(a=aux1.length()-1;a>0;a--)
+                {
+                    if(aux1.charAt(a)!=' ')
+                        break;
+                }
+                Pai.getStatementsFilhos().get(i-1).Codigo=aux1.substring(0, a+1);
+            }
+            catch(Exception e){}
         }
-        catch(Exception e){}
+        
         
         try
         {

@@ -97,6 +97,25 @@ public class DoWhile extends Statement
                 break;
             }
         }
+         
+        int r=i;
+        boolean primeiro=true;
+        for(--r;r>0;r--)
+        {
+            if(Codigo.charAt(r)=='\t' || Codigo.charAt(r)==' ')
+            {
+                continue;
+            }
+            else if(Codigo.charAt(r)=='}' && primeiro)
+            {
+                primeiro=false;
+                continue;
+            }
+            else if(Codigo.charAt(r)!='\n' && Codigo.charAt(r)!='\r')
+            {
+                break;
+            }
+        }
         PosWhile = i;
         
         i += 5; //depois do while
@@ -166,11 +185,11 @@ public class DoWhile extends Statement
             }
         }
 
-        Condicao = new Statement(Codigo.substring(InicioCondicao, d+1), t, this);
+        Condicao = new Statement(Codigo.substring(InicioCondicao, fimCondicao), t, this);
         this.ParaAnalise = Codigo.substring(0, z+1);
-        this.NumCarateresAvancar = z + 2;
-        this.Codigo=Codigo.substring(PosWhile, z+1);
-        return Codigo.substring(a+1,z);
+        this.NumCarateresAvancar = z+2;
+        this.Codigo="";
+        return Codigo.substring(a+1,r+1);
     }
 
     public int getPrimeiraChavetaNovaLinha()
@@ -362,26 +381,29 @@ public class DoWhile extends Statement
         Statement Last=null;
         Statement ultimoFilho=getLastSon();
         
-        for(Statement s :Pai.getStatementsFilhos())
+        if(Pai!=null)
         {
-            if(s==this)
-                break;
-            Last=s;
-        }
-        
-        if(Last!=null)
-        {
-            int i=1;
-            for(i=Last.getCodigo().length()-1;i>0;i--)
+            for(Statement s :Pai.getStatementsFilhos())
             {
-                if(Last.getCodigo().charAt(i)!='\t')
+                if(s==this)
                     break;
+                Last=s;
             }
-            try
+
+            if(Last!=null)
             {
-                Last.Codigo=Last.getCodigo().substring(0,i);
+                int i=1;
+                for(i=Last.getCodigo().length()-1;i>0;i--)
+                {
+                    if(Last.getCodigo().charAt(i)!='\t' && Last.getCodigo().charAt(i)!=' ')
+                        break;
+                }
+                try
+                {
+                    Last.Codigo=Last.getCodigo().substring(0,i);
+                }
+                catch(Exception e){}
             }
-            catch(Exception e){}
         }
         for(int i=0;i<getNivel();i++)
             Aux+="\t";
@@ -411,10 +433,17 @@ public class DoWhile extends Statement
             ultimoFilho.Codigo+="\t";
         }
         ultimoFilho.Codigo+="}";
-        
-        for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
+        int b=0;
+        for(b=0;b<ep.getLinhasEmBrancoDepoisChavetaFechada();b++)
         {
             ultimoFilho.Codigo+="\n";
+        }
+        if(b!=0)
+        {
+            for(int a=0;a<getNivel();a++)
+            {
+                ultimoFilho.Codigo+="\t";
+            }
         }
         ultimoFilho.Codigo+="while";
         
@@ -447,7 +476,7 @@ public class DoWhile extends Statement
         {
             ultimoFilho.Codigo+=" ";
         }
-        ultimoFilho.Codigo+=");\n";
+        ultimoFilho.Codigo+=");";
         this.Codigo = Aux;
     }
 }
