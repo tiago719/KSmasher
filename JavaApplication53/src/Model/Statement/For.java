@@ -484,9 +484,19 @@ public class For extends Statement {
 
         a=j;
         boolean ultimo=false;
+        boolean comentAberto=false;
         for(++a;a<Codigo.length();a++)
-        {
-            if(Codigo.charAt(a)=='\t' || Codigo.charAt(a)==' ')
+        {     
+            try
+            {
+                if(Codigo.charAt(a)=='/' && Codigo.charAt(a+1)=='/')
+                {
+                    comentAberto=true;
+                }
+            }
+            catch(Exception e){}
+
+            if(Codigo.charAt(a)=='\t' || Codigo.charAt(a)==' ' )
             {
                 ultimo=false;
                 continue;
@@ -496,7 +506,11 @@ public class For extends Statement {
                 ultimo=true;
                 continue;
             }
-            else if(Codigo.charAt(a)!='\n' && Codigo.charAt(a)!='\r')
+            if(Codigo.charAt(a)=='\n')
+            {
+                comentAberto=false;
+            }
+            if(Codigo.charAt(a)!='\n' && Codigo.charAt(a)!='\r' && !comentAberto)
             {
                 ultimo=true;
                 break;
@@ -539,6 +553,7 @@ public class For extends Statement {
         
         int r=n;
         boolean primeiro=true;
+        
         for(--r;r>0;r--)
         {
             if(Codigo.charAt(r)=='\t' || Codigo.charAt(r)==' ')

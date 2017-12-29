@@ -27,7 +27,7 @@ public class Statement {
                 StatmentsFilhos = T.Cataloga(Aux, this);
                 T.setNivel((T.getNivel() - 1));
             } catch (Exception e) {
-
+                T.setNivel((T.getNivel() - 1));
             }
         }
     }

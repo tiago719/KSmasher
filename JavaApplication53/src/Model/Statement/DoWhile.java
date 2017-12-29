@@ -28,8 +28,17 @@ public class DoWhile extends Statement
 
         int a=2;
         boolean ultimo=false;
+        boolean comentAberto=false;
         for(++a;a<Codigo.length();a++)
         {
+            try
+            {
+                if(Codigo.charAt(a)=='/' && Codigo.charAt(a+1)=='/')
+                {
+                    comentAberto=true;
+                }
+            }
+            catch(Exception e){}
             if(Codigo.charAt(a)=='\t' || Codigo.charAt(a)==' ')
             {
                 ultimo=false;
@@ -40,7 +49,11 @@ public class DoWhile extends Statement
                 ultimo=true;
                 continue;
             }
-            else if(Codigo.charAt(a)!='\n' && Codigo.charAt(a)!='\r')
+            if(Codigo.charAt(a)=='\n')
+            {
+                comentAberto=false;
+            }
+            else if(Codigo.charAt(a)!='\n' && Codigo.charAt(a)!='\r' && !comentAberto)
             {
                 ultimo=true;
                 break;
