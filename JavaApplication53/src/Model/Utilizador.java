@@ -1,4 +1,3 @@
-
 package Model;
 
 import Model.EstiloProgramacao.Cast_EP;
@@ -19,40 +18,34 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+public class Utilizador {
 
-public class Utilizador
-{
     private String Username, Email, Password;
     private int IdUtilizador;
     private ArrayList<EstiloProgramacao> EstilosProgramacao;
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return Username;
     }
 
-    public void setUsername(String Username)
-    {
+    public void setUsername(String Username) {
         this.Username = Username;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return Email;
     }
-    
-    public int getId()
-    {
+
+    public int getId() {
         return IdUtilizador;
     }
 
-    public void setEmail(String Email)
-    {
+    public void setEmail(String Email) {
         this.Email = Email;
     }
-    
-    public Utilizador(){
-        EstilosProgramacao=new ArrayList<EstiloProgramacao>();
+
+    public Utilizador() {
+        EstilosProgramacao = new ArrayList<EstiloProgramacao>();
     }
     
     public void AdicionaEstiloPorDefeito()
@@ -71,53 +64,57 @@ public class Utilizador
 
     public void NovoEstilo(EstiloProgramacao EP) {
         Pesquisas p = new Pesquisas();
-        if(EP.isPermite())
+        if (EP.isPermite()) {
             p.AdicionaEstilo(EP, this, 1);
-        else
+        } else {
             p.AdicionaEstilo(EP, this, 0);
-        
+        }
+
         EstilosProgramacao.add(EP);
-      
-    }   
-    
-    public ArrayList<EstiloProgramacao> getEstilos()
-    {
+
+    }
+
+    public ArrayList<EstiloProgramacao> getEstilos() {
         return EstilosProgramacao;
     }
-    
-    public EstiloProgramacao getEstilo(String NomeEstilo)
-    {
-        if(EstilosProgramacao == null)
-        {
+
+    public EstiloProgramacao getEstilo(String NomeEstilo) {
+        if (EstilosProgramacao == null) {
             return null;
         }
-        for(EstiloProgramacao EP : EstilosProgramacao)
-            if(EP.getNome().equals(NomeEstilo))
+        for (EstiloProgramacao EP : EstilosProgramacao) {
+            if (EP.getNome().equals(NomeEstilo)) {
                 return EP;
+            }
+        }
         return null;
     }
-    
-     public EstiloProgramacao getEstiloID(int idEstilo)
-    {
-        for(EstiloProgramacao EP : EstilosProgramacao)
-            if(EP.getId() == idEstilo)
+
+    public EstiloProgramacao getEstiloID(int idEstilo) {
+        for (EstiloProgramacao EP : EstilosProgramacao) {
+            if (EP.getId() == idEstilo) {
                 return EP;
+            }
+        }
         return null;
     }
-  
-      public Utilizador(int id, String User, String Em, String Pass) {
+
+    public Utilizador(int id, String User, String Em, String Pass) {
         IdUtilizador = id;
         Username = User;
         Email = Em;
         Password = Pass;
-        Pesquisas p = new Pesquisas();     
+        Pesquisas p = new Pesquisas();
         EstilosProgramacao = p.DevolveEstilosProgramacaoUtilizador(IdUtilizador);
-        if(EstilosProgramacao == null) EstilosProgramacao = new ArrayList<EstiloProgramacao>();
-      }
+        if (EstilosProgramacao == null) {
+            EstilosProgramacao = new ArrayList<EstiloProgramacao>();
+        }
+    }
 
     public void AdicionaUtilizador(String User, String Em, String Pass) {
         Username = User;
         Email = Em;
         Password = Pass;
     }
+    
 }

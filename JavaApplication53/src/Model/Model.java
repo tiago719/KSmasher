@@ -14,19 +14,27 @@ import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-
 public class Model {
+
     private Utilizador Utilizador;
     private Pesquisas Pesquisas;
+    String Diretoria;
+    String DiretoriaDestino;
 
-    public Model() 
-    {
+    public String getDiretoria() {
+        return Diretoria;
+    }
+
+    public String getDiretoriaDestino() {
+        return DiretoriaDestino;
+    }
+
+    public Model() {
         Utilizador = new Utilizador();
-        Pesquisas=new Pesquisas();
-    }   
-    
-    public boolean ExisteUsername(String nome)
-    {
+        Pesquisas = new Pesquisas();
+    }
+
+    public boolean ExisteUsername(String nome) {
         try {
             return Pesquisas.ExisteUsername(nome);
         } catch (SQLException ex) {
@@ -34,9 +42,8 @@ public class Model {
         }
         return false;
     }
-    
-    public boolean ExisteEmail(String email)
-    {
+
+    public boolean ExisteEmail(String email) {
         try {
             return Pesquisas.ExisteEmail(email);
         } catch (SQLException ex) {
@@ -44,103 +51,96 @@ public class Model {
         }
         return false;
     }
-    
-    public void Regista(String username, String email, String password)
-    {
+
+    public void Regista(String username, String email, String password) {
         Utilizador = new Utilizador();
         Utilizador.AdicionaUtilizador(username, email, password);
         Utilizador.AdicionaEstiloPorDefeito();
-       Pesquisas.AdicionaUtilizador(username, email, password);
-        
+        Pesquisas.AdicionaUtilizador(username, email, password);
+
     }
-    
-    public boolean Login(String username, String password)
-    {
+
+    public boolean Login(String username, String password) {
         boolean resultado = false;
         try {
             resultado = Pesquisas.VerificaLogin(username, password);
         } catch (SQLException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if(!resultado)
+
+        if (!resultado) {
             return false;
-        else
-            
-        {
+        } else {
             try {
-                Utilizador=Pesquisas.getUser(username);
+                Utilizador = Pesquisas.getUser(username);
             } catch (SQLException ex) {
                 Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
             Utilizador.AdicionaEstiloPorDefeito(); ///TODO: ALTERAR
-            
+
             return true;
         }
     }
-    
-    public void Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) 
-    {
-        Ficheiros F=new Ficheiros();
-        BufferedReader in=null;
+
+    public void Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {
+        Ficheiros F = new Ficheiros();
+        BufferedReader in = null;
         in = F.abreFObjectosLeitura(NomeFicheiro);
-        
-        Texto Texto=new Texto(in, null);
+
+        Texto Texto = new Texto(in, null);
         Texto.ComecaCataloga();
         Texto.ComecaAnalisa();
-        
-        ArrayList<Statement> codigo=Texto.getListaStatements();
-        Medias Medias=new Medias();
+
+        ArrayList<Statement> codigo = Texto.getListaStatements();
+        Medias Medias = new Medias();
         Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeEstilo, Permite));
     }
-    
-    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino,int IdEstilo)
-    {
-        String proxDiretoria=DiretoriaDestino;
-        File Diretoria=new File(NomeDiretoria);
-        File someFile=new File(DiretoriaDestino);
-        someFile.mkdir();
-        
-        File[] fList=Diretoria.listFiles();
-        
-        for(File file : fList)
-        {
-            if(file.isFile())
-            {
+
+    private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino, int IdEstilo) {
+        if (this.DiretoriaDestino == null || this.Diretoria == null) {
+            this.DiretoriaDestino = DiretoriaDestino;
+            this.Diretoria = NomeDiretoria;
+        }
+
+        String proxDiretoria = DiretoriaDestino;
+        File Diretoria = new File(NomeDiretoria);
+
+        File[] fList = Diretoria.listFiles();
+        for (File file : fList) {
+            if (file.isFile()) {
+
                 try {
-                    if(FilenameUtils.getExtension(file.getCanonicalPath()).equals("c"))
+                    if (FilenameUtils.getExtension(file.getCanonicalPath()).equals("c")) {
                         ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria, IdEstilo);
-                    else
+                    } else {
                         CopiaFicheiro(file.getName(), proxDiretoria, NomeDiretoria);
+                    }
                 } catch (IOException ex) {
-                    
+
                 }
+            } else if (file.isDirectory()) {
+                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//" + file.getName(), IdEstilo);
             }
-            else if(file.isDirectory())
-            {  
-                listaDiretoria(file.getAbsolutePath(), proxDiretoria + "\\"+ file.getName(), IdEstilo);
-            }
-        }      
+
+        }
     }
-    
-    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual,int idEstilo)
-    {
+
+    public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual, int idEstilo) {
         Utilizador.AdicionaEstiloPorDefeito();
-        Ficheiros F=new Ficheiros();
-        File source = new File(DiretoriaAtual + "\\"+ Nome);
-        
-        BufferedReader in=null;
-        try
-        {
+        Ficheiros F = new Ficheiros();
+        File source = new File(DiretoriaAtual + "\\" + Nome);
+
+        BufferedReader in = null;
+        try {
             in = F.abreFObjectosLeitura(source.getCanonicalPath());
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
-        BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino+"\\"+Nome);
-        
-        Texto Texto=new Texto(in,out);
+        BufferedWriter out = F.abreFObjectosEscrita(DiretoriaDestino + "\\" + Nome);
+
+        Texto Texto = new Texto(in, out);
         Texto.ComecaCataloga();
+
         
         EstiloProgramacao Estilo=Utilizador.getEstiloID(idEstilo);
         Texto.ComecaConverte(Estilo);
@@ -149,8 +149,7 @@ public class Model {
         {
             out.write(Texto.toString(), 0,Texto.toString().length());
             out.flush();
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             System.out.println("Erro a escrever para o novo ficheiro");
         }   
     }
@@ -163,43 +162,39 @@ public class Model {
         try
         {
             FileUtils.copyFile(source, dest);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
-    public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador)
-    {
-        listaDiretoria(Diretoria,DIRETORIA_DESTINO, IdEstilo);
+
+    public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador) {
+        listaDiretoria(Diretoria, DIRETORIA_DESTINO, IdEstilo);
     }
-    
-    public ArrayList<EstiloProgramacao> getEstilosUtilizador()
-    {
+
+    public ArrayList<EstiloProgramacao> getEstilosUtilizador() {
         return Utilizador.getEstilos();
     }
-    
-    public ArrayList<EstiloProgramacao> UtilizadorEstilos(String NomeUser)
-    {
-        if(!ExisteUsername(NomeUser))
+
+    public ArrayList<EstiloProgramacao> UtilizadorEstilos(String NomeUser) {
+        if (!ExisteUsername(NomeUser)) {
             return null;
+        }
+        Pesquisas p = new Pesquisas();
         
-        throw new UnsupportedOperationException("Funcionalidade nao implementada");
+        return p.DevolveEstilosProgramacao(NomeUser);
         //TODO: Verificar se o utilizador tem estilos disponiveis (nao esquecer verificar a flag dos estilos
     }
-    
-    public String getUtilizadorAtualNome()
-    {
+
+    public String getUtilizadorAtualNome() {
         return Utilizador.getUsername();
     }
-    
-    public boolean TemEstilo(String NomeEstilo)
-    {
-        return Utilizador.getEstilo(NomeEstilo)!=null;
+
+    public boolean TemEstilo(String NomeEstilo) {
+        return Utilizador.getEstilo(NomeEstilo) != null;
     }
-    public boolean TemEstiloID(int  IdEstilo){
-        
-        return Utilizador.getEstiloID(IdEstilo)!=null;
+
+    public boolean TemEstiloID(int IdEstilo) {
+
+        return Utilizador.getEstiloID(IdEstilo) != null;
     }
 }

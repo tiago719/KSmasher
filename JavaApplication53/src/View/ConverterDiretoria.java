@@ -4,6 +4,7 @@ import Controller.Controller;
 import Model.EstiloProgramacao.EstiloProgramacao;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFileChooser;
@@ -17,8 +18,9 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
     Controller Controller;
     Thread T;
     JPanel CardPanel;
-    boolean UserFirst=true, DiretoriaFirst=true;
+    boolean UserFirst = true, DiretoriaFirst = true;
     ArrayList<Integer> IdEstilo;
+    ArrayList<Integer> IdEstiloOutroUtilizador;
 
     public ConverterDiretoria(Controller Controller) {
         this.Controller = Controller;
@@ -26,8 +28,9 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jUsername.setVisible(false);
         jListaEstilosOutro.setVisible(false);
         jErroUtilizador.setVisible(false);
+        jButton1.setVisible(false);
         IdEstilo = new ArrayList<>();
-
+        IdEstiloOutroUtilizador = new ArrayList<>();
         if (Controller.getEstilosUtilizador() != null) {
             for (EstiloProgramacao EP : Controller.getEstilosUtilizador()) {
                 jListaEstilos.add(EP.getNome());
@@ -35,10 +38,9 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         }
         start();
     }
-    
-    public void setCardPanel(JPanel J)
-    {
-        CardPanel=J;
+
+    public void setCardPanel(JPanel J) {
+        CardPanel = J;
     }
 
     public void start() {
@@ -67,6 +69,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jListaEstilosOutro = new java.awt.Choice();
         jEscolherOutro = new javax.swing.JButton();
         jErroUtilizador = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -136,6 +139,14 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         jErroUtilizador.setForeground(new java.awt.Color(153, 0, 0));
         jErroUtilizador.setText("Utilizador Inexistente");
 
+        jButton1.setText("Pesquisa");
+        jButton1.setName("PesquisaUtilizador"); // NOI18N
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,18 +160,21 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
                         .addGap(106, 106, 106)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jListaEstilos, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jDiretoria, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jProcurar))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jListaEstilosOutro, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jEscolherOutro)
-                                        .addComponent(jErroUtilizador))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jDiretoria, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jProcurar))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jListaEstilosOutro, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jEscolherOutro)
+                                            .addComponent(jErroUtilizador))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(142, 142, 142)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,7 +182,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(195, 195, 195)
                                 .addComponent(jConverter, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,7 +199,9 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
                     .addComponent(jEscolherOutro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1))
                     .addComponent(jListaEstilosOutro, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jErroUtilizador)
@@ -199,11 +215,21 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
     private void jConverterMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jConverterMouseClicked
     {//GEN-HEADEREND:event_jConverterMouseClicked
-        if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
-            Controller.Converte(jDiretoria.getText(), IdEstilo.get(jListaEstilos.getSelectedIndex()) , Controller.getUtilizadorAtualNome());
+        if (jListaEstilosOutro.getSelectedIndex() == -1) {
+            if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
+                Controller.Converte(jDiretoria.getText(), IdEstilo.get(jListaEstilos.getSelectedIndex()), Controller.getUtilizadorAtualNome());
+                CardLayout cl = (CardLayout) CardPanel.getLayout();
+                cl.next(CardPanel);
+            }
+        } else {
+             if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
+                Controller.Converte(jDiretoria.getText(), IdEstiloOutroUtilizador.get(jListaEstilosOutro.getSelectedIndex()), Controller.getUtilizadorAtualNome());
+                CardLayout cl = (CardLayout) CardPanel.getLayout();
+                cl.next(CardPanel);
+            }
         }
     }//GEN-LAST:event_jConverterMouseClicked
-  
+
     private void jProcurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jProcurarActionPerformed
         JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -218,54 +244,49 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
     private void jAnalisaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisaMouseClicked
     {//GEN-HEADEREND:event_jAnalisaMouseClicked
-        CardLayout cl=(CardLayout)CardPanel.getLayout();
+        CardLayout cl = (CardLayout) CardPanel.getLayout();
         cl.previous(CardPanel);
     }//GEN-LAST:event_jAnalisaMouseClicked
 
     private void jEscolherOutroMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jEscolherOutroMouseClicked
     {//GEN-HEADEREND:event_jEscolherOutroMouseClicked
-        jListaEstilosOutro.setVisible(true);
-        jUsername.setVisible(true);
+        if (jEscolherOutro.getFont().isBold()) {
+            jEscolherOutro.setFont(jEscolherOutro.getFont().deriveFont(Font.PLAIN));
+            jListaEstilosOutro.setVisible(true);
+            jUsername.setVisible(true);
+            jButton1.setVisible(true);
+        } else {
+            jEscolherOutro.setFont(jEscolherOutro.getFont().deriveFont(Font.BOLD));
+            jListaEstilosOutro.setVisible(false);
+            jUsername.setVisible(false);
+            jButton1.setVisible(false);
+            jErroUtilizador.setVisible(false);
+        }
+
         validate();
     }//GEN-LAST:event_jEscolherOutroMouseClicked
 
     private void jUsernameFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jUsernameFocusGained
     {//GEN-HEADEREND:event_jUsernameFocusGained
-        if(UserFirst)
+        if (UserFirst) {
             jUsername.setText("");
+        }
         jUsername.setForeground(Color.BLACK);
-        UserFirst=false;        
+        UserFirst = false;
     }//GEN-LAST:event_jUsernameFocusGained
 
     private void jUsernameFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jUsernameFocusLost
     {//GEN-HEADEREND:event_jUsernameFocusLost
-        if(Controller.ExisteUsername(jUsername.getText())<0)
-        {
-            jErroUtilizador.setVisible(true);
-            return;
-        }
-        
-        ArrayList<EstiloProgramacao> estilos= Controller.UtilizadorEstilos(jUsername.getText());
-        
-        if(estilos==null)
-        {
-            jErroUtilizador.setVisible(true);
-            jErroUtilizador.setText("O utilizador não tem Estilos de Programação");
-            return;
-        }
-        
-        for(EstiloProgramacao estilo : estilos)
-        {
-            jListaEstilosOutro.add(estilo.getNome());
-        }
+
     }//GEN-LAST:event_jUsernameFocusLost
 
     private void jDiretoriaFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jDiretoriaFocusGained
     {//GEN-HEADEREND:event_jDiretoriaFocusGained
-        if(DiretoriaFirst)
+        if (DiretoriaFirst) {
             jDiretoria.setText("");
+        }
         jDiretoria.setForeground(Color.BLACK);
-        DiretoriaFirst=false;   
+        DiretoriaFirst = false;
     }//GEN-LAST:event_jDiretoriaFocusGained
 
     private void jProcurarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jProcurarMouseClicked
@@ -277,7 +298,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             try {
                 jDiretoria.setText(fc.getSelectedFile().getCanonicalPath());
                 jDiretoria.setForeground(Color.black);
-                DiretoriaFirst=false;
+                DiretoriaFirst = false;
             } catch (IOException ex) {
             }
         }
@@ -301,9 +322,33 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_jConverterMouseEntered
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        if (Controller.ExisteUsername(jUsername.getText()) != -3 && Controller.ExisteUsername(jUsername.getText()) < 0) {
+            jErroUtilizador.setVisible(true);
+            return;
+        }
+
+        ArrayList<EstiloProgramacao> estilos = Controller.UtilizadorEstilos(jUsername.getText());
+
+        if (estilos == null) {
+            jErroUtilizador.setVisible(true);
+            jErroUtilizador.setText("O utilizador não tem Estilos de Programação");
+            return;
+        }
+        if(!IdEstiloOutroUtilizador.isEmpty())
+            IdEstiloOutroUtilizador.clear();
+        jListaEstilosOutro.removeAll();
+        for (EstiloProgramacao estilo : estilos) {
+            jListaEstilosOutro.add(estilo.getNome());
+            IdEstiloOutroUtilizador.add(estilo.getId());
+        }
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jAnalisa;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jConverter;
     private javax.swing.JTextField jDiretoria;
     private javax.swing.JLabel jErroUtilizador;
@@ -321,9 +366,10 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         while (true) {
             try {
                 File Aux = Controller.getDnDFile();
-                if (Aux == null)
+                if (Aux == null) {
                     continue;
-                
+                }
+
                 if (DnDFile != Aux && Aux.isDirectory()) {
                     DnDFile = Controller.getDnDFile();
                 } else {

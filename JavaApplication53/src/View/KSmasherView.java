@@ -34,30 +34,37 @@ public class KSmasherView extends JFrame implements Observer
     AnalisarFicheiro AnalisaPanel;
     ConverterDiretoria ConvertePanel;
     RegistoLoginPanel RegistoLoginPanel;
+    PreviewResultados PreviewPanel;
+    
     
     
     public KSmasherView(Controller o)
     {
         super("KSmasher");
-        
-        
+              
         Controller=o;
         Controller.addObserver(this);
                 
         AnalisaPanel=new AnalisarFicheiro(Controller);
         RegistoLoginPanel=new RegistoLoginPanel(Controller);
         ConvertePanel=new ConverterDiretoria(Controller);
+        PreviewPanel = new PreviewResultados(Controller);
+      
         CardLayout cl;
         
         PainelPrincipal=new JPanel(cl=new CardLayout());
         PainelPrincipal.add(RegistoLoginPanel, "RegistoLogin");
         PainelPrincipal.add(AnalisaPanel, "Analisa");
         PainelPrincipal.add(ConvertePanel, "Converte");
+        PainelPrincipal.add(PreviewPanel, "Preview Resultados");
+        
         cl.first(PainelPrincipal);
         
         RegistoLoginPanel.setCardPanel(PainelPrincipal);
         AnalisaPanel.setCardPanel(PainelPrincipal);
         ConvertePanel.setCardPanel(PainelPrincipal);
+        PreviewPanel.setCardPanel(PainelPrincipal);
+        
         
         addComponents();
         
