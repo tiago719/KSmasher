@@ -302,12 +302,13 @@ public class Texto {
  
     private void precisaChaveta(ArrayList<Statement> Filhos)
     {
+        --contPontoVirgula;
         for(int i=0;i<Filhos.size();i++)
         {
             if(Filhos.get(i).hasFilhos())
                 precisaChaveta(Filhos.get(i).getStatementsFilhos());
             String Codigo=Filhos.get(i).getCodigo();
-            if(Codigo.contains(" for ") || Codigo.contains(" for("))
+            if(Codigo.contains(" for ") || Codigo.contains(" for(") || Codigo.contains("\tfor ") || Codigo.contains("\tfor("))
             {
                 contPontoVirgula++;
                 continue;
@@ -332,7 +333,7 @@ public class Texto {
     
     public boolean precisaChavetaP(ArrayList<Statement> Lista)
     {
-        contPontoVirgula=0;
+        contPontoVirgula=1;
         contChavetaAberta=0;
         precisaChaveta(Lista);
         if(contPontoVirgula>1)
@@ -352,11 +353,6 @@ public class Texto {
         String Aux = "";
 
         for (int i = 0; i < Codigo.length(); i++) {
-
-            if(Pai==null)
-                System.out.println("Ola");
-            
-            char c=Codigo.charAt(i);
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 Aux += Codigo.charAt(i);
@@ -532,6 +528,20 @@ public class Texto {
                 if (IsOperador1(Codigo.charAt(i))) {
                     int PrevCarater = 0, NextCarater = 0;
 
+                    try
+                    {
+                        if(Codigo.charAt(i-1)=='-' && Codigo.charAt(i)=='>')
+                        {
+                            Aux += Codigo.charAt(i);
+                            continue;
+                        }
+                        else if(Codigo.charAt(i)=='-' && Codigo.charAt(i+1)=='>')
+                        {
+                            Aux += Codigo.charAt(i);
+                            continue;
+                        }
+                    }
+                    catch(Exception e){}
                     for (int j = i - 1; j >= 0; j--) {
                         if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;

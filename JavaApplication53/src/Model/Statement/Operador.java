@@ -37,7 +37,7 @@ public class Operador extends Statement {
         }
         this.Codigo=this.Codigo.trim();
 
-        return null;
+        return "";
     }
 
     public int getEspacosOperadorVariavel() {
