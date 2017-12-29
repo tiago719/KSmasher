@@ -175,8 +175,9 @@ public class Model {
         if (!ExisteUsername(NomeUser)) {
             return null;
         }
-
-        throw new UnsupportedOperationException("Funcionalidade nao implementada");
+        Pesquisas p = new Pesquisas();
+        
+        return p.DevolveEstilosProgramacao(NomeUser);
         //TODO: Verificar se o utilizador tem estilos disponiveis (nao esquecer verificar a flag dos estilos
     }
 

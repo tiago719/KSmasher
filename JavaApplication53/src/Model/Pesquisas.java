@@ -119,8 +119,23 @@ public class Pesquisas {
         bd = new BaseDados();
         EstiloProgramacao est;
         ResultSet Rt = null;
+        ResultSet Rt1 = null;
 
-        Rt = bd.Le("SELECT * FROM estilos WHERE NOMEESTILO = '" + nome + "' and PARTILHAESTILO = 1;");
+        Rt1 = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + nome + "';");
+
+        try {
+            if (Rt1.next()) {
+                try {
+                    Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Rt1.getInt("IDUTILIZADOR") + "' and PARTILHAESTILO = 1;");
+                } catch (SQLException ex) {
+                    Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                return Estilos;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         try {
             while (Rt.next()) {
@@ -164,7 +179,7 @@ public class Pesquisas {
                 if (Rt.next()) {
                     castep = new Cast_EP(Rt.getInt("EspacosEntreCastVariavel"));
                 } else {
-                    return null;
+                    castep = null;
                 }
 
                 ///DO_WHILE
@@ -180,7 +195,7 @@ public class Pesquisas {
                     dowhileep = new DoWhile_EP(pos, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"),
                             Rt.getInt("EspacosWhileParentesesAberto"), Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"));
                 } else {
-                    return null;
+                    dowhileep = null;
                 }
 
                 ///FUNÇÕES
@@ -189,7 +204,7 @@ public class Pesquisas {
                 if (Rt.next()) {
                     funcoesep = new Funcoes_EP(Rt.getBoolean("AntesMain"));
                 } else {
-                    return null;
+                    funcoesep = null;
                 }
 
                 ///OPERADORES
@@ -198,7 +213,7 @@ public class Pesquisas {
                 if (Rt.next()) {
                     operadorep = new Operador_EP(Rt.getInt("EspacosOperadorVariavel"), Rt.getInt("EspacosVariavelOperador"));
                 } else {
-                    return null;
+                    operadorep = null;
                 }
 
                 //ELSE
@@ -213,7 +228,7 @@ public class Pesquisas {
                     }
                     elseep = new Else_EP(pos, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
                 } else {
-                    return null;
+                    elseep = null;
                 }
 
                 //FOR
@@ -232,11 +247,11 @@ public class Pesquisas {
                         pos2 = false;
                     }
 
-                    forep = new For_EP(pos, pos2, Rt.getInt("EspacosForParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicaoInicializacao "), Rt.getInt("EspacosInicializacaoPontoVirgula"),
+                    forep = new For_EP(pos, pos2, Rt.getInt("EspacosForParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicaoInicializacao"), Rt.getInt("EspacosInicializacaoPontoVirgula"),
                             Rt.getInt("EspacosPontoVirgulaCondicao"), Rt.getInt("EspacosCondicaoPontoVirgula"), Rt.getInt("EspacosPontoVirgulaIncrementacao"), Rt.getInt("EspacosIncrementacaoParentesesFechado"),
                             Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
                 } else {
-                    return null;
+                    forep = null;
                 }
 
                 //IF
@@ -258,7 +273,7 @@ public class Pesquisas {
                     ifep = new If_EP(pos, pos2, Rt.getInt("EspacosIfParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"),
                             Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
                 } else {
-                    return null;
+                    ifep = null;
                 }
 
                 //WHILE
@@ -280,7 +295,7 @@ public class Pesquisas {
                     whilep = new While_EP(pos, pos2, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"), Rt.getInt("EspacosWhileParentesAberto"),
                             Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"));
                 } else {
-                    return null;
+                    whilep = null;
                 }
 
                 est = new EstiloProgramacao(idEstilo, NomeEstilo, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
@@ -343,7 +358,7 @@ public class Pesquisas {
 
         if (est.getWhiles() != null) {
             bd.Modifica("INSERT INTO `t_while`(`IDWHILE`, `IDESTILO`, `PrimeiraChavetaNovaLinha`, `ChavetaUmStatementDentroWhile`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`, `EspacosWhileParentesAberto`, `EspacosParentesesAbertoCondicao`,`EspacosCondicaoParentesFechado`)"
-                    + "VALUES (null," + id + "," + est.getWhiles().isPosicaoPrimeiraChaveta() + "," + est.getWhiles().isChavetaUmStatementDentroWhile()+"," + est.getWhiles().getLinhasEmBrancoDepoisChavetaAberta() + " ," + est.getWhiles().getLinhasEmBrancoDepoisChavetaFechada()  + "," + est.getWhiles().getEspacosWhileParentesAberto()+ ", " + est.getWhiles().getEspacosParentesesAbertoCondicao()+ ", " + est.getWhiles().getEspacosCondicaoParentesFechado()+ ")");
+                    + "VALUES (null," + id + "," + est.getWhiles().isPosicaoPrimeiraChaveta() + "," + est.getWhiles().isChavetaUmStatementDentroWhile() + "," + est.getWhiles().getLinhasEmBrancoDepoisChavetaAberta() + " ," + est.getWhiles().getLinhasEmBrancoDepoisChavetaFechada() + "," + est.getWhiles().getEspacosWhileParentesAberto() + ", " + est.getWhiles().getEspacosParentesesAbertoCondicao() + ", " + est.getWhiles().getEspacosCondicaoParentesFechado() + ")");
         }
         bd.CloseConnection();
     }

@@ -91,7 +91,7 @@ public class Controller extends Observable {
     }
 
     public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador) {
-        Model.Converte(Diretoria, IdEstilo, NomeUtilizador);
+            Model.Converte(Diretoria, IdEstilo, NomeUtilizador);
     }
 
     public boolean ExisteNomeEstilo(String NomeEstilo) {
