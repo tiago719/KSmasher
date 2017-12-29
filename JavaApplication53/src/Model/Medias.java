@@ -74,7 +74,6 @@ public class Medias {
     ArrayList<Integer> EspacosPontoVirgulaCondicaoList = new ArrayList<>();
     ArrayList<Integer> EspacosCondicaoPontoVirgulaList = new ArrayList<>();
     ArrayList<Integer> EspacosPontoVirgulaIncrementacaoList = new ArrayList<>();
-    ArrayList<Integer> EspacosIncrementacaoParentesesFechadoList = new ArrayList<>();
     ArrayList<Integer> LinhasEmBrancoDepoisChavetaAbertaList = new ArrayList<>();
     ArrayList<Integer> LinhasEmBrancoDepoisChavetaFechadaList = new ArrayList<>();
 
@@ -123,7 +122,6 @@ public class Medias {
     int EspacosPontoVirgulaCondicao;
     int EspacosCondicaoPontoVirgula;
     int EspacosPontoVirgulaIncrementacao;
-    int EspacosIncrementacaoParentesesFechado;
     int LinhasEmBrancoDepoisChavetaAberta;
     int LinhasEmBrancoDepoisChavetaFechada;
     int PosicaoPrimeiraChaveta;
@@ -236,12 +234,6 @@ public class Medias {
         }
         if ((aux = S.getEspacosPontoVirgulaIncrementacao()) != -1) {
             EspacosPontoVirgulaIncrementacaoList.add(aux);
-        }
-        if ((aux = S.getEspacosIncrementacaoParentesesFechado()) != -1) {
-            EspacosIncrementacaoParentesesFechadoList.add(aux);
-        }
-        if ((aux = S.getEspacosIncrementacaoParentesesFechado()) != -1) {
-            EspacosIncrementacaoParentesesFechadoList.add(aux);
         }
         if ((aux = S.getLinhasEmBrancoDepoisChavetaAberta()) != -1) {
             LinhasEmBrancoDepoisChavetaAbertaList.add(aux);
@@ -597,15 +589,6 @@ public class Medias {
             EspacosPontoVirgulaIncrementacao = 0;
         }
         total = 0;
-        for (int i = 0; i < EspacosIncrementacaoParentesesFechadoList.size(); i++) {
-            total += EspacosIncrementacaoParentesesFechadoList.get(i);
-        }
-        try {
-            EspacosIncrementacaoParentesesFechado = total / EspacosIncrementacaoParentesesFechadoList.size();
-        } catch (Exception e) {
-            EspacosIncrementacaoParentesesFechado = 0;
-        }
-        total = 0;
         for (int i = 0; i < LinhasEmBrancoDepoisChavetaAbertaList.size(); i++) {
             total += LinhasEmBrancoDepoisChavetaAbertaList.get(i);
         }
@@ -773,9 +756,6 @@ public class Medias {
         if (EspacosPontoVirgulaIncrementacao < 0) {
             EspacosPontoVirgulaIncrementacao = 0;
         }
-        if (EspacosIncrementacaoParentesesFechado < 0) {
-            EspacosIncrementacaoParentesesFechado = 0;
-        }
         if (LinhasEmBrancoDepoisChavetaAberta < 0) {
             LinhasEmBrancoDepoisChavetaAberta = 0;
         }
@@ -791,9 +771,9 @@ public class Medias {
 
         For_EP ForEp;
         if (PosicaoPrimeiraChaveta > 0.5) {
-            ForEp = new For_EP(false,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+            ForEp = new For_EP(false,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         } else {
-            ForEp = new For_EP(false,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+            ForEp = new For_EP(false,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         }
         //funcoes
         Funcoes_EP FuncoesEp;

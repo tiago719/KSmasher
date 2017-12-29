@@ -24,8 +24,7 @@ public class Operador extends Statement {
         }
 
         for (j = Codigo.length() - 2; j >= 0; j--) {
-            char qqq = Codigo.charAt(j);
-            if (Codigo.charAt(j) != ' ' && Codigo.charAt(j) != '\n') {
+            if (!Character.isWhitespace(Codigo.charAt(i))) {
                 break;
             }
         }
@@ -36,8 +35,9 @@ public class Operador extends Statement {
         } else {
             this.Codigo = Codigo.substring(i, j + 1);
         }
+        this.Codigo=this.Codigo.trim();
 
-        return null;
+        return "";
     }
 
     public int getEspacosOperadorVariavel() {
@@ -105,6 +105,45 @@ public class Operador extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        String aux1;
+        int i=0,a=0, b=0;
+        
+        if(Pai!=null)
+        {
+            for(i=0;i<Pai.getStatementsFilhos().size();i++)
+            {
+                if(Pai.getStatementsFilhos().get(i)==this)
+                    break;
+            }
+            try
+            {
+                aux1=Pai.getStatementsFilhos().get(i-1).Codigo;
+
+                for(a=aux1.length()-1;a>0;a--)
+                {
+                    if(aux1.charAt(a)!=' ')
+                        break;
+                }
+                Pai.getStatementsFilhos().get(i-1).Codigo=aux1.substring(0, a+1);
+            }
+            catch(Exception e){}
+        }
+        
+        
+        try
+        {
+            aux1=Pai.getStatementsFilhos().get(i+1).Codigo;
+            
+            for(b=0;b<aux1.length();b++)
+            {
+                if(aux1.charAt(b)!=' ')
+                    break;
+            }
+            
+            Pai.getStatementsFilhos().get(i+1).Codigo=aux1.substring(b);
+        }
+        catch(Exception e){}
+        
         StringBuilder novastring = new StringBuilder();
 
         for (int j = 0; j < estilo.getOperador().getEspacosVariavelOperador(); j++) {

@@ -108,6 +108,7 @@ public class Model {
         File[] fList = Diretoria.listFiles();
         for (File file : fList) {
             if (file.isFile()) {
+
                 try {
                     if (FilenameUtils.getExtension(file.getCanonicalPath()).equals("c")) {
                         ConverteFicheiro(file.getName(), proxDiretoria, NomeDiretoria, IdEstilo);
@@ -120,6 +121,7 @@ public class Model {
             } else if (file.isDirectory()) {
                 listaDiretoria(file.getAbsolutePath(), proxDiretoria + "//" + file.getName(), IdEstilo);
             }
+
         }
     }
 
@@ -138,25 +140,27 @@ public class Model {
 
         Texto Texto = new Texto(in, out);
         Texto.ComecaCataloga();
-        Texto.retiraChaveta();
 
-        EstiloProgramacao Estilo = Utilizador.getEstiloID(idEstilo);
+        
+        EstiloProgramacao Estilo=Utilizador.getEstiloID(idEstilo);
         Texto.ComecaConverte(Estilo);
 
-        try {
-            out.write(Texto.toString(), 0, Texto.toString().length());
+        try
+        {
+            out.write(Texto.toString(), 0,Texto.toString().length());
             out.flush();
         } catch (IOException ex) {
             System.out.println("Erro a escrever para o novo ficheiro");
-        }
-
+        }   
     }
-
-    public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual) {
-        File source = new File(DiretoriaAtual + "//" + Nome);
-        File dest = new File(DiretoriaDestino + "//" + Nome);
-
-        try {
+    
+    public void CopiaFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual)
+    {
+        File source = new File(DiretoriaAtual + "\\" + Nome);
+        File dest = new File(DiretoriaDestino + "\\" + Nome);
+        
+        try
+        {
             FileUtils.copyFile(source, dest);
         } catch (Exception e) {
             System.out.println(e);

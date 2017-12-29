@@ -47,17 +47,18 @@ public class Utilizador {
     public Utilizador() {
         EstilosProgramacao = new ArrayList<EstiloProgramacao>();
     }
-
-    public void AdicionaEstiloPorDefeito() {
-        EstilosProgramacao.add(new EstiloProgramacao(0, "EstiloDefeito", false,
-                new Cast_EP(1),
-                new DoWhile_EP(true, 1, 0, 1, 1, 1),
-                new Else_EP(true, 3, 3),
-                new For_EP(true, true, 1, 1, 0, 1, 0, 1, 0, 1, 1),
-                new Funcoes_EP(false),
-                new If_EP(true, false, 3, 3, 3, 3, 3),
-                new Operador_EP(1, 1),
-                new While_EP(true, true, 1, 1, 1, 1, 1)));
+    
+    public void AdicionaEstiloPorDefeito()
+    {
+        EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
+                                new Cast_EP(3),
+                                new DoWhile_EP(true, 3, 3, 3, 3, 3),
+                                new Else_EP(false, 3, 3),
+                                new For_EP(false,false, 3, 3, 3, 3, 3, 3, 3, 3),
+                                new Funcoes_EP(false),
+                                new If_EP(false,false, 3, 3, 3, 3, 3),
+                                new Operador_EP(3, 3),
+                                new While_EP(true,true, 3, 3, 3, 3, 3)));
 
     }
 

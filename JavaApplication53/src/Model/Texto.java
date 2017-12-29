@@ -94,72 +94,10 @@ public class Texto {
 
     public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
         for (Statement S : Lista) {
-            S.converteStatement(EstiloProgramacao);
             if (S.hasFilhos())
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);
+            S.converteStatement(EstiloProgramacao);
         }
-
-        /*        String Str = "";
-        for (Statement S : Lista) {
-            if (S instanceof If) {
-                Str += "if";
-
-                If Aux = (If) S;
-                If_EP EP = EstiloProgramacao.getIfs();
-
-                for (int i = 0; i < EP.getEspacosIfParentesAberto(); i++) {
-                    Str += " ";
-                }
-
-                Str += "(";
-
-                for (int i = 0; i < EP.getEspacosParentesesAbertoCondicao(); i++) {
-                    Str += " ";
-                }
-
-                Str += Aux.getCondicao().getCodigo();
-
-                for (int i = 0; i < EP.getEspacosCondicaoParentesFechado(); i++) {
-                    Str += " ";
-                }
-
-                Str += ")";
-
-//                if (EP.PrimeiraChavetaNovaLinha() == 1) {
-//                    Str += "\n";
-//                    for (int i = 0; i < Aux.getNivel(); i++) {
-//                        Str += "\t";
-//                    }
-//                }
-//                if (EP.ChavetaUmStatementIf() != 0) {
-//                    Str += "{";
-//                }
-
-                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaAberta(); i++) {
-                    Str += "\n";
-                }
-                for (int i = 0; i < Aux.getNivel(); i++) {
-                    Str += "\t";
-                }
-
-                if (S.hasFilhos()) {
-                    Str += Converte(S.getStatementsFilhos());
-                }
-
-                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaFechada(); i++) {
-                    Str += "\n";
-                }
-                for (int i = 0; i < Aux.getNivel(); i++) {
-                    Str += "\t";
-                }
-
-//                if (EP.ChavetaUmStatementIf() != 0) {
-//                    Str += "}";
-//                }
-            }
-        }
-        return Str;
-         */
     }
 
     public ArrayList<Statement> getListaStatements() {
@@ -273,13 +211,23 @@ public class Texto {
             return -1;
         }
 
-        int i;
+        int i, a, parentesesAbertos=0;
         for (i = 0; i < S.length(); i++) {
             if (!Character.isWhitespace(S.charAt(i))) {
                 break;
             }
         }
-        String Aux = S.substring(i);
+        
+        for(a=0;a<S.length();a++)
+        {
+            if(S.charAt(a)=='(')
+                parentesesAbertos++;
+            else if(S.charAt(a)==')')
+                if(--parentesesAbertos==0)
+                    break;
+        }
+        
+        String Aux = S.substring(i+1,a);
         char c;
         for (String TipoDado : Constantes.TIPO_DADOS) {
             if (Aux.contains(TipoDado)) {
@@ -354,12 +302,13 @@ public class Texto {
  
     private void precisaChaveta(ArrayList<Statement> Filhos)
     {
+        --contPontoVirgula;
         for(int i=0;i<Filhos.size();i++)
         {
             if(Filhos.get(i).hasFilhos())
                 precisaChaveta(Filhos.get(i).getStatementsFilhos());
             String Codigo=Filhos.get(i).getCodigo();
-            if(Codigo.contains(" for ") || Codigo.contains(" for("))
+            if(Codigo.contains(" for ") || Codigo.contains(" for(") || Codigo.contains("\tfor ") || Codigo.contains("\tfor("))
             {
                 contPontoVirgula++;
                 continue;
@@ -384,7 +333,7 @@ public class Texto {
     
     public boolean precisaChavetaP(ArrayList<Statement> Lista)
     {
-        contPontoVirgula=0;
+        contPontoVirgula=1;
         contChavetaAberta=0;
         precisaChaveta(Lista);
         if(contPontoVirgula>1)
@@ -404,17 +353,18 @@ public class Texto {
         String Aux = "";
 
         for (int i = 0; i < Codigo.length(); i++) {
-
-            char c=Codigo.charAt(i);
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
+                Aux += Codigo.charAt(i);
                 continue;
             } else if (Codigo.charAt(i) == '\'' && Codigo.charAt(i - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
+                Aux += Codigo.charAt(i);
                 continue;
             }
 
             if (AspasAberto || PlicasAberto) {
+                Aux += Codigo.charAt(i);
                 continue;
             }
 
@@ -526,7 +476,7 @@ public class Texto {
                     OUTER2:
                     for (int j = i + 3; j < Codigo.length(); j++) {
                         if (!Character.isWhitespace(Codigo.charAt(j))) {
-                            NextCarater = j;
+                            NextCarater = j+1;
                             break OUTER2;
                         }
                     }
@@ -558,9 +508,18 @@ public class Texto {
                     }
 
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this, Pai);
+                    try
+                    {
+                        Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this, Pai);
+                        Novo.add(Add);
+                    }
+                    catch(Exception e)
+                    {
+                        Add = new Operador(Codigo.substring(1), this, Pai);
+                        Novo.add(Add);
+                    }
+                    
                     i += 1;
-                    Novo.add(Add);
                     continue;
                 }
             } catch (Exception e) {
@@ -569,6 +528,20 @@ public class Texto {
                 if (IsOperador1(Codigo.charAt(i))) {
                     int PrevCarater = 0, NextCarater = 0;
 
+                    try
+                    {
+                        if(Codigo.charAt(i-1)=='-' && Codigo.charAt(i)=='>')
+                        {
+                            Aux += Codigo.charAt(i);
+                            continue;
+                        }
+                        else if(Codigo.charAt(i)=='-' && Codigo.charAt(i+1)=='>')
+                        {
+                            Aux += Codigo.charAt(i);
+                            continue;
+                        }
+                    }
+                    catch(Exception e){}
                     for (int j = i - 1; j >= 0; j--) {
                         if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
@@ -598,14 +571,14 @@ public class Texto {
                 if (NumCarCast != -1) {
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if ( !Character.isWhitespace(Codigo.charAt(i))) {
+                        if (!Character.isWhitespace(Codigo.charAt(i))) {
                             PrevCarater = j;
                             break;
                         }
                     }
 
                     for (int j = i + NumCarCast; j < Codigo.length(); j++) {
-                        if ((c = Codigo.charAt(j)) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(i))) {
                             NextCarater = j + 1;
                             break;
                         }
@@ -654,62 +627,5 @@ public class Texto {
 
         }
         return "";
-    }
-    
-    public void retiraChaveta()
-    {
-        retiraChaveta(ListaStatements);
-    }
-    
-    private void retiraChaveta(ArrayList<Statement> Lista)
-    {
-        int a, indexChaveta=0;
-        String aux1="",aux2="";
-        Statement Last=null;
-
-        for(int i=0;i<Lista.size();i++)
-        {
-            if(Lista.get(i).hasFilhos())
-                retiraChaveta(Lista.get(i).getStatementsFilhos());
-            
-            String codigo=Lista.get(i).getCodigo();
-            for(a=0;a<codigo.length();a++)
-            {
-                if(Last!=null && Last.getCodigo().charAt(Last.getCodigo().length()-1)=='{')
-                {
-                    indexChaveta=0;
-                    for(++indexChaveta;indexChaveta<codigo.length();indexChaveta++)
-                    {
-                        if(codigo.charAt(indexChaveta)=='\t') 
-                        {
-                            continue;
-                        } 
-                        else if(codigo.charAt(indexChaveta)!='\n' && codigo.charAt(indexChaveta)!='\r') 
-                            break;
-                    }
-                    
-                    aux2=codigo.substring(indexChaveta);
-                    Lista.get(i).setCodigo(aux2);
-                }
-                if(codigo.charAt(a)=='}')
-                {
-                    indexChaveta=a;
-                    for(--a;a>0;a--)
-                        if(codigo.charAt(a)!='\n' && codigo.charAt(a)!='\r' && codigo.charAt(a)!='\t')
-                            break;
-                    for(++indexChaveta;indexChaveta<codigo.length();indexChaveta++)
-                        if(codigo.charAt(indexChaveta)!='\n' && codigo.charAt(indexChaveta)!='\r')
-                            break;
-                    
-                     if(a>0 && a+1<codigo.length())
-                        aux1=codigo.substring(0,a+1);
-                     
-                    aux2=codigo.substring(indexChaveta);
-                    codigo=aux1.concat(aux2);
-                    Lista.get(i).setCodigo(codigo);
-                }
-            }
-            Last=Lista.get(i);
-        }
     }
 }
