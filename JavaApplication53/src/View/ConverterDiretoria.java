@@ -223,7 +223,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             }
         } else {
              if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
-                Controller.Converte(jDiretoria.getText(), IdEstiloOutroUtilizador.get(jListaEstilosOutro.getSelectedIndex()), Controller.getUtilizadorAtualNome());
+                Controller.Converte2(jDiretoria.getText(), IdEstiloOutroUtilizador.get(jListaEstilosOutro.getSelectedIndex()), Controller.getUtilizadorAtualNome());
                 CardLayout cl = (CardLayout) CardPanel.getLayout();
                 cl.next(CardPanel);
             }

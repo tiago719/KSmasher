@@ -170,6 +170,13 @@ public class Model {
     public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador) {
         listaDiretoria(Diretoria, DIRETORIA_DESTINO, IdEstilo);
     }
+    
+    public void Converte2(String Diretoria, int IdEstilo, String NomeUtilizador) {
+        listaDiretoria(Diretoria, DIRETORIA_DESTINO, IdEstilo);
+        Pesquisas p = new Pesquisas();
+        
+        p.AssociaNovoEstilo(Utilizador.getId(), IdEstilo);
+    }
 
     public ArrayList<EstiloProgramacao> getEstilosUtilizador() {
         return Utilizador.getEstilos();

@@ -114,6 +114,12 @@ public class Funcao extends Statement {
     }
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        
+        if(estilo.getFuncoes()== null)
+        {
+            return;
+        }
+        
 //        super.converteStatement(estilo);
 //        System.out.println(this.ParaAnalise);
 //        System.out.print(this.Codigo);

@@ -435,6 +435,11 @@ public class While extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        if(estilo.getWhiles()== null)
+        {
+            return;
+        }
+        
         String Aux = "";
         Statement Last=null;
         Statement ultimoFilho=getLastSon();

@@ -78,6 +78,12 @@ public class Cast extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        
+        if(estilo.getCast() == null)
+        {
+            return;
+        }
+        
         int i=0,a=0, b=0;
         String aux1;
         for(i=0;i<Pai.getStatementsFilhos().size();i++)

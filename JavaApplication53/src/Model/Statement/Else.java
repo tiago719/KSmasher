@@ -265,7 +265,10 @@ public class Else extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        
+        if(estilo.getElses() == null)
+        {
+            return;
+        }
         String Aux = "";
         Statement Last=null;
         Statement ultimoFilho=getLastSon();

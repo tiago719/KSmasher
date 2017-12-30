@@ -96,7 +96,8 @@ public class Texto {
         for (Statement S : Lista) {
             if (S.hasFilhos())
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);
-            S.converteStatement(EstiloProgramacao);
+            if(EstiloProgramacao != null)
+                S.converteStatement(EstiloProgramacao);
         }
     }
 
