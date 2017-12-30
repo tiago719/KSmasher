@@ -390,6 +390,10 @@ public class DoWhile extends Statement
     @Override
     public void converteStatement(EstiloProgramacao estilo)
     {
+        if(estilo.getDowhile()== null)
+        {
+            return;
+        }
         String Aux = "";
         Statement Last=null;
         Statement ultimoFilho=getLastSon();

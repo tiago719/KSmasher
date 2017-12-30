@@ -370,6 +370,9 @@ public class For extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
+        
+        
+        
         int i, j;
         boolean AspasAberto = false, PlicasAberto = false;
 
@@ -589,6 +592,12 @@ public class For extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        
+        if(estilo.getFors()== null)
+        {
+            return;
+        }
+        
         Statement ultimoFilho=getLastSon();
         Statement Last=null;
         For_EP ep = estilo.getFors();

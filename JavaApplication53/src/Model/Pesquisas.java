@@ -65,6 +65,16 @@ public class Pesquisas {
 
     }
 
+    public void AssociaNovoEstilo(int IdUtilizador, int IdEstilo) {
+        bd = new BaseDados();
+        ResultSet Rt;
+        try {
+            bd.Modifica("INSERT INTO `acede`(`IDUTILIZADOR`, `IDESTILO`) VALUES (" + IdUtilizador + ", " + IdEstilo + ");");
+        } catch (Exception ex) {
+
+        }
+    }
+
     public boolean ExisteEmail(String Email) throws SQLException {
         bd = new BaseDados();
         ResultSet Rt;
@@ -141,6 +151,168 @@ public class Pesquisas {
             while (Rt.next()) {
                 est = new EstiloProgramacao(Rt.getInt("IDESTILO"), Rt.getString("NOMEESTILO"));
                 Estilos.add(est);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Estilos;
+    }
+
+    public ArrayList<EstiloProgramacao> DevolveEstilosImportados(int Id) {
+        ArrayList<EstiloProgramacao> Estilos = new ArrayList<>();
+        bd = new BaseDados();
+        EstiloProgramacao est;
+        ResultSet Rt = null;
+        int idEstilo = 0;
+        boolean permite;
+        String NomeEstilo;
+        Cast_EP castep;
+        DoWhile_EP dowhileep;
+        Else_EP elseep;
+        For_EP forep;
+        Funcoes_EP funcoesep;
+        If_EP ifep;
+        Operador_EP operadorep;
+        While_EP whilep;
+
+        Rt = bd.Le("SELECT * FROM acede WHERE IDUTILIZADOR = '" + Id + "';");
+
+        try {
+            while (Rt.next()) {
+                idEstilo = Rt.getInt("IDESTILO");
+                Rt = bd.Le("SELECT * FROM estilos WHERE IDESTILO = '" + idEstilo + "';");
+
+                if (Rt.next()) {
+                    NomeEstilo = Rt.getString("NOMEESTILO");
+                    permite = Rt.getBoolean("PARTILHAESTILO");
+                    ///CAST
+                    Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        castep = new Cast_EP(Rt.getInt("EspacosEntreCastVariavel"));
+                    } else {
+                        castep = null;
+                    }
+
+                    ///DO_WHILE
+                    Rt = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        boolean pos;
+                        if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                            pos = true;
+                        } else {
+                            pos = false;
+                        }
+                        dowhileep = new DoWhile_EP(pos, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"),
+                                Rt.getInt("EspacosWhileParentesesAberto"), Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"));
+                    } else {
+                        dowhileep = null;
+                    }
+
+                    ///FUNÇÕES
+                    Rt = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        funcoesep = new Funcoes_EP(Rt.getBoolean("AntesMain"));
+                    } else {
+                        funcoesep = null;
+                    }
+
+                    ///OPERADORES
+                    Rt = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        operadorep = new Operador_EP(Rt.getInt("EspacosOperadorVariavel"), Rt.getInt("EspacosVariavelOperador"));
+                    } else {
+                        operadorep = null;
+                    }
+
+                    //ELSE
+                    Rt = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        boolean pos;
+                        if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                            pos = true;
+                        } else {
+                            pos = false;
+                        }
+                        elseep = new Else_EP(pos, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
+                    } else {
+                        elseep = null;
+                    }
+
+                    //FOR
+                    Rt = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        boolean pos, pos2;
+                        if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                            pos = true;
+                        } else {
+                            pos = false;
+                        }
+                        if (Rt.getInt("ChavetaUmStatementDentroFor") == 1) {
+                            pos2 = true;
+                        } else {
+                            pos2 = false;
+                        }
+
+                        forep = new For_EP(pos, pos2, Rt.getInt("EspacosForParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicaoInicializacao"), Rt.getInt("EspacosInicializacaoPontoVirgula"),
+                                Rt.getInt("EspacosPontoVirgulaCondicao"), Rt.getInt("EspacosCondicaoPontoVirgula"), Rt.getInt("EspacosPontoVirgulaIncrementacao"),
+                                Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
+                    } else {
+                        forep = null;
+                    }
+
+                    //IF
+                    Rt = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        boolean pos, pos2;
+                        if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                            pos = true;
+                        } else {
+                            pos = false;
+                        }
+                        if (Rt.getInt("ChavetaUmStatementDentroIf") == 1) {
+                            pos2 = true;
+                        } else {
+                            pos2 = false;
+                        }
+
+                        ifep = new If_EP(pos, pos2, Rt.getInt("EspacosIfParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"),
+                                Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
+                    } else {
+                        ifep = null;
+                    }
+
+                    //WHILE
+                    Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";");
+
+                    if (Rt.next()) {
+                        boolean pos, pos2;
+                        if (Rt.getInt("PrimeiraChavetaNovaLinha") == 1) {
+                            pos = true;
+                        } else {
+                            pos = false;
+                        }
+                        if (Rt.getInt("ChavetaUmStatementDentroWhile") == 1) {
+                            pos2 = true;
+                        } else {
+                            pos2 = false;
+                        }
+
+                        whilep = new While_EP(pos, pos2, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"), Rt.getInt("EspacosWhileParentesAberto"),
+                                Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"));
+                    } else {
+                        whilep = null;
+                    }
+
+                    est = new EstiloProgramacao(idEstilo, NomeEstilo, permite, castep, dowhileep, elseep, forep, funcoesep, ifep, operadorep, whilep);
+                    Estilos.add(est);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
