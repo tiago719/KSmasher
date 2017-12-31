@@ -130,7 +130,7 @@ public class Texto {
             }
 
         }
-
+        System.out.println(this);
         Converte(ListaStatements, EstiloProgramacao);
     }
 

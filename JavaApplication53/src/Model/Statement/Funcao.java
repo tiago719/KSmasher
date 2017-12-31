@@ -39,16 +39,17 @@ public class Funcao extends Statement {
                 Cabecalho = true;
 
                 if (Codigo.length() < j + 1) {
-                    this.Codigo = Codigo;
+                    this.Codigo ="\n\n"+ Codigo;
                 } else {
-                    this.Codigo = Codigo.substring(0, j + 1);
+                    this.Codigo ="\n\n" + Codigo.substring(0, j + 1);
                 }
+
                 this.NumCarateresAvancar = j;
                 this.ParaAnalise = Codigo;
 
                 Texto.Cabecalhos_Funcoes.put(this, null);
                 EncontraNomeFuncao(this.Codigo);
-                return Codigo.substring(this.Codigo.length());
+                return null;
             }
         }
 
@@ -74,15 +75,12 @@ public class Funcao extends Statement {
                 }
             }
         }
-        this.Codigo = Codigo.substring(0, PosInicioCodigoFuncao);
+        this.Codigo ="\n\n" + Codigo.substring(0, PosInicioCodigoFuncao);
         if (this.Codigo.contains(";")) {
             this.Codigo = Codigo.substring(0, Codigo.indexOf(";"));
         }
-        
+
         EncontraNomeFuncao(this.Codigo);
-        
-        
-        
 
 //        this.ParaAnalise = Codigo;
         if (!(this.Codigo.contains(" main ") || this.Codigo.contains(" main("))) {//se nao é a main
@@ -136,10 +134,10 @@ public class Funcao extends Statement {
 
     private void EncontraNomeFuncao(String Codigo) {
         for (int i = 0; i < Codigo.length(); i++) {//encontra nome funcao
-            if(Codigo.charAt(i) == '('){
+            if (Codigo.charAt(i) == '(') {
                 int k;
                 for (k = i; k >= 0; k--) {
-                    if(Codigo.charAt(k) == ' '){
+                    if (Codigo.charAt(k) == ' ') {
                         break;
                     }
                 }
