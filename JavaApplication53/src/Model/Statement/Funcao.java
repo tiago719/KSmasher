@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Funcao extends Statement {
 
-    private boolean AntesMain, Cabecalho;
+    private boolean AntesMain;
     private String nomeFuncao;
 
     public Funcao(String codigo, Texto t, Statement Pai, boolean FuncaoDepoisMain) {
@@ -36,12 +36,10 @@ public class Funcao extends Statement {
                 PosInicioCodigoFuncao = j;
                 break;
             } else if (Codigo.charAt(j) == ';') {
-                Cabecalho = true;
-
                 if (Codigo.length() < j + 1) {
-                    this.Codigo ="\n\n"+ Codigo;
+                    this.Codigo = Codigo;
                 } else {
-                    this.Codigo ="\n\n" + Codigo.substring(0, j + 1);
+                    this.Codigo = Codigo.substring(0, j + 1);
                 }
 
                 this.NumCarateresAvancar = j;
@@ -75,7 +73,7 @@ public class Funcao extends Statement {
                 }
             }
         }
-        this.Codigo ="\n\n" + Codigo.substring(0, PosInicioCodigoFuncao);
+        this.Codigo = Codigo.substring(0, PosInicioCodigoFuncao);
         if (this.Codigo.contains(";")) {
             this.Codigo = Codigo.substring(0, Codigo.indexOf(";"));
         }

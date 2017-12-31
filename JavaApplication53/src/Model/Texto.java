@@ -110,6 +110,9 @@ public class Texto {
             for (Map.Entry<Funcao, Funcao> entry : Cabecalhos_Funcoes.entrySet()) {
                 //Funcao Cabecalho = entry.getKey();
                 Funcao Funcao = entry.getValue();
+                
+                Funcao.setCodigo("\n\n" + Funcao.getCodigo());
+                                
                 ListaStatements.add(Funcao);
             }
             ListaStatements.add(Main);
@@ -118,14 +121,15 @@ public class Texto {
             for (Map.Entry<Funcao, Funcao> entry : Cabecalhos_Funcoes.entrySet()) {
                 Funcao Cabecalho = entry.getKey();
                 //Funcao Funcao = entry.getValue();
-
+                Cabecalho.setCodigo("\n\n" + Cabecalho.getCodigo());
                 ListaStatements.add(Cabecalho);
             }
+            Main.setCodigo("\n\n" + Main.getCodigo());
             ListaStatements.add(Main);
             for (Map.Entry<Funcao, Funcao> entry : Cabecalhos_Funcoes.entrySet()) {
 //                Funcao Cabecalho = entry.getKey();
                 Funcao Funcao = entry.getValue();
-
+                Funcao.setCodigo("\n\n" + Funcao.getCodigo());
                 ListaStatements.add(Funcao);
             }
 
