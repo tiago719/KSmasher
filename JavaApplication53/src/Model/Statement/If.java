@@ -451,7 +451,7 @@ public class If extends Statement {
         }
         Aux += "(";
 
-        for (int i = 0; i < Ep.getEspacosParentesesAbertoCondicao(); i++) {
+        for (int i = 0; i < ep.getEspacosParentesesAbertoCondicao(); i++) {
             Aux += " ";
         }
 
