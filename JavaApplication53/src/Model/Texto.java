@@ -143,7 +143,9 @@ public class Texto {
             if (S.hasFilhos()) {
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);
             }
-            S.converteStatement(EstiloProgramacao);
+            if(EstiloProgramacao != null){
+                S.converteStatement(EstiloProgramacao);
+            }
         }
     }
 

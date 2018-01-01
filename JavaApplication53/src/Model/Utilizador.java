@@ -100,6 +100,7 @@ public class Utilizador {
     }
 
     public Utilizador(int id, String User, String Em, String Pass) {
+        ArrayList<EstiloProgramacao> temp;
         IdUtilizador = id;
         Username = User;
         Email = Em;
@@ -108,6 +109,12 @@ public class Utilizador {
         EstilosProgramacao = p.DevolveEstilosProgramacaoUtilizador(IdUtilizador);
         if (EstilosProgramacao == null) {
             EstilosProgramacao = new ArrayList<EstiloProgramacao>();
+        }
+        
+        temp = p.DevolveEstilosImportados(id);
+        if(temp != null)
+        {
+            EstilosProgramacao.addAll(temp);
         }
     }
 

@@ -105,6 +105,11 @@ public class Operador extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        
+        if(estilo.getOperador() == null)
+        {
+            return;
+        }
         String aux1;
         int i=0,a=0, b=0;
         

@@ -419,6 +419,12 @@ public class If extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        
+        if(estilo.getIfs() == null)
+        {
+            return;
+        }
+        
         String Aux = "";
         Statement Last = getLastStatementPai();
         Statement ultimoFilho = getLastSon();

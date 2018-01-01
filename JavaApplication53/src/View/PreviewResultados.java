@@ -17,10 +17,9 @@ public class PreviewResultados extends javax.swing.JPanel implements Runnable{
     Controller controller;
     JPanel CardPanel;
     Thread T;
-    /**
-     * Creates new form PreviewResultados
-     */
+    
     public PreviewResultados() {
+        
         initComponents();
     }
 
@@ -29,7 +28,7 @@ public class PreviewResultados extends javax.swing.JPanel implements Runnable{
          initComponents();
     }
     
-        public void setCardPanel(JPanel J)
+    public void setCardPanel(JPanel J)
     {
         CardPanel=J;
     }
@@ -61,6 +60,11 @@ public class PreviewResultados extends javax.swing.JPanel implements Runnable{
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
@@ -100,6 +104,10 @@ public class PreviewResultados extends javax.swing.JPanel implements Runnable{
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+            
+    }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
