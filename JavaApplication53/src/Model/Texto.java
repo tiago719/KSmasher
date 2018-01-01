@@ -8,8 +8,7 @@ import Model.Statement.*;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class Texto {
 
@@ -138,7 +137,9 @@ public class Texto {
         Converte(ListaStatements, EstiloProgramacao);
     }
 
-    public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
+    public String Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
+        String Str = "";
+
         for (Statement S : Lista) {
             if (S.hasFilhos()) {
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);

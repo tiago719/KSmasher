@@ -419,7 +419,6 @@ public class If extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        
         if(estilo.getIfs() == null)
         {
             return;
@@ -452,7 +451,7 @@ public class If extends Statement {
         }
         Aux += "(";
 
-        for (int i = 0; i < ep.getEspacosParentesesAbertoCondicao(); i++) {
+        for (int i = 0; i < Ep.getEspacosParentesesAbertoCondicao(); i++) {
             Aux += " ";
         }
 

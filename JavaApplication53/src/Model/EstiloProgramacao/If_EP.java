@@ -15,6 +15,7 @@ public class If_EP
     private int EspacosIfParentesAberto, EspacosParentesesAbertoCondicao, EspacosCondicaoParentesFechado, 
             LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
 
+
     public If_EP(boolean PosicaoPrimeiraChaveta, boolean ChavetaUmStatementDentroIf, int EspacosIfParentesAberto, int EspacosParentesesAbertoCondicao, int EspacosCondicaoParentesFechado, int LinhasEmBrancoDepoisChavetaAberta, int LinhasEmBrancoDepoisChavetaFechada) {
         this.PosicaoPrimeiraChaveta = PosicaoPrimeiraChaveta;
         this.ChavetaUmStatementDentroIf = ChavetaUmStatementDentroIf;
