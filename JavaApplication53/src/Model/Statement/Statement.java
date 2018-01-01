@@ -17,7 +17,7 @@ public class Statement {
     public Statement(String Codigo, Texto T, Statement Pai) {
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
-        this.Pai=Pai;
+        this.Pai = Pai;
         Texto = T;
         String Aux = RetiraDados(Codigo, T);
         Nivel = T.getNivel();
@@ -89,17 +89,34 @@ public class Statement {
     public int getNivel() {
         return Nivel;
     }
-    
-    private Statement getLastSon(ArrayList<Statement> Lista)
-    {
-        if(Lista.get(Lista.size()-1).hasFilhos())
-            return getLastSon(Lista.get(Lista.size()-1).getStatementsFilhos());
-        else
-            return Lista.get(Lista.size()-1);
+
+    private Statement getLastSon(ArrayList<Statement> Lista) {
+        if (Lista.get(Lista.size() - 1).hasFilhos()) {
+            return getLastSon(Lista.get(Lista.size() - 1).getStatementsFilhos());
+        } else {
+            return Lista.get(Lista.size() - 1);
+        }
     }
-    
-    public Statement getLastSon()
-    {
+
+    public Statement getLastSon() {
         return getLastSon(StatmentsFilhos);
     }
+
+    protected Statement getLastStatementPai() {
+        Statement Last = null;
+        if (Pai == null) {
+            return null;
+        }
+
+        for (int i = Pai.getStatementsFilhos().size() - 1; i >= 0; i--) {
+            Statement s = Pai.getStatementsFilhos().get(i);
+            if (s == this) {
+                break;
+            }
+            Last = s;
+            break;
+        }
+        return Last;
+    }
+
 }
