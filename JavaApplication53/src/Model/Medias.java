@@ -14,6 +14,7 @@ import Model.EstiloProgramacao.Funcoes_EP;
 import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
+import Model.Statement.Cast;
 import Model.Statement.DoWhile;
 import Model.Statement.Else;
 import Model.Statement.For;
@@ -76,6 +77,10 @@ public class Medias {
     ArrayList<Integer> EspacosPontoVirgulaIncrementacaoList = new ArrayList<>();
     ArrayList<Integer> LinhasEmBrancoDepoisChavetaAbertaList = new ArrayList<>();
     ArrayList<Integer> LinhasEmBrancoDepoisChavetaFechadaList = new ArrayList<>();
+    
+    //CAST
+    ArrayList<Integer> CastEspacosList = new ArrayList<>();
+    
 
     //FUNÇÕES
     ArrayList<Boolean> AntesMainList = new ArrayList<>();
@@ -129,6 +134,9 @@ public class Medias {
 
     //FUNCOES
     int AntesMain;
+    
+    //CAST
+    int CastEspacos;
 
     public Medias() {
     }
@@ -242,6 +250,11 @@ public class Medias {
             LinhasEmBrancoDepoisChavetaFechadaList.add(aux);
         }
 
+    }
+    
+    public void RetiraDadosCast(Cast S)
+    {
+        CastEspacosList.add(S.getEspacosEntreCastVariavel());
     }
 
     public void RetiraDadosFuncoes(Funcao S) {
@@ -617,6 +630,20 @@ public class Medias {
             PosicaoPrimeiraChaveta = 0;
         }
     }
+    
+    public void FazMediaCast()
+    {
+        int total = 0;
+
+        for (int i = 0; i < CastEspacosList.size(); i++) {
+            total += CastEspacosList.get(i);
+        }
+        try {
+            CastEspacos = total / CastEspacosList.size();
+        } catch (Exception e) {
+            CastEspacos = 0;
+        }
+    }
 
     public void FazMediaFuncoes() {
         int total = 0;
@@ -658,6 +685,8 @@ public class Medias {
             }
             else if(S instanceof DoWhile)
                 RetiraDadosDoWhile((DoWhile) S);
+            else if(S instanceof Cast)
+                RetiraDadosCast((Cast) S);
         }
     }
 
@@ -671,6 +700,7 @@ public class Medias {
         FazMediaDoWhile();
         FazMediaFor();
         FazMediaFuncoes();
+        FazMediaCast();
 
         //while
         boolean aux1, aux2;
@@ -719,7 +749,7 @@ public class Medias {
         Else_EP ElseEp = new Else_EP(aux1, ElseLinhasEmBrancoDepoisChavetaAberta, ElseLinhasEmBrancoDepoisChavetaFechada);
 
         //cats
-        Cast_EP CastEp = null;
+        Cast_EP CastEp = new Cast_EP(CastEspacos);
 
         //doWhile
         aux1 = DoWhilePrimeiraChavetaNovaLinha == 1;
@@ -771,7 +801,7 @@ public class Medias {
 
         For_EP ForEp;
         if (PosicaoPrimeiraChaveta > 0.5) {
-            ForEp = new For_EP(false,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+            ForEp = new For_EP(true,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         } else {
             ForEp = new For_EP(false,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         }

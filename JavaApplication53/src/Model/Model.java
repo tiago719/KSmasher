@@ -191,7 +191,6 @@ public class Model {
     }
 
     public void ConverteFicheiro(String Nome, String DiretoriaDestino, String DiretoriaAtual, int idEstilo) {
-        Utilizador.AdicionaEstiloPorDefeito();
         Ficheiros F = new Ficheiros();
         File source = new File(DiretoriaAtual + "\\" + Nome);
 

@@ -519,7 +519,7 @@ public class Texto {
                         FuncaoDepoisMain = true;
                         Main = F;
                     }
-//                    Novo.add(Add);
+                    Novo.add(F);
                     continue;
                 }
             } catch (Exception e) {
