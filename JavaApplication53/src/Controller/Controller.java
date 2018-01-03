@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.FicheirosAlterasdos;
 import Model.Model;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.commons.io.FilenameUtils;
 
 public class Controller extends Observable {
@@ -30,11 +32,33 @@ public class Controller extends Observable {
     public Controller() {
         Model = new Model();
     }
+    
+    public void LimpaDiretoria()
+    {
+        Model.LimpaDiretoria();
+    }
+    
     //-1: tamanho errado
     //-2: caracteres especiais
     //-3: utilizador ja existe
     //1: utilizador não existe
+    
+    public ArrayList<FicheirosAlterasdos> DevolveListaFicheiros() {
+        return Model.DevolveListaFicheiros();
+    }
+  
+    
+    public String DevolveFicheiroAntigo(String Caminho, String Nome)
+    {
+        return Model.DevolveFicheiroAntigo(Caminho, Nome);
 
+    }
+    
+    public String DevolveFicheiroNovo(String Caminho, String Nome)
+    {
+         return Model.DevolveFicheiroAntigo(Caminho, Nome);
+    }
+    
     public int ExisteUsername(String nome) 
     {
   
@@ -121,4 +145,5 @@ public class Controller extends Observable {
     public String getUtilizadorAtualNome() {
         return Model.getUtilizadorAtualNome();
     }
+    
 }
