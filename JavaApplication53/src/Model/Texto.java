@@ -5,12 +5,16 @@ import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Statement.Comentario;
 import java.io.BufferedReader;
 import Model.Statement.*;
+import com.mysql.jdbc.util.LRUCache;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
+import org.apache.commons.collections4.map.LinkedMap;
 
 public class Texto {
 
@@ -19,9 +23,9 @@ public class Texto {
     BufferedWriter TextoBW;
     int Nivel, contPontoVirgula, contChavetaAberta;
 
-    public Map<Funcao, Funcao> Cabecalhos_Funcoes;
+    public LinkedHashMap<Statement, Statement> Cabecalhos_Funcoes;//cabecalho -> funcao  / se != funcao = comentario
     boolean FuncaoDepoisMain;
-    Funcao Main;
+    ArrayList<Statement> Main;
 
     EstiloProgramacao EstiloProgramacao;
 
@@ -31,24 +35,18 @@ public class Texto {
      * @param In
      */
     public Texto() {
-        Cabecalhos_Funcoes = new HashMap<>();
+        Cabecalhos_Funcoes = new LinkedHashMap<>();
         FuncaoDepoisMain = false;
+        Main = new ArrayList<Statement>();
     }
 
     public Texto(BufferedReader In, BufferedWriter Out) {
         ListaStatements = new ArrayList<Statement>();
         TextoBR = In;
         TextoBW = Out;
-        Cabecalhos_Funcoes = new HashMap<>();
+        Cabecalhos_Funcoes = new LinkedHashMap<>();
         FuncaoDepoisMain = false;
-    }
-
-    public Texto(String Codigo) {
-        ListaStatements = new ArrayList<Statement>();
-        ListaStatements = Cataloga(Codigo, null);
-        Cabecalhos_Funcoes = new HashMap<>();
-        FuncaoDepoisMain = false;
-
+        Main = new ArrayList<Statement>();
     }
 
     public void ComecaCataloga() {
@@ -69,9 +67,6 @@ public class Texto {
         Codigo = t;
 
         ListaStatements = Cataloga(Codigo, null);
-        int a = 0;
-
-        a = 5;
     }
 
     public void ComecaAnalisa() {
@@ -100,42 +95,107 @@ public class Texto {
     public void ComecaConverte(EstiloProgramacao EstiloProgramacao) {
         ArrayList<Statement> ListaSemLixo = new ArrayList<Statement>();
         for (Statement ListaStatement : ListaStatements) {
-            if ((ListaStatement instanceof Include)) {
+//            if ((ListaStatement instanceof Include || !isLixo(ListaStatement))) {
+//                ListaSemLixo.add(ListaStatement);
+//            }
+            if (!(ListaStatement instanceof Funcao)) {
                 ListaSemLixo.add(ListaStatement);
             }
         }
         ListaStatements = ListaSemLixo;
 
-        if (EstiloProgramacao.getFuncoes().isAntesMain()) {//funcoes antes da main (sem cabecalhos)
-
-            for (Map.Entry<Funcao, Funcao> entry : Cabecalhos_Funcoes.entrySet()) {
-                //Funcao Cabecalho = entry.getKey();
-                Funcao Funcao = entry.getValue();
-                
+        if (Main.isEmpty()) {
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+                Statement Funcao = entry.getValue();
                 Funcao.setCodigo("\n\n" + Funcao.getCodigo());
-                                
                 ListaStatements.add(Funcao);
             }
-            ListaStatements.add(Main);
+        } else if (EstiloProgramacao.getFuncoes().isAntesMain()) {//funcoes antes da main (sem cabecalhos)
+
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//é comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+
+                Statement Funcao = entry.getValue();
+
+                Funcao.setCodigo("\n\n" + Funcao.getCodigo());
+
+                ListaStatements.add(Funcao);
+            }
+
+            for (Statement statement : Main) {
+                ListaStatements.add(statement);
+            }
 
         } else {
-            for (Map.Entry<Funcao, Funcao> entry : Cabecalhos_Funcoes.entrySet()) {
-                Funcao Cabecalho = entry.getKey();
+            LinkedHashMap<Statement, Statement> novoMapa = new LinkedHashMap<Statement, Statement>();
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//é comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+
+                novoMapa.put(entry.getKey(), entry.getValue());
+
                 //Funcao Funcao = entry.getValue();
                 Cabecalho.setCodigo("\n\n" + Cabecalho.getCodigo());
                 ListaStatements.add(Cabecalho);
             }
-            Main.setCodigo("\n\n" + Main.getCodigo());
-            ListaStatements.add(Main);
-            for (Map.Entry<Funcao, Funcao> entry : Cabecalhos_Funcoes.entrySet()) {
-//                Funcao Cabecalho = entry.getKey();
-                Funcao Funcao = entry.getValue();
+
+            Cabecalhos_Funcoes = novoMapa;
+
+            for (Statement statement : Main) {
+                if (statement instanceof Funcao) {
+                    statement.setCodigo("\n\n" + statement.getCodigo());
+                } else {
+                    statement.setCodigo("\n" + statement.getCodigo());
+                }
+                ListaStatements.add(statement);
+            }
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+                Statement Funcao = entry.getValue();
                 Funcao.setCodigo("\n\n" + Funcao.getCodigo());
                 ListaStatements.add(Funcao);
             }
 
         }
-        System.out.println(this);
+        ListaSemLixo = new ArrayList<>();
+
+        for (Statement ListaStatement : ListaStatements) {
+            boolean flag = false;
+            for (int i = 0; i < ListaStatement.getCodigo().length(); i++) {
+                if (!(Character.isWhitespace(ListaStatement.getCodigo().charAt(i)))) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                ListaSemLixo.add(ListaStatement);
+            }
+        }
+
+        ListaStatements = ListaSemLixo;
+
         Converte(ListaStatements, EstiloProgramacao);
     }
 
@@ -144,7 +204,7 @@ public class Texto {
             if (S.hasFilhos()) {
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);
             }
-            if(EstiloProgramacao != null){
+            if (EstiloProgramacao != null) {
                 S.converteStatement(EstiloProgramacao);
             }
         }
@@ -442,7 +502,11 @@ public class Texto {
 
                     Add = new Comentario(Codigo.substring(i), this, Pai);
                     i += Add.getNumCarateresAvancar();
-                    Novo.add(Add);
+                    if (Nivel == 0) {
+                        Cabecalhos_Funcoes.put(Add, null);
+                    } else {
+                        Novo.add(Add);
+                    }
                     continue;
                 }
             } catch (Exception e) {
@@ -517,7 +581,43 @@ public class Texto {
                     if ((F.getCodigo().contains(" main ")
                             || F.getCodigo().contains(" main("))) {
                         FuncaoDepoisMain = true;
-                        Main = F;
+
+//                        for (int j = Novo.size() - 1; j >= 0; j--) {
+//                            Statement st = Novo.get(j);
+//                            if (st instanceof Comentario) {
+//                                Main.add(st);
+//                            } else if (st instanceof Funcao) {
+//                                break;
+//                            }
+//                        }
+                        ArrayList<Statement> comentariosMain = new ArrayList<Statement>();
+                        for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                            Statement key = entry.getKey();
+                            if (key instanceof Comentario) {
+                                comentariosMain.add(key);
+//                                Cabecalhos_Funcoes.remove(key);
+                            } else if (key instanceof Funcao && !(key.getCodigo().contains(" main (") || key.getCodigo().contains(" main("))) {
+                                comentariosMain.clear();
+                            }
+
+                        }
+                        Main.addAll(comentariosMain);
+
+                        LinkedHashMap<Statement, Statement> novoMapa = new LinkedHashMap<>(Cabecalhos_Funcoes);
+                        for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                            Statement key = entry.getKey();
+                            if (key instanceof Comentario) {
+                                for (Statement statement : comentariosMain) {
+                                    if (statement == key) {
+                                        novoMapa.remove(key);
+                                    }
+                                }
+                            }
+                        }
+
+                        Cabecalhos_Funcoes = novoMapa;
+
+                        Main.add(F);
                     }
                     Novo.add(F);
                     continue;
@@ -683,5 +783,9 @@ public class Texto {
 
         }
         return "";
+    }
+
+    private boolean isLixo(Statement ListaStatement) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

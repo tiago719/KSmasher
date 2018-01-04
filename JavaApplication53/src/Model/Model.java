@@ -83,7 +83,6 @@ public class Model {
         try {
             return org.apache.commons.io.IOUtils.toString(in);
         } catch (IOException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
