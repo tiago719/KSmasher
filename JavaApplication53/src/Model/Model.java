@@ -132,6 +132,8 @@ public class Model {
 
         String proxDiretoria = DiretoriaDestino;
         File Diretoria = new File(NomeDiretoria);
+        File someFile=new File(DiretoriaDestino);
+        someFile.mkdir();
 
         File[] fList = Diretoria.listFiles();
         for (File file : fList) {
