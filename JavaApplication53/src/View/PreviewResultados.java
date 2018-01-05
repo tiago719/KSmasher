@@ -160,8 +160,8 @@ public class PreviewResultados extends javax.swing.JPanel implements Runnable {
             jList1.setModel(temp);
             jList1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
-                  jTextPane1.setText(controller.DevolveFicheiroAntigo(temp1.get(jList1.getSelectedIndex()).getCaminho(),temp1.get(jList1.getSelectedIndex()).getNome()));
-                  jTextPane2.setText(controller.DevolveFicheiroNovo(temp1.get(jList1.getSelectedIndex()).getCaminhoNovo(),temp1.get(jList1.getSelectedIndex()).getNome()));
+                  jTextPane2.setText(controller.DevolveFicheiroAntigo(temp1.get(jList1.getSelectedIndex()).getCaminho(),temp1.get(jList1.getSelectedIndex()).getNome()));
+                  jTextPane1.setText(controller.DevolveFicheiroNovo(temp1.get(jList1.getSelectedIndex()).getCaminhoNovo(),temp1.get(jList1.getSelectedIndex()).getNome()));
                 }
             });
             //  JScrollPane jscroll = new JScrollPane(jList1);
