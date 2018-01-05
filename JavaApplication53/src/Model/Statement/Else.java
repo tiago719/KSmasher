@@ -7,9 +7,7 @@ package Model.Statement;
 
 import Model.EstiloProgramacao.Else_EP;
 import Model.Texto;
-import java.util.ArrayList;
 import Model.EstiloProgramacao.EstiloProgramacao;
-import Model.EstiloProgramacao.If_EP;
 /**
  *
  * @author Tiago Coutinho
