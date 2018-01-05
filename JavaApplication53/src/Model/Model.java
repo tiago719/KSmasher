@@ -104,7 +104,7 @@ public class Model {
             } catch (SQLException ex) {
                 Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Utilizador.AdicionaEstiloPorDefeito(); ///TODO: ALTERAR
+            Utilizador.AdicionaEstiloPorDefeito(); 
 
             return true;
         }
