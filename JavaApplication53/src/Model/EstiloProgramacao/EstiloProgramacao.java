@@ -23,13 +23,18 @@ public class EstiloProgramacao
     private While_EP whiles;
     private boolean Permite;
 
+    public boolean isPermite() {
+        return Permite;
+    }
+
      public EstiloProgramacao(int id, String nome)
      {
         this.nome = nome;
         this.id = id;
     }
      
-    public EstiloProgramacao(String nome,boolean Permite, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Operador_EP operador, While_EP whiles) {
+    public EstiloProgramacao(int id, String nome,boolean Permite, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Operador_EP operador, While_EP whiles) {
+        this.id = id;
         this.nome = nome;
         this.cast = cast;
         this.dowhile = dowhile;
@@ -42,6 +47,12 @@ public class EstiloProgramacao
         this.Permite=Permite;
     }
 
+    
+    public int getId()
+    {
+        return id;
+    }
+    
     public String getNome() {
         return nome;
     }

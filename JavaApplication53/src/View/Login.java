@@ -17,28 +17,25 @@ import javax.swing.JPanel;
  *
  * @author Tiago Coutinho
  */
-public class Login extends javax.swing.JPanel
-{
+public class Login extends javax.swing.JPanel {
+
     Controller Controller;
-    boolean UserFirst=true,PassFirst=true;
+    boolean UserFirst = true, PassFirst = true;
     JPanel CardPanel;
-    
-    public Login()
-    {
+
+    public Login() {
         initComponents();
     }
 
-    Login(Controller Controller)
-    {
-        this.Controller=Controller;
+    Login(Controller Controller) {
+        this.Controller = Controller;
         initComponents();
         jErro.setVisible(false);
         jPassword.setEchoChar((char) 0);
     }
-    
-    public void setCardPanel(JPanel J)
-    {
-        CardPanel=J;
+
+    public void setCardPanel(JPanel J) {
+        CardPanel = J;
     }
 
     /**
@@ -170,20 +167,22 @@ public class Login extends javax.swing.JPanel
 
     private void jUsernameMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jUsernameMouseClicked
     {//GEN-HEADEREND:event_jUsernameMouseClicked
-        if(UserFirst)
+        if (UserFirst) {
             jUsername.setText("");
+        }
         jUsername.setForeground(Color.BLACK);
-        UserFirst=false;
+        UserFirst = false;
     }//GEN-LAST:event_jUsernameMouseClicked
 
     private void jPasswordFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jPasswordFocusGained
     {//GEN-HEADEREND:event_jPasswordFocusGained
-        if(PassFirst)
+        if (PassFirst) {
             jPassword.setText("");
-        
+        }
+
         jPassword.setForeground(Color.BLACK);
         jPassword.setEchoChar('•');
-        PassFirst=false;
+        PassFirst = false;
     }//GEN-LAST:event_jPasswordFocusGained
 
     private void jUsernameActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jUsernameActionPerformed
@@ -193,16 +192,23 @@ public class Login extends javax.swing.JPanel
 
     private void jUsernameFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jUsernameFocusGained
     {//GEN-HEADEREND:event_jUsernameFocusGained
-        if(UserFirst)
+        if (UserFirst) {
             jUsername.setText("");
+        }
         jUsername.setForeground(Color.BLACK);
-        UserFirst=false;
+        UserFirst = false;
     }//GEN-LAST:event_jUsernameFocusGained
 
     private void jEntrarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jEntrarMouseClicked
     {//GEN-HEADEREND:event_jEntrarMouseClicked
-        CardLayout cl=(CardLayout)CardPanel.getLayout();
-        cl.next(CardPanel);
+
+        if (Controller.Login(jUsername.getText().trim(), jPassword.getText().trim()) == false) {
+            jErro.setText("Credenciais Incorretas!");
+            jErro.setVisible(true);
+        } else {
+            CardLayout cl = (CardLayout) CardPanel.getLayout();
+            cl.next(CardPanel);
+        }
     }//GEN-LAST:event_jEntrarMouseClicked
 
 

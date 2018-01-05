@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.EstiloProgramacao.EstiloProgramacao;
+import Model.FicheirosAlterasdos;
 import Model.Model;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.commons.io.FilenameUtils;
 
 public class Controller extends Observable {
@@ -30,12 +32,35 @@ public class Controller extends Observable {
     public Controller() {
         Model = new Model();
     }
+    
+    public void LimpaDiretoria()
+    {
+        Model.LimpaDiretoria();
+    }
+    
     //-1: tamanho errado
     //-2: caracteres especiais
     //-3: utilizador ja existe
     //1: utilizador não existe
+    
+    public ArrayList<FicheirosAlterasdos> DevolveListaFicheiros() {
+        return Model.DevolveListaFicheiros();
+    }
+  
+    
+    public String DevolveFicheiroAntigo(String Caminho, String Nome)
+    {
+        return Model.DevolveFicheiroAntigo(Caminho, Nome);
 
-    public int ExisteUsername(String nome) {
+    }
+    
+    public String DevolveFicheiroNovo(String Caminho, String Nome)
+    {
+         return Model.DevolveFicheiroAntigo(Caminho, Nome);
+    }
+    
+    public int ExisteUsername(String nome) 
+    {
   
         if (nome.length() > 15 || nome.length() < 7) {
             return -1;
@@ -49,9 +74,9 @@ public class Controller extends Observable {
         }
 
         if (Model.ExisteUsername(nome)) {
-            return 1;
-        } else {
             return -3;
+        } else {
+            return 1;
         }
     }
 
@@ -59,6 +84,7 @@ public class Controller extends Observable {
     //-1: Não existe email
     //-2:Email invalido
     public int ExisteEmail(String email) {
+        if(email.length() == 0) return 0;
         if (!email.contains(".") || !email.contains(".")) {
             return -2;
         }
@@ -75,7 +101,9 @@ public class Controller extends Observable {
     }
 
     public boolean Login(String username, String password) {
-        return Model.Login(username, password);
+        boolean Result = Model.Login(username, password);
+        Model.getEstilosUtilizador();
+        return Result;
     }
 
     public boolean Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {
@@ -86,12 +114,20 @@ public class Controller extends Observable {
         return false;
     }
 
-    public void Converte(String Diretoria, String NomeEstilo, String NomeUtilizador) {
-        Model.Converte(Diretoria, NomeEstilo, NomeUtilizador);
+    public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador) {
+            Model.Converte(Diretoria, IdEstilo, NomeUtilizador);
+    }
+    
+      public void Converte2(String Diretoria, int IdEstilo, String NomeUtilizador) {
+            Model.Converte2(Diretoria, IdEstilo, NomeUtilizador);
     }
 
     public boolean ExisteNomeEstilo(String NomeEstilo) {
         return Model.TemEstilo(NomeEstilo);
+    }
+    
+     public boolean ExisteEstiloID(int idEstilo) {
+        return Model.TemEstiloID(idEstilo);
     }
 
     public boolean isValidFile(String NomeFicheiro) {
@@ -109,4 +145,5 @@ public class Controller extends Observable {
     public String getUtilizadorAtualNome() {
         return Model.getUtilizadorAtualNome();
     }
+    
 }

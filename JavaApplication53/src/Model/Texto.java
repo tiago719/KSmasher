@@ -1,22 +1,31 @@
 package Model;
 
+import static Model.Constantes.FLUXO_CONTROLO;
 import Model.EstiloProgramacao.EstiloProgramacao;
-import Model.EstiloProgramacao.If_EP;
 import Model.Statement.Comentario;
 import java.io.BufferedReader;
 import Model.Statement.*;
+import com.mysql.jdbc.util.LRUCache;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.collections4.map.LinkedMap;
 
 public class Texto {
 
     private ArrayList<Statement> ListaStatements;
     BufferedReader TextoBR;
     BufferedWriter TextoBW;
-    int cont = 0, Nivel;
+    int Nivel, contPontoVirgula, contChavetaAberta;
+
+    public LinkedHashMap<Statement, Statement> Cabecalhos_Funcoes;//cabecalho -> funcao  / se != funcao = comentario
+    boolean FuncaoDepoisMain;
+    ArrayList<Statement> Main;
 
     EstiloProgramacao EstiloProgramacao;
 
@@ -26,19 +35,18 @@ public class Texto {
      * @param In
      */
     public Texto() {
-
+        Cabecalhos_Funcoes = new LinkedHashMap<>();
+        FuncaoDepoisMain = false;
+        Main = new ArrayList<Statement>();
     }
 
     public Texto(BufferedReader In, BufferedWriter Out) {
         ListaStatements = new ArrayList<Statement>();
         TextoBR = In;
         TextoBW = Out;
-    }
-
-    public Texto(String Codigo) {
-        ListaStatements = new ArrayList<Statement>();
-        ListaStatements = Cataloga(Codigo, null);
-
+        Cabecalhos_Funcoes = new LinkedHashMap<>();
+        FuncaoDepoisMain = false;
+        Main = new ArrayList<Statement>();
     }
 
     public void ComecaCataloga() {
@@ -59,9 +67,6 @@ public class Texto {
         Codigo = t;
 
         ListaStatements = Cataloga(Codigo, null);
-        int a = 0;
-        
-        a = 5;
     }
 
     public void ComecaAnalisa() {
@@ -88,77 +93,121 @@ public class Texto {
     }
 
     public void ComecaConverte(EstiloProgramacao EstiloProgramacao) {
+        ArrayList<Statement> ListaSemLixo = new ArrayList<Statement>();
+        for (Statement ListaStatement : ListaStatements) {
+//            if ((ListaStatement instanceof Include || !isLixo(ListaStatement))) {
+//                ListaSemLixo.add(ListaStatement);
+//            }
+            if (!(ListaStatement instanceof Funcao)) {
+                ListaSemLixo.add(ListaStatement);
+            }
+        }
+        ListaStatements = ListaSemLixo;
+
+        if (Main.isEmpty()) {
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+                Statement Funcao = entry.getValue();
+                Funcao.setCodigo("\n\n" + Funcao.getCodigo());
+                ListaStatements.add(Funcao);
+            }
+        } else if (EstiloProgramacao.getFuncoes().isAntesMain()) {//funcoes antes da main (sem cabecalhos)
+
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//é comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+
+                Statement Funcao = entry.getValue();
+
+                Funcao.setCodigo("\n\n" + Funcao.getCodigo());
+
+                ListaStatements.add(Funcao);
+            }
+
+            for (Statement statement : Main) {
+                ListaStatements.add(statement);
+            }
+
+        } else {
+            LinkedHashMap<Statement, Statement> novoMapa = new LinkedHashMap<Statement, Statement>();
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//é comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+
+                novoMapa.put(entry.getKey(), entry.getValue());
+
+                //Funcao Funcao = entry.getValue();
+                Cabecalho.setCodigo("\n\n" + Cabecalho.getCodigo());
+                ListaStatements.add(Cabecalho);
+            }
+
+            Cabecalhos_Funcoes = novoMapa;
+
+            for (Statement statement : Main) {
+                if (statement instanceof Funcao) {
+                    statement.setCodigo("\n\n" + statement.getCodigo());
+                } else {
+                    statement.setCodigo("\n" + statement.getCodigo());
+                }
+                ListaStatements.add(statement);
+            }
+            for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                Statement Cabecalho = entry.getKey();
+                if (!(Cabecalho instanceof Funcao)) {//comentario
+                    Cabecalho.setCodigo("\n" + Cabecalho.getCodigo());
+                    ListaStatements.add(Cabecalho);
+                    continue;
+                }
+                Statement Funcao = entry.getValue();
+                Funcao.setCodigo("\n\n" + Funcao.getCodigo());
+                ListaStatements.add(Funcao);
+            }
+
+        }
+        ListaSemLixo = new ArrayList<>();
+
+        for (Statement ListaStatement : ListaStatements) {
+            boolean flag = false;
+            for (int i = 0; i < ListaStatement.getCodigo().length(); i++) {
+                if (!(Character.isWhitespace(ListaStatement.getCodigo().charAt(i)))) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) {
+                ListaSemLixo.add(ListaStatement);
+            }
+        }
+
+        ListaStatements = ListaSemLixo;
+
         Converte(ListaStatements, EstiloProgramacao);
     }
 
     public void Converte(ArrayList<Statement> Lista, EstiloProgramacao EstiloProgramacao) {
         for (Statement S : Lista) {
-            S.converteStatement(EstiloProgramacao);
-            if (S.hasFilhos())
+            if (S.hasFilhos()) {
                 Converte(S.getStatementsFilhos(), EstiloProgramacao);
-        }
-
-        /*        String Str = "";
-        for (Statement S : Lista) {
-            if (S instanceof If) {
-                Str += "if";
-
-                If Aux = (If) S;
-                If_EP EP = EstiloProgramacao.getIfs();
-
-                for (int i = 0; i < EP.getEspacosIfParentesAberto(); i++) {
-                    Str += " ";
-                }
-
-                Str += "(";
-
-                for (int i = 0; i < EP.getEspacosParentesesAbertoCondicao(); i++) {
-                    Str += " ";
-                }
-
-                Str += Aux.getCondicao().getCodigo();
-
-                for (int i = 0; i < EP.getEspacosCondicaoParentesFechado(); i++) {
-                    Str += " ";
-                }
-
-                Str += ")";
-
-//                if (EP.PrimeiraChavetaNovaLinha() == 1) {
-//                    Str += "\n";
-//                    for (int i = 0; i < Aux.getNivel(); i++) {
-//                        Str += "\t";
-//                    }
-//                }
-//                if (EP.ChavetaUmStatementIf() != 0) {
-//                    Str += "{";
-//                }
-
-                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaAberta(); i++) {
-                    Str += "\n";
-                }
-                for (int i = 0; i < Aux.getNivel(); i++) {
-                    Str += "\t";
-                }
-
-                if (S.hasFilhos()) {
-                    Str += Converte(S.getStatementsFilhos());
-                }
-
-                for (int i = 0; i < EP.getLinhasEmBrancoDepoisChavetaFechada(); i++) {
-                    Str += "\n";
-                }
-                for (int i = 0; i < Aux.getNivel(); i++) {
-                    Str += "\t";
-                }
-
-//                if (EP.ChavetaUmStatementIf() != 0) {
-//                    Str += "}";
-//                }
+            }
+            if (EstiloProgramacao != null) {
+                S.converteStatement(EstiloProgramacao);
             }
         }
-        return Str;
-         */
     }
 
     public ArrayList<Statement> getListaStatements() {
@@ -191,7 +240,7 @@ public class Texto {
 
     private boolean IsIF(char A[]) {
         boolean Ret = false;
-        if (!IsCaracter(A[0]) && A[1] == 'i' && A[2] == 'f' && (A[3] == '(' || Character.isWhitespace(A[3]))) {
+        if (Character.isWhitespace(A[0]) && A[1] == 'i' && A[2] == 'f' && (A[3] == '(' || Character.isWhitespace(A[3]))) {
             Ret = true;
         }
 
@@ -272,18 +321,29 @@ public class Texto {
             return -1;
         }
 
-        int i;
+        int i, a, parentesesAbertos = 0;
         for (i = 0; i < S.length(); i++) {
-            if (S.charAt(i) != ' ' || S.charAt(i) != '\n') {
+            if (!Character.isWhitespace(S.charAt(i))) {
                 break;
             }
         }
-        String Aux = S.substring(i);
+
+        for (a = 0; a < S.length(); a++) {
+            if (S.charAt(a) == '(') {
+                parentesesAbertos++;
+            } else if (S.charAt(a) == ')') {
+                if (--parentesesAbertos == 0) {
+                    break;
+                }
+            }
+        }
+
+        String Aux = S.substring(i + 1, a);
         char c;
         for (String TipoDado : Constantes.TIPO_DADOS) {
             if (Aux.contains(TipoDado)) {
                 for (i = 0; i < S.length(); i++) {
-                    if ((c = S.charAt(i)) != ' ' || S.charAt(i) != '\n') {
+                    if (!Character.isWhitespace(S.charAt(i))) {
                         if (S.charAt(i) == ')') {
                             return TipoDado.length() + 2;
                         }
@@ -325,11 +385,11 @@ public class Texto {
     }
 
     private int EncontraInicioFuncao(int i, String Codigo) {
-        for (; i > 0; i--) {
+        for (; i >= 0; i--) {
             if (Character.isWhitespace(Codigo.charAt(i))) {
-                for (--i; i > 0; i--) {
+                for (--i; i >= 0; i--) {
                     if (!Character.isWhitespace(Codigo.charAt(i))) {
-                        for (--i; i > 0; i--) {
+                        for (--i; i >= 0; i--) {
                             if (Character.isWhitespace(Codigo.charAt(i))) {
                                 break;
                             }
@@ -343,6 +403,61 @@ public class Texto {
         return i + 1;
     }
 
+    private boolean isControloFluxo(String S) {
+        for (String FluxoControlo : FLUXO_CONTROLO) {
+            if (S.contains(FluxoControlo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void precisaChaveta(ArrayList<Statement> Filhos) {
+        --contPontoVirgula;
+        for (int i = 0; i < Filhos.size(); i++) {
+            if (Filhos.get(i).hasFilhos()) {
+                precisaChaveta(Filhos.get(i).getStatementsFilhos());
+            }
+            String Codigo = Filhos.get(i).getCodigo();
+            if (Codigo.contains(" for ") || Codigo.contains(" for(") || Codigo.contains("\tfor ") || Codigo.contains("\tfor(")) {
+                contPontoVirgula++;
+                continue;
+            }
+            for (int a = 0; a < Codigo.length(); a++) {
+                if (Codigo.charAt(a) == ';') {
+                    if (++contPontoVirgula > 1) {
+                        break;
+                    }
+                }
+            }
+            if (isControloFluxo(Codigo)) {
+                contPontoVirgula++;
+            }
+            if (contPontoVirgula == 2) {
+                break;
+            }
+            if (Codigo.contains("{")) {
+                contChavetaAberta++;
+            }
+            if (Codigo.contains("}")) {
+                if (--contChavetaAberta == 0) {
+                    break;
+                }
+            }
+        }
+    }
+
+    public boolean precisaChavetaP(ArrayList<Statement> Lista) {
+        contPontoVirgula = 1;
+        contChavetaAberta = 0;
+        precisaChaveta(Lista);
+        if (contPontoVirgula > 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public ArrayList<Statement> Cataloga(String Codigo, Statement Pai) {
         if (Codigo.length() <= 0) {
             return null;
@@ -354,16 +469,18 @@ public class Texto {
         String Aux = "";
 
         for (int i = 0; i < Codigo.length(); i++) {
-
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
+                Aux += Codigo.charAt(i);
                 continue;
             } else if (Codigo.charAt(i) == '\'' && Codigo.charAt(i - 1) != '\\') {
                 PlicasAberto = !PlicasAberto;
+                Aux += Codigo.charAt(i);
                 continue;
             }
 
             if (AspasAberto || PlicasAberto) {
+                Aux += Codigo.charAt(i);
                 continue;
             }
 
@@ -371,7 +488,7 @@ public class Texto {
                 if (IsInclude(Codigo.charAt(i))) {
                     Aux = NovoStatement(Aux, Novo, Pai);
 
-                    Add = new Include(Codigo.substring(i), this);
+                    Add = new Include(Codigo.substring(i), this, Pai);
                     i += Add.getNumCarateresAvancar();
                     Novo.add(Add);
                     continue;
@@ -383,9 +500,13 @@ public class Texto {
                 if (IsComentario(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
 
-                    Add = new Comentario(Codigo.substring(i), this);
+                    Add = new Comentario(Codigo.substring(i), this, Pai);
                     i += Add.getNumCarateresAvancar();
-                    Novo.add(Add);
+                    if (Nivel == 0) {
+                        Cabecalhos_Funcoes.put(Add, null);
+                    } else {
+                        Novo.add(Add);
+                    }
                     continue;
                 }
             } catch (Exception e) {
@@ -395,7 +516,7 @@ public class Texto {
                 if (IsIF(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
 
-                    Add = new If(Codigo.substring(i + 1), this);
+                    Add = new If(Codigo.substring(i + 1), this, Pai);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -407,7 +528,7 @@ public class Texto {
                 if (IsElse(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
 
-                    Add = new Else(Codigo.substring(i + 1), this);
+                    Add = new Else(Codigo.substring(i + 1), this, Pai);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -418,7 +539,7 @@ public class Texto {
                 if (IsFor(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
 
-                    Add = new For(Codigo.substring(i + 1), this);
+                    Add = new For(Codigo.substring(i + 1), this, Pai);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -429,7 +550,7 @@ public class Texto {
             try {
                 if (IsWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3), Codigo.charAt(i + 4), Codigo.charAt(i + 5), Codigo.charAt(i + 6), Codigo.charAt(i + 7)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new While(Codigo.substring(i + 1), this);
+                    Add = new While(Codigo.substring(i + 1), this, Pai);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -440,7 +561,7 @@ public class Texto {
             try {
                 if (IsDoWhile(new char[]{Codigo.charAt(i), Codigo.charAt(i + 1), Codigo.charAt(i + 2), Codigo.charAt(i + 3)})) {
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new DoWhile(Codigo.substring(i + 1), this);
+                    Add = new DoWhile(Codigo.substring(i + 1), this, Pai);
                     i += Add.getNumCarateresAvancar() - 1;
                     Novo.add(Add);
                     continue;
@@ -453,9 +574,52 @@ public class Texto {
                     int InicioFuncao = EncontraInicioFuncao(i, Codigo);
                     int conta = Aux.length() - (i - InicioFuncao);
                     Aux = NovoStatement(Aux.substring(0, conta), Novo, Pai);
-                    Add = new Funcao(Codigo.substring(InicioFuncao), this);
-                    i += Add.getNumCarateresAvancar() - 1 - (i - InicioFuncao);
-                    Novo.add(Add);
+                    Funcao F;
+
+                    F = new Funcao(Codigo.substring(InicioFuncao), this, Pai, FuncaoDepoisMain);
+                    i += F.getNumCarateresAvancar() - 1 - (i - InicioFuncao);
+                    if ((F.getCodigo().contains(" main ")
+                            || F.getCodigo().contains(" main("))) {
+                        FuncaoDepoisMain = true;
+
+//                        for (int j = Novo.size() - 1; j >= 0; j--) {
+//                            Statement st = Novo.get(j);
+//                            if (st instanceof Comentario) {
+//                                Main.add(st);
+//                            } else if (st instanceof Funcao) {
+//                                break;
+//                            }
+//                        }
+                        ArrayList<Statement> comentariosMain = new ArrayList<Statement>();
+                        for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                            Statement key = entry.getKey();
+                            if (key instanceof Comentario) {
+                                comentariosMain.add(key);
+//                                Cabecalhos_Funcoes.remove(key);
+                            } else if (key instanceof Funcao && !(key.getCodigo().contains(" main (") || key.getCodigo().contains(" main("))) {
+                                comentariosMain.clear();
+                            }
+
+                        }
+                        Main.addAll(comentariosMain);
+
+                        LinkedHashMap<Statement, Statement> novoMapa = new LinkedHashMap<>(Cabecalhos_Funcoes);
+                        for (LinkedMap.Entry<Statement, Statement> entry : Cabecalhos_Funcoes.entrySet()) {
+                            Statement key = entry.getKey();
+                            if (key instanceof Comentario) {
+                                for (Statement statement : comentariosMain) {
+                                    if (statement == key) {
+                                        novoMapa.remove(key);
+                                    }
+                                }
+                            }
+                        }
+
+                        Cabecalhos_Funcoes = novoMapa;
+
+                        Main.add(F);
+                    }
+                    Novo.add(F);
                     continue;
                 }
             } catch (Exception e) {
@@ -467,21 +631,21 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
                     OUTER1:
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
                             break OUTER1;
                         }
                     }
                     OUTER2:
                     for (int j = i + 3; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
-                            NextCarater = j;
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
+                            NextCarater = j + 1;
                             break OUTER2;
                         }
                     }
 
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
+                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this, Pai);
                     i += 2;
                     Novo.add(Add);
                     continue;
@@ -493,23 +657,29 @@ public class Texto {
                     int PrevCarater = 0, NextCarater = 0;
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
                             break;
                         }
                     }
 
                     for (int j = i + 2; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j + 1;
                             break;
                         }
                     }
 
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
+                    try {
+                        Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this, Pai);
+                        Novo.add(Add);
+                    } catch (Exception e) {
+                        Add = new Operador(Codigo.substring(1), this, Pai);
+                        Novo.add(Add);
+                    }
+
                     i += 1;
-                    Novo.add(Add);
                     continue;
                 }
             } catch (Exception e) {
@@ -518,8 +688,18 @@ public class Texto {
                 if (IsOperador1(Codigo.charAt(i))) {
                     int PrevCarater = 0, NextCarater = 0;
 
+                    try {
+                        if (Codigo.charAt(i - 1) == '-' && Codigo.charAt(i) == '>') {
+                            Aux += Codigo.charAt(i);
+                            continue;
+                        } else if (Codigo.charAt(i) == '-' && Codigo.charAt(i + 1) == '>') {
+                            Aux += Codigo.charAt(i);
+                            continue;
+                        }
+                    } catch (Exception e) {
+                    }
                     for (int j = i - 1; j >= 0; j--) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             PrevCarater = j;
 
                             break;
@@ -527,14 +707,14 @@ public class Texto {
                     }
 
                     for (int j = i + 1; j < Codigo.length(); j++) {
-                        if (Codigo.charAt(j) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(j))) {
                             NextCarater = j + 1;
                             break;
                         }
                     }
 
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this);
+                    Add = new Operador(Codigo.substring(PrevCarater, NextCarater), this, Pai);
                     Novo.add(Add);
                     continue;
                 }
@@ -544,24 +724,23 @@ public class Texto {
             try {
                 int NumCarCast = IsCast(Codigo.substring(i));
                 int PrevCarater = 0, NextCarater = 0;
-                char c;
                 if (NumCarCast != -1) {
 
                     for (int j = i - 1; j >= 0; j--) {
-                        if ((c = Codigo.charAt(j)) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(i))) {
                             PrevCarater = j;
                             break;
                         }
                     }
 
                     for (int j = i + NumCarCast; j < Codigo.length(); j++) {
-                        if ((c = Codigo.charAt(j)) != ' ' || Codigo.charAt(j) != '\n') {
+                        if (!Character.isWhitespace(Codigo.charAt(i))) {
                             NextCarater = j + 1;
                             break;
                         }
                     }
                     Aux = NovoStatement(Aux, Novo, Pai);
-                    Add = new Cast(Codigo.substring(PrevCarater, NextCarater), this);
+                    Add = new Cast(Codigo.substring(PrevCarater, NextCarater), this, Pai);
                     Novo.add(Add);
                     i += Add.getNumCarateresAvancar() - 1;
                     continue;
@@ -597,12 +776,16 @@ public class Texto {
         if (!"".equals(Aux)) {
             if (Pai != null && !Aux.equals(Pai.getCodigo())) {
 
-                Novo.add(new Statement(Aux, this));
+                Novo.add(new Statement(Aux, this, Pai));
             } else if (Pai == null) {
-                Novo.add(new Statement(Aux, this));
+                Novo.add(new Statement(Aux, this, Pai));
             }
 
         }
         return "";
+    }
+
+    private boolean isLixo(Statement ListaStatement) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -8,8 +8,8 @@ public class Cast extends Statement {
 
     private int EspacosEntreCastVariavel;
 
-    public Cast(String codigo, Texto t) {
-        super(codigo, t);
+    public Cast(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override
@@ -57,13 +57,7 @@ public class Cast extends Statement {
         this.EspacosEntreCastVariavel = EspacosEntreCastVariavel;
     }
 
-    private int PosFimCast() {
-        //TODO: Depois do dicionário estar feito
-        return 5;
-    }
-
     @Override
-
     public void analisaStatement() {
         EspacosEntreCastVariavel = 0;
 
@@ -84,6 +78,45 @@ public class Cast extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
+        
+        if(estilo.getCast() == null)
+        {
+            return;
+        }
+        
+        int i=0,a=0, b=0;
+        String aux1;
+        for(i=0;i<Pai.getStatementsFilhos().size();i++)
+        {
+            if(Pai.getStatementsFilhos().get(i)==this)
+                break;
+        }
+        try
+        {
+            aux1=Pai.getStatementsFilhos().get(i-1).Codigo;
+            
+            for(a=aux1.length()-1;a>0;a--)
+            {
+                if(aux1.charAt(a)!=' ')
+                    break;
+            }
+            Pai.getStatementsFilhos().get(i-1).Codigo=aux1.substring(0, a+1);
+        }
+        catch(Exception e){}
+        
+        try
+        {
+            aux1=Pai.getStatementsFilhos().get(i+1).Codigo;
+            
+            for(b=0;b<aux1.length();b++)
+            {
+                if(aux1.charAt(b)!=' ')
+                    break;
+            }
+            
+            Pai.getStatementsFilhos().get(i+1).Codigo=aux1.substring(b);
+        }
+        catch(Exception e){}
         StringBuilder novastring = new StringBuilder();
 
         novastring.append(Codigo);

@@ -7,15 +7,17 @@ import java.util.ArrayList;
 public class Statement {
 
     protected ArrayList<Statement> StatmentsFilhos = null;
+    protected Statement Pai;
     String ParaAnalise;
     String Codigo;
     Texto Texto;
     int NumCarateresAvancar;
     int Nivel;
 
-    public Statement(String Codigo, Texto T) {
+    public Statement(String Codigo, Texto T, Statement Pai) {
         this.Codigo = Codigo;
         this.ParaAnalise = Codigo;
+        this.Pai = Pai;
         Texto = T;
         String Aux = RetiraDados(Codigo, T);
         Nivel = T.getNivel();
@@ -25,7 +27,7 @@ public class Statement {
                 StatmentsFilhos = T.Cataloga(Aux, this);
                 T.setNivel((T.getNivel() - 1));
             } catch (Exception e) {
-
+                T.setNivel((T.getNivel() - 1));
             }
         }
     }
@@ -58,15 +60,12 @@ public class Statement {
     }
 
     public void analisaStatement() {
-        
+
     }
 
     public void converteStatement(EstiloProgramacao estilo) {
-//        if (hasFilhos())
-//            Texto.Converte(StatmentsFilhos, estilo);
 
     }
-
 
     public ArrayList<Statement> getStatementsFilhos() {
         return StatmentsFilhos;
@@ -86,9 +85,38 @@ public class Statement {
     public int getNumCarateresAvancar() {
         return NumCarateresAvancar;
     }
-  
+
     public int getNivel() {
         return Nivel;
+    }
+
+    private Statement getLastSon(ArrayList<Statement> Lista) {
+        if (Lista.get(Lista.size() - 1).hasFilhos()) {
+            return getLastSon(Lista.get(Lista.size() - 1).getStatementsFilhos());
+        } else {
+            return Lista.get(Lista.size() - 1);
+        }
+    }
+
+    public Statement getLastSon() {
+        return getLastSon(StatmentsFilhos);
+    }
+
+    protected Statement getLastStatementPai() {
+        Statement Last = null;
+        if (Pai == null) {
+            return null;
+        }
+
+        for (int i = Pai.getStatementsFilhos().size() - 1; i >= 0; i--) {
+            Statement s = Pai.getStatementsFilhos().get(i);
+            if (s == this) {
+                break;
+            }
+            Last = s;
+            break;
+        }
+        return Last;
     }
 
 }

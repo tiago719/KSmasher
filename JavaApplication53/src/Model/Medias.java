@@ -14,6 +14,7 @@ import Model.EstiloProgramacao.Funcoes_EP;
 import Model.EstiloProgramacao.If_EP;
 import Model.EstiloProgramacao.Operador_EP;
 import Model.EstiloProgramacao.While_EP;
+import Model.Statement.Cast;
 import Model.Statement.DoWhile;
 import Model.Statement.Else;
 import Model.Statement.For;
@@ -67,15 +68,19 @@ public class Medias {
 
     //FOR
     ArrayList<Integer> PosicaoPrimeiraChavetaList = new ArrayList<>();
+    ArrayList<Integer> ForChavetaUmStatementDentroForList= new ArrayList<>();
     ArrayList<Integer> EspacosForParentesAbertoList = new ArrayList<>();
     ArrayList<Integer> EspacosParentesesAbertoCondicaoInicializacaoList = new ArrayList<>();
     ArrayList<Integer> EspacosInicializacaoPontoVirgulaList = new ArrayList<>();
     ArrayList<Integer> EspacosPontoVirgulaCondicaoList = new ArrayList<>();
     ArrayList<Integer> EspacosCondicaoPontoVirgulaList = new ArrayList<>();
     ArrayList<Integer> EspacosPontoVirgulaIncrementacaoList = new ArrayList<>();
-    ArrayList<Integer> EspacosIncrementacaoParentesesFechadoList = new ArrayList<>();
     ArrayList<Integer> LinhasEmBrancoDepoisChavetaAbertaList = new ArrayList<>();
     ArrayList<Integer> LinhasEmBrancoDepoisChavetaFechadaList = new ArrayList<>();
+    
+    //CAST
+    ArrayList<Integer> CastEspacosList = new ArrayList<>();
+    
 
     //FUNÇÕES
     ArrayList<Boolean> AntesMainList = new ArrayList<>();
@@ -122,13 +127,16 @@ public class Medias {
     int EspacosPontoVirgulaCondicao;
     int EspacosCondicaoPontoVirgula;
     int EspacosPontoVirgulaIncrementacao;
-    int EspacosIncrementacaoParentesesFechado;
     int LinhasEmBrancoDepoisChavetaAberta;
     int LinhasEmBrancoDepoisChavetaFechada;
     int PosicaoPrimeiraChaveta;
+    int ForChavetaUmStatementDentroFor;
 
     //FUNCOES
     int AntesMain;
+    
+    //CAST
+    int CastEspacos;
 
     public Medias() {
     }
@@ -210,9 +218,15 @@ public class Medias {
         EspacosForParentesAbertoList.add(S.getEspacosForParentesAberto());
 
         if (S.isPosicaoPrimeiraChaveta() == false) {
-            EspacosForParentesAbertoList.add(0);
+            PosicaoPrimeiraChavetaList.add(0);
         } else {
-            EspacosForParentesAbertoList.add(1);
+            PosicaoPrimeiraChavetaList.add(1);
+        }
+        
+        if(S.isChavetaUmStatementDentroFor()==false){
+            ForChavetaUmStatementDentroForList.add(0);
+        } else {
+            ForChavetaUmStatementDentroForList.add(1);
         }
         if ((aux = S.getEspacosParentesesAbertoCondicaoInicializacao()) != -1) {
             EspacosParentesesAbertoCondicaoInicializacaoList.add(aux);
@@ -220,17 +234,14 @@ public class Medias {
         if ((aux = S.getEspacosInicializacaoPontoVirgula()) != -1) {
             EspacosInicializacaoPontoVirgulaList.add(aux);
         }
+        if ((aux = S.getEspacosPontoVirgulaCondicao()) != -1) {
+            EspacosPontoVirgulaCondicaoList.add(aux);
+        }
         if ((aux = S.getEspacosCondicaoPontoVirgula()) != -1) {
             EspacosCondicaoPontoVirgulaList.add(aux);
         }
         if ((aux = S.getEspacosPontoVirgulaIncrementacao()) != -1) {
             EspacosPontoVirgulaIncrementacaoList.add(aux);
-        }
-        if ((aux = S.getEspacosIncrementacaoParentesesFechado()) != -1) {
-            EspacosIncrementacaoParentesesFechadoList.add(aux);
-        }
-        if ((aux = S.getEspacosIncrementacaoParentesesFechado()) != -1) {
-            EspacosIncrementacaoParentesesFechadoList.add(aux);
         }
         if ((aux = S.getLinhasEmBrancoDepoisChavetaAberta()) != -1) {
             LinhasEmBrancoDepoisChavetaAbertaList.add(aux);
@@ -239,6 +250,11 @@ public class Medias {
             LinhasEmBrancoDepoisChavetaFechadaList.add(aux);
         }
 
+    }
+    
+    public void RetiraDadosCast(Cast S)
+    {
+        CastEspacosList.add(S.getEspacosEntreCastVariavel());
     }
 
     public void RetiraDadosFuncoes(Funcao S) {
@@ -522,6 +538,15 @@ public class Medias {
     public void FazMediaFor() {
         int total = 0;
 
+        for (int i = 0; i < PosicaoPrimeiraChavetaList.size(); i++) {
+            total += PosicaoPrimeiraChavetaList.get(i);
+        }
+        try {
+            PosicaoPrimeiraChaveta = total / PosicaoPrimeiraChavetaList.size();
+        } catch (Exception e) {
+            EspacosForParentesAberto = 0;
+        }
+        
         for (int i = 0; i < EspacosForParentesAbertoList.size(); i++) {
             total += EspacosForParentesAbertoList.get(i);
         }
@@ -538,7 +563,7 @@ public class Medias {
         try {
             EspacosParentesesAbertoCondicaoInicializacao = total / EspacosParentesesAbertoCondicaoInicializacaoList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            EspacosParentesesAbertoCondicaoInicializacao = 0;
         }
         total = 0;
         for (int i = 0; i < EspacosInicializacaoPontoVirgulaList.size(); i++) {
@@ -547,7 +572,7 @@ public class Medias {
         try {
             EspacosInicializacaoPontoVirgula = total / EspacosInicializacaoPontoVirgulaList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            EspacosInicializacaoPontoVirgula = 0;
         }
         total = 0;
         for (int i = 0; i < EspacosPontoVirgulaCondicaoList.size(); i++) {
@@ -556,7 +581,7 @@ public class Medias {
         try {
             EspacosPontoVirgulaCondicao = total / EspacosPontoVirgulaCondicaoList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            EspacosPontoVirgulaCondicao = 0;
         }
         total = 0;
         for (int i = 0; i < EspacosCondicaoPontoVirgulaList.size(); i++) {
@@ -565,7 +590,7 @@ public class Medias {
         try {
             EspacosCondicaoPontoVirgula = total / EspacosCondicaoPontoVirgulaList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            EspacosCondicaoPontoVirgula = 0;
         }
         total = 0;
         for (int i = 0; i < EspacosPontoVirgulaIncrementacaoList.size(); i++) {
@@ -574,16 +599,7 @@ public class Medias {
         try {
             EspacosPontoVirgulaIncrementacao = total / EspacosPontoVirgulaIncrementacaoList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
-        }
-        total = 0;
-        for (int i = 0; i < EspacosIncrementacaoParentesesFechadoList.size(); i++) {
-            total += EspacosIncrementacaoParentesesFechadoList.get(i);
-        }
-        try {
-            EspacosIncrementacaoParentesesFechado = total / EspacosIncrementacaoParentesesFechadoList.size();
-        } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            EspacosPontoVirgulaIncrementacao = 0;
         }
         total = 0;
         for (int i = 0; i < LinhasEmBrancoDepoisChavetaAbertaList.size(); i++) {
@@ -592,7 +608,7 @@ public class Medias {
         try {
             LinhasEmBrancoDepoisChavetaAberta = total / LinhasEmBrancoDepoisChavetaAbertaList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            LinhasEmBrancoDepoisChavetaAberta = 0;
         }
         total = 0;
         for (int i = 0; i < LinhasEmBrancoDepoisChavetaFechadaList.size(); i++) {
@@ -601,7 +617,7 @@ public class Medias {
         try {
             LinhasEmBrancoDepoisChavetaFechada = total / LinhasEmBrancoDepoisChavetaFechadaList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            LinhasEmBrancoDepoisChavetaFechada = 0;
         }
         total = 0;
 
@@ -611,7 +627,21 @@ public class Medias {
         try {
             PosicaoPrimeiraChaveta = total / PosicaoPrimeiraChavetaList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            PosicaoPrimeiraChaveta = 0;
+        }
+    }
+    
+    public void FazMediaCast()
+    {
+        int total = 0;
+
+        for (int i = 0; i < CastEspacosList.size(); i++) {
+            total += CastEspacosList.get(i);
+        }
+        try {
+            CastEspacos = total / CastEspacosList.size();
+        } catch (Exception e) {
+            CastEspacos = 0;
         }
     }
 
@@ -653,20 +683,24 @@ public class Medias {
             } else if (S instanceof Funcao) {
                 RetiraDadosFuncoes((Funcao) S);
             }
+            else if(S instanceof DoWhile)
+                RetiraDadosDoWhile((DoWhile) S);
+            else if(S instanceof Cast)
+                RetiraDadosCast((Cast) S);
         }
+    }
 
+    public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo, boolean Permite) {
+        fazMedias(Codigo);
+        
         FazMediaWhile();
         FazMediasOperador();
         FazMediaIf();
         FazMediaElse();
         FazMediaDoWhile();
-
         FazMediaFor();
         FazMediaFuncoes();
-    }
-
-    public EstiloProgramacao NovoEstilo(ArrayList<Statement> Codigo, String NomeEstilo, boolean Permite) {
-        fazMedias(Codigo);
+        FazMediaCast();
 
         //while
         boolean aux1, aux2;
@@ -682,7 +716,7 @@ public class Medias {
             WhileLinhasEmBrancoDepoisChavetaFechada = 0;
         }
 
-        While_EP WhileEp = new While_EP(aux1, aux2, WhileLinhasEmBrancoDepoisChavetaAberta, WhileLinhasEmBrancoDepoisChavetaFechada, WhileEspacosWhileParentesAberto, WhileEspacosParentesesAbertoCondicao, WhileEspacosCondicaoParentesFechado);
+        While_EP WhileEp = new While_EP(aux1,aux2, WhileLinhasEmBrancoDepoisChavetaAberta, WhileLinhasEmBrancoDepoisChavetaFechada, WhileEspacosWhileParentesAberto, WhileEspacosParentesesAbertoCondicao, WhileEspacosCondicaoParentesFechado);
 
         //operador
         Operador_EP OperadorEp = new Operador_EP(OperadorEspacosOperadorVariavel, OperadorEspacosVariavelOperador);
@@ -700,7 +734,7 @@ public class Medias {
             IfLinhasEmBrancoDepoisChavetaFechada = 0;
         }
 
-        If_EP IfEp = new If_EP(aux1, aux2, IfLinhasEmBrancoDepoisChavetaAberta, IfLinhasEmBrancoDepoisChavetaFechada, IfEspacosIfParentesAberto, IfEspacosParentesesAbertoCondicao, IfEspacosCondicaoParentesFechado);
+        If_EP IfEp = new If_EP(aux1,aux2,IfEspacosIfParentesAberto, IfEspacosParentesesAbertoCondicao, IfEspacosCondicaoParentesFechado, IfLinhasEmBrancoDepoisChavetaAberta, IfLinhasEmBrancoDepoisChavetaFechada);
 
         //else
         aux1 = ElsePrimeiraChavetaNovaLinha == 1;
@@ -715,7 +749,7 @@ public class Medias {
         Else_EP ElseEp = new Else_EP(aux1, ElseLinhasEmBrancoDepoisChavetaAberta, ElseLinhasEmBrancoDepoisChavetaFechada);
 
         //cats
-        Cast_EP CastEp = null;
+        Cast_EP CastEp = new Cast_EP(CastEspacos);
 
         //doWhile
         aux1 = DoWhilePrimeiraChavetaNovaLinha == 1;
@@ -752,21 +786,24 @@ public class Medias {
         if (EspacosPontoVirgulaIncrementacao < 0) {
             EspacosPontoVirgulaIncrementacao = 0;
         }
-        if (EspacosIncrementacaoParentesesFechado < 0) {
-            EspacosIncrementacaoParentesesFechado = 0;
-        }
         if (LinhasEmBrancoDepoisChavetaAberta < 0) {
             LinhasEmBrancoDepoisChavetaAberta = 0;
         }
         if (LinhasEmBrancoDepoisChavetaFechada < 0) {
             LinhasEmBrancoDepoisChavetaFechada = 0;
         }
+        
+        boolean aux;
+        if(ForChavetaUmStatementDentroFor<0.5)
+            aux=false;
+        else 
+            aux=true;
 
         For_EP ForEp;
         if (PosicaoPrimeiraChaveta > 0.5) {
-            ForEp = new For_EP(false, true, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+            ForEp = new For_EP(true,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         } else {
-            ForEp = new For_EP(false, true, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, EspacosIncrementacaoParentesesFechado, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
+            ForEp = new For_EP(false,aux, EspacosForParentesAberto, EspacosParentesesAbertoCondicaoInicializacao, EspacosInicializacaoPontoVirgula, EspacosPontoVirgulaCondicao, EspacosCondicaoPontoVirgula, EspacosPontoVirgulaIncrementacao, LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada);
         }
         //funcoes
         Funcoes_EP FuncoesEp;
@@ -776,7 +813,7 @@ public class Medias {
             FuncoesEp = new Funcoes_EP(false);
         }
 
-        return new EstiloProgramacao(NomeEstilo, Permite, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
+        return new EstiloProgramacao(0, NomeEstilo, Permite, CastEp, DoWhileEp, ElseEp, ForEp, FuncoesEp, IfEp, OperadorEp, WhileEp);
     }
 
 }

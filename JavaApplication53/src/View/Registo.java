@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package View;
-
+ 
 import Controller.Controller;
 import java.awt.Color;
 import javax.swing.JOptionPane;
@@ -17,6 +17,7 @@ public class Registo extends javax.swing.JPanel
 {
     Controller Controller;
     boolean UserFirst=true,EmailFirst=true,PassFirst=true,CPassFirst=true, Inicio=true;
+    boolean UserOk = false,Emailok=false, Passok = false;
     public Registo()
     {
         initComponents();
@@ -236,14 +237,18 @@ public class Registo extends javax.swing.JPanel
         if(UserFirst)
             jUsername.setText("");
         jUsername.setForeground(Color.BLACK);
+        jErroCPass.setVisible(false);
         UserFirst=false;
+        
     }//GEN-LAST:event_jUsernameFocusGained
 
     private void jEmailFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jEmailFocusGained
     {//GEN-HEADEREND:event_jEmailFocusGained
+        
         if(EmailFirst)
             jEmail.setText("");
         jEmail.setForeground(Color.BLACK);
+        jErroCPass.setVisible(false);
         EmailFirst=false;
     }//GEN-LAST:event_jEmailFocusGained
 
@@ -254,15 +259,35 @@ public class Registo extends javax.swing.JPanel
         
         jPassword.setForeground(Color.BLACK);
         jPassword.setEchoChar('•');
+        jErroCPass.setVisible(false);
         PassFirst=false;
     }//GEN-LAST:event_jPasswordFocusGained
 
     private void jRegistarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRegistarMouseClicked
     {//GEN-HEADEREND:event_jRegistarMouseClicked
-        
-        
-        if(Controller.ExisteUsername(jUsername.getText())==-3 && Controller.ExisteEmail(jEmail.getText())==-1 && jPassword==jCPassword)
+
+        if(jPassword.getText().equals(jPassword.getText()))
+        {
+            Passok = true;
+        }
+        if(UserOk == true && Emailok == true && Passok == true)
+        {
             Controller.Regista(jUsername.getText(), jEmail.getText(), jPassword.getText()); 
+            jErroCPass.setText("Registado com Sucesso!");
+            jErroCPass.setForeground(Color.green);
+            jErroCPass.setVisible(true);   
+            UserOk = false;
+            Emailok = false;
+            Passok = false;
+            jCPassword.setText("");
+            jPassword.setText("");
+            jEmail.setText("");
+            jUsername.setText("");
+        }
+        else
+        {
+        }
+         
     }//GEN-LAST:event_jRegistarMouseClicked
 
     private void jCPasswordFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jCPasswordFocusGained
@@ -273,6 +298,8 @@ public class Registo extends javax.swing.JPanel
         jCPassword.setForeground(Color.BLACK);
         jCPassword.setEchoChar('•');
         CPassFirst=false;
+        
+        jErroCPass.setVisible(false);  
     }//GEN-LAST:event_jCPasswordFocusGained
 
     private void jCPasswordActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jCPasswordActionPerformed
@@ -302,15 +329,22 @@ public class Registo extends javax.swing.JPanel
             else
             {
                 jErroUser.setVisible(false);
+                
             }
         }
-  
+        else
+        {
+          jErroUser.setVisible(false);
+          UserOk = true; 
+        }
+        
     }//GEN-LAST:event_jUsernameFocusLost
 
     private void jEmailFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jEmailFocusLost
     {//GEN-HEADEREND:event_jEmailFocusLost
+       
         int ret=Controller.ExisteEmail(jEmail.getText());
-        
+
         if(ret==1)
         {
             jErroEmail.setText("Email Já Existente");
@@ -321,22 +355,33 @@ public class Registo extends javax.swing.JPanel
             jErroEmail.setText("Email Inválido");
             jErroEmail.setVisible(true);
         }
+        else
+        {
+            jErroEmail.setVisible(false);
+            Emailok = true;
+        }
     }//GEN-LAST:event_jEmailFocusLost
 
     private void jPasswordFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jPasswordFocusLost
     {//GEN-HEADEREND:event_jPasswordFocusLost
-        if(jPassword.getText().length()<8 || jPassword.getText().length()>15)
+        if(jPassword.getText().length()<=8 || jPassword.getText().length()>15)
         {
+            jErroPass.setText("Palavras-Passe entre 8 e 15");
             jErroPass.setVisible(true);
         }
+        else
+          jErroPass.setVisible(false);
     }//GEN-LAST:event_jPasswordFocusLost
 
     private void jCPasswordFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_jCPasswordFocusLost
     {//GEN-HEADEREND:event_jCPasswordFocusLost
-        if(jPassword.getText()!=jCPassword.getText())
+        if(jPassword.getText().equals(jCPassword.getText()))
         {
-            jErroCPass.setVisible(true);
+            jErroCPass.setVisible(false);
+            Passok = true;
         }
+        else
+          jErroCPass.setVisible(true);
     }//GEN-LAST:event_jCPasswordFocusLost
 
 

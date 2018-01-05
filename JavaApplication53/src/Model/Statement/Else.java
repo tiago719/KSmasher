@@ -5,8 +5,8 @@
  */
 package Model.Statement;
 
+import Model.EstiloProgramacao.Else_EP;
 import Model.Texto;
-import java.util.ArrayList;
 import Model.EstiloProgramacao.EstiloProgramacao;
 /**
  *
@@ -18,8 +18,8 @@ public class Else extends Statement {
     private int LinhasEmBrancoDepoisChavetaAberta, LinhasEmBrancoDepoisChavetaFechada;
     private boolean temChaveta;
 
-    public Else(String codigo, Texto t) {
-        super(codigo, t);
+    public Else(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override
@@ -54,7 +54,49 @@ public class Else extends Statement {
                 break;
             }
         }
-
+         
+        int a=i;
+        boolean ultimo=false;
+        boolean primeiro=true;
+        boolean comentAberto=false;
+        for(++a;a<Codigo.length();a++)
+        {
+            try
+            {
+                if(Codigo.charAt(a)=='/' && Codigo.charAt(a+1)=='/')
+                {
+                    comentAberto=true;
+                }
+            }
+            catch(Exception e){}
+            if(Codigo.charAt(a)=='\t' || Codigo.charAt(a)==' ')
+            {
+                ultimo=false;
+                continue;
+            }
+            else if(Codigo.charAt(a)=='{'&& primeiro)
+            {
+                primeiro=false;
+                ultimo=true;
+                continue;
+            }
+            if(Codigo.charAt(a)=='\n')
+            {
+                comentAberto=false;
+            }
+            else if(Codigo.charAt(a)!='\n' && Codigo.charAt(a)!='\r' && !comentAberto)
+            {
+                ultimo=true;
+                break;
+            }
+        }
+        if(ultimo)
+        {
+            for(--a;a>0;a--)
+               if(Codigo.charAt(a)!='\t' && Codigo.charAt(a)!=' ')
+                   break;
+        }
+        
         if (temChaveta) {
             int NumParentesesAbertos = 1;
 
@@ -68,7 +110,6 @@ public class Else extends Statement {
                 }
                 if (Codigo.charAt(m) == '{') {
                     NumParentesesAbertos++;
-                    break;
                 } else if (Codigo.charAt(m) == '}') {
                     if (--NumParentesesAbertos == 0) {
                         break;
@@ -77,20 +118,40 @@ public class Else extends Statement {
             }
         } 
         j = m;
+   
         this.NumCarateresAvancar = j+2;
         for(++m;m<Codigo.length();m++)
             if(!Character.isWhitespace(Codigo.charAt(m)))
                 break;
+        
+        int r=m;
+        primeiro=true;
+        for(--r;r>0;r--)
+        {
+            if(Codigo.charAt(r)=='\t' || Codigo.charAt(r)==' ')
+            {
+                continue;
+            }
+            else if(Codigo.charAt(r)=='}' && primeiro)
+            {
+                primeiro=false;
+                continue;
+            }
+            else if(Codigo.charAt(r)!='\n' && Codigo.charAt(r)!='\r')
+            {
+                break;
+            }
+        }
 
         if(m+1>ParaAnalise.length())
             this.ParaAnalise = Codigo.substring(0, m - (m - Codigo.length()));
         else
             this.ParaAnalise = Codigo.substring(0, m+1);
 
-        if(j+1>Codigo.length())
-            return Codigo.substring(5, j -(j-Codigo.length()));
+        if(r+1>Codigo.length())
+            return Codigo.substring(a+1, r -(r-Codigo.length()));
         else
-         return Codigo.substring(5, j + 1);
+         return Codigo.substring(a+1, r + 1);
 
     }
             
@@ -177,7 +238,7 @@ public class Else extends Statement {
         if(PrimeiraChavetaNovaLinha==-1)
             return;
         
-        for(++i;i<ParaAnalise.length();i++)
+        for(;i<ParaAnalise.length();i++)
         {
             if(ParaAnalise.charAt(i)=='{')
                 parentesesAberto++;
@@ -202,25 +263,67 @@ public class Else extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-//        super.converteStatement(estilo);
-//        StringBuilder novastring = new StringBuilder();
-//        novastring.append("else");
-//        for(int i = 4; i<Codigo.length();i++){
-//            if(Codigo.charAt(i)=='{'){
-//                for(int j=0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaAberta();j++){
-//                    novastring.append("\n");
-//                }
-//                novastring.append('{');
-//            }
-//            if(Codigo.charAt(i)=='}'){
-//                for(int j = 0; j<estilo.getElses().getLinhasEmBrancoDepoisChavetaFechada();j++){
-//                    novastring.append("\n");
-//                }
-//                novastring.append('}');
-//            }
-//            novastring.append(Codigo.charAt(i));
-//        }
-//        this.Codigo=novastring.toString();
+        if(estilo.getElses() == null)
+        {
+            return;
+        }
+        String Aux = "";
+        Statement Last=null;
+        Statement ultimoFilho=getLastSon();
+        
+        if (Pai != null) {
+            for (Statement s : Pai.getStatementsFilhos()) {
+                if (s == this) {
+                    break;
+                }
+                Last = s;
+            }
 
+            if (Last != null) {
+                int i;
+                for (i = Last.getCodigo().length() - 1; i > 0; i--) {
+                    if (Last.getCodigo().charAt(i) != '\t' && Last.getCodigo().charAt(i) != ' ') {
+                        break;
+                    }
+                }
+                try {
+                    Last.Codigo = Last.getCodigo().substring(0, i);
+                } catch (Exception e) {
+                }
+            }
+        }
+        Else_EP ep = estilo.getElses();
+        
+        for(int i=0;i<getNivel();i++)
+            Aux+="\t";
+        Aux+="else";
+        
+        if(ep.isPosicaoPrimeiraChaveta())
+        {
+            Aux+="\n";
+            for(int i=0;i<getNivel();i++)
+                Aux+="\t";
+
+            Aux+="{";
+        }
+        else
+        {
+            Aux+="{";
+        }
+        for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaAberta()+1;a++)
+        {
+            Aux+="\n";
+        }
+         ultimoFilho.Codigo+="\n";
+        for(int a=0;a<getNivel();a++)
+        {
+            ultimoFilho.Codigo+="\t";
+        }
+        ultimoFilho.Codigo+="}";
+        for(int a=0;a<ep.getLinhasEmBrancoDepoisChavetaFechada();a++)
+        {
+            ultimoFilho.Codigo+="\n";
+        }
+         this.Codigo = Aux;
     }
 }

@@ -8,8 +8,8 @@ import Model.Texto;
  */
 public class Include extends Statement {
 
-    public Include(String codigo, Texto t) {
-        super(codigo, t);
+    public Include(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override
@@ -20,8 +20,11 @@ public class Include extends Statement {
                 break;
             }
         }
-
-        this.Codigo = Codigo.substring(0, i);
+        if (Codigo.length() < i + 1) {
+            this.Codigo = Codigo;
+        } else {
+            this.Codigo = Codigo.substring(0, i + 1);
+        }
         this.ParaAnalise = null;
         this.NumCarateresAvancar = i;
         return null;

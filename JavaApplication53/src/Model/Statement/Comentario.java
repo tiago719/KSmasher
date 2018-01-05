@@ -19,8 +19,8 @@ public class Comentario extends Statement {
      */
     boolean TipoComentario;
 
-    public Comentario(String codigo, Texto t) {
-        super(codigo, t);
+    public Comentario(String codigo, Texto t, Statement Pai) {
+        super(codigo, t, Pai);
     }
 
     @Override
