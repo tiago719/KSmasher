@@ -181,7 +181,7 @@ public class Pesquisas {
                     Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";");
 
                     if (Rt.next()) {
-                        castep = new Cast_EP(Rt.getInt("EspacosEntreCastVariavel"));
+                        castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
                     } else {
                         castep = null;
                     }

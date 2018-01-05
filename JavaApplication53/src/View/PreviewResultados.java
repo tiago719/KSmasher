@@ -161,7 +161,7 @@ public class PreviewResultados extends javax.swing.JPanel implements Runnable {
             jList1.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
                   jTextPane1.setText(controller.DevolveFicheiroAntigo(temp1.get(jList1.getSelectedIndex()).getCaminho(),temp1.get(jList1.getSelectedIndex()).getNome()));
-                  jTextPane2.setText(controller.DevolveFicheiroNovo(temp1.get(jList1.getSelectedIndex()).getCaminho(),temp1.get(jList1.getSelectedIndex()).getNome()));
+                  jTextPane2.setText(controller.DevolveFicheiroNovo(temp1.get(jList1.getSelectedIndex()).getCaminhoNovo(),temp1.get(jList1.getSelectedIndex()).getNome()));
                 }
             });
             //  JScrollPane jscroll = new JScrollPane(jList1);
@@ -170,11 +170,11 @@ public class PreviewResultados extends javax.swing.JPanel implements Runnable {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
             controller.LimpaDiretoria();
-            CardLayout cl = (CardLayout) CardPanel.getLayout();
+            temp1.clear();
             
+            CardLayout cl = (CardLayout) CardPanel.getLayout();        
             cl.previous(CardPanel);
-             
-        
+      
     }//GEN-LAST:event_jButton1MouseClicked
 
 
