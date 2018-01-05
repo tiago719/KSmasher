@@ -14,6 +14,7 @@ import java.awt.Color;
 public class FicheirosAlterasdos {
     String nome;
     String caminho;
+    String caminhoNovo;
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -22,10 +23,16 @@ public class FicheirosAlterasdos {
     public void setCaminho(String c) {
         this.caminho = c;
     }
+    
+    public void setCaminhoNovo(String c)
+    {
+        this.caminhoNovo = c;
+    }
 
     public FicheirosAlterasdos(String nome, String caminho) {
         this.nome = nome;
         this.caminho = caminho;
+        this.caminhoNovo = "../../DiretoriasConvertidas/";
     }
 
     public String getNome() {
@@ -35,4 +42,10 @@ public class FicheirosAlterasdos {
     public String getCaminho() {
         return caminho;
     }
+    
+    public String getCaminhoNovo()
+    {
+        return caminhoNovo;
+    }
+    
 }
