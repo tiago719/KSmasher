@@ -419,25 +419,33 @@ public class If extends Statement {
 
     @Override
     public void converteStatement(EstiloProgramacao estilo) {
-        if(estilo.getIfs() == null)
-        {
+        if (estilo.getIfs() == null) {
             return;
         }
-        
+
         String Aux = "";
-        Statement Last = getLastStatementPai();
+        Statement Last = null;
         Statement ultimoFilho = getLastSon();
 
-        if (Last != null) {
-            int i;
-            for (i = Last.getCodigo().length() - 1; i > 0; i--) {
-                if (Last.getCodigo().charAt(i) != '\t' && Last.getCodigo().charAt(i) != ' ') {
+        if (Pai != null) {
+            for (Statement s : Pai.getStatementsFilhos()) {
+                if (s == this) {
                     break;
                 }
+                Last = s;
             }
-            try {
-                Last.Codigo = Last.getCodigo().substring(0, i);
-            } catch (Exception e) {
+
+            if (Last != null) {
+                int i;
+                for (i = Last.getCodigo().length() - 1; i > 0; i--) {
+                    if (Last.getCodigo().charAt(i) != '\t' && Last.getCodigo().charAt(i) != ' ') {
+                        break;
+                    }
+                }
+                try {
+                    Last.Codigo = Last.getCodigo().substring(0, i);
+                } catch (Exception e) {
+                }
             }
         }
 
@@ -462,7 +470,7 @@ public class If extends Statement {
             for (Statement S : Condicao.getStatementsFilhos()) {
                 Aux += S.getCodigo();
             }
-            
+
         } else {
             Aux += Condicao.getCodigo();
         }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
 import Model.EstiloProgramacao.*;
@@ -14,9 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.io.*;
-import java.util.logging.*;
-import javax.xml.bind.DatatypeConverter;
 
 public class Pesquisas {
 
@@ -349,7 +341,7 @@ public class Pesquisas {
                 Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";");
 
                 if (Rt.next()) {
-                    castep = new Cast_EP(Rt.getInt("EspacosEntreCastVariavel"));
+                    castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
                 } else {
                     castep = null;
                 }

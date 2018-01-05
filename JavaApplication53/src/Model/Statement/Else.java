@@ -7,9 +7,7 @@ package Model.Statement;
 
 import Model.EstiloProgramacao.Else_EP;
 import Model.Texto;
-import java.util.ArrayList;
 import Model.EstiloProgramacao.EstiloProgramacao;
-import Model.EstiloProgramacao.If_EP;
 /**
  *
  * @author Tiago Coutinho
@@ -273,28 +271,25 @@ public class Else extends Statement {
         Statement Last=null;
         Statement ultimoFilho=getLastSon();
         
-        if(Pai!=null)
-        {
-            for(Statement s :Pai.getStatementsFilhos())
-            {
-                if(s==this)
+        if (Pai != null) {
+            for (Statement s : Pai.getStatementsFilhos()) {
+                if (s == this) {
                     break;
-                Last=s;
+                }
+                Last = s;
             }
 
-            if(Last!=null)
-            {
-                int i=1;
-                for(i=Last.getCodigo().length()-1;i>0;i--)
-                {
-                    if(Last.getCodigo().charAt(i)!='\t' && Last.getCodigo().charAt(i)!=' ')
+            if (Last != null) {
+                int i;
+                for (i = Last.getCodigo().length() - 1; i > 0; i--) {
+                    if (Last.getCodigo().charAt(i) != '\t' && Last.getCodigo().charAt(i) != ' ') {
                         break;
+                    }
                 }
-                try
-                {
-                    Last.Codigo=Last.getCodigo().substring(0,i);
+                try {
+                    Last.Codigo = Last.getCodigo().substring(0, i);
+                } catch (Exception e) {
                 }
-                catch(Exception e){}
             }
         }
         Else_EP ep = estilo.getElses();

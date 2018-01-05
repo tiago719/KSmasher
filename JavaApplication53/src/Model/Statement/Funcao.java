@@ -3,6 +3,7 @@ package Model.Statement;
 import Model.EstiloProgramacao.EstiloProgramacao;
 import Model.Texto;
 import java.util.Map;
+import org.apache.commons.collections4.map.LinkedMap;
 
 public class Funcao extends Statement {
 
@@ -84,17 +85,19 @@ public class Funcao extends Statement {
         if (!(this.Codigo.contains(" main ") || this.Codigo.contains(" main("))) {//se nao é a main
 
             boolean flag = false;
-            for (Map.Entry<Funcao, Funcao> entry : Texto.Cabecalhos_Funcoes.entrySet()) {//prcura cabecalho desta funcao
-                Funcao cabecalho = entry.getKey();
+            for (LinkedMap.Entry<Statement, Statement> entry : Texto.Cabecalhos_Funcoes.entrySet()) {//prcura cabecalho desta funcao
+                Statement cabecalho = entry.getKey();
 
-                if (cabecalho.nomeFuncao.equals(this.nomeFuncao)) {
-                    entry.setValue(this);
-                    flag = true;
+                if (cabecalho instanceof Funcao) {
+                    if (((Funcao) cabecalho).nomeFuncao.equals(this.nomeFuncao)) {
+                        entry.setValue(this);
+                        flag = true;
+                    }
                 }
             }
 
             if (!flag) {//se nao tem cabecalho definido
-                Texto.Cabecalhos_Funcoes.put(new Funcao(this.Codigo + ";", Texto, null, true), this);
+                Texto.Cabecalhos_Funcoes.put(new Funcao(this.Codigo.substring(0, this.Codigo.length() - 2) + ";", Texto, null, true), this);
             }
         }
 
