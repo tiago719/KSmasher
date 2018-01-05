@@ -189,7 +189,7 @@ public class Pesquisas {
                     Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";");
 
                     if (Rt.next()) {
-                        castep = new Cast_EP(Rt.getInt("EspacosEntreCastVariavel"));
+                        castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
                     } else {
                         castep = null;
                     }
@@ -349,7 +349,7 @@ public class Pesquisas {
                 Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";");
 
                 if (Rt.next()) {
-                    castep = new Cast_EP(Rt.getInt("EspacosEntreCastVariavel"));
+                    castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
                 } else {
                     castep = null;
                 }
@@ -497,7 +497,7 @@ public class Pesquisas {
         }
 
         if (est.getCast() != null) {
-            bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `EspacosEntreCastVariavel`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() + ")");
+            bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `ESPACOSCASTVARIAVEL`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() + ")");
         }
 
         if (est.getDowhile() != null) {
