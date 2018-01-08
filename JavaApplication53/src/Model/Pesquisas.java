@@ -542,7 +542,14 @@ public class Pesquisas {
 
         if (est.getWhiles() != null) {
             bd.Modifica("INSERT INTO `t_while`(`IDWHILE`, `IDESTILO`, `PrimeiraChavetaNovaLinha`, `ChavetaUmStatementDentroWhile`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`, `EspacosWhileParentesAberto`, `EspacosParentesesAbertoCondicao`,`EspacosCondicaoParentesFechado`)"
-                    + "VALUES (null," + id + "," + est.getWhiles().isPosicaoPrimeiraChaveta() + "," + est.getWhiles().isChavetaUmStatementDentroWhile() + "," + est.getWhiles().getLinhasEmBrancoDepoisChavetaAberta() + " ," + est.getWhiles().getLinhasEmBrancoDepoisChavetaFechada() + "," + est.getWhiles().getEspacosWhileParentesAberto() + ", " + est.getWhiles().getEspacosParentesesAbertoCondicao() + ", " + est.getWhiles().getEspacosCondicaoParentesFechado() + ")");
+                    + "VALUES (null," + id + "," 
+                    + est.getWhiles().isPosicaoPrimeiraChaveta() 
+                    + "," + est.getWhiles().isChavetaUmStatementDentroWhile()
+                    + "," + est.getWhiles().getLinhasEmBrancoDepoisChavetaAberta() 
+                    + " ," + est.getWhiles().getLinhasEmBrancoDepoisChavetaFechada() 
+                    + "," + est.getWhiles().getEspacosWhileParentesAberto() 
+                    + ", " + est.getWhiles().getEspacosParentesesAbertoCondicao() 
+                    + ", " + est.getWhiles().getEspacosCondicaoParentesFechado() + ")");
         }
         bd.CloseConnection();
     }
@@ -565,4 +572,5 @@ public class Pesquisas {
         }
         return false;
     }
+    
 }
