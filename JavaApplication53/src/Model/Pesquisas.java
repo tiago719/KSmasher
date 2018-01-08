@@ -511,8 +511,20 @@ public class Pesquisas {
         }
 
         if (est.getFors() != null) {
-            bd.Modifica("INSERT INTO `t_for`(`IDFOR`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroFor`, `EspacosForParentesAberto`, `EspacosParentesesAbertoCondicaoInicializacao`, `EspacosInicializacaoPontoVirgula`, `EspacosPontoVirgulaCondicao`, `EspacosCondicaoPontoVirgula`, `EspacosPontoVirgulaIncrementacao`, `EspacosIncrementacaoParentesesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`)"
-                    + "VALUES (null," + id + "," + est.getFors().isPosicaoPrimeiraChaveta() + "," + est.getFors().isChavetaUmStatementDentroFor() + "," + est.getFors().getEspacosForParentesAberto() + "," + est.getFors().getEspacosParentesesAbertoCondicaoInicializacao() + "," + est.getFors().getEspacosInicializacaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaCondicao() + "," + est.getFors().getEspacosCondicaoPontoVirgula() + "," + est.getFors().getEspacosPontoVirgulaIncrementacao() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getFors().getLinhasEmBrancoDepoisChavetaFechada() + ")");
+           String x = ("INSERT INTO `t_for`(`IDFOR`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroFor`, `EspacosForParentesAberto`, `EspacosParentesesAbertoCondicaoInicializacao`, `EspacosInicializacaoPontoVirgula`, `EspacosPontoVirgulaCondicao`, `EspacosCondicaoPontoVirgula`, `EspacosPontoVirgulaIncrementacao`, `EspacosIncrementacaoParentesesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`)"
+                    + "VALUES (null," + id + "," + 
+                   est.getFors().isPosicaoPrimeiraChaveta() 
+                   + "," + est.getFors().isChavetaUmStatementDentroFor() 
+                   + "," + est.getFors().getEspacosForParentesAberto() 
+                   + "," + est.getFors().getEspacosParentesesAbertoCondicaoInicializacao() 
+                   + "," + est.getFors().getEspacosInicializacaoPontoVirgula() 
+                   + "," + est.getFors().getEspacosPontoVirgulaCondicao() 
+                   + "," + est.getFors().getEspacosCondicaoPontoVirgula() 
+                   + "," + est.getFors().getEspacosPontoVirgulaIncrementacao()
+                   + "," + 0
+                   + "," + est.getFors().getLinhasEmBrancoDepoisChavetaAberta() 
+                   + "," + est.getFors().getLinhasEmBrancoDepoisChavetaFechada() + ")");
+           bd.Modifica(x);
         }
 
         if (est.getIfs() != null) {
