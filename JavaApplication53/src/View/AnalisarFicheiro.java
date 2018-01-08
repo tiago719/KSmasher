@@ -196,8 +196,19 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
 
     private void jAnalisaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisaMouseClicked
     {//GEN-HEADEREND:event_jAnalisaMouseClicked
+        int ret;
         if (Controller.isValidFile(TxtCaminho.getText()) && !Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) {
-            Controller.Analisa(TxtCaminho.getText(), CheckPermite.isSelected(), TxtNomeEstilo.getText());
+            ret=Controller.Analisa(TxtCaminho.getText(), CheckPermite.isSelected(), TxtNomeEstilo.getText());
+            if(ret!=1)
+            {
+                LabelErroFicheiro.setVisible(true);
+                if(ret==-6)
+                    LabelErroFicheiro.setText("Introduza um ficheiro .c");
+                else if(ret==-5)
+                    LabelErroFicheiro.setText("Ficheiro .c vazio");
+                else if(ret==-4)
+                    LabelErroFicheiro.setText("Não foi possível converter o ficheiro");
+            }
         }
     }//GEN-LAST:event_jAnalisaMouseClicked
 

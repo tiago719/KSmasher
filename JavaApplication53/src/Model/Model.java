@@ -109,18 +109,21 @@ public class Model {
         }
     }
 
-    public void Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {
+    public int Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {
         Ficheiros F = new Ficheiros();
         BufferedReader in = null;
         in = F.abreFObjectosLeitura(NomeFicheiro);
 
         Texto Texto = new Texto(in, null);
-        Texto.ComecaCataloga();
+        int ret =Texto.ComecaCataloga();
+        if(ret==-5 || ret==-4)
+            return ret;
         Texto.ComecaAnalisa();
 
         ArrayList<Statement> codigo = Texto.getListaStatements();
         Medias Medias = new Medias();
         Utilizador.NovoEstilo(Medias.NovoEstilo(codigo, NomeEstilo, Permite));
+        return 1;
     }
 
     private void listaDiretoria(String NomeDiretoria, String DiretoriaDestino, int IdEstilo) {

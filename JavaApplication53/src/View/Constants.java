@@ -20,6 +20,6 @@ public class Constants {
     public static final int DIM_X_TEXT_FIELD = 50;
     public static final int DIM_Y_TEXT_FIELD = 400;
 
-    public static final int DIM_X_PREVIEW = 720;
-    public static final int DIM_Y_PREVIEW = 510;
+    public static final int DIM_X_PREVIEW = 1020;
+    public static final int DIM_Y_PREVIEW = 1000;
 }

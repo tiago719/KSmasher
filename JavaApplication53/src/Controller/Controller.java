@@ -106,12 +106,11 @@ public class Controller extends Observable {
         return Result;
     }
 
-    public boolean Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {
-        if ("c".equals(FilenameUtils.getExtension(NomeFicheiro)) || "h".equals(FilenameUtils.getExtension(NomeFicheiro))) {
-            Model.Analisa(NomeFicheiro, Permite, NomeEstilo);
-            return true;
+    public int Analisa(String NomeFicheiro, boolean Permite, String NomeEstilo) {
+        if ("c".equals(FilenameUtils.getExtension(NomeFicheiro))) {
+            return Model.Analisa(NomeFicheiro, Permite, NomeEstilo);
         }
-        return false;
+        return -6;
     }
 
     public void Converte(String Diretoria, int IdEstilo, String NomeUtilizador) {
