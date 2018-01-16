@@ -20,6 +20,7 @@ public class PreviewPanel extends JPanel implements Observer {
         Controller = C;
         setupComponents();
         setupLayout();
+
     }
     
 
