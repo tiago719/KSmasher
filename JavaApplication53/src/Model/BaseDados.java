@@ -13,7 +13,7 @@ public class BaseDados {
     private String BDName = "ksmasherdb";
     private String User = "root";
     private String Pass = "";
-    
+    private boolean Operacional = false;
     public BaseDados()
     {
         try{
@@ -21,10 +21,16 @@ public class BaseDados {
             
             Con = DriverManager.getConnection("jdbc:mysql://localhost/" + BDName,User,Pass);
             St = Con.createStatement();
+            Operacional = true;
         }catch(Exception ex)
         {
             System.out.println("Erro: " + ex);
+            Operacional = false;
         }
+    }
+
+    public boolean isOperacional() {
+        return Operacional;
     }
     
     public int Modifica (String q)

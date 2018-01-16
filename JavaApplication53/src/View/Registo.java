@@ -266,7 +266,7 @@ public class Registo extends javax.swing.JPanel
     private void jRegistarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRegistarMouseClicked
     {//GEN-HEADEREND:event_jRegistarMouseClicked
 
-        if(jPassword.getText().equals(jPassword.getText()))
+        if(jPassword.getText().equals(jCPassword.getText()))
         {
             Passok = true;
         }
