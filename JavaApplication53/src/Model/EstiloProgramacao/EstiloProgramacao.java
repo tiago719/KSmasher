@@ -33,7 +33,9 @@ public class EstiloProgramacao
         this.id = id;
     }
      
-    public EstiloProgramacao(int id, String nome,boolean Permite, Cast_EP cast, DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, If_EP ifs, Operador_EP operador, While_EP whiles) {
+    public EstiloProgramacao(int id, String nome,boolean Permite, Cast_EP cast, 
+            DoWhile_EP dowhile, Else_EP elses, For_EP fors, Funcoes_EP funcoes, 
+            If_EP ifs, Operador_EP operador, While_EP whiles) {
         this.id = id;
         this.nome = nome;
         this.cast = cast;

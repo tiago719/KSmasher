@@ -31,48 +31,48 @@ public class ElseTest
     Else instance;
     public ElseTest()
     {
-         EstiloProgramacao estilo=new EstiloProgramacao(1,"EstiloDefeito",false,
-                                new Cast_EP(5),
-                                new DoWhile_EP(true, 1, 0, 1, 1, 2),
-                                new Else_EP(true, 1, 1),
-                                new For_EP(true, true,1, 1, 0, 1, 0, 1, 0, 1, 1),
-                                new Funcoes_EP(false),
-                                new If_EP(true, true,1, 1, 1, 1, 1),
-                                new Operador_EP(3, 2),
-                                new While_EP(true, true,1, 1, 1, 1, 1));
-         
-        instance= new Else("else\n" +
-"		{\n" +
-"			\n" +
-"			c  =  (int) 4.0 ;\n" +
-"		}\n" +
-"		\n" +
-"		\n" +
-"	}\n" +
-"	\n" +
-"	do\n" +
-"	{\n" +
-"		while(true)\n" +
-"			b  ++  ;\n" +
-"\n" +
-"	}while(true);\n" +
-"}\n" +
-"\n" +
-"int funcA()\n" +
-"{\n" +
-"	a  ++  ;\n" +
-"}\n" +
-"int funcB()\n" +
-"{\n" +
-"	b  ++  ;\n" +
-"}\n" +
-"int funcC()\n" +
-"{\n" +
-"	c  ++  ;\n" +
-"}", new Texto());
-        
-        instance.analisaStatement();
-        //instance.converteStatement(estilo);
+//         EstiloProgramacao estilo=new EstiloProgramacao(1,"EstiloDefeito",false,
+//                                new Cast_EP(5),
+//                                new DoWhile_EP(true, 1, 0, 1, 1, 2),
+//                                new Else_EP(true, 1, 1),
+//                                new For_EP(true, true,1, 1, 0, 1, 0, 1, 0, 1, 1),
+//                                new Funcoes_EP(false),
+//                                new If_EP(true, true,1, 1, 1, 1, 1),
+//                                new Operador_EP(3, 2),
+//                                new While_EP(true, true,1, 1, 1, 1, 1));
+//         
+//        instance= new Else("else\n" +
+//"		{\n" +
+//"			\n" +
+//"			c  =  (int) 4.0 ;\n" +
+//"		}\n" +
+//"		\n" +
+//"		\n" +
+//"	}\n" +
+//"	\n" +
+//"	do\n" +
+//"	{\n" +
+//"		while(true)\n" +
+//"			b  ++  ;\n" +
+//"\n" +
+//"	}while(true);\n" +
+//"}\n" +
+//"\n" +
+//"int funcA()\n" +
+//"{\n" +
+//"	a  ++  ;\n" +
+//"}\n" +
+//"int funcB()\n" +
+//"{\n" +
+//"	b  ++  ;\n" +
+//"}\n" +
+//"int funcC()\n" +
+//"{\n" +
+//"	c  ++  ;\n" +
+//"}", new Texto());
+//        
+//        instance.analisaStatement();
+//        //instance.converteStatement(estilo);
     }
     
     @BeforeClass
@@ -98,18 +98,18 @@ public class ElseTest
    @Test
    public void testAnalisa() 
    {
-       assertEquals(1, instance.getLinhasEmBrancoDepoisChavetaAberta());
-       assertEquals(2, instance.getLinhasEmBrancoDepoisChavetaFechada());
-       assertEquals(1, instance.getPrimeiraChavetaNovaLinha());
-       
-       assertEquals("else\n" +
-"		{\n" +
-"			\n" +
-"			c  =  (int) 4.0 ;\n" +
-"		}\n" +
-"		\n" +
-"		\n" +
-"	}\n",instance.getCodigo());
+//       assertEquals(1, instance.getLinhasEmBrancoDepoisChavetaAberta());
+//       assertEquals(2, instance.getLinhasEmBrancoDepoisChavetaFechada());
+//       assertEquals(1, instance.getPrimeiraChavetaNovaLinha());
+//       
+//       assertEquals("else\n" +
+//"		{\n" +
+//"			\n" +
+//"			c  =  (int) 4.0 ;\n" +
+//"		}\n" +
+//"		\n" +
+//"		\n" +
+//"	}\n",instance.getCodigo());
 
    }
 }

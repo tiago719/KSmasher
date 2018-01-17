@@ -61,13 +61,13 @@ public class Texto {
         int a = 0;
     }
 
-    public void ComecaCataloga(String t) {
-        String Codigo = null;
-
-        Codigo = t;
-
-        ListaStatements = Cataloga(Codigo, null);
-    }
+//    public void ComecaCataloga(String t) {
+//        String Codigo = null;
+//
+//        Codigo = t;
+//
+//        ListaStatements = Cataloga(Codigo, null);
+//    }
 
     public void ComecaAnalisa() {
         Analisa(ListaStatements);
