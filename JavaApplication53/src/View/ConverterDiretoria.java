@@ -82,14 +82,6 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jConverterMouseClicked(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jConverterMouseEntered(evt);
-            }
-        });
-        jConverter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jConverterActionPerformed(evt);
-            }
         });
 
         jDiretoria.setForeground(new java.awt.Color(204, 204, 204));
@@ -222,7 +214,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
                 cl.next(CardPanel);
             }
         } else {
-             if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
+            if (Controller.ExisteEstiloID(IdEstilo.get(jListaEstilos.getSelectedIndex()))) {
                 Controller.Converte2(jDiretoria.getText(), IdEstiloOutroUtilizador.get(jListaEstilosOutro.getSelectedIndex()), Controller.getUtilizadorAtualNome());
                 CardLayout cl = (CardLayout) CardPanel.getLayout();
                 cl.next(CardPanel);
@@ -314,14 +306,6 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         }
     }//GEN-LAST:event_formComponentShown
 
-    private void jConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConverterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jConverterActionPerformed
-
-    private void jConverterMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jConverterMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jConverterMouseEntered
-
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         if (Controller.ExisteUsername(jUsername.getText()) != -3 && Controller.ExisteUsername(jUsername.getText()) < 0) {
             jErroUtilizador.setVisible(true);
@@ -335,8 +319,9 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
             jErroUtilizador.setText("O utilizador não tem Estilos de Programação");
             return;
         }
-        if(!IdEstiloOutroUtilizador.isEmpty())
+        if (!IdEstiloOutroUtilizador.isEmpty()) {
             IdEstiloOutroUtilizador.clear();
+        }
         jListaEstilosOutro.removeAll();
         for (EstiloProgramacao estilo : estilos) {
             jListaEstilosOutro.add(estilo.getNome());
@@ -377,6 +362,11 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
                 }
 
                 if (DnDFile != null) {
+                    if (DiretoriaFirst) {
+                        jDiretoria.setText("");
+                    }
+                    jDiretoria.setForeground(Color.BLACK);
+                    DiretoriaFirst = false;
                     jDiretoria.setText(DnDFile.getCanonicalPath());
                 }
             } catch (IOException ex) {
