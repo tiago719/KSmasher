@@ -24,10 +24,9 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
         jErroNomeEstilo1.setVisible(false);
         start();
     }
-    
-    public void setCardPanel(JPanel J)
-    {
-        CardPanel=J;
+
+    public void setCardPanel(JPanel J) {
+        CardPanel = J;
     }
 
     public void start() {
@@ -221,8 +220,7 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
 
     private void TxtNomeEstiloFocusLost(java.awt.event.FocusEvent evt)//GEN-FIRST:event_TxtNomeEstiloFocusLost
     {//GEN-HEADEREND:event_TxtNomeEstiloFocusLost
-        if (Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) 
-        {
+        if (Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) {
             jErroNomeEstilo1.setVisible(true);
         }
     }//GEN-LAST:event_TxtNomeEstiloFocusLost
@@ -247,7 +245,7 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
             try {
                 TxtCaminho.setText(fc.getSelectedFile().getCanonicalPath());
                 TxtCaminho.setForeground(Color.black);
-                NomeFicheiroFirst=false;
+                NomeFicheiroFirst = false;
             } catch (IOException ex) {
             }
             LabelErroFicheiro.setVisible(false);
@@ -260,7 +258,7 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
 
     private void jAnalisa1MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisa1MouseClicked
     {//GEN-HEADEREND:event_jAnalisa1MouseClicked
-        CardLayout cl=(CardLayout)CardPanel.getLayout();
+        CardLayout cl = (CardLayout) CardPanel.getLayout();
         cl.next(CardPanel);
     }//GEN-LAST:event_jAnalisa1MouseClicked
 
@@ -284,8 +282,7 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
         while (true) {
             try {
                 File Aux = Controller.getDnDFile();
-                
-                
+
                 if (DnDFile != Aux && Controller.isValidFile(Aux.getPath())) {
                     DnDFile = Controller.getDnDFile();
                 } else {
@@ -293,6 +290,11 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
                 }
 
                 if (DnDFile != null) {
+                    if (NomeFicheiroFirst) {
+                        TxtCaminho.setText("");
+                    }
+                    TxtCaminho.setForeground(Color.BLACK);
+                    NomeFicheiroFirst = false;
                     TxtCaminho.setText(DnDFile.getCanonicalPath());
                 }
 
