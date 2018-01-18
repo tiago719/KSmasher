@@ -15,19 +15,30 @@ public class Pesquisas {
     private BaseDados bd;
 
     public Pesquisas() {
+        bd = new BaseDados();
+    }
+
+    @Override
+    protected void finalize() {
+        
+        try {
+            super.finalize();
+        } catch (Throwable ex) {
+            Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
     public void AdicionaUtilizador(String Nome, String Email, String PalavraChave) {
-        bd = new BaseDados();
 
+        java.sql.Statement s = bd.getStatement();
         try {
-            bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome.trim() + "','" + Email.trim() + "','" + SHA1(PalavraChave) + "');");
+            bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, EMAIL, PASSWORD) VALUES ( null,'" + Nome.trim() + "','" + Email.trim() + "','" + SHA1(PalavraChave) + "');", s);
         } catch (NoSuchAlgorithmException ex) {
 
         }
 
-        bd.CloseConnection();
+        
     }
 
     static String SHA1(String input) throws NoSuchAlgorithmException {
@@ -42,74 +53,74 @@ public class Pesquisas {
     }
 
     public boolean ExisteUsername(String Username) throws SQLException {
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
         ResultSet Rt;
 
-        Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "';");
+        Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "';", s);
 
         if (Rt.next()) {
-            bd.CloseConnection();
+            
             return true;
         } else {
-            bd.CloseConnection();
+            
             return false;
         }
 
     }
 
     public void AssociaNovoEstilo(int IdUtilizador, int IdEstilo) {
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
         ResultSet Rt;
         try {
-            bd.Modifica("INSERT INTO `acede`(`IDUTILIZADOR`, `IDESTILO`) VALUES (" + IdUtilizador + ", " + IdEstilo + ");");
+            bd.Modifica("INSERT INTO `acede`(`IDUTILIZADOR`, `IDESTILO`) VALUES (" + IdUtilizador + ", " + IdEstilo + ");", s);
         } catch (Exception ex) {
 
         }
     }
 
     public boolean ExisteEmail(String Email) throws SQLException {
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
         ResultSet Rt;
 
-        Rt = bd.Le("SELECT * FROM utilizador WHERE EMAIL = '" + Email + "'");
+        Rt = bd.Le("SELECT * FROM utilizador WHERE EMAIL = '" + Email + "'", s);
 
         if (Rt.next()) {
-            bd.CloseConnection();
+            
             return true;
         } else {
-            bd.CloseConnection();
+            
             return false;
         }
     }
 
     public boolean VerificaLogin(String Username, String Password) throws SQLException {
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
         ResultSet Rt = null;
         boolean existe = false;
         try {
-            Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "' and PASSWORD = '" + SHA1(Password) + "';");
+            Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "' and PASSWORD = '" + SHA1(Password) + "';", s);
         } catch (NoSuchAlgorithmException ex) {
 
         }
         if (Rt.next()) {
-            bd.CloseConnection();
+            
             return true;
         } else {
-            bd.CloseConnection();
+            
             return false;
         }
     }
 
     public Utilizador getUser(String Username) throws SQLException {
-        bd = new BaseDados();
-        ResultSet Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "'");
+        java.sql.Statement s = bd.getStatement();
+        ResultSet Rt = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + Username + "'", s);
 
         if (Rt.next()) {
             Utilizador util = new Utilizador(Rt.getInt("IDUTILIZADOR"), Rt.getString("NOME"), Rt.getString("EMAIL"), Rt.getString("PASSWORD"));
-            bd.CloseConnection();
+            
             return util;
         } else {
-            bd.CloseConnection();
+            
             return null;
         }
 
@@ -117,18 +128,19 @@ public class Pesquisas {
 
     //// VAI DEVOLVER UM ARRAY DE ESTILOS DE PROGRAMAÇAO MAS SÒ COM O NOME E O ID DO ESTILO
     public ArrayList<EstiloProgramacao> DevolveEstilosProgramacao(String nome) {
+        java.sql.Statement s = bd.getStatement();
         ArrayList<EstiloProgramacao> Estilos = new ArrayList<>();
-        bd = new BaseDados();
+
         EstiloProgramacao est;
         ResultSet Rt = null;
         ResultSet Rt1 = null;
 
-        Rt1 = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + nome + "';");
+        Rt1 = bd.Le("SELECT * FROM utilizador WHERE NOME = '" + nome + "';", s);
 
         try {
             if (Rt1.next()) {
                 try {
-                    Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Rt1.getInt("IDUTILIZADOR") + "' and PARTILHAESTILO = 1;");
+                    Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Rt1.getInt("IDUTILIZADOR") + "' and PARTILHAESTILO = 1;", s);
                 } catch (SQLException ex) {
                     Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -152,7 +164,7 @@ public class Pesquisas {
 
     public ArrayList<EstiloProgramacao> DevolveEstilosImportados(int Id) {
         ArrayList<EstiloProgramacao> Estilos = new ArrayList<>();
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
         EstiloProgramacao est;
         ResultSet Rt = null;
         int idEstilo = 0;
@@ -167,18 +179,18 @@ public class Pesquisas {
         Operador_EP operadorep;
         While_EP whilep;
 
-        Rt = bd.Le("SELECT * FROM acede WHERE IDUTILIZADOR = '" + Id + "';");
+        Rt = bd.Le("SELECT * FROM acede WHERE IDUTILIZADOR = '" + Id + "';", s);
 
         try {
             while (Rt.next()) {
                 idEstilo = Rt.getInt("IDESTILO");
-                Rt = bd.Le("SELECT * FROM estilos WHERE IDESTILO = '" + idEstilo + "';");
+                Rt = bd.Le("SELECT * FROM estilos WHERE IDESTILO = '" + idEstilo + "';", s);
 
                 if (Rt.next()) {
                     NomeEstilo = Rt.getString("NOMEESTILO");
                     permite = Rt.getBoolean("PARTILHAESTILO");
                     ///CAST
-                    Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
@@ -187,7 +199,7 @@ public class Pesquisas {
                     }
 
                     ///DO_WHILE
-                    Rt = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         boolean pos;
@@ -203,7 +215,7 @@ public class Pesquisas {
                     }
 
                     ///FUNÇÕES
-                    Rt = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         funcoesep = new Funcoes_EP(Rt.getBoolean("AntesMain"));
@@ -212,7 +224,7 @@ public class Pesquisas {
                     }
 
                     ///OPERADORES
-                    Rt = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         operadorep = new Operador_EP(Rt.getInt("EspacosOperadorVariavel"), Rt.getInt("EspacosVariavelOperador"));
@@ -221,7 +233,7 @@ public class Pesquisas {
                     }
 
                     //ELSE
-                    Rt = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         boolean pos;
@@ -236,7 +248,7 @@ public class Pesquisas {
                     }
 
                     //FOR
-                    Rt = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         boolean pos, pos2;
@@ -259,7 +271,7 @@ public class Pesquisas {
                     }
 
                     //IF
-                    Rt = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         boolean pos, pos2;
@@ -281,7 +293,7 @@ public class Pesquisas {
                     }
 
                     //WHILE
-                    Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";");
+                    Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";", s);
 
                     if (Rt.next()) {
                         boolean pos, pos2;
@@ -467,7 +479,7 @@ public class Pesquisas {
     /// DEVOLVE OS ESTILO DE UM UTILIZADOR
     public ArrayList<EstiloProgramacao> DevolveEstilosProgramacaoUtilizador(int Id) {
         ArrayList<EstiloProgramacao> Estilos = new ArrayList<>();
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
         EstiloProgramacao est;
         ResultSet Rt = null;
         int idEstilo = 0;
@@ -482,7 +494,7 @@ public class Pesquisas {
         Operador_EP operadorep;
         While_EP whilep;
 
-        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Id + "';");
+        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Id + "';", s);
 
         try {
             while (Rt.next()) {
@@ -490,7 +502,7 @@ public class Pesquisas {
                 NomeEstilo = Rt.getString("NOMEESTILO");
                 permite = Rt.getBoolean("PARTILHAESTILO");
                 ///CAST
-                Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
@@ -499,7 +511,7 @@ public class Pesquisas {
                 }
 
                 ///DO_WHILE
-                Rt = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     boolean pos;
@@ -515,7 +527,7 @@ public class Pesquisas {
                 }
 
                 ///FUNÇÕES
-                Rt = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     funcoesep = new Funcoes_EP(Rt.getBoolean("AntesMain"));
@@ -524,7 +536,7 @@ public class Pesquisas {
                 }
 
                 ///OPERADORES
-                Rt = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     operadorep = new Operador_EP(Rt.getInt("EspacosOperadorVariavel"), Rt.getInt("EspacosVariavelOperador"));
@@ -533,7 +545,7 @@ public class Pesquisas {
                 }
 
                 //ELSE
-                Rt = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     boolean pos;
@@ -548,7 +560,7 @@ public class Pesquisas {
                 }
 
                 //FOR
-                Rt = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     boolean pos, pos2;
@@ -571,7 +583,7 @@ public class Pesquisas {
                 }
 
                 //IF
-                Rt = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     boolean pos, pos2;
@@ -593,7 +605,7 @@ public class Pesquisas {
                 }
 
                 //WHILE
-                Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";");
+                Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";", s);
 
                 if (Rt.next()) {
                     boolean pos, pos2;
@@ -625,7 +637,7 @@ public class Pesquisas {
     }
 
     public void AdicionaEstilo(EstiloProgramacao est, Utilizador util, int Partilha) {
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
         ResultSet Rt = null;
         int id;
         id = bd.Modifica("INSERT INTO `estilos`(`IDESTILO`, `IDUTILIZADOR`, "
@@ -633,7 +645,7 @@ public class Pesquisas {
                 + util.getId() + "','" + est.getNome() + "','" 
                 + Partilha + "');");
 
-        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = " + util.getId() + " AND NOMEESTILO = '" + est.getNome() + "';");
+        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = " + util.getId() + " AND NOMEESTILO = '" + est.getNome() + "';", s);
 
         try {
             if (Rt.next()) {
@@ -644,25 +656,25 @@ public class Pesquisas {
         }
 
         if (est.getCast() != null) {
-            bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `ESPACOSCASTVARIAVEL`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() + ")");
+            bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `ESPACOSCASTVARIAVEL`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() + ")", s);
         }
 
         if (est.getDowhile() != null) {
             bd.Modifica("INSERT INTO `do_while`(`IDDOWHILE`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`, `EspacosWhileParentesesAberto`, `EspacosParentesesAbertoCondicao`, `EspacosCondicaoParentesFechado`) VALUES "
                     + "(null," + id + " ," + est.getDowhile().isPosicaoPrimeiraChaveta() + "," + est.getDowhile().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getDowhile().getLinhasEmBrancoDepoisChavetaFechada() + "," + est.getDowhile().getEspacosWhileParentesesAberto()
-                    + "," + est.getDowhile().getEspacosParentesesAbertoCondicao() + "," + est.getDowhile().getEspacosCondicaoParentesFechado() + ")");
+                    + "," + est.getDowhile().getEspacosParentesesAbertoCondicao() + "," + est.getDowhile().getEspacosCondicaoParentesFechado() + ")", s);
         }
 
         if (est.getFuncoes() != null) {
-            bd.Modifica("INSERT INTO `funcoes`(`IDFUNCOES`, `IDESTILO`, `AntesMain`) VALUES (null," + id + "," + est.getFuncoes().isAntesMain() + ")");
+            bd.Modifica("INSERT INTO `funcoes`(`IDFUNCOES`, `IDESTILO`, `AntesMain`) VALUES (null," + id + "," + est.getFuncoes().isAntesMain() + ")", s);
         }
 
         if (est.getOperador() != null) {
-            bd.Modifica("INSERT INTO `operadores`(`IDOPERADORES`, `IDESTILO`, `EspacosOperadorVariavel`, `EspacosVariavelOperador`) VALUES (null," + id + "," + est.getOperador().getEspacosOperadorVariavel() + "," + est.getOperador().getEspacosVariavelOperador() + ")");
+            bd.Modifica("INSERT INTO `operadores`(`IDOPERADORES`, `IDESTILO`, `EspacosOperadorVariavel`, `EspacosVariavelOperador`) VALUES (null," + id + "," + est.getOperador().getEspacosOperadorVariavel() + "," + est.getOperador().getEspacosVariavelOperador() + ")", s);
         }
 
         if (est.getElses() != null) {
-            bd.Modifica("INSERT INTO `t_else`(`IDELSES`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `LinhasEmBrancoEntreIfElse`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`) VALUES (null," + id + ", 0 ," + est.getElses().isPosicaoPrimeiraChaveta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaFechada() + ");");
+            bd.Modifica("INSERT INTO `t_else`(`IDELSES`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `LinhasEmBrancoEntreIfElse`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`) VALUES (null," + id + ", 0 ," + est.getElses().isPosicaoPrimeiraChaveta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getElses().getLinhasEmBrancoDepoisChavetaFechada() + ");", s);
         }
 
         if (est.getFors() != null) {
@@ -679,12 +691,13 @@ public class Pesquisas {
                     + "," + 0
                     + "," + est.getFors().getLinhasEmBrancoDepoisChavetaAberta()
                     + "," + est.getFors().getLinhasEmBrancoDepoisChavetaFechada() + ")");
-            bd.Modifica(x);
+
+            bd.Modifica(x, s);
         }
 
         if (est.getIfs() != null) {
             bd.Modifica("INSERT INTO `t_if`(`IDIF`, `IDESTILO`, `PosicaoPrimeiraChaveta`, `ChavetaUmStatementDentroIf`, `EspacosIfParentesAberto`, `EspacosParentesesAbertoCondicao`, `EspacosCondicaoParentesFechado`, `LinhasEmBrancoDepoisChavetaAberta`, `LinhasEmBrancoDepoisChavetaFechada`) "
-                    + "VALUES (null," + id + "," + est.getIfs().isPosicaoPrimeiraChaveta() + "," + est.getIfs().isChavetaUmStatementDentroIf() + " ," + est.getIfs().getEspacosIfParentesAberto() + "," + est.getIfs().getEspacosParentesesAbertoCondicao() + "," + est.getIfs().getEspacosCondicaoParentesFechado() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaFechada() + ");");
+                    + "VALUES (null," + id + "," + est.getIfs().isPosicaoPrimeiraChaveta() + "," + est.getIfs().isChavetaUmStatementDentroIf() + " ," + est.getIfs().getEspacosIfParentesAberto() + "," + est.getIfs().getEspacosParentesesAbertoCondicao() + "," + est.getIfs().getEspacosCondicaoParentesFechado() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaAberta() + "," + est.getIfs().getLinhasEmBrancoDepoisChavetaFechada() + ");", s);
         }
 
         if (est.getWhiles() != null) {
@@ -696,17 +709,19 @@ public class Pesquisas {
                     + " ," + est.getWhiles().getLinhasEmBrancoDepoisChavetaFechada()
                     + "," + est.getWhiles().getEspacosWhileParentesAberto()
                     + ", " + est.getWhiles().getEspacosParentesesAbertoCondicao()
-                    + ", " + est.getWhiles().getEspacosCondicaoParentesFechado() + ")");
+
+                    + ", " + est.getWhiles().getEspacosCondicaoParentesFechado() + ")", s);
+
         }
-        bd.CloseConnection();
+        
     }
 
     public boolean VerificaNomeEstilo(String nome) {
-        bd = new BaseDados();
+        java.sql.Statement s = bd.getStatement();
 
         ResultSet Rt = null;
 
-        Rt = bd.Le("SELECT * FROM estilos WHERE NOMEESTILO = '" + nome + "';");
+        Rt = bd.Le("SELECT * FROM estilos WHERE NOMEESTILO = '" + nome + "';", s);
 
         try {
             if (Rt.next()) {
