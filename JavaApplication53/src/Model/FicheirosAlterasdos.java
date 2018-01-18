@@ -29,10 +29,10 @@ public class FicheirosAlterasdos {
         this.caminhoNovo = c;
     }
 
-    public FicheirosAlterasdos(String nome, String caminho) {
+    public FicheirosAlterasdos(String nome, String caminho, String caminhoNovo) {
         this.nome = nome;
         this.caminho = caminho;
-        this.caminhoNovo = "../../DiretoriasConvertidas/";
+        this.caminhoNovo = caminhoNovo;
     }
 
     public String getNome() {

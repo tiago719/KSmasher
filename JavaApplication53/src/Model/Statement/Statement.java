@@ -19,7 +19,14 @@ public class Statement {
         this.ParaAnalise = Codigo;
         this.Pai = Pai;
         Texto = T;
-        String Aux = RetiraDados(Codigo, T);
+        String Aux=null;
+        try
+        {
+           Aux = RetiraDados(Codigo, T); 
+        }
+        catch(Exception e)
+        {}
+        
         Nivel = T.getNivel();
         if (Aux != null) {
             try {
