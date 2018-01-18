@@ -176,7 +176,7 @@ public class Model {
             if (file.isFile()) {
                 try {
                     if (FilenameUtils.getExtension(file.getCanonicalPath()).equals("c")) {
-                        array.add(new FicheirosAlterasdos(FilenameUtils.getBaseName(file.getCanonicalPath()), FilenameUtils.getFullPath(file.getCanonicalPath())));
+                        array.add(new FicheirosAlterasdos(FilenameUtils.getBaseName(file.getCanonicalPath()), FilenameUtils.getFullPath(file.getCanonicalPath()), DiretoriaDestino));
                     } else {
                         // array.add(new FicheirosAlterasdos(FilenameUtils.getBaseName(file.getCanonicalPath()),Color.black));
                     }
