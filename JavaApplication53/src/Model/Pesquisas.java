@@ -480,8 +480,9 @@ public class Pesquisas {
     public ArrayList<EstiloProgramacao> DevolveEstilosProgramacaoUtilizador(int Id) {
         ArrayList<EstiloProgramacao> Estilos = new ArrayList<>();
         java.sql.Statement s = bd.getStatement();
+        java.sql.Statement s1 = bd.getStatement();
         EstiloProgramacao est;
-        ResultSet Rt = null;
+        ResultSet Rt = null, Rt1=null;
         int idEstilo = 0;
         boolean permite;
         String NomeEstilo;
@@ -494,7 +495,7 @@ public class Pesquisas {
         Operador_EP operadorep;
         While_EP whilep;
 
-        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Id + "';", s);
+        Rt = bd.Le("SELECT * FROM estilos WHERE IDUTILIZADOR = '" + Id + "';", s1);
 
         try {
             while (Rt.next()) {
@@ -502,126 +503,126 @@ public class Pesquisas {
                 NomeEstilo = Rt.getString("NOMEESTILO");
                 permite = Rt.getBoolean("PARTILHAESTILO");
                 ///CAST
-                Rt = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM casts WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
-                    castep = new Cast_EP(Rt.getInt("ESPACOSCASTVARIAVEL"));
+                if (Rt1.next()) {
+                    castep = new Cast_EP(Rt1.getInt("ESPACOSCASTVARIAVEL"));
                 } else {
                     castep = null;
                 }
 
                 ///DO_WHILE
-                Rt = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM do_while WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
+                if (Rt1.next()) {
                     boolean pos;
-                    if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                    if (Rt1.getInt("PosicaoPrimeiraChaveta") == 1) {
                         pos = true;
                     } else {
                         pos = false;
                     }
-                    dowhileep = new DoWhile_EP(pos, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"),
-                            Rt.getInt("EspacosWhileParentesesAberto"), Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"));
+                    dowhileep = new DoWhile_EP(pos, Rt1.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt1.getInt("LinhasEmBrancoDepoisChavetaFechada"),
+                            Rt1.getInt("EspacosWhileParentesesAberto"), Rt1.getInt("EspacosParentesesAbertoCondicao"), Rt1.getInt("EspacosCondicaoParentesFechado"));
                 } else {
                     dowhileep = null;
                 }
 
                 ///FUNÇÕES
-                Rt = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM funcoes WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
-                    funcoesep = new Funcoes_EP(Rt.getBoolean("AntesMain"));
+                if (Rt1.next()) {
+                    funcoesep = new Funcoes_EP(Rt1.getBoolean("AntesMain"));
                 } else {
                     funcoesep = null;
                 }
 
                 ///OPERADORES
-                Rt = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM operadores WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
-                    operadorep = new Operador_EP(Rt.getInt("EspacosOperadorVariavel"), Rt.getInt("EspacosVariavelOperador"));
+                if (Rt1.next()) {
+                    operadorep = new Operador_EP(Rt1.getInt("EspacosOperadorVariavel"), Rt1.getInt("EspacosVariavelOperador"));
                 } else {
                     operadorep = null;
                 }
 
                 //ELSE
-                Rt = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM t_else WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
+                if (Rt1.next()) {
                     boolean pos;
-                    if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                    if (Rt1.getInt("PosicaoPrimeiraChaveta") == 1) {
                         pos = true;
                     } else {
                         pos = false;
                     }
-                    elseep = new Else_EP(pos, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
+                    elseep = new Else_EP(pos, Rt1.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt1.getInt("LinhasEmBrancoDepoisChavetaFechada"));
                 } else {
                     elseep = null;
                 }
 
                 //FOR
-                Rt = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM t_for WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
+                if (Rt1.next()) {
                     boolean pos, pos2;
-                    if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                    if (Rt1.getInt("PosicaoPrimeiraChaveta") == 1) {
                         pos = true;
                     } else {
                         pos = false;
                     }
-                    if (Rt.getInt("ChavetaUmStatementDentroFor") == 1) {
+                    if (Rt1.getInt("ChavetaUmStatementDentroFor") == 1) {
                         pos2 = true;
                     } else {
                         pos2 = false;
                     }
 
-                    forep = new For_EP(pos, pos2, Rt.getInt("EspacosForParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicaoInicializacao"), Rt.getInt("EspacosInicializacaoPontoVirgula"),
-                            Rt.getInt("EspacosPontoVirgulaCondicao"), Rt.getInt("EspacosCondicaoPontoVirgula"), Rt.getInt("EspacosPontoVirgulaIncrementacao"),
-                            Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
+                    forep = new For_EP(pos, pos2, Rt1.getInt("EspacosForParentesAberto"), Rt1.getInt("EspacosParentesesAbertoCondicaoInicializacao"), Rt1.getInt("EspacosInicializacaoPontoVirgula"),
+                            Rt1.getInt("EspacosPontoVirgulaCondicao"), Rt1.getInt("EspacosCondicaoPontoVirgula"), Rt1.getInt("EspacosPontoVirgulaIncrementacao"),
+                            Rt1.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt1.getInt("LinhasEmBrancoDepoisChavetaFechada"));
                 } else {
                     forep = null;
                 }
 
                 //IF
-                Rt = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM t_if WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
+                if (Rt1.next()) {
                     boolean pos, pos2;
-                    if (Rt.getInt("PosicaoPrimeiraChaveta") == 1) {
+                    if (Rt1.getInt("PosicaoPrimeiraChaveta") == 1) {
                         pos = true;
                     } else {
                         pos = false;
                     }
-                    if (Rt.getInt("ChavetaUmStatementDentroIf") == 1) {
+                    if (Rt1.getInt("ChavetaUmStatementDentroIf") == 1) {
                         pos2 = true;
                     } else {
                         pos2 = false;
                     }
 
-                    ifep = new If_EP(pos, pos2, Rt.getInt("EspacosIfParentesAberto"), Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"),
-                            Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"));
+                    ifep = new If_EP(pos, pos2, Rt1.getInt("EspacosIfParentesAberto"), Rt1.getInt("EspacosParentesesAbertoCondicao"), Rt1.getInt("EspacosCondicaoParentesFechado"),
+                            Rt1.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt1.getInt("LinhasEmBrancoDepoisChavetaFechada"));
                 } else {
                     ifep = null;
                 }
 
                 //WHILE
-                Rt = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";", s);
+                Rt1 = bd.Le("SELECT * FROM t_while WHERE IDESTILO = " + idEstilo + ";", s);
 
-                if (Rt.next()) {
+                if (Rt1.next()) {
                     boolean pos, pos2;
-                    if (Rt.getInt("PrimeiraChavetaNovaLinha") == 1) {
+                    if (Rt1.getInt("PrimeiraChavetaNovaLinha") == 1) {
                         pos = true;
                     } else {
                         pos = false;
                     }
-                    if (Rt.getInt("ChavetaUmStatementDentroWhile") == 1) {
+                    if (Rt1.getInt("ChavetaUmStatementDentroWhile") == 1) {
                         pos2 = true;
                     } else {
                         pos2 = false;
                     }
 
-                    whilep = new While_EP(pos, pos2, Rt.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt.getInt("LinhasEmBrancoDepoisChavetaFechada"), Rt.getInt("EspacosWhileParentesAberto"),
-                            Rt.getInt("EspacosParentesesAbertoCondicao"), Rt.getInt("EspacosCondicaoParentesFechado"));
+                    whilep = new While_EP(pos, pos2, Rt1.getInt("LinhasEmBrancoDepoisChavetaAberta"), Rt1.getInt("LinhasEmBrancoDepoisChavetaFechada"), Rt1.getInt("EspacosWhileParentesAberto"),
+                            Rt1.getInt("EspacosParentesesAbertoCondicao"), Rt1.getInt("EspacosCondicaoParentesFechado"));
                 } else {
                     whilep = null;
                 }
