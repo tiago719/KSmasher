@@ -68,7 +68,6 @@ public class Texto {
 //
 //        ListaStatements = Cataloga(Codigo, null);
 //    }
-
     public void ComecaAnalisa() {
         Analisa(ListaStatements);
     }
@@ -469,6 +468,9 @@ public class Texto {
         String Aux = "";
 
         for (int i = 0; i < Codigo.length(); i++) {
+            if (i >= 100) {
+                int ola = 0;
+            }
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 Aux += Codigo.charAt(i);

@@ -16,15 +16,15 @@ public class While extends Statement {
     private Statement Condicao;
     private boolean TemChaveta;
 
-    public While(String codigo, Texto t, Statement Pai) {
-        super(codigo, t, Pai);
+    public While(String codigo, Texto T, Statement Pai) {
+        super(codigo, T, Pai);
     }
 
     @Override
-    public String RetiraDados(String Codigo, Texto t) {
+    public String RetiraDados(String Codigo, Texto T) {
         int i, j, k, m, n;
 
-        //retira espacos entre if e (
+        //retira espacos entre while e (
         for (i = 5; i < Codigo.length(); i++) {
             if (Codigo.charAt(i) != ' ' && Codigo.charAt(i) != '\n') {
                 break;
@@ -40,7 +40,7 @@ public class While extends Statement {
             }
         }
 
-        //procura fim do if
+        //procura fim do while
         int NumParentesesAbertos = 1;
         boolean AspasAberto = false, PlicasAberto = false;
         for (j = i; j < Codigo.length(); j++) {
@@ -72,11 +72,10 @@ public class While extends Statement {
         }
 
         int a;
-        char c;
         AspasAberto = PlicasAberto = false;
         //procurar {
         for (a = j + 1; a < Codigo.length(); a++) {
-            if ((c = Codigo.charAt(a)) == '"' && Codigo.charAt(a - 1) != '\\') {
+            if (Codigo.charAt(a) == '"' && Codigo.charAt(a - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 continue;
             } else if (Codigo.charAt(a) == '\'' && Codigo.charAt(a - 1) != '\\') {
@@ -156,22 +155,30 @@ public class While extends Statement {
             }
         }
         int r = n;
-        boolean primeiro = true;
-        for (--r; r > 0; r--) {
-            if (Codigo.charAt(r) == '\t' || Codigo.charAt(r) == ' ') {
-                continue;
-            } else if (Codigo.charAt(r) == '}' && primeiro) {
-                primeiro = false;
-                continue;
-            } else if (Codigo.charAt(r) != '\n' && Codigo.charAt(r) != '\r') {
-                break;
+
+        if (TemChaveta) {
+            boolean primeiro = true;
+            for (--r; r > 0; r--) {
+                if (Codigo.charAt(r) == '\t' || Codigo.charAt(r) == ' ') {
+                    continue;
+                } else if (Codigo.charAt(r) == '}' && primeiro) {
+                    primeiro = false;
+                    continue;
+                } else if (Codigo.charAt(r) != '\n' && Codigo.charAt(r) != '\r') {
+                    break;
+                }
             }
         }
-
+        else{
+            for (;  r < Codigo.length(); r++) {
+                if (Codigo.charAt(r) == ';')
+                    break;
+            }
+        }
         this.NumCarateresAvancar = m + 2;
 
         try {
-            Condicao = new Statement(Codigo.substring(i, j), t, this);
+            Condicao = new Statement(Codigo.substring(i, j), T, this);
         } catch (Exception e) {
         }
 
