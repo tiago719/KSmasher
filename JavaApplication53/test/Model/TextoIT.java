@@ -118,13 +118,20 @@ public class TextoIT {
         t.ComecaCataloga();
         t.ComecaAnalisa();
 
-        t.ComecaConverte(new EstiloProgramacao(99, "nome", true, new Cast_EP(0),
+        t.ComecaConverte(new EstiloProgramacao(99, "nome", true, 
+                new Cast_EP(0),
                 new DoWhile_EP(true, 0, 0, 0, 0, 0),
                 new Else_EP(true, 1, 1),
                 new For_EP(true, true, 1, 0, 0, 1, 0, 1, 1, 1),
                 new Funcoes_EP(true),
                 new If_EP(true, true, 1, 5, 2, 1, 3),
-                new Operador_EP(2, 2), new While_EP(true, true, 1, 3, 5, 5, 5)));
+                new Operador_EP(2, 2), 
+                new While_EP(true, true, 1, 3, 5, 5, 5)));
+        
+        
+        ArrayList<Statement> expected;
+        
+//        assertEquals(t, this);
     }
 
 }

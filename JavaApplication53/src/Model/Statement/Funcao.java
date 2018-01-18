@@ -9,6 +9,7 @@ public class Funcao extends Statement {
 
     private boolean AntesMain;
     private String nomeFuncao;
+    private boolean isCabecalho;
 
     public Funcao(String codigo, Texto t, Statement Pai, boolean FuncaoDepoisMain) {
         super(codigo, t, Pai);
@@ -17,6 +18,7 @@ public class Funcao extends Statement {
 
     @Override
     public String RetiraDados(String Codigo, Texto t) {
+        isCabecalho = false;
         int j, PosInicioCodigoFuncao = 0, PosFimCodigoFuncao = 0;
         boolean AspasAberto = false, PlicasAberto = false;
 
@@ -45,7 +47,7 @@ public class Funcao extends Statement {
 
                 this.NumCarateresAvancar = j;
                 this.ParaAnalise = Codigo;
-
+                isCabecalho = true;
                 Texto.Cabecalhos_Funcoes.put(this, null);
                 EncontraNomeFuncao(this.Codigo);
                 return null;
@@ -89,9 +91,11 @@ public class Funcao extends Statement {
                 Statement cabecalho = entry.getKey();
 
                 if (cabecalho instanceof Funcao) {
-                    if (((Funcao) cabecalho).nomeFuncao.equals(this.nomeFuncao)) {
-                        entry.setValue(this);
-                        flag = true;
+                    if (((Funcao) cabecalho).nomeFuncao != null) {
+                        if (((Funcao) cabecalho).nomeFuncao.equals(this.nomeFuncao)) {
+                            entry.setValue(this);
+                            flag = true;
+                        }
                     }
                 }
             }
@@ -148,4 +152,10 @@ public class Funcao extends Statement {
         }
 
     }
+
+    public boolean isIsCabecalho() {
+        return isCabecalho;
+    }
+    
+    
 }
