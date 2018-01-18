@@ -373,6 +373,7 @@ public class Texto {
         }
 
         for (i = 1; i < S.length(); i++) {
+            char qq = S.charAt(i);
             if (!Character.isWhitespace(S.charAt(i))) {
                 break;
             }
@@ -468,7 +469,7 @@ public class Texto {
         String Aux = "";
 
         for (int i = 0; i < Codigo.length(); i++) {
-            if (i >= 100) {
+            if (i >= 383) {
                 int ola = 0;
             }
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
@@ -625,6 +626,7 @@ public class Texto {
                     continue;
                 }
             } catch (Exception e) {
+                System.out.println(e);
             }
 
             try {
@@ -787,7 +789,7 @@ public class Texto {
         return "";
     }
 
-    private boolean isLixo(Statement ListaStatement) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    private boolean isLixo(Statement ListaStatement) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 }
