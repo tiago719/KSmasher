@@ -3,6 +3,8 @@ package Model;
 
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class BaseDados {
@@ -14,7 +16,8 @@ public class BaseDados {
     private String User = "root";
     private String Pass = "";
     private boolean Operacional = false;
-    public BaseDados()
+   
+     public BaseDados()
     {
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -25,7 +28,6 @@ public class BaseDados {
         }catch(Exception ex)
         {
             System.out.println("Erro: " + ex);
-            Operacional = false;
         }
     }
 
@@ -33,25 +35,46 @@ public class BaseDados {
         return Operacional;
     }
     
-    public int Modifica (String q)
+    public Statement getStatement()
     {
-        int resposta = 0;
+        try
+        {
+            return Con.createStatement();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(BaseDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public int Modifica (String q, Statement statement)
+    {
+        int resposta = -1;
         try{
-            resposta = St.executeUpdate(q);
+            resposta = statement.executeUpdate(q, Statement.RETURN_GENERATED_KEYS);
+            ResultSet t  = statement.getGeneratedKeys();
             
+            if(t.next()){
+                
+                resposta=t.getInt(1);
+            }
             
             return resposta;
-        }catch(Exception ex)
-        {
+        }catch(Exception ex){
+            try {
+                resposta = St.executeUpdate(q);
+            } catch (SQLException ex1) {
+                Logger.getLogger(BaseDados.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             System.out.println("Erro: " + ex);
         }
         return resposta;
     }
     
-    public ResultSet Le(String q)
+    public ResultSet Le(String q, Statement statement)
     {
         try{
-            Rs = St.executeQuery(q);
+            Rs = statement.executeQuery(q);
             
             return Rs;
         }catch(Exception ex)
