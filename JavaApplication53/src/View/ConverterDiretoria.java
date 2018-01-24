@@ -34,6 +34,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
         if (Controller.getEstilosUtilizador() != null) {
             for (EstiloProgramacao EP : Controller.getEstilosUtilizador()) {
                 jListaEstilos.add(EP.getNome());
+                IdEstilo.add(EP.getId());
             }
         }
         start();
@@ -298,6 +299,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         jListaEstilos.removeAll();
+        IdEstilo.clear();
         if (Controller.getEstilosUtilizador() != null) {
             for (EstiloProgramacao EP : Controller.getEstilosUtilizador()) {
                 jListaEstilos.add(EP.getNome());

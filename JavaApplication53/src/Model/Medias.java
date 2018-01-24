@@ -537,6 +537,17 @@ public class Medias {
 
     public void FazMediaFor() {
         int total = 0;
+        
+        for (int i = 0; i < ForChavetaUmStatementDentroForList.size(); i++) {
+            total += ForChavetaUmStatementDentroForList.get(i);
+        }
+        try {
+            ForChavetaUmStatementDentroFor = total / ForChavetaUmStatementDentroForList.size();
+        } catch (Exception e) {
+            ForChavetaUmStatementDentroFor = 0;
+        }
+        
+        total=0;
 
         for (int i = 0; i < PosicaoPrimeiraChavetaList.size(); i++) {
             total += PosicaoPrimeiraChavetaList.get(i);
@@ -544,8 +555,10 @@ public class Medias {
         try {
             PosicaoPrimeiraChaveta = total / PosicaoPrimeiraChavetaList.size();
         } catch (Exception e) {
-            EspacosForParentesAberto = 0;
+            PosicaoPrimeiraChaveta = 0;
         }
+        
+        total=0;
         
         for (int i = 0; i < EspacosForParentesAbertoList.size(); i++) {
             total += EspacosForParentesAbertoList.get(i);

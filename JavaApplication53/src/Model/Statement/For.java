@@ -265,21 +265,24 @@ public class For extends Statement {
             }
             aux = aux.substring(i);
         }
-
+        char c;
         int temchaveta = 0;
-        for (i = 0; i < aux.length(); i++) {
-            if (aux.charAt(i) != ' ') {
-                if (aux.charAt(i) == '{') {
+        for (i = 0; i < aux.length(); i++) 
+        {
+            if (!Character.isWhitespace(c=aux.charAt(i))) 
+            {
+                if (aux.charAt(i) == '{') 
+                {
                     temchaveta = 1;
                     break;
-                } else {
+                } else 
+                {
                     temchaveta = 0;
                     ChavetaUmStatementDentroFor = false;
                     LinhasEmBrancoDepoisChavetaAberta = -1;
                     LinhasEmBrancoDepoisChavetaFechada = -1;
                     break;
                 }
-
             }
         }
         int contPontoVirgula = 0;
@@ -292,7 +295,7 @@ public class For extends Statement {
         }
 
         if (temchaveta == 1) {         //ESPAÇOS EM BRANCO DEPOIS DA {
-
+            PosicaoPrimeiraChaveta=false;
             if (contPontoVirgula >= 2) {
                 ChavetaUmStatementDentroFor = false;
             } else {
@@ -311,7 +314,7 @@ public class For extends Statement {
                             break;
                         } else {
                             if (aux.charAt(x) == '\n') {
-                                PosicaoPrimeiraChaveta = false;
+                                PosicaoPrimeiraChaveta = true;
                             }
                         }
                     }
