@@ -63,7 +63,7 @@ public class Model {
     public void Regista(String username, String email, String password) {
         Utilizador = new Utilizador();
         Utilizador.AdicionaUtilizador(username, email, password);
-        Utilizador.AdicionaEstiloPorDefeito();
+//        Utilizador.AdicionaEstiloPorDefeito();
         Pesquisas.AdicionaUtilizador(username, email, password);
 
     }
@@ -103,7 +103,7 @@ public class Model {
             } catch (SQLException ex) {
                 Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Utilizador.AdicionaEstiloPorDefeito(); 
+            Utilizador.AdicionaEstiloPorDefeito();
 
             return true;
         }
@@ -131,7 +131,7 @@ public class Model {
 
         String proxDiretoria = DiretoriaDestino;
         File Diretoria = new File(NomeDiretoria);
-        File someFile=new File(DiretoriaDestino);
+        File someFile = new File(DiretoriaDestino);
         someFile.mkdir();
 
         File[] fList = Diretoria.listFiles();
@@ -176,7 +176,7 @@ public class Model {
             if (file.isFile()) {
                 try {
                     if (FilenameUtils.getExtension(file.getCanonicalPath()).equals("c")) {
-                        array.add(new FicheirosAlterasdos(FilenameUtils.getBaseName(file.getCanonicalPath()), FilenameUtils.getFullPath(file.getCanonicalPath())));
+                        array.add(new FicheirosAlterasdos(FilenameUtils.getBaseName(file.getCanonicalPath()), FilenameUtils.getFullPath(file.getCanonicalPath()), DiretoriaDestino));
                     } else {
                         // array.add(new FicheirosAlterasdos(FilenameUtils.getBaseName(file.getCanonicalPath()),Color.black));
                     }
@@ -234,10 +234,15 @@ public class Model {
     }
 
     public void Converte2(String Diretoria, int IdEstilo, String NomeUtilizador) {
-        listaDiretoria(Diretoria, DIRETORIA_DESTINO, IdEstilo);
         Pesquisas p = new Pesquisas();
 
         p.AssociaNovoEstilo(Utilizador.getId(), IdEstilo);
+
+        Utilizador.adicionaEstiloTemp(p.getEstiloById(IdEstilo));
+
+        listaDiretoria(Diretoria, DIRETORIA_DESTINO, IdEstilo);
+
+        Utilizador.removeEstiloTemp();
     }
 
     public ArrayList<EstiloProgramacao> getEstilosUtilizador() {

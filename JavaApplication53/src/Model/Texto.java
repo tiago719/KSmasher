@@ -61,14 +61,13 @@ public class Texto {
         int a = 0;
     }
 
-    public void ComecaCataloga(String t) {
-        String Codigo = null;
-
-        Codigo = t;
-
-        ListaStatements = Cataloga(Codigo, null);
-    }
-
+//    public void ComecaCataloga(String t) {
+//        String Codigo = null;
+//
+//        Codigo = t;
+//
+//        ListaStatements = Cataloga(Codigo, null);
+//    }
     public void ComecaAnalisa() {
         Analisa(ListaStatements);
     }
@@ -374,6 +373,7 @@ public class Texto {
         }
 
         for (i = 1; i < S.length(); i++) {
+            char qq = S.charAt(i);
             if (!Character.isWhitespace(S.charAt(i))) {
                 break;
             }
@@ -469,6 +469,9 @@ public class Texto {
         String Aux = "";
 
         for (int i = 0; i < Codigo.length(); i++) {
+            if (i >= 383) {
+                int ola = 0;
+            }
             if (Codigo.charAt(i) == '"' && Codigo.charAt(i - 1) != '\\') {
                 AspasAberto = !AspasAberto;
                 Aux += Codigo.charAt(i);
@@ -623,6 +626,7 @@ public class Texto {
                     continue;
                 }
             } catch (Exception e) {
+                System.out.println(e);
             }
 
             try {
@@ -785,7 +789,7 @@ public class Texto {
         return "";
     }
 
-    private boolean isLixo(Statement ListaStatement) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    private boolean isLixo(Statement ListaStatement) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 }

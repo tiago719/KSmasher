@@ -45,8 +45,7 @@ public class Login extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
@@ -63,40 +62,33 @@ public class Login extends javax.swing.JPanel {
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
         jUsername.setText("Username");
         jUsername.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jUsername.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        jUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 jUsernameFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jUsernameFocusLost(evt);
+            }
         });
-        jUsername.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jUsername.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jUsernameMouseClicked(evt);
             }
         });
-        jUsername.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jUsernameActionPerformed(evt);
             }
         });
 
         jEntrar.setText("Entrar");
-        jEntrar.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jEntrarMouseClicked(evt);
             }
         });
-        jEntrar.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jEntrarActionPerformed(evt);
             }
         });
@@ -107,10 +99,8 @@ public class Login extends javax.swing.JPanel {
 
         jPassword.setForeground(new java.awt.Color(204, 204, 204));
         jPassword.setText("Password");
-        jPassword.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        jPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 jPasswordFocusGained(evt);
             }
         });
@@ -201,15 +191,45 @@ public class Login extends javax.swing.JPanel {
 
     private void jEntrarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jEntrarMouseClicked
     {//GEN-HEADEREND:event_jEntrarMouseClicked
-
+        Color temp = new Color(204, 204, 204);
+        if (jUsername.getText().trim().length() == 0 || jUsername.getForeground().equals(temp)) {
+            jErro.setText("Username incorreto!");
+            jErro.setVisible(true);
+            return;
+        }
+        
+        if (jPassword.getText().trim().length() == 0 || jPassword.getForeground().equals(temp)) {
+            jErro.setText("Nao foi introduzido uma Palavra-Chave!");
+            jErro.setVisible(true);
+            return;
+        }
+        
         if (Controller.Login(jUsername.getText().trim(), jPassword.getText().trim()) == false) {
-            jErro.setText("Credenciais Incorretas!");
+            jErro.setText("Palavra-Chave Errada!");
             jErro.setVisible(true);
         } else {
             CardLayout cl = (CardLayout) CardPanel.getLayout();
             cl.next(CardPanel);
         }
     }//GEN-LAST:event_jEntrarMouseClicked
+
+    private void jUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jUsernameFocusLost
+
+        int res = Controller.ExisteUsername(jUsername.getText());
+        if (res == 1) {
+
+            jErro.setText("Username inexistente!");
+            jErro.setVisible(true);
+        } else {
+            if (res == -2) {
+                jErro.setText("Username incorreto!");
+                jErro.setVisible(true);
+            } else {
+                jErro.setVisible(false);
+            }
+        }
+
+    }//GEN-LAST:event_jUsernameFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
