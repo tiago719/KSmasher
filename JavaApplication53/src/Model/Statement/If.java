@@ -156,18 +156,26 @@ public class If extends Statement {
             }
         }
         int r = n;
-        boolean primeiro = true;
-        for (--r; r > 0; r--) {
-            if (Codigo.charAt(r) == '\t' || Codigo.charAt(r) == ' ') {
-                continue;
-            } else if (Codigo.charAt(r) == '}' && primeiro) {
-                primeiro = false;
-                continue;
-            } else if (Codigo.charAt(r) != '\n' && Codigo.charAt(r) != '\r') {
-                break;
+
+        if (TemChaveta) {
+            boolean primeiro = true;
+            for (--r; r > 0; r--) {
+                if (Codigo.charAt(r) == '\t' || Codigo.charAt(r) == ' ') {
+                    continue;
+                } else if (Codigo.charAt(r) == '}' && primeiro) {
+                    primeiro = false;
+                    continue;
+                } else if (Codigo.charAt(r) != '\n' && Codigo.charAt(r) != '\r') {
+                    break;
+                }
             }
         }
-
+        else{
+            for (;  r < Codigo.length(); r++) {
+                if (Codigo.charAt(r) == ';')
+                    break;
+            }
+        }
         this.NumCarateresAvancar = m + 2;
 
         try {

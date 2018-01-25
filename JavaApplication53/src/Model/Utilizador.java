@@ -23,6 +23,7 @@ public class Utilizador {
     private String Username, Email, Password;
     private int IdUtilizador;
     private ArrayList<EstiloProgramacao> EstilosProgramacao;
+    EstiloProgramacao EstiloProgramacaoTemp;
 
     public String getUsername() {
         return Username;
@@ -47,18 +48,17 @@ public class Utilizador {
     public Utilizador() {
         EstilosProgramacao = new ArrayList<EstiloProgramacao>();
     }
-    
-    public void AdicionaEstiloPorDefeito()
-    {
-        EstilosProgramacao.add(new EstiloProgramacao(0,"EstiloDefeito",false,
-                                new Cast_EP(3),
-                                new DoWhile_EP(true, 3, 3, 3, 3, 3),
-                                new Else_EP(false, 3, 3),
-                                new For_EP(false,false, 3, 3, 3, 3, 3, 3, 3, 3),
-                                new Funcoes_EP(false),
-                                new If_EP(false,false, 3, 3, 3, 3, 3),
-                                new Operador_EP(3, 3),
-                                new While_EP(true,true, 3, 3, 3, 3, 3)));
+
+    public void AdicionaEstiloPorDefeito() {
+        EstilosProgramacao.add(new EstiloProgramacao(0, "EstiloDefeito", false,
+                new Cast_EP(3),
+                new DoWhile_EP(true, 3, 3, 3, 3, 3),
+                new Else_EP(false, 3, 3),
+                new For_EP(false, false, 3, 3, 3, 3, 3, 3, 3, 3),
+                new Funcoes_EP(false),
+                new If_EP(false, false, 3, 3, 3, 3, 3),
+                new Operador_EP(3, 3),
+                new While_EP(true, true, 3, 3, 3, 3, 3)));
 
     }
 
@@ -76,6 +76,16 @@ public class Utilizador {
 
     public ArrayList<EstiloProgramacao> getEstilos() {
         return EstilosProgramacao;
+    }
+
+    public void adicionaEstiloTemp(EstiloProgramacao Ep) {
+        EstilosProgramacao.add(Ep);
+        EstiloProgramacaoTemp = Ep;
+    }
+
+    public void removeEstiloTemp() {
+        EstilosProgramacao.remove(EstiloProgramacaoTemp);
+        EstiloProgramacaoTemp = null;
     }
 
     public EstiloProgramacao getEstilo(String NomeEstilo) {
@@ -110,10 +120,9 @@ public class Utilizador {
         if (EstilosProgramacao == null) {
             EstilosProgramacao = new ArrayList<EstiloProgramacao>();
         }
-        
+
         temp = p.DevolveEstilosImportados(id);
-        if(temp != null)
-        {
+        if (temp != null) {
             EstilosProgramacao.addAll(temp);
         }
     }
@@ -123,5 +132,5 @@ public class Utilizador {
         Email = Em;
         Password = Pass;
     }
-    
+
 }

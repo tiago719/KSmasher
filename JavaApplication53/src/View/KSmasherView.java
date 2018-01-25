@@ -6,6 +6,7 @@
 package View;
 
 import Controller.Controller;
+import Model.BaseDados;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -50,16 +51,24 @@ public class KSmasherView extends JFrame implements Observer
         ConvertePanel=new ConverterDiretoria(Controller);
         PreviewPanel = new PreviewResultados(Controller);
         ConvertePanel.setView(this);
+        ErroLigacaoInternet  ErrorLigacao = new ErroLigacaoInternet();
       
         CardLayout cl;
         
         PainelPrincipal=new JPanel(cl=new CardLayout());
+        
+        BaseDados bd = new BaseDados();
+        if(!bd.isOperacional())
+        {
+         PainelPrincipal.add(ErrorLigacao, "Erro");
+        }
         PainelPrincipal.add(RegistoLoginPanel, "RegistoLogin");
         PainelPrincipal.add(AnalisaPanel, "Analisa");
         PainelPrincipal.add(ConvertePanel, "Converte");
         PainelPrincipal.add(PreviewPanel, "Preview Resultados");
         
         cl.first(PainelPrincipal);
+        
         
         RegistoLoginPanel.setCardPanel(PainelPrincipal);
         AnalisaPanel.setCardPanel(PainelPrincipal);
