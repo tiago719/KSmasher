@@ -126,4 +126,9 @@ public class EstiloProgramacao
     public void setWhiles(While_EP whiles) {
         this.whiles = whiles;
     }
+
+    public void setId(int aInt)
+    {
+        id=aInt;
+    }
 }

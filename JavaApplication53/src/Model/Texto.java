@@ -103,9 +103,6 @@ public class Texto {
     public void ComecaConverte(EstiloProgramacao EstiloProgramacao) {
         ArrayList<Statement> ListaSemLixo = new ArrayList<Statement>();
         for (Statement ListaStatement : ListaStatements) {
-//            if ((ListaStatement instanceof Include || !isLixo(ListaStatement))) {
-//                ListaSemLixo.add(ListaStatement);
-//            }
             if (!(ListaStatement instanceof Funcao)) {
                 ListaSemLixo.add(ListaStatement);
             }
