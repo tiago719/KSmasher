@@ -655,6 +655,7 @@ public class Pesquisas {
         } catch (SQLException ex) {
             Logger.getLogger(Pesquisas.class.getName()).log(Level.SEVERE, null, ex);
         }
+        est.setId(id);
 
         if (est.getCast() != null) {
             bd.Modifica("INSERT INTO `casts`(`IDCASTS`, `IDESTILO`, `ESPACOSCASTVARIAVEL`) VALUES (null," + id + "," + est.getCast().getEspacosEntreCastVariavel() + ")", s);
@@ -713,8 +714,7 @@ public class Pesquisas {
 
                     + ", " + est.getWhiles().getEspacosCondicaoParentesFechado() + ")", s);
 
-        }
-        
+        }     
     }
 
     public boolean VerificaNomeEstilo(String nome) {
