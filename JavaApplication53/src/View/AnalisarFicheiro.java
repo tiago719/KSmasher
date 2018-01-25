@@ -191,6 +191,7 @@ public class AnalisarFicheiro extends javax.swing.JPanel implements Runnable {
 
     private void jAnalisaMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAnalisaMouseClicked
     {//GEN-HEADEREND:event_jAnalisaMouseClicked
+        int ret;
         if (Controller.isValidFile(TxtCaminho.getText()) && !Controller.ExisteNomeEstilo(TxtNomeEstilo.getText())) {
             Controller.Analisa(TxtCaminho.getText(), CheckPermite.isSelected(), TxtNomeEstilo.getText());
             jLabel2.setText("Ficheiro Analisado com sucesso!");

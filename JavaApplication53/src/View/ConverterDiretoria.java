@@ -2,6 +2,8 @@ package View;
 
 import Controller.Controller;
 import Model.EstiloProgramacao.EstiloProgramacao;
+import static View.Constants.DIM_X_PREVIEW;
+import static View.Constants.DIM_Y_PREVIEW;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,6 +23,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
     boolean UserFirst = true, DiretoriaFirst = true;
     ArrayList<Integer> IdEstilo;
     ArrayList<Integer> IdEstiloOutroUtilizador;
+    KSmasherView view;
 
     public ConverterDiretoria(Controller Controller) {
         this.Controller = Controller;
@@ -41,6 +44,11 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
 
     public void setCardPanel(JPanel J) {
         CardPanel = J;
+    }
+    
+    public void setView(KSmasherView view)
+    {
+        this.view=view;
     }
 
     public void start() {
@@ -218,6 +226,7 @@ public class ConverterDiretoria extends javax.swing.JPanel implements Runnable {
                 Controller.Converte2(jDiretoria.getText(), IdEstiloOutroUtilizador.get(jListaEstilosOutro.getSelectedIndex()), Controller.getUtilizadorAtualNome());
                 CardLayout cl = (CardLayout) CardPanel.getLayout();
                 cl.next(CardPanel);
+                view.setSize(DIM_X_PREVIEW,DIM_Y_PREVIEW);
             }
         }
     }//GEN-LAST:event_jConverterMouseClicked

@@ -49,7 +49,7 @@ public class Texto {
         Main = new ArrayList<Statement>();
     }
 
-    public void ComecaCataloga() {
+    public int ComecaCataloga() {
         String Codigo = null;
 
         try {
@@ -57,8 +57,17 @@ public class Texto {
         } catch (IOException ex) {
             System.out.println("Deu erro a passar o bufferedReader para string");
         }
+        
+        if(Codigo==null)
+            return 0;
+        
+        if(Codigo.length()<=0)
+            return -5;
+        else if(!Codigo.contains(" main ") && !Codigo.contains("#include"))
+            return -4;
+        
         ListaStatements = Cataloga(Codigo, null);
-        int a = 0;
+        return 1;
     }
 
 //    public void ComecaCataloga(String t) {

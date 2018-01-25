@@ -50,6 +50,7 @@ public class KSmasherView extends JFrame implements Observer
         RegistoLoginPanel=new RegistoLoginPanel(Controller);
         ConvertePanel=new ConverterDiretoria(Controller);
         PreviewPanel = new PreviewResultados(Controller);
+        ConvertePanel.setView(this);
         ErroLigacaoInternet  ErrorLigacao = new ErroLigacaoInternet();
       
         CardLayout cl;
